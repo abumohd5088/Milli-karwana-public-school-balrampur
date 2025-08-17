@@ -3,104 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel - Springfield</title>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="css/ultra-pro.css" />
 </head>
 <body class="admin-body">
-  <div id="admin-login-screen" class="centered-screen">
+  <div id="login-screen" class="centered-screen">
     <div class="card">
       <h2>🔐 Admin Login</h2>
-      <input type="password" id="admin-pass" placeholder="Enter password" />
+      <input type="password" id="admin-pass" placeholder="Password" />
       <button id="login-btn" class="btn-primary">Login</button>
     </div>
   </div>
 
   <div id="admin-panel" style="display:none;">
     <header>
-      <h1>Admin Panel</h1>
+      <h1>Admin Dashboard</h1>
       <button id="logout-btn" class="btn-sm">Logout</button>
     </header>
 
     <div class="stats-grid">
-      <div class="stat-card"><h3>Total Students</h3><p id="stat-students">0</p></div>
+      <div class="stat-card"><h3>Students</h3><p id="stat-students">0</p></div>
+      <div class="stat-card"><h3>Teachers</h3><p id="stat-teachers">0</p></div>
       <div class="stat-card"><h3>Homework</h3><p id="stat-hw">0</p></div>
-      <div class="stat-card"><h3>Notes</h3><p id="stat-notes">0</p></div>
+      <div class="stat-card"><h3>Messages</h3><p id="stat-msg">0</p></div>
     </div>
 
     <div class="admin-controls">
-      <h2>➕ Add Homework</h2>
-      <select id="hw-class">
-        <option value="">All Classes</option>
-        <script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script>
-      </select>
-      <select id="hw-subject">
-        <option value="Math">Math</option>
-        <option value="English">English</option>
-        <option value="Science">Science</option>
-        <option value="Hindi">Hindi</option>
-        <option value="Social">Social</option>
-        <option value="EVS">EVS</option>
-      </select>
-      <input type="text" id="hw-title" placeholder="Title" />
-      <textarea id="hw-desc" placeholder="Description (supports rich text)" rows="3"></textarea>
-      <input type="date" id="hw-due" />
-      <button id="add-hw" class="btn-primary">Add Homework</button>
-
-      <h2>➕ Add Notes</h2>
-      <select id="note-class">
-        <option value="">All Classes</option>
-        <script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script>
-      </select>
-      <select id="note-subject">
-        <option value="Math">Math</option>
-        <option value="English">English</option>
-        <option value="Science">Science</option>
-        <option value="Hindi">Hindi</option>
-        <option value="Social">Social</option>
-        <option value="EVS">EVS</option>
-      </select>
-      <input type="text" id="note-title" placeholder="Note Title" />
-      <textarea id="note-content" placeholder="Note Content" rows="4"></textarea>
-      <button id="add-note" class="btn-primary">Add Note</button>
-
-      <h2>📅 Manage Timetable (Class-wise)</h2>
-      <select id="tt-class">
-        <script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script>
-      </select>
-      <div id="timetable-editor">
-        <div class="tt-row"><label>Period 1</label><input type="text" data-period="1"/></div>
-        <div class="tt-row"><label>Period 2</label><input type="text" data-period="2"/></div>
-        <div class="tt-row"><label>Period 3</label><input type="text" data-period="3"/></div>
-        <div class="tt-row"><label>Period 4</label><input type="text" data-period="4"/></div>
-        <div class="tt-row"><label>Period 5</label><input type="text" data-period="5"/></div>
-        <div class="tt-row"><label>Period 6</label><input type="text" data-period="6"/></div>
-        <button id="save-tt" class="btn-primary">Save Timetable</button>
-      </div>
-
-      <h2>📊 Manage Results</h2>
-      <select id="result-class">
-        <script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script>
-      </select>
-      <div id="result-editor">
-        <div class="result-row"><label>Math</label><input type="number" data-sub="math" min="0" max="100"/></div>
-        <div class="result-row"><label>English</label><input type="number" data-sub="english" min="0" max="100"/></div>
-        <div class="result-row"><label>Science</label><input type="number" data-sub="science" min="0" max="100"/></div>
-        <div class="result-row"><label>Hindi</label><input type="number" data-sub="hindi" min="0" max="100"/></div>
-        <div class="result-row"><label>Social</label><input type="number" data-sub="social" min="0" max="100"/></div>
-        <div class="result-row"><label>EVS</label><input type="number" data-sub="evs" min="0" max="100"/></div>
-        <button id="save-results" class="btn-primary">Save Results</button>
-      </div>
+      <h2>⚙️ System Controls</h2>
+      <button id="export-data" class="btn-primary">Export Data (CSV)</button>
+      <button id="sync-cloud" class="btn-outline">☁️ Sync to Cloud</button>
+      <label><input type="checkbox" id="dark-mode-global"/> Enable Dark Mode Globally</label>
     </div>
 
-    <h2>🗑️ Manage Existing Items</h2>
-    <div class="manage-section">
-      <h3>Homework</h3>
-      <ul id="manage-hw"></ul>
-      <h3>Notes</h3>
-      <ul id="manage-notes"></ul>
+    <!-- Full modules: Users, Homework, Notes, Timetable, Results, Messages, Events -->
+    <!-- See JS for full logic -->
+
+    <div id="manage-section">
+      <h3>🗑️ Manage All Data</h3>
+      <button id="clear-hw">Clear Homework</button>
+      <button id="clear-notes">Clear Notes</button>
+      <button id="reset-system">⚠️ Factory Reset</button>
     </div>
   </div>
 
-  <script src="js/ultra-pro.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>
