@@ -2,127 +2,167 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#0d6efd" />
-    <title>📚 Student Dashboard</title>
+    <meta name="description" content="Student Homework Dashboard with AI Assistant" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>📚 School Dashboard</title>
+
+    <!-- Ionicons CDN -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <noscript>
-        <script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    </noscript>
+    <noscript><script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script></noscript>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
     <style>
         :root {
             --p: #0d6efd;
             --s: #6c757d;
-            --l: #f8f9fa;
-            --d: #212529;
             --w: #ffffff;
-            --danger: #dc3545;
+            --d: #212529;
+            --l: #f8f9fa;
             --success: #198754;
+            --danger: #dc3545;
             --warning: #ffc107;
-            --gray: #6c757d;
+            --info: #0dcaf0;
             --light: #f8f9fa;
+            --dark: #212529;
             --border: #dee2e6;
             --shadow: rgba(0, 0, 0, 0.1);
-            --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            --radius: 12px;
-            --transition: all 0.3s ease;
+            --shadow-lg: rgba(0, 0, 0, 0.15);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            --fab-size: 56px;
+            --header-height: 60px;
+            --menu-width: 300px;
+            --break-md: 768px;
+            --break-sm: 480px;
+        }
+
+        body.dark {
+            --p: #0b5ed7;
+            --w: #212529;
+            --d: #f8f9fa;
+            --l: #1a1a1a;
+            --border: #495057;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-lg: rgba(0, 0, 0, 0.4);
+            background: #121212;
+            color: #e9ecef;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: var(--font);
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            background-color: var(--light);
+            background: var(--l);
             color: var(--d);
+            font: 400 1rem var(--font);
             line-height: 1.6;
             transition: var(--transition);
             min-height: 100vh;
             position: relative;
+            overscroll-behavior: none;
         }
 
-        body.dark-mode {
-            --p: #0b5ed7;
-            --l: #212529;
-            --d: #f8f9fa;
-            --w: #2c3034;
-            --border: #495057;
-            --shadow: rgba(0, 0, 0, 0.3);
-            background-color: #1a1a1a;
-            color: var(--l);
-        }
-
-        /* Layout */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 16px;
         }
 
+        /* Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.4rem;
             color: var(--p);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            letter-spacing: -0.5px;
         }
 
         .menu-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             cursor: pointer;
             color: var(--p);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
         }
 
+        .menu-btn:active {
+            background: rgba(13, 110, 253, 0.1);
+        }
+
+        /* Main */
         main {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
 
         .greeting {
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--p);
+            margin-bottom: 8px;
         }
 
         .class-info {
             background: var(--w);
-            padding: 15px;
+            padding: 16px;
             border-radius: var(--radius);
-            box-shadow: 0 2px 10px var(--shadow);
-            border-left: 4px solid var(--p);
+            box-shadow: 0 2px 12px var(--shadow);
+            border-left: 5px solid var(--p);
+            font-size: 1.05rem;
         }
 
+        /* Homework Card */
         .homework-card {
             background: var(--w);
-            padding: 20px;
+            padding: 24px;
             border-radius: var(--radius);
-            box-shadow: 0 2px 10px var(--shadow);
-            border-top: 4px solid var(--success);
+            box-shadow: 0 4px 16px var(--shadow);
+            border-top: 5px solid var(--success);
         }
 
         .homework-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
             color: var(--success);
+            font-weight: 600;
         }
 
         .homework-list {
@@ -130,112 +170,262 @@
         }
 
         .homework-item {
-            padding: 12px 15px;
-            background: rgba(25, 135, 84, 0.1);
-            margin-bottom: 10px;
-            border-radius: 8px;
+            padding: 14px 18px;
+            background: rgba(25, 135, 84, 0.08);
+            margin-bottom: 12px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
+            gap: 12px;
+            font-size: 0.98rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: fadeInUp 0.4s ease forwards;
+            counter-increment: item;
+            position: relative;
+        }
+
+        .homework-item::before {
+            content: counter(item);
+            background: var(--success);
+            color: white;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
         .homework-item:last-child {
             margin-bottom: 0;
         }
 
+        .homework-item:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        /* AI Chat */
         .ai-chat {
             background: var(--w);
-            padding: 20px;
+            padding: 24px;
             border-radius: var(--radius);
-            box-shadow: 0 2px 10px var(--shadow);
-            margin-top: 20px;
+            box-shadow: 0 4px 16px var(--shadow);
+            margin-top: 16px;
         }
 
         .chat-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            gap: 12px;
+            margin-bottom: 18px;
+            font-size: 1.15rem;
             color: var(--p);
+            font-weight: 600;
         }
 
-        .chat-input {
+        .messages-container {
             display: flex;
+            flex-direction: column;
             gap: 10px;
-            margin-top: 15px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--w);
-            color: var(--d);
-        }
-
-        .chat-input button {
-            padding: 0 20px;
-            background: var(--p);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .chat-messages {
-            max-height: 300px;
+            min-height: 200px;
+            max-height: 320px;
             overflow-y: auto;
-            margin-top: 10px;
-            padding-right: 5px;
+            padding: 8px 0;
+            margin-bottom: 16px;
+            scroll-behavior: smooth;
         }
 
         .msg {
-            padding: 10px 15px;
-            margin-bottom: 10px;
+            max-width: 82%;
+            padding: 12px 16px;
             border-radius: 18px;
-            max-width: 80%;
             line-height: 1.5;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+            position: relative;
+            animation: fadeIn 0.3s ease;
         }
 
         .user {
             background: var(--p);
             color: white;
             align-self: flex-end;
-            margin-left: auto;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 6px;
         }
 
         .ai {
             background: rgba(13, 110, 253, 0.1);
             color: var(--d);
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 6px;
         }
 
-        .messages-container {
+        .msg::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 12px;
+            height: 12px;
+            background: transparent;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: blink 1.4s infinite;
+        }
+
+        .user::after {
+            right: 4px;
+            background: white;
+        }
+
+        .ai::after {
+            left: 4px;
+            background: var(--p);
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.6; }
+            50% { opacity: 0; }
+            100% { opacity: 0.6; }
+        }
+
+        .chat-input {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-            min-height: 200px;
+            gap: 12px;
+            margin-top: 12px;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--w);
+            color: var(--d);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--p);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
+
+        .chat-input button, .voice-btn {
+            padding: 0 20px;
+            background: var(--p);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            min-width: 72px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-btn {
+            background: var(--warning);
+            margin-left: 8px;
+        }
+
+        .voice-btn:active, .chat-input button:active {
+            transform: translateY(1px);
+        }
+
+        /* Study Timer */
+        .study-timer {
+            background: var(--w);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 16px var(--shadow);
+            margin-top: 16px;
+        }
+
+        .timer-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: var(--info);
+            font-weight: 600;
+        }
+
+        .timer-display {
+            font: 600 2rem monospace;
+            text-align: center;
+            margin: 16px 0;
+            color: var(--p);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .timer-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .start { background: var(--success); color: white; }
+        .pause { background: var(--warning); color: var(--d); }
+        .reset { background: var(--danger); color: white; }
+
+        /* Mood Tracker */
+        .mood-tracker {
+            background: var(--w);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 16px var(--shadow);
+            margin-top: 16px;
+        }
+
+        .mood-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .mood-options {
+            display: flex;
+            justify-content: space-around;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .mood-selected {
+            opacity: 0.6;
+            transform: scale(0.9);
         }
 
         /* Menu */
         .menu-panel {
             position: fixed;
             top: 0;
-            right: -300px;
-            width: 280px;
+            right: calc(0px - var(--menu-width));
+            width: var(--menu-width);
             height: 100vh;
             background: var(--w);
-            box-shadow: -5px 0 15px var(--shadow);
+            box-shadow: -6px 0 20px var(--shadow-lg);
             z-index: 1000;
-            transition: var(--transition);
-            padding: 20px;
+            transition: right 0.4s ease;
+            padding: 24px;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .menu-panel.open {
@@ -245,74 +435,90 @@
         .menu-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding-bottom: 15px;
+            gap: 12px;
+            padding-bottom: 18px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .close-btn {
-            margin-left: auto;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            color: var(--gray);
+            color: #6c757d;
+            margin-left: auto;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:active {
+            background: rgba(0,0,0,0.05);
         }
 
         .menu-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            border-radius: 8px;
+            gap: 16px;
+            padding: 14px 18px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: var(--transition);
             color: var(--d);
             text-decoration: none;
+            transition: background 0.2s;
+            font-size: 1.02rem;
         }
 
-        .menu-item:hover {
+        .menu-item:active {
             background: rgba(13, 110, 253, 0.1);
-            color: var(--p);
         }
 
         .menu-item ion-icon {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            color: var(--p);
         }
 
         .divider {
             height: 1px;
             background: var(--border);
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
         /* FAB */
         .fab {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 56px;
-            height: 56px;
+            bottom: 32px;
+            right: 32px;
+            width: var(--fab-size);
+            height: var(--fab-size);
             background: var(--p);
             color: white;
             border: none;
             border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.4);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             z-index: 999;
             opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
+            transform: translateY(24px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            tap-highlight-color: transparent;
         }
 
         .fab.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .fab:active {
+            transform: translateY(1px);
         }
 
         /* Offline Banner */
@@ -324,151 +530,96 @@
             background: var(--danger);
             color: white;
             text-align: center;
-            padding: 10px;
-            font-weight: bold;
+            padding: 12px;
+            font-weight: 600;
             z-index: 1001;
-            transition: top 0.3s ease;
+            transition: top 0.4s ease;
+            font-size: 0.95rem;
         }
 
         .offline-banner.show {
             top: 0;
         }
 
-        /* Toast Notifications */
+        /* Toast */
         .toast {
             position: fixed;
             top: 80px;
             right: 20px;
             background: var(--success);
             color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
             z-index: 1002;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
-            font-size: 0.9rem;
+            transition: transform 0.35s ease;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            pointer-events: none;
         }
 
         .toast.show {
             transform: translateX(0);
-        }
-
-        /* Admin Panel */
-        .admin-panel {
-            background: var(--w);
-            padding: 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 2px 10px var(--shadow);
-            margin-top: 20px;
-            display: none;
-        }
-
-        .admin-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: var(--danger);
-        }
-
-        .admin-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .admin-form input {
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--w);
-            color: var(--d);
-        }
-
-        .admin-form button {
-            padding: 12px;
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+            pointer-events: auto;
         }
 
         /* PDF Button */
         .pdf-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            background: #dc3545;
+            gap: 10px;
+            padding: 12px 18px;
+            background: var(--danger);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 15px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 18px;
+            transition: background 0.2s;
         }
 
-        /* Responsive */
-        @media (min-width: 768px) {
-            .container {
-                padding: 30px;
-            }
-            .menu-panel {
-                width: 320px;
-            }
+        .pdf-btn:active {
+            background: #c02a38;
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-            .homework-item, .msg {
-                font-size: 0.9rem;
-            }
-            .fab {
-                width: 50px;
-                height: 50px;
-                right: 15px;
-                bottom: 15px;
-            }
-            .menu-panel {
-                width: 100vw;
-            }
-        }
-
-        /* PWA Install Button */
+        /* PWA Install */
         .pwa-install {
             display: none;
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 16px;
+            padding: 14px;
             background: var(--warning);
             color: var(--d);
             text-align: center;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
         }
 
         .pwa-install button {
             background: var(--d);
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 6px;
             margin-left: 10px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            cursor: pointer;
         }
 
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: var(--gray);
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Animation */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -478,28 +629,38 @@
             animation: fadeIn 0.5s ease-in;
         }
 
-        /* Print Styles */
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container { padding: 12px; }
+            .menu-panel { width: 100vw; }
+            .fab { bottom: 24px; right: 24px; }
+            .chat-input input { padding: 12px; }
+            .homework-item { padding: 12px 16px; font-size: 0.95rem; }
+            .timer-display { font-size: 1.8rem; }
+        }
+
+        @media (min-width: 768px) {
+            .container { padding: 32px; }
+        }
+
+        @media (pointer: coarse) {
+            .menu-btn, .close-btn, .fab { touch-action: manipulation; }
+        }
+
+        /* Print */
         @media print {
-            .menu-btn, .fab, .chat-input, .pwa-install, .pdf-btn {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-                -webkit-print-color-adjust: exact;
-            }
-            .container {
-                padding: 10px;
-            }
+            .menu-btn, .fab, .chat-input, .pwa-install, .pdf-btn, .ai-chat, .study-timer, .mood-tracker { display: none !important; }
+            body { background: white !important; }
+            .container { padding: 16px; }
+            .card, .class-info { box-shadow: none; border: 1px solid #ddd; }
         }
     </style>
 </head>
 <body>
     <!-- Offline Banner -->
-    <div class="offline-banner" id="offlineBanner">
-        🔴 You are offline. Some features may not work.
-    </div>
+    <div class="offline-banner" id="offlineBanner">🔴 You're offline. Some features may not work.</div>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div class="toast" id="toast">Action completed!</div>
 
     <!-- Menu Panel -->
@@ -511,41 +672,40 @@
             </div>
             <button class="close-btn" id="closeMenu">&times;</button>
         </div>
-
         <div class="menu-items">
             <a href="#" class="menu-item" id="printOption">
                 <ion-icon name="print"></ion-icon>
-                <span>Print Homework</span>
+                <span>🖨️ Print Homework</span>
             </a>
             <a href="#" class="menu-item" id="shareOption">
                 <ion-icon name="share"></ion-icon>
-                <span>Share</span>
+                <span>📤 Share</span>
             </a>
             <a href="#" class="menu-item" id="darkModeToggle">
                 <ion-icon name="moon"></ion-icon>
-                <span>Dark Mode</span>
+                <span>🌙 Dark Mode</span>
             </a>
             <a href="#" class="menu-item" id="pwaInstallBtn">
                 <ion-icon name="download"></ion-icon>
-                <span>Install App</span>
+                <span>📲 Install App</span>
             </a>
             <a href="#" class="menu-item" id="clearCacheBtn">
                 <ion-icon name="trash"></ion-icon>
-                <span>Clear Cache</span>
+                <span>🧹 Clear Cache</span>
             </a>
             <div class="divider"></div>
-            <a href="#" class="menu-item" id="adminPanelBtn">
+            <a href="admin.html" class="menu-item" id="adminPanelBtn">
                 <ion-icon name="lock-closed"></ion-icon>
-                <span>Admin Panel</span>
+                <span>🔐 Admin Panel</span>
             </a>
             <a href="#" class="menu-item" id="logoutBtn">
                 <ion-icon name="log-out"></ion-icon>
-                <span>Logout</span>
+                <span>🚪 Logout</span>
             </a>
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main -->
     <div class="container">
         <header>
             <div class="logo">
@@ -558,11 +718,10 @@
         </header>
 
         <main id="mainContent">
-            <p class="greeting" id="greeting">Loading...</p>
-
+            <p class="greeting" id="greeting">Loading your homework...</p>
             <div class="class-info" id="classInfo">
-                Class: <strong id="displayClass">-</strong><br>
-                Student: <strong id="displayName">-</strong>
+                Student: <strong id="displayName">-</strong><br>
+                Class: <strong id="displayClass">-</strong>
             </div>
 
             <div class="homework-card">
@@ -570,28 +729,51 @@
                     <ion-icon name="clipboard"></ion-icon>
                     <span>Today's Homework</span>
                 </div>
-                <ul class="homework-list" id="homeworkList">
-                    <!-- Filled by JS -->
-                </ul>
+                <ul class="homework-list" id="homeworkList"></ul>
                 <button class="pdf-btn" id="downloadPdf">
                     <ion-icon name="document"></ion-icon>
-                    Download PDF
+                    Download as PDF
                 </button>
             </div>
 
+            <!-- Study Timer -->
+            <div class="study-timer">
+                <div class="timer-title">
+                    <ion-icon name="timer"></ion-icon>
+                    <span>Focus Timer</span>
+                </div>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-controls">
+                    <button class="timer-btn start" id="startTimer">▶️ Start</button>
+                    <button class="timer-btn pause" id="pauseTimer">⏸️ Pause</button>
+                    <button class="timer-btn reset" id="resetTimer">🔄 Reset</button>
+                </div>
+            </div>
+
+            <!-- Mood Tracker -->
+            <div class="mood-tracker">
+                <div class="mood-title">
+                    <ion-icon name="happy"></ion-icon>
+                    <span>How are you feeling today?</span>
+                </div>
+                <div class="mood-options" id="moodOptions">
+                    😭 😟 😐 😊 😄
+                </div>
+            </div>
+
+            <!-- AI Chat -->
             <div class="ai-chat">
                 <div class="chat-title">
                     <ion-icon name="chatbubble"></ion-icon>
-                    <span>School AI Assistant</span>
+                    <span>AI Homework Helper</span>
                 </div>
                 <div class="messages-container" id="chatMessages">
-                    <div class="msg ai">
-                        👋 Hello! I'm your school AI. Ask me about homework, deadlines, or study tips! 📚
-                    </div>
+                    <div class="msg ai">👋 Hi <span id="aiGreetName"></span>! I'm your school AI. Ask about homework, deadlines, or study tips! 📚</div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Ask about homework..." />
+                    <input type="text" id="userInput" placeholder="Ask something..." />
                     <button id="sendBtn">Send</button>
+                    <button class="voice-btn" id="voiceBtn">🎤</button>
                 </div>
             </div>
 
@@ -599,620 +781,418 @@
                 💾 Install this app for offline access!
                 <button id="installBtn">Install</button>
             </div>
-
-            <!-- Admin Panel -->
-            <div class="admin-panel" id="adminPanel">
-                <div class="admin-title">
-                    <ion-icon name="alert"></ion-icon>
-                    <h3>Admin Panel</h3>
-                </div>
-                <p>⚠️ This is a restricted area. Only authorized personnel allowed.</p>
-                <div class="admin-form">
-                    <input type="password" id="adminPass" placeholder="Enter password" />
-                    <button id="submitAdmin">Access Admin</button>
-                </div>
-                <p><small><a href="admin.html" style="color:var(--warning)">🔧 Go to Admin Dashboard (File 3/25)</a></small></p>
-            </div>
         </main>
     </div>
 
-    <!-- Floating Action Button -->
+    <!-- FAB -->
     <button class="fab" id="scrollTopBtn">
         <ion-icon name="arrow-up"></ion-icon>
     </button>
 
     <script>
-        // App version for cache
-        const APP_VERSION = '1.2.0';
         const GEMINI_API_KEY = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+        const APP_VERSION = '3.0.0';
 
         // DOM Elements
-        const menuBtn = document.getElementById('menuBtn');
-        const closeMenu = document.getElementById('closeMenu');
-        const menuPanel = document.getElementById('menuPanel');
-        const mainContent = document.getElementById('mainContent');
-        const scrollTopBtn = document.getElementById('scrollTopBtn');
-        const offlineBanner = document.getElementById('offlineBanner');
-        const toast = document.getElementById('toast');
-        const pwaInstall = document.getElementById('pwaInstall');
-        const installBtn = document.getElementById('installBtn');
+        const els = {
+            menuBtn: document.getElementById('menuBtn'),
+            closeMenu: document.getElementById('closeMenu'),
+            menuPanel: document.getElementById('menuPanel'),
+            offlineBanner: document.getElementById('offlineBanner'),
+            toast: document.getElementById('toast'),
+            pwaInstall: document.getElementById('pwaInstall'),
+            installBtn: document.getElementById('installBtn'),
+            scrollTopBtn: document.getElementById('scrollTopBtn'),
+            greeting: document.getElementById('greeting'),
+            displayName: document.getElementById('displayName'),
+            displayClass: document.getElementById('displayClass'),
+            homeworkList: document.getElementById('homeworkList'),
+            chatMessages: document.getElementById('chatMessages'),
+            aiGreetName: document.getElementById('aiGreetName'),
+            userInput: document.getElementById('userInput'),
+            sendBtn: document.getElementById('sendBtn'),
+            voiceBtn: document.getElementById('voiceBtn'),
+            downloadPdf: document.getElementById('downloadPdf'),
+            timerDisplay: document.getElementById('timerDisplay'),
+            startTimer: document.getElementById('startTimer'),
+            pauseTimer: document.getElementById('pauseTimer'),
+            resetTimer: document.getElementById('resetTimer'),
+            moodOptions: document.getElementById('moodOptions')
+        };
 
-        // User Info
-        const greeting = document.getElementById('greeting');
-        const displayName = document.getElementById('displayName');
-        const displayClass = document.getElementById('displayClass');
-        const homeworkList = document.getElementById('homeworkList');
-
-        // Chat Elements
-        const chatMessages = document.getElementById('chatMessages');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-
-        // Admin Panel
-        const adminPanel = document.getElementById('adminPanel');
-        const adminPass = document.getElementById('adminPass');
-        const submitAdmin = document.getElementById('submitAdmin');
-        const adminPanelBtn = document.getElementById('adminPanelBtn');
-
-        // Initialize user data
+        // User
         let userName = '';
         let userClass = '';
         let deferredPrompt;
+        let timer;
+        let timeLeft = 25 * 60; // 25 min
+        let timerRunning = false;
 
-        // Homework database (mock data)
-        const homeworkData = {
-            '1': ['🔤 Learn A-B-C', '✍️ Trace letters A-Z', '🎨 Color the alphabet'],
-            '2': ['🔢 Count to 100', '➕ Simple addition (1-10)', '📓 Write numbers 1-50'],
-            '3': ['📖 Read a storybook', '✍️ Write 5 sentences', '🎨 Draw your favorite character'],
-            '4': ['🌍 Learn continents', '🗺️ Label world map', '📝 Write 3 facts about Africa'],
-            '5': ['🧪 Science experiment report', '📖 Reading comprehension', '✏️ Math worksheet (fractions)'],
-            '6': ['📘 Book report due Friday', '📐 Geometry problems', '🔬 Science project planning'],
-            '7': ['📚 Novel analysis chapter 3', '🧮 Algebra equations', '🧪 Lab report draft'],
-            '8': ['🖋️ Essay: "My Future Goals"', '📊 Graph linear equations', '📖 Shakespeare reading'],
-            '9': ['🧪 Chemistry: Balancing equations', '📈 Math: Quadratic functions', '📘 English: Poetry analysis'],
-            '10': ['🔬 Biology: Cell structure diagram', '🧮 Trigonometry problems', '📝 History essay on WWII'],
-            '11': ['🧪 Physics: Motion calculations', '📊 Calculus derivatives', '📘 Literature: Theme analysis'],
-            '12': ['🎓 College essay draft', '🔬 Research paper outline', '📊 Statistics project data collection']
-        };
-
-        // AI Response Templates (never repeating)
-        const aiResponses = [
-            "📚 Great question! Remember: Math homework is due tomorrow. Don't forget to show your work! ✅",
-            "⏰ Pro tip: Start your essay early! Break it into sections: intro, body, conclusion. You've got this! 💪",
-            "📌 Reminder: Science project presentations are next Friday. Begin gathering materials now! 🔬",
-            "✅ Completed! Your math worksheet looks excellent. Just double-check question #7 for accuracy. 👍",
-            "📅 Plan ahead: History test is in 3 days. Focus on chapters 4-6 tonight. 📚",
-            "💡 Study hack: Use flashcards for vocabulary! 20 minutes tonight, 20 tomorrow = perfect score! 🃏",
-            "📎 Update: English reading assignment extended to Friday. More time for deep analysis! 📖",
-            "🎯 Goal setting: Aim to finish 50% of your project by Wednesday. Milestones help! 🗺️",
-            "🧮 Math check: Remember PEMDAS! Parentheses first, then exponents, multiplication... 📐",
-            "📝 Writing tip: Your thesis statement should be clear and arguable. Make it strong! 💥",
-            "🔬 Lab safety first! Always wear goggles and follow procedures exactly. Safety > speed! ⚠️",
-            "🗓️ Weekly planner: Block 30-minute study sessions. Consistency beats cramming! 📅",
-            "🔍 Research smart: Use school database, not just Google. Credible sources matter! 🏛️",
-            "🎧 Focus music: Try classical or lo-fi beats for concentration. Avoid lyrics! 🎵",
-            "👥 Group study: Meet peers tomorrow after school. Teaching others reinforces learning! 🤝",
-            "😴 Sleep matters: 8 hours tonight = sharper mind tomorrow. No all-nighters! 🌙",
-            "🍱 Brain food: Eat protein-rich breakfast. Eggs, nuts, yogurt fuel learning! 🥚",
-            "🧘 Stress less: Take 5-minute breaks every hour. Breathe deeply. You're doing great! 🌿",
-            "📤 Submit early: Don't wait until deadline. Tech issues happen. Be prepared! ☁️",
-            "🔄 Review system: Correct mistakes, then re-do problems. Growth mindset! 📈"
+        // AI Response Pool (never repeats)
+        const aiPool = [
+            "📘 Great! Your book report is due Friday. Start outlining tonight! 📅",
+            "🧮 Math check: Remember PEMDAS! Parentheses → Exponents → Multiply/Divide → Add/Subtract. ✅",
+            "🔬 Science tip: Label your diagram clearly. Use ruler for neat lines! 📏",
+            "📝 Essay hack: Write intro last! Focus on body first, then craft perfect intro. ✍️",
+            "⏰ Reminder: Quiz on Chapter 5 tomorrow. Review flashcards for 20 mins now! 📚",
+            "✅ Completed! Your worksheet looks solid. Just double-check #8 calculation. 👍",
+            "🎯 Goal: Finish 50% of project by Wednesday. Break into small tasks! 🗂️",
+            "💡 Study smart: Teach the topic to someone. Explaining = mastering! 🧠",
+            "📎 Update: Deadline extended to Monday. Use extra time for polish! ✨",
+            "🎧 Focus mode: Try lo-fi beats. No lyrics = better concentration! 🎵",
+            "🗓️ Weekly plan: 30-min study blocks > 3-hour cram. Consistency wins! 📅",
+            "🔍 Research: Use school library database. More reliable than Google! 🏛️",
+            "😴 Sleep = memory! 8 hours tonight = sharper test performance. 🌙",
+            "🍱 Brain fuel: Eat protein (eggs, nuts) before studying. No sugar crash! 🥚",
+            "🧘 Stress less: Take 5-min break every hour. Breathe. You're doing great! 🌿",
+            "📤 Submit early: Avoid last-minute upload issues. Tech fails happen! ☁️",
+            "🔄 Review mistakes: Redo wrong problems. Learn > grade! 📈",
+            "👥 Study group: Meet peers tomorrow. Teaching reinforces learning! 🤝",
+            "📌 Highlight: Use colors for key terms, definitions, examples. 🖍️",
+            "🚀 Motivation: You've aced tough topics before. This is no different! 💪",
+            "📌 Pro tip: Use Cornell Notes for better retention! ✏️",
+            "🧩 Mind map your essay first — structure = clarity! 🗺️",
+            "📚 Read aloud — it improves comprehension! 🗣️",
+            "📉 Graph your progress weekly. Growth feels real! 📊",
+            "🎯 Set SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound! 🎯"
         ];
 
-        let usedAiResponses = [];
+        let usedResponses = [];
 
-        // Get a non-repeating AI response
         function getAiResponse() {
-            if (usedAiResponses.length >= aiResponses.length) {
-                usedAiResponses = []; // Reset if all used
-            }
-
-            let available = aiResponses.filter(r => !usedAiResponses.includes(r));
-            if (available.length === 0) return aiResponses[0]; // Fallback
-
-            const response = available[Math.floor(Math.random() * available.length)];
-            usedAiResponses.push(response);
-            return response;
+            if (usedResponses.length >= aiPool.length) usedResponses = [];
+            const available = aiPool.filter(r => !usedResponses.includes(r));
+            const resp = available[Math.floor(Math.random() * available.length)] || aiPool[0];
+            usedResponses.push(resp);
+            return resp;
         }
 
-        // Send AI message via Gemini
-        async function getGeminiResponse(prompt) {
+        function getRandomEmoji() {
+            return ['📚', '🧠', '🎯', '✅', '🚀', '🌟', '💡', '📈', '🎓', '🧪', '🔍', '✍️', '📌', '⏰'][Math.floor(Math.random() * 14)];
+        }
+
+        async function getGeminiReply(prompt) {
             try {
-                const classContext = `You are a school assistant for Class ${userClass}. `;
-                const homeworkContext = `Today's homework: ${homeworkData[userClass]?.join(', ')}. `;
-                const safetyFilter = `Always provide educational, positive, school-appropriate responses with emojis. Never generate harmful content.`;
-
-                const fullPrompt = classContext + homeworkContext + prompt + safetyFilter;
-
-                const response = await fetch(GEMINI_API_URL, {
+                const hwText = Array.from(els.homeworkList.children).map(li => li.textContent).join('; ');
+                const context = `You're a school AI for ${userName} in Class ${userClass}. Homework: ${hwText}. Reply with helpful, unique, emoji-rich advice. Never repeat. Max 2 sentences.`;
+                const res = await fetch(GEMINI_API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: fullPrompt
-                            }]
-                        }],
-                        generationConfig: {
-                            temperature: 0.7,
-                            topK: 40,
-                            topP: 0.95,
-                            maxOutputTokens: 200
-                        }
+                        contents: [{ parts: [{ text: context + ' ' + prompt }] }],
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 180 }
                     })
                 });
 
-                if (!response.ok) throw new Error('API error');
-
-                const data = await response.json();
-                const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || getAiResponse();
-
-                // Clean and format response
-                return aiText.replace(/\*\*/g, '').trim() + ' ' + getRandomEmoji();
-            } catch (error) {
-                console.warn('Gemini API failed, using fallback:', error);
-                return getAiResponse(); // Fallback to local responses
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || getAiResponse();
+                text = text.replace(/\*\*/g, '').trim();
+                return text + ' ' + getRandomEmoji();
+            } catch (err) {
+                console.warn('Gemini failed:', err);
+                return getAiResponse() + ' ' + getRandomEmoji();
             }
         }
 
-        // Get random educational emoji
-        function getRandomEmoji() {
-            const emojis = ['📚', '✏️', '🧠', '🎯', '✅', '🚀', '🌟', '💡', '🔍', '📈', '🎓', '📘', '🧪', '📐', '🎵'];
-            return emojis[Math.floor(Math.random() * emojis.length)];
+        function addMsg(text, user = false) {
+            const div = document.createElement('div');
+            div.className = `msg ${user ? 'user' : 'ai'}`;
+            div.textContent = text;
+            els.chatMessages.appendChild(div);
+            els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
         }
 
-        // Display message in chat
-        function addMessage(text, isUser = false) {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `msg ${isUser ? 'user' : 'ai'}`;
-            msgDiv.textContent = text;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Initialize App
-        function initApp() {
-            // Load user data
+        function loadUser() {
             userName = localStorage.getItem('name') || 'Student';
             userClass = localStorage.getItem('cls') || '1';
 
             if (!userName || !userClass) {
                 alert('Please login first!');
-                window.location.href = 'index.html';
+                location.href = 'index.html';
                 return;
             }
 
-            // Update UI
-            displayName.textContent = userName;
-            displayClass.textContent = `Class ${userClass}`;
-            greeting.textContent = `👋 Hello, ${userName}! Welcome to your Class ${userClass} dashboard.`;
+            els.displayName.textContent = userName;
+            els.displayClass.textContent = `Class ${userClass}`;
+            els.greeting.textContent = `👋 Hello, ${userName}! Ready for Class ${userClass}?`;
+            els.aiGreetName.textContent = userName;
 
-            // Load homework
             loadHomework();
-
-            // Check dark mode preference
-            if (localStorage.getItem('darkMode') === 'enabled') {
-                document.body.classList.add('dark-mode');
-            }
-
-            // Setup event listeners
-            setupEventListeners();
-
-            // Check PWA installability
-            checkPWAInstall();
-
-            // Show welcome toast
-            showToast(`Welcome back, ${userName}! 🎉`);
-
-            // Request notification permission
-            requestNotificationPermission();
         }
 
-        // Load homework for current class
         function loadHomework() {
-            const homework = homeworkData[userClass] || ['No homework today! 🎉'];
-            homeworkList.innerHTML = '';
-            homework.forEach(task => {
+            const mockHomework = {
+                '1': ['🔤 Learn A-B-C', '✍️ Trace letters', '🎨 Color alphabet'],
+                '2': ['🔢 Count to 50', '➕ Addition 1-5', '📓 Write numbers'],
+                '3': ['📖 Read story', '✍️ 5 sentences', '🎨 Draw character'],
+                '7': ['🧪 Lab report', '🧮 Algebra', '📘 Essay draft'],
+                '10': ['🔬 Biology project', '📊 Stats homework', '📝 History essay'],
+                '12': ['🎓 College essay', '🔬 Research outline', '📚 Lit analysis']
+            };
+
+            const list = mockHomework[userClass] || ['No homework today! 🎉'];
+            els.homeworkList.innerHTML = '';
+            list.forEach(task => {
                 const li = document.createElement('li');
                 li.className = 'homework-item';
-                li.innerHTML = `<ion-icon name="checkmark-circle"></ion-icon> ${task}`;
-                homeworkList.appendChild(li);
+                li.innerHTML = `<ion-icon name="checkmark-circle"></ion-icon> <span>${task}</span>`;
+                els.homeworkList.appendChild(li);
             });
         }
 
-        // Setup all event listeners
-        function setupEventListeners() {
-            // Menu toggle
-            menuBtn.addEventListener('click', () => {
-                menuPanel.classList.add('open');
+        // Timer
+        function updateTimer() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            els.timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                timerRunning = false;
+                showToast('⏰ Time up! Take a 5-min break! 🧘');
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') new Notification('Study Time Complete!', { body: 'Great focus!' });
+                });
+                resetTimerFunc();
+            } else {
+                timeLeft--;
+            }
+        }
+
+        function startTimerFunc() {
+            if (!timerRunning) {
+                timer = setInterval(updateTimer, 1000);
+                timerRunning = true;
+            }
+        }
+
+        function pauseTimerFunc() {
+            clearInterval(timer);
+            timerRunning = false;
+        }
+
+        function resetTimerFunc() {
+            clearInterval(timer);
+            timeLeft = 25 * 60;
+            updateTimer();
+            timerRunning = false;
+        }
+
+        // Setup
+        function setup() {
+            loadUser();
+            updateTimer();
+
+            // Event Listeners
+            els.menuBtn.addEventListener('click', () => {
+                els.menuPanel.classList.add('open');
                 document.body.style.overflow = 'hidden';
             });
 
-            closeMenu.addEventListener('click', () => {
-                menuPanel.classList.remove('open');
+            els.closeMenu.addEventListener('click', () => {
+                els.menuPanel.classList.remove('open');
                 document.body.style.overflow = '';
             });
 
-            // Close menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!menuPanel.contains(e.target) && !menuBtn.contains(e.target) && menuPanel.classList.contains('open')) {
-                    menuPanel.classList.remove('open');
-                    document.body.style.overflow = '';
-                }
+            document.getElementById('darkModeToggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                localStorage.setItem('dark', document.body.classList.contains('dark'));
+                showToast(document.body.classList.contains('dark') ? '🌙 Dark mode on' : '☀️ Light mode on');
+                els.menuPanel.classList.remove('open');
             });
 
-            // Dark mode toggle
-            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+            if (localStorage.getItem('dark') === 'true') {
+                document.body.classList.add('dark');
+            }
 
-            // Print
-            document.getElementById('printOption').addEventListener('click', (e) => {
+            document.getElementById('printOption').addEventListener('click', e => {
                 e.preventDefault();
                 window.print();
-                menuPanel.classList.remove('open');
-                showToast('🖨️ Printing homework...');
+                els.menuPanel.classList.remove('open');
+                showToast('🖨️ Printing...');
             });
 
-            // Share
-            document.getElementById('shareOption').addEventListener('click', async (e) => {
+            document.getElementById('shareOption').addEventListener('click', async e => {
                 e.preventDefault();
                 if (navigator.share) {
-                    try {
-                        await navigator.share({
-                            title: 'My School Homework',
-                            text: `Class ${userClass} Homework: ${homeworkData[userClass]?.join(', ')}`,
-                            url: window.location.href
-                        });
-                        showToast('Shared successfully! 📤');
-                    } catch (err) {
-                        showToast('Share cancelled. 😔');
-                    }
+                    navigator.share({
+                        title: 'My Homework',
+                        text: `Class ${userClass} Homework: ${Array.from(els.homeworkList.children).map(li => li.textContent).join(', ')}`,
+                        url: location.href
+                    }).catch(() => {}).finally(() => {
+                        els.menuPanel.classList.remove('open');
+                    });
                 } else {
-                    showToast('Share not supported on this device. 📱');
+                    showToast('📱 Share not supported');
                 }
-                menuPanel.classList.remove('open');
             });
 
-            // PWA Install
-            document.getElementById('pwaInstallBtn').addEventListener('click', (e) => {
+            document.getElementById('pwaInstallBtn').addEventListener('click', e => {
                 e.preventDefault();
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
-                    const choice = deferredPrompt.userChoice;
-                    choice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            showToast('App installed! 🎉');
-                        }
-                        deferredPrompt = null;
-                    });
+                    deferredPrompt.userChoice.then(() => deferredPrompt = null);
                 } else {
-                    showToast('Install prompt not available. Try later. ⏳');
+                    showToast('⏳ Install not ready');
                 }
-                menuPanel.classList.remove('open');
+                els.menuPanel.classList.remove('open');
             });
 
-            // Clear cache
-            document.getElementById('clearCacheBtn').addEventListener('click', (e) => {
+            document.getElementById('clearCacheBtn').addEventListener('click', e => {
                 e.preventDefault();
-                if (confirm('Clear all local data? This will log you out.')) {
+                if (confirm('Clear cache and logout?')) {
                     localStorage.clear();
-                    caches?.keys?.().then(names => {
-                        names.forEach(name => caches.delete(name));
-                    }).catch(() => {});
-                    showToast('Cache cleared! 🧹');
-                    setTimeout(() => window.location.href = 'index.html', 1000);
+                    caches?.keys?.().then(keys => keys.forEach(k => caches.delete(k)));
+                    showToast('🧹 Cache cleared');
+                    setTimeout(() => location.href = 'index.html', 800);
                 }
-                menuPanel.classList.remove('open');
+                els.menuPanel.classList.remove('open');
             });
 
-            // Admin Panel
-            adminPanelBtn.addEventListener('click', (e) => {
+            document.getElementById('logoutBtn').addEventListener('click', e => {
                 e.preventDefault();
-                adminPanel.style.display = 'block';
-                menuPanel.classList.remove('open');
-            });
-
-            submitAdmin.addEventListener('click', () => {
-                if (adminPass.value === 'Abutalha') {
-                    showToast('🔓 Admin access granted!');
-                    setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 1000);
-                } else {
-                    showToast('❌ Wrong password!');
-                    adminPass.value = '';
-                }
-            });
-
-            // Logout
-            document.getElementById('logoutBtn').addEventListener('click', (e) => {
-                e.preventDefault();
-                if (confirm('Logout from dashboard?')) {
+                if (confirm('Logout?')) {
                     localStorage.removeItem('name');
                     localStorage.removeItem('cls');
-                    localStorage.removeItem('parent');
-                    showToast('👋 Logged out!');
-                    setTimeout(() => window.location.href = 'index.html', 800);
+                    showToast('👋 Logged out');
+                    setTimeout(() => location.href = 'index.html', 800);
                 }
-                menuPanel.classList.remove('open');
+                els.menuPanel.classList.remove('open');
             });
 
-            // Chat functionality
-            sendBtn.addEventListener('click', sendMessage);
-            userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') sendMessage();
+            els.downloadPdf.addEventListener('click', () => {
+                const text = Array.from(els.homeworkList.children).map(li => '• ' + li.textContent).join('\n');
+                const blob = new Blob([`
+🎓 School Homework
+-----------------
+Student: ${userName}
+Class: ${userClass}
+Date: ${new Date().toLocaleDateString()}
+
+📋 Homework:
+${text}
+
+Generated by School Web
+                `.trim()], { type: 'text/plain' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `homework-${userClass}-${new Date().toISOString().split('T')[0]}.txt`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+                showToast('📥 PDF saved!');
             });
 
-            // Scroll to top
-            scrollTopBtn.addEventListener('click', () => {
+            // Chat
+            els.sendBtn.addEventListener('click', sendMsg);
+            els.userInput.addEventListener('keypress', e => e.key === 'Enter' && sendMsg());
+
+            function sendMsg() {
+                const val = els.userInput.value.trim();
+                if (!val) return;
+                addMsg(val, true);
+                els.userInput.value = '';
+                const typing = document.createElement('div');
+                typing.className = 'msg ai'; typing.textContent = '🧠 Thinking...';
+                els.chatMessages.appendChild(typing);
+                getGeminiReply(val).then(res => {
+                    els.chatMessages.removeChild(typing);
+                    addMsg(res);
+                });
+            }
+
+            // Voice Input
+            els.voiceBtn.addEventListener('click', () => {
+                if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    const recognition = new SpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.start();
+                    recognition.onresult = e => {
+                        els.userInput.value = e.results[0][0].transcript;
+                    };
+                } else {
+                    showToast('🎤 Voice not supported');
+                }
+            });
+
+            // Timer
+            els.startTimer.addEventListener('click', startTimerFunc);
+            els.pauseTimer.addEventListener('click', pauseTimerFunc);
+            els.resetTimer.addEventListener('click', resetTimerFunc);
+
+            // Mood Tracker
+            els.moodOptions.addEventListener('click', e => {
+                if (e.target.tagName === 'DIV') return;
+                const emojis = ['😭', '😟', '😐', '😊', '😄'];
+                Array.from(els.moodOptions.children).forEach((el, i) => {
+                    el.classList.toggle('mood-selected', el.textContent !== e.target.textContent);
+                });
+                showToast(`You're feeling: ${e.target.textContent} 💬`);
+            });
+
+            // FAB
+            els.scrollTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Download PDF
-            document.getElementById('downloadPdf').addEventListener('click', downloadPdf);
-
-            // Window events
-            window.addEventListener('scroll', toggleScrollButton);
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
-        }
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-                showToast('🌙 Dark mode enabled');
-            } else {
-                localStorage.setItem('darkMode', 'disabled');
-                showToast('☀️ Light mode enabled');
-            }
-            menuPanel.classList.remove('open');
-        }
-
-        // Send message in chat
-        function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, true);
-            userInput.value = '';
-
-            // Show typing indicator
-            const typing = document.createElement('div');
-            typing.className = 'msg ai';
-            typing.textContent = '🧠 Thinking...';
-            chatMessages.appendChild(typing);
-
-            // Get AI response
-            getGeminiResponse(message).then(response => {
-                chatMessages.removeChild(typing);
-                addMessage(response);
-            }).catch(() => {
-                chatMessages.removeChild(typing);
-                addMessage(getAiResponse());
+            window.addEventListener('scroll', () => {
+                els.scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
             });
-        }
 
-        // Toggle scroll-to-top button
-        function toggleScrollButton() {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
-            }
-        }
-
-        // Update online/offline status
-        function updateOnlineStatus() {
-            if (navigator.onLine) {
-                offlineBanner.classList.remove('show');
+            window.addEventListener('online', () => {
+                els.offlineBanner.classList.remove('show');
                 showToast('🟢 Back online!');
-            } else {
-                offlineBanner.classList.add('show');
-            }
-        }
+            });
 
-        // Show toast notification
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
+            window.addEventListener('offline', () => {
+                els.offlineBanner.classList.add('show');
+            });
 
-        // Check PWA installability
-        function checkPWAInstall() {
-            window.addEventListener('beforeinstallprompt', (e) => {
+            window.addEventListener('beforeinstallprompt', e => {
                 e.preventDefault();
                 deferredPrompt = e;
-                pwaInstall.style.display = 'block';
+                els.pwaInstall.style.display = 'block';
             });
 
-            installBtn.addEventListener('click', () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            showToast('App installation started! 📲');
-                            pwaInstall.style.display = 'none';
-                        }
-                        deferredPrompt = null;
-                    });
-                }
+            els.installBtn.addEventListener('click', () => {
+                if (deferredPrompt) deferredPrompt.prompt();
             });
+
+            // Service Worker
+            if ('serviceWorker' in navigator) {
+                const swScript = `
+                    self.addEventListener('install', e => e.waitUntil(caches.open('school-v${APP_VERSION}')));
+                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+                    self.addEventListener('push', e => {
+                        const data = e.data?.json() || {};
+                        self.registration.showNotification(data.title || 'Reminder', { body: data.body });
+                    });
+                `;
+                const blob = new Blob([swScript], { type: 'text/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+            }
+
+            requestNotificationPermission();
         }
 
-        // Request notification permission
         function requestNotificationPermission() {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        // Schedule homework reminder
-                        scheduleNotification();
-                    }
-                });
+            if ('Notification' in window && Notification.permission !== 'granted') {
+                Notification.requestPermission();
             }
         }
 
-        // Schedule notification
-        function scheduleNotification() {
-            if ('serviceWorker' in navigator && 'PushManager' in window) {
-                navigator.serviceWorker.ready.then((sw) => {
-                    sw.pushManager.getSubscription().then(sub => {
-                        if (!sub) {
-                            // Would normally send to backend, but simplified
-                            console.log('Notification scheduled for homework');
-                        }
-                    });
-                });
-            }
+        function showToast(msg) {
+            els.toast.textContent = msg;
+            els.toast.classList.add('show');
+            setTimeout(() => els.toast.classList.remove('show'), 3000);
         }
 
-        // Generate PDF and download
-        function downloadPdf() {
-            // In a real app, we'd use jsPDF or similar
-            // Here we simulate with a blob
-            const homeworkText = homeworkData[userClass]?.join('\n• ') || 'No homework';
-            const content = `
-🎓 School Homework Dashboard
-----------------------------
-Student: ${userName}
-Class: Class ${userClass}
-Date: ${new Date().toLocaleDateString()}
-Time: ${new Date().toLocaleTimeString()}
-
-📋 Today's Homework:
-• ${homeworkText}
-
-Generated by School Web App
-https://example.com
-            `.trim();
-
-            const blob = new Blob([content], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `homework-class${userClass}-${new Date().toISOString().split('T')[0]}.pdf`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📥 PDF downloaded!');
-        }
-
-        // Service Worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(err => {
-                    console.warn('SW registration failed', err);
-                });
-            });
-        }
-
-        // Inline Service Worker
-        const swScript = `
-            const CACHE_NAME = 'school-web-v${APP_VERSION.replace(/\./g, '')}';
-            const urlsToCache = [
-                '/',
-                '/dashboard.html'
-            ];
-
-            self.addEventListener('install', event => {
-                event.waitUntil(
-                    caches.open(CACHE_NAME)
-                        .then(cache => cache.addAll(urlsToCache))
-                );
-                self.skipWaiting();
-            });
-
-            self.addEventListener('activate', event => {
-                event.waitUntil(
-                    caches.keys().then(cacheNames => {
-                        return Promise.all(
-                            cacheNames.map(cacheName => {
-                                if (cacheName !== CACHE_NAME) {
-                                    return caches.delete(cacheName);
-                                }
-                            })
-                        );
-                    })
-                );
-                self.clients.claim();
-            });
-
-            self.addEventListener('fetch', event => {
-                event.respondWith(
-                    caches.match(event.request)
-                        .then(response => {
-                            if (response) {
-                                return response;
-                            }
-                            return fetch(event.request);
-                        })
-                );
-            });
-
-            self.addEventListener('push', event => {
-                const options = {
-                    body: event.data?.text() || 'New homework reminder!',
-                    icon: 'icon-192.png',
-                    badge: 'badge.png',
-                    tag: 'homework-reminder'
-                };
-                event.waitUntil(
-                    self.registration.showNotification('School Web', options)
-                );
-            });
-        `;
-
-        // Create service worker blob
-        const swBlob = new Blob([swScript], { type: 'text/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
-
-        // Register inline SW
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-                registrations.forEach(r => r.unregister());
-                navigator.serviceWorker.register(swUrl);
-            }).catch(() => {});
-        }
-
-        // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-            setTimeout(() => mainContent.classList.add('fade-in'), 100);
+            setup();
+            setTimeout(() => document.getElementById('mainContent').classList.add('fade-in'), 100);
         });
-
-        // Mock icons if ionicons fails
-        window.addEventListener('error', (e) => {
-            if (e.target.tagName === 'SCRIPT' && e.target.src.includes('ionicons')) {
-                // Fallback to emoji
-                document.querySelectorAll('ion-icon').forEach(icon => {
-                    const name = icon.getAttribute('name');
-                    const emojiMap = {
-                        'school': '🏫',
-                        'book': '📚',
-                        'menu': '☰',
-                        'clipboard': '📋',
-                        'chatbubble': '💬',
-                        'arrow-up': '⬆️',
-                        'print': '🖨️',
-                        'share': '📤',
-                        'moon': '🌙',
-                        'download': '⬇️',
-                        'trash': '🗑️',
-                        'lock-closed': '🔒',
-                        'log-out': '🚪',
-                        'checkmark-circle': '✅',
-                        'document': '📄',
-                        'alert': '🚨'
-                    };
-                    icon.textContent = emojiMap[name] || '🔹';
-                });
-            }
-        }, true);
     </script>
 </body>
 </html>
