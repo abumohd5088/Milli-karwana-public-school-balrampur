@@ -1,57 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Student Dashboard</title>
-  <link rel="stylesheet" href="css/ultra-pro.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dashboard - Springfield India</title>
+    <link rel="stylesheet" href="css/ultra-pro.css">
+    <link rel="icon" href="images/favicon.ico">
+    <meta name="theme-color" content="#667eea">
 </head>
-<body class="dashboard-body" id="student-body">
-  <header>
-    <h2>Hi <span id="user-name"></span>!</h2>
-    <p>Class <span id="user-class"></span></p>
-    <button id="mode-toggle">🌓</button>
-  </header>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="header-left">
+                <img src="images/logo.png" alt="Logo" class="header-logo">
+                <div>
+                    <h1 id="welcomeText">Welcome</h1>
+                    <p id="classText">Class</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <span>🚪</span>
+            </button>
+        </div>
+    </header>
 
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="homework">📚 Homework</button>
-    <button class="tab-btn" data-tab="notes">📝 Notes</button>
-    <button class="tab-btn" data-tab="timetable">📅 Timetable</button>
-    <button class="tab-btn" data-tab="results">📊 Results</button>
-    <button class="tab-btn" data-tab="calendar">🗓️ Calendar</button>
-  </div>
+    <!-- Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="homework">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">Homework</span>
+        </button>
+        <button class="nav-item" data-tab="notes">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Notes</span>
+        </button>
+        <button class="nav-item" data-tab="timetable">
+            <span class="nav-icon">⏰</span>
+            <span class="nav-text">Timetable</span>
+        </button>
+        <button class="nav-item" data-tab="results">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Results</span>
+        </button>
+    </nav>
 
-  <div class="tab-content">
-    <div id="homework" class="tab-pane active">
-      <h3>Current Homework</h3>
-      <ul id="hw-list"></ul>
-    </div>
-    <div id="notes" class="tab-pane">
-      <h3>Study Notes</h3>
-      <ul id="notes-list"></ul>
-    </div>
-    <div id="timetable" class="tab-pane">
-      <h3>Weekly Schedule</h3>
-      <div id="tt-content"></div>
-    </div>
-    <div id="results" class="tab-pane">
-      <h3>Your Performance</h3>
-      <canvas id="grades-chart" height="200"></canvas>
-      <div id="results-data"></div>
-    </div>
-    <div id="calendar" class="tab-pane">
-      <h3>School Calendar</h3>
-      <ul id="event-list"></ul>
-    </div>
-  </div>
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <!-- Homework Section -->
+        <section class="tab-content active" id="homework">
+            <div class="section-header">
+                <h2>Homework</h2>
+                <button class="refresh-btn" onclick="refreshHomework()">🔄</button>
+            </div>
+            <div class="content-grid" id="homeworkGrid"></div>
+        </section>
 
-  <!-- AI Assistant -->
-  <button id="ai-btn" title="Ask AI Assistant">🤖</button>
+        <!-- Notes Section -->
+        <section class="tab-content" id="notes">
+            <div class="section-header">
+                <h2>Study Notes</h2>
+                <button class="refresh-btn" onclick="refreshNotes()">🔄</button>
+            </div>
+            <div class="content-grid" id="notesGrid"></div>
+        </section>
 
-  <!-- Voice Command -->
-  <button id="mic-btn" title="Voice Command">🎤</button>
+        <!-- Timetable Section -->
+        <section class="tab-content" id="timetable">
+            <div class="section-header">
+                <h2>Today's Schedule</h2>
+            </div>
+            <div class="timetable-container" id="timetableDisplay"></div>
+        </section>
 
-  <script src="js/utils.js"></script>
-  <script src="js/student.js"></script>
+        <!-- Results Section -->
+        <section class="tab-content" id="results">
+            <div class="section-header">
+                <h2>Your Results</h2>
+            </div>
+            <div class="results-container" id="resultsDisplay"></div>
+        </section>
+    </main>
+
+    <!-- Floating Admin Button -->
+    <button class="admin-fab" onclick="window.location.href='admin.html'">
+        ⚙️
+    </button>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="js/ultra-pro.js"></script>
 </body>
 </html>
