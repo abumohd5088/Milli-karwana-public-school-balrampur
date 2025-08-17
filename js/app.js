@@ -1,279 +1,168 @@
-// === GLOBAL DATA ===
-const db = {
-    homework: JSON.parse(localStorage.getItem('homework')) || {},
-    notes: JSON.parse(localStorage.getItem('notes')) || {},
-    timetable: JSON.parse(localStorage.getItem('timetable')) || {},
-    results: JSON.parse(localStorage.getItem('results')) || {}
-};
+// === DASHBOARD LOGIC ===
+let currentUser = null;
 
-// === LOGIN SYSTEM ===
-function login(e) {
-    e.preventDefault();
-    const name = document.getElementById('studentName').value;
-    const classNum = document.getElementById('classSelect').value;
-    
-    if (!name || !classNum) {
-        alert('Please enter name and select class');
+// Show loading
+function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+}
+function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+// Load user
+function loadUser() {
+    const saved = localStorage.getItem('studentData');
+    if (!saved) {
+        alert("No user data found. Redirecting...");
+        window.location.href = "index.html";
         return;
     }
-    
-    localStorage.setItem('studentName', name);
-    localStorage.setItem('currentClass', classNum);
-    window.location.href = 'dashboard.html';
+    currentUser = JSON.parse(saved);
+    document.getElementById('welcomeText').textContent = `Welcome, ${currentUser.name}!`;
+    document.getElementById('classNumber').textContent = getOrdinal(currentUser.class) + " Grade";
+    document.getElementById('classText').innerHTML = `Class <span>${currentUser.class}</span>`;
 }
 
-function showAdminLogin() {
-    document.getElementById('adminModal').classList.remove('hidden');
+// Add ordinal (1 → 1st, 2 → 2nd)
+function getOrdinal(n) {
+    const s = ["th", "st", "nd", "rd"], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
-function closeAdmin() {
-    document.getElementById('adminModal').classList.add('hidden');
-}
-
-function verifyAdmin() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === 'Abutalha') {
-        window.location.href = 'admin.html';
-    } else {
-        alert('Wrong password!');
-    }
-}
-
-// === DASHBOARD SYSTEM ===
-function loadDashboard() {
-    const name = localStorage.getItem('studentName') || 'Student';
-    const classNum = localStorage.getItem('currentClass') || '1';
-    
-    document.getElementById('studentNameDisplay').textContent = name;
-    document.getElementById('currentClass').textContent = classNum;
-    
-    // Initialize data
-    if (!db.homework[classNum]) db.homework[classNum] = {};
-    if (!db.notes[classNum]) db.notes[classNum] = {};
-    
-    loadTabData('homework');
-    loadTabData('notes');
-    loadTabData('timetable');
-    loadTabData('results');
-}
-
-function showTab(tab) {
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    
-    document.getElementById(tab + 'Tab').classList.add('active');
-    document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
-    
-    loadTabData(tab);
-}
-
-function loadTabData(type) {
-    const classNum = localStorage.getItem('currentClass') || '1';
-    
-    switch(type) {
-        case 'homework':
-            loadHomework(classNum);
-            break;
-        case 'notes':
-            loadNotes(classNum);
-            break;
-        case 'timetable':
-            loadTimetable(classNum);
-            break;
-        case 'results':
-            loadResults(classNum);
-            break;
-    }
-}
-
-// === LOAD DATA FUNCTIONS ===
-function loadHomework(classNum) {
-    const date = document.getElementById('hwDate')?.value || new Date().toISOString().split('T')[0];
-    const subject = document.getElementById('hwSubject')?.value || 'all';
-    
-    const homework = db.homework[classNum]?.[date] || [];
-    let filtered = subject === 'all' ? homework : homework.filter(hw => hw.subject === subject);
-    
-    const container = document.getElementById('homeworkList');
-    if (!container) return;
-    
-    container.innerHTML = filtered.map(hw => `
-        <div class="item-card">
-            <h3>${hw.subject}</h3>
-            <p>${hw.description}</p>
-            <small>Due: ${new Date(hw.dueDate).toLocaleDateString()}</small>
-        </div>
-    `).join('');
-    
-    if (filtered.length === 0) {
-        container.innerHTML = '<div class="empty-state">No homework today! 🎉</div>';
-    }
-}
-
-function loadNotes(classNum) {
-    const subject = document.getElementById('noteSubject')?.value || 'Math';
-    
-    const notes = db.notes[classNum]?.[subject] || [];
-    
-    const container = document.getElementById('notesList');
-    if (!container) return;
-    
-    container.innerHTML = notes.map(note => `
-        <div class="item-card">
-            <h3>${note.title}</h3>
-            <p>${note.content}</p>
-            <small>${new Date(note.dateAdded).toLocaleDateString()}</small>
-        </div>
-    `).join('');
-    
-    if (notes.length === 0) {
-        container.innerHTML = '<div class="empty-state">No notes available 📚</div>';
-    }
-}
-
-function loadTimetable(classNum) {
-    const timetable = {
-        1: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "English"},
-            {time: "10:30-11:15", subject: "EVS"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Hindi"}, {time: "12:15-1:00", subject: "Art"}
-        ],
-        2: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "English"},
-            {time: "10:30-11:15", subject: "Science"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Hindi"}, {time: "12:15-1:00", subject: "Music"}
-        ],
-        3: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Science"},
-            {time: "10:30-11:15", subject: "English"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Social"}, {time: "12:15-1:00", subject: "Art"}
-        ],
-        4: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Science"},
-            {time: "10:30-11:15", subject: "English"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Hindi"}, {time: "12:15-1:00", subject: "Computer"}
-        ],
-        5: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Science"},
-            {time: "10:30-11:15", subject: "English"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Social"}, {time: "12:15-1:00", subject: "Sanskrit"}
-        ],
-        6: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Science"},
-            {time: "10:30-11:15", subject: "English"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Hindi"}, {time: "12:15-1:00", subject: "Computer"}
-        ],
-        7: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Science"},
-            {time: "10:30-11:15", subject: "English"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Social"}, {time: "12:15-1:00", subject: "Computer"}
-        ],
-        8: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Science"},
-            {time: "10:30-11:15", subject: "English"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "Social"}, {time: "12:15-1:00", subject: "Sanskrit"}
-        ],
-        9: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Physics"},
-            {time: "10:30-11:15", subject: "Chemistry"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "English"}, {time: "12:15-1:00", subject: "Biology"}
-        ],
-        10: [
-            {time: "9:00-9:45", subject: "Math"}, {time: "9:45-10:30", subject: "Physics"},
-            {time: "10:30-11:15", subject: "Chemistry"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "English"}, {time: "12:15-1:00", subject: "Social"}
-        ],
-        11: [
-            {time: "9:00-9:45", subject: "Physics"}, {time: "9:45-10:30", subject: "Chemistry"},
-            {time: "10:30-11:15", subject: "Math"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "English"}, {time: "12:15-1:00", subject: "Biology"}
-        ],
-        12: [
-            {time: "9:00-9:45", subject: "Physics"}, {time: "9:45-10:30", subject: "Chemistry"},
-            {time: "10:30-11:15", subject: "Math"}, {time: "11:15-11:30", subject: "Break"},
-            {time: "11:30-12:15", subject: "English"}, {time: "12:15-1:00", subject: "Computer"}
-        ]
-    };
-    
-    const container = document.getElementById('timetableContent');
-    if (!container) return;
-    
-    container.innerHTML = timetable[classNum].map(item => `
-        <div class="timetable-row">
-            <div class="time">${item.time}</div>
-            <div class="subject">${item.subject}</div>
-        </div>
-    `).join('');
-}
-
-function loadResults(classNum) {
-    const results = {
-        1: [
-            {subject: "Math", marks: 95, grade: "A+"}, {subject: "English", marks: 92, grade: "A+"},
-            {subject: "EVS", marks: 88, grade: "A"}, {subject: "Hindi", marks: 90, grade: "A+"}
-        ],
-        2: [
-            {subject: "Math", marks: 93, grade: "A+"}, {subject: "English", marks: 91, grade: "A+"},
-            {subject: "Science", marks: 89, grade: "A"}, {subject: "Hindi", marks: 94, grade: "A+"}
-        ],
-        // Continue for all classes...
-        12: [
-            {subject: "Physics", marks: 92, grade: "A+"}, {subject: "Chemistry", marks: 94, grade: "A+"},
-            {subject: "Math", marks: 91, grade: "A"}, {subject: "English", marks: 93, grade: "A+"}
-        ]
-    };
-    
-    const container = document.getElementById('resultsContent');
-    if (!container) return;
-    
-    const classResults = results[classNum] || results[1];
-    container.innerHTML = classResults.map(result => `
-        <div class="results-row">
-            <div class="subject">${result.subject}</div>
-            <div class="marks">${result.marks}/100</div>
-            <div class="grade">${result.grade}</div>
-        </div>
-    `).join('');
-}
-
-// === ADD FUNCTIONS ===
-function addHomework() {
-    const classNum = localStorage.getItem('currentClass');
-    const subject = document.getElementById('hwSubject')?.value || 'Math';
-    const title = prompt('Enter homework title:');
-    const content = prompt('Enter homework description:');
-    const date = document.getElementById('hwDate')?.value || new Date().toISOString().split('T')[0];
-    
-    if (!title || !content) return;
-    
-    if (!db.homework[classNum]) db.homework[classNum] = {};
-    if (!db.homework[classNum][date]) db.homework[classNum][date] = [];
-    
-    db.homework[classNum][date].push({
-        id: Date.now(),
-        subject,
-        title,
-        description: content,
-        dueDate: date
+// Tab Switching
+document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
     });
-    
-    localStorage.setItem('homework', JSON.stringify(db.homework));
-    loadHomework(classNum);
+});
+
+// Triple-click to show Admin FAB
+let clicks = 0;
+document.body.addEventListener('click', () => {
+    clicks++;
+    if (clicks === 3) {
+        document.getElementById('adminFab').style.display = 'flex';
+        setTimeout(() => document.getElementById('adminFab').style.display = 'none', 3000);
+        clicks = 0;
+    }
+    setTimeout(() => { clicks = 0; }, 500);
+});
+
+// Logout
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem('studentData');
+        window.location.href = "index.html";
+    }
 }
 
-function addNotes() {
-    const classNum = localStorage.getItem('currentClass');
-    const subject = document.getElementById('noteSubject')?.value || 'Math';
-    const title = prompt('Enter note title:');
-    const content = prompt('Enter note content:');
-    
-    if (!title || !content) return;
-    
-    if (!db.notes[classNum]) db.notes[classNum] = {};
-    if (!db.notes[classNum][subject]) db.notes[classNum][subject] = [];
-    
-    db.notes[classNum][subject].push({
-        id: Date.now(),
-        title,
-        content,
-        dateAdded: new Date
+// Refresh Homework
+function refreshHomework() {
+    showLoading();
+    setTimeout(() => {
+        loadHomework();
+        hideLoading();
+    }, 600);
+}
+
+// Refresh Notes
+function refreshNotes() {
+    showLoading();
+    setTimeout(() => {
+        loadNotes();
+        hideLoading();
+    }, 600);
+}
+
+// Load Homework from localStorage (set in admin.html)
+function loadHomework() {
+    const hw = JSON.parse(localStorage.getItem('homework') || '[]')
+        .filter(h => h.class == currentUser.class || h.class === "All");
+    const grid = document.getElementById('homeworkGrid');
+    grid.innerHTML = hw.length ? '' : '<div class="empty-state">No homework assigned.</div>';
+    hw.forEach(h => {
+        const card = document.createElement('div');
+        card.className = 'content-card';
+        card.innerHTML = `
+            <div class="card-header">
+                <span class="subject-tag">${h.subject}</span>
+                <span class="due-date">📅 ${h.due}</span>
+            </div>
+            <h3>${h.title}</h3>
+            <p>${h.desc.substring(0, 100)}${h.desc.length > 100 ? '...' : ''}</p>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// Load Notes
+function loadNotes() {
+    const notes = JSON.parse(localStorage.getItem('notes') || '[]')
+        .filter(n => n.class == currentUser.class || n.class === "All");
+    const grid = document.getElementById('notesGrid');
+    grid.innerHTML = notes.length ? '' : '<div class="empty-state">No notes available.</div>';
+    notes.forEach(n => {
+        const card = document.createElement('div');
+        card.className = 'content-card';
+        card.innerHTML = `
+            <div class="card-header">
+                <span class="subject-tag">${n.subject}</span>
+            </div>
+            <h3>${n.title}</h3>
+            <p>${n.content.substring(0, 120)}...</p>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// Load Timetable
+function loadTimetable() {
+    const tt = JSON.parse(localStorage.getItem('timetables') || '{}')[currentUser.class] || [];
+    const container = document.getElementById('timetableDisplay');
+    if (tt.length === 0) {
+        container.innerHTML = '<p class="empty-state">No timetable set.</p>';
+        return;
+    }
+    container.innerHTML = '<table>';
+    tt.forEach((subj, i) => {
+        if (subj) container.innerHTML += `<tr><td>Period ${i+1}</td><td>${subj}</td></tr>`;
+    });
+    container.innerHTML += '</table>';
+}
+
+// Load Results
+function loadResults() {
+    const results = JSON.parse(localStorage.getItem('results') || '{}')[currentUser.class] || {};
+    const container = document.getElementById('resultsDisplay');
+    if (Object.keys(results).length === 0) {
+        container.innerHTML = '<p class="empty-state">Results not published yet.</p>';
+        return;
+    }
+    container.innerHTML = '<table>';
+    for (const [sub, marks] of Object.entries(results)) {
+        const grade = marks >= 90 ? 'A+' : marks >= 80 ? 'A' : marks >= 70 ? 'B' : marks >= 60 ? 'C' : 'F';
+        container.innerHTML += `<tr><td>${sub}</td><td>${marks}/100</td><td>Grade: ${grade}</td></tr>`;
+    }
+    container.innerHTML += '</table>';
+}
+
+// Modals
+function showFAQ() { document.getElementById('faqModal').style.display = 'flex'; }
+function showPrivacy() { document.getElementById('privacyModal').style.display = 'flex'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+// Initialize
+window.onload = () => {
+    showLoading();
+    setTimeout(() => {
+        loadUser();
+        loadHomework();
+        loadNotes();
+        loadTimetable();
+        loadResults();
+        hideLoading();
+    }, 1000);
+};
