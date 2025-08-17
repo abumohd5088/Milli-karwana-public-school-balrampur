@@ -3,62 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homework - Class <span class="current-class">1</span></title>
+    <title>Homework - <span id="studentNameDisplay">Student</span> - Class <span id="classDisplay">1</span></title>
     <link rel="stylesheet" href="css/ultra.css">
 </head>
 <body>
     <header class="app-header">
-        <button class="back-btn" onclick="goBack()">
-            <i class="fas fa-arrow-left"></i>
+        <button class="nav-btn" onclick="goToHome()">
+            <i class="fas fa-home"></i>
         </button>
-        <h1>Homework - <span class="current-class">1</span></h1>
-        <button class="close-btn" onclick="goHome()">
+        <div class="header-info">
+            <h1>Homework</h1>
+            <p><span id="studentNameDisplay">Student</span> • Class <span id="classDisplay">1</span></p>
+        </div>
+        <button class="nav-btn" onclick="goBack()">
             <i class="fas fa-times"></i>
         </button>
     </header>
 
     <div class="app-toolbar">
-        <div class="toolbar-item">
+        <div class="toolbar-section">
             <label>📅 Date:</label>
             <input type="date" id="dateFilter" class="date-input">
         </div>
-        <div class="toolbar-item">
+        <div class="toolbar-section">
             <label>📚 Subject:</label>
             <select id="subjectFilter" class="subject-select">
-                <option value="all">All Subjects</option>
+                <option value="all">All</option>
                 <option value="Math">Math</option>
                 <option value="English">English</option>
                 <option value="Science">Science</option>
                 <option value="Hindi">Hindi</option>
-                <option value="Social">Social Studies</option>
                 <option value="EVS">EVS</option>
+                <option value="Social">Social</option>
             </select>
         </div>
     </div>
 
     <main class="content-area">
-        <div id="homeworkList" class="content-list">
-            <!-- Dynamic homework -->
+        <div id="homeworkList" class="content-grid">
+            <!-- Dynamic content -->
         </div>
     </main>
 
-    <!-- Floating Admin Button (Hidden) -->
-    <button id="adminFab" class="fab" onclick="toggleAdmin()">
+    <!-- Hidden Admin FAB -->
+    <button id="adminFab" class="fab hidden" onclick="toggleAdminForm()">
         <i class="fas fa-plus"></i>
     </button>
 
-    <!-- Admin Form (Hidden) -->
+    <!-- Hidden Admin Form -->
     <div id="adminForm" class="admin-form hidden">
-        <div class="form-header">
-            <h3>Add Homework</h3>
-            <button onclick="closeAdminForm()" class="close-btn">×</button>
-        </div>
-        <input type="text" id="hwSubject" placeholder="Subject" required>
-        <textarea id="hwDescription" placeholder="Description" required></textarea>
-        <input type="date" id="hwDueDate" required>
-        <div class="form-actions">
-            <button onclick="saveHomework()" class="btn btn-primary">Save</button>
-            <button onclick="closeAdminForm()" class="btn btn-secondary">Cancel</button>
+        <div class="form-container">
+            <div class="form-header">
+                <h3>Add Homework</h3>
+                <button onclick="closeAdminForm()" class="close-btn">×</button>
+            </div>
+            <input type="text" id="hwSubject" placeholder="Subject" required>
+            <textarea id="hwDescription" placeholder="Description" required></textarea>
+            <input type="date" id="hwDueDate" required>
+            <div class="form-actions">
+                <button onclick="saveHomework()" class="btn btn-primary">Save</button>
+                <button onclick="closeAdminForm()" class="btn btn-secondary">Cancel</button>
+            </div>
         </div>
     </div>
 
