@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes - Class <span class="current-class">1</span></title>
+    <title>Notes - <span id="studentNameDisplay">Student</span> - Class <span id="classDisplay">1</span></title>
     <link rel="stylesheet" href="css/ultra.css">
 </head>
 <body>
     <header class="app-header">
-        <button class="back-btn" onclick="goBack()">
-            <i class="fas fa-arrow-left"></i>
+        <button class="nav-btn" onclick="goToHome()">
+            <i class="fas fa-home"></i>
         </button>
-        <h1>Notes - <span class="current-class">1</span></h1>
-        <button class="close-btn" onclick="goHome()">
+        <div class="header-info">
+            <h1>Notes</h1>
+            <p><span id="studentNameDisplay">Student</span> • Class <span id="classDisplay">1</span></p>
+        </div>
+        <button class="nav-btn" onclick="goBack()">
             <i class="fas fa-times"></i>
         </button>
     </header>
@@ -22,25 +25,28 @@
         <button class="tab-btn" data-subject="English">English</button>
         <button class="tab-btn" data-subject="Science">Science</button>
         <button class="tab-btn" data-subject="Hindi">Hindi</button>
+        <button class="tab-btn" data-subject="EVS">EVS</button>
     </div>
 
     <main class="content-area">
-        <div id="notesList" class="content-list">
+        <div id="notesList" class="content-grid">
             <!-- Dynamic notes -->
         </div>
     </main>
 
-    <!-- Admin Form (Hidden) -->
+    <!-- Hidden Admin Form -->
     <div id="adminForm" class="admin-form hidden">
-        <div class="form-header">
-            <h3>Add Notes</h3>
-            <button onclick="closeAdminForm()" class="close-btn">×</button>
-        </div>
-        <input type="text" id="noteTitle" placeholder="Title" required>
-        <textarea id="noteContent" placeholder="Content" required></textarea>
-        <div class="form-actions">
-            <button onclick="saveNotes()" class="btn btn-primary">Save</button>
-            <button onclick="closeAdminForm()" class="btn btn-secondary">Cancel</button>
+        <div class="form-container">
+            <div class="form-header">
+                <h3>Add Notes</h3>
+                <button onclick="closeAdminForm()" class="close-btn">×</button>
+            </div>
+            <input type="text" id="noteTitle" placeholder="Title" required>
+            <textarea id="noteContent" placeholder="Content" required></textarea>
+            <div class="form-actions">
+                <button onclick="saveNotes()" class="btn btn-primary">Save</button>
+                <button onclick="closeAdminForm()" class="btn btn-secondary">Cancel</button>
+            </div>
         </div>
     </div>
 
