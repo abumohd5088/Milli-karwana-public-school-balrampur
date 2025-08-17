@@ -3,36 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Admin - Springfield India #1</title>
+    <title>Admin Panel - Springfield India</title>
     <link rel="stylesheet" href="css/ultra-pro.css">
     <link rel="icon" href="images/favicon.ico">
     <meta name="theme-color" content="#667eea">
 </head>
 <body>
     <!-- Admin Login -->
-    <div class="admin-login" id="adminLogin">
+    <div class="admin-login-screen" id="adminLoginScreen">
         <div class="login-form">
             <h1>🔐 Admin Access</h1>
-            <p class="subtitle">Springfield India School System</p>
-            <form id="adminLoginForm" novalidate>
+            <p class="subtitle">Springfield India School Management</p>
+            <form id="adminLoginForm">
                 <div class="input-group">
                     <label for="adminPassword">Enter Password</label>
-                    <input type="password" id="adminPassword" required 
-                           placeholder="Password: Abutalha">
-                    <span class="input-icon">🔒</span>
+                    <div class="input-wrapper">
+                        <input type="password" id="adminPassword" placeholder="Password: Abutalha" required>
+                        <span class="input-icon">🔒</span>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary">
-                    <span>Access Admin Panel</span>
+                    <span>Access Dashboard</span>
                 </button>
             </form>
             <button class="back-btn" onclick="window.location.href='index.html'">
-                ← Back to Login
+                ← Back to Student Login
             </button>
         </div>
     </div>
 
     <!-- Admin Dashboard -->
     <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <!-- Header -->
         <header class="admin-header">
             <h1>📊 Admin Dashboard</h1>
             <button class="logout-btn" onclick="logoutAdmin()">
@@ -40,54 +42,67 @@
             </button>
         </header>
 
-        <!-- Statistics Cards -->
-        <div class="stats-row">
+        <!-- Stats Overview -->
+        <div class="stats-overview">
             <div class="stat-card">
                 <div class="stat-icon">👥</div>
                 <div class="stat-info">
-                    <h3 id="totalStudents">0</h3>
-                    <p>Students</p>
+                    <div class="stat-number" id="totalStudents">0</div>
+                    <div class="stat-label">Students</div>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">📝</div>
                 <div class="stat-info">
-                    <h3 id="totalHomework">0</h3>
-                    <p>Homework</p>
+                    <div class="stat-number" id="totalHomework">0</div>
+                    <div class="stat-label">Homework</div>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">📖</div>
                 <div class="stat-info">
-                    <h3 id="totalNotes">0</h3>
-                    <p>Notes</p>
+                    <div class="stat-number" id="totalNotes">0</div>
+                    <div class="stat-label">Notes</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalResults">0</div>
+                    <div class="stat-label">Results</div>
                 </div>
             </div>
         </div>
 
         <!-- Admin Navigation -->
-        <nav class="admin-tabs">
-            <button class="admin-tab active" data-tab="manage-homework">
-                <span>📝</span> Manage Homework
+        <nav class="admin-nav">
+            <button class="admin-nav-item active" data-tab="homework">
+                <span>📝</span>
+                <span>Homework</span>
             </button>
-            <button class="admin-tab" data-tab="manage-notes">
-                <span>📖</span> Manage Notes
+            <button class="admin-nav-item" data-tab="notes">
+                <span>📖</span>
+                <span>Notes</span>
             </button>
-            <button class="admin-tab" data-tab="manage-timetable">
-                <span>⏰</span> Manage Timetable
+            <button class="admin-nav-item" data-tab="timetable">
+                <span>⏰</span>
+                <span>Timetable</span>
             </button>
-            <button class="admin-tab" data-tab="manage-results">
-                <span>📊</span> Manage Results
+            <button class="admin-nav-item" data-tab="results">
+                <span>📊</span>
+                <span>Results</span>
             </button>
         </nav>
 
         <!-- Admin Content -->
-        <main class="admin-content">
+        <main class="admin-main">
             <!-- Manage Homework -->
-            <section class="admin-section active" id="manage-homework">
-                <div class="form-card">
-                    <h3>➕ Add New Homework</h3>
-                    <form id="addHomeworkForm" novalidate>
+            <section class="admin-tab active" id="admin-homework">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>➕ Add New Homework</h2>
+                    </div>
+                    <form class="admin-form" id="addHomeworkForm">
                         <div class="form-row">
                             <select id="hwClass" required>
                                 <option value="">📚 Select Class</option>
@@ -107,26 +122,25 @@
                                 <option value="Sanskrit">📿 Sanskrit</option>
                             </select>
                         </div>
-                        <textarea id="hwDescription" required 
-                                  placeholder="✍️ Enter homework description..."></textarea>
+                        <textarea id="hwDescription" placeholder="✍️ Enter homework description..." required></textarea>
                         <input type="date" id="hwDueDate" required>
-                        <button type="submit" class="btn-primary">
-                            <span>📤 Add Homework</span>
-                        </button>
+                        <button type="submit" class="btn-primary">📤 Add Homework</button>
                     </form>
-                </div>
 
-                <div class="manage-card">
-                    <h3>📋 All Homework</h3>
-                    <div id="homeworkList" class="manage-list"></div>
+                    <div class="section-header">
+                        <h2>📋 All Homework</h2>
+                    </div>
+                    <div class="data-table" id="homeworkTable"></div>
                 </div>
             </section>
 
             <!-- Manage Notes -->
-            <section class="admin-section" id="manage-notes">
-                <div class="form-card">
-                    <h3>➕ Add New Notes</h3>
-                    <form id="addNotesForm" novalidate>
+            <section class="admin-tab" id="admin-notes">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>➕ Add New Notes</h2>
+                    </div>
+                    <form class="admin-form" id="addNotesForm">
                         <div class="form-row">
                             <select id="notesClass" required>
                                 <option value="">📚 Select Class</option>
@@ -146,27 +160,25 @@
                                 <option value="Sanskrit">📿 Sanskrit</option>
                             </select>
                         </div>
-                        <input type="text" id="notesTitle" required 
-                               placeholder="📝 Note title...">
-                        <textarea id="notesContent" required 
-                                  placeholder="✍️ Note content..."></textarea>
-                        <button type="submit" class="btn-primary">
-                            <span>📤 Add Notes</span>
-                        </button>
+                        <input type="text" id="notesTitle" placeholder="📝 Note title..." required>
+                        <textarea id="notesContent" placeholder="✍️ Note content..." required></textarea>
+                        <button type="submit" class="btn-primary">📤 Add Notes</button>
                     </form>
-                </div>
 
-                <div class="manage-card">
-                    <h3>📋 All Notes</h3>
-                    <div id="notesList" class="manage-list"></div>
+                    <div class="section-header">
+                        <h2>📋 All Notes</h2>
+                    </div>
+                    <div class="data-table" id="notesTable"></div>
                 </div>
             </section>
 
             <!-- Manage Timetable -->
-            <section class="admin-section" id="manage-timetable">
-                <div class="form-card">
-                    <h3>🕐 Update Class Timetable</h3>
-                    <form id="timetableForm" novalidate>
+            <section class="admin-tab" id="admin-timetable">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>🕐 Update Class Timetable</h2>
+                    </div>
+                    <form class="admin-form" id="timetableForm">
                         <select id="ttClass" required>
                             <option value="">📚 Select Class</option>
                             ${Array.from({length: 12}, (_, i) => 
@@ -178,24 +190,23 @@
                             ${Array.from({length: 6}, (_, i) => `
                                 <div class="period-input">
                                     <label>Period ${i+1}</label>
-                                    <input type="text" id="period${i+1}" 
-                                           placeholder="Enter subject">
+                                    <input type="text" id="period${i+1}" placeholder="Enter subject">
                                 </div>
                             `).join('')}
                         </div>
                         
-                        <button type="submit" class="btn-primary">
-                            <span>💾 Save Timetable</span>
-                        </button>
+                        <button type="submit" class="btn-primary">💾 Save Timetable</button>
                     </form>
                 </div>
             </section>
 
             <!-- Manage Results -->
-            <section class="admin-section" id="manage-results">
-                <div class="form-card">
-                    <h3>📊 Add Student Results</h3>
-                    <form id="resultsForm" novalidate>
+            <section class="admin-tab" id="admin-results">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>📊 Add Student Results</h2>
+                    </div>
+                    <form class="admin-form" id="resultsForm">
                         <div class="form-row">
                             <select id="resultClass" required>
                                 <option value="">📚 Select Class</option>
@@ -203,42 +214,348 @@
                                     `<option value="${i+1}">Class ${i+1}</option>`
                                 ).join('')}
                             </select>
-                            <input type="text" id="studentName" required 
-                                   placeholder="👤 Student Name">
+                            <input type="text" id="resultStudent" placeholder="👤 Student Name" required>
                         </div>
                         
                         <div class="marks-grid">
                             <div class="mark-input">
                                 <label>📐 Math</label>
-                                <input type="number" min="0" max="100" id="mathMarks" 
-                                       placeholder="0-100">
+                                <input type="number" min="0" max="100" id="mathMarks" placeholder="0-100">
                             </div>
                             <div class="mark-input">
                                 <label>📚 English</label>
-                                <input type="number" min="0" max="100" id="englishMarks" 
-                                       placeholder="0-100">
+                                <input type="number" min="0" max="100" id="englishMarks" placeholder="0-100">
                             </div>
                             <div class="mark-input">
                                 <label>🔬 Science</label>
-                                <input type="number" min="0" max="100" id="scienceMarks" 
-                                       placeholder="0-100">
+                                <input type="number" min="0" max="100" id="scienceMarks" placeholder="0-100">
                             </div>
                             <div class="mark-input">
                                 <label>🕉️ Hindi</label>
-                                <input type="number" min="0" max="100" id="hindiMarks" 
-                                       placeholder="0-100">
+                                <input type="number" min="0" max="100" id="hindiMarks" placeholder="0-100">
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn-primary">
-                            <span>💾 Save Results</span>
-                        </button>
+                        <button type="submit" class="btn-primary">💾 Save Results</button>
                     </form>
+
+                    <div class="section-header">
+                        <h2>📋 All Results</h2>
+                    </div>
+                    <div class="data-table" id="resultsTable"></div>
                 </div>
             </section>
         </main>
     </div>
 
-    <script src="js/ultra-pro.js"></script>
+    <script>
+        // Professional Admin System
+        class ProfessionalAdmin {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupLogin();
+                this.setupNavigation();
+                this.setupForms();
+                this.loadAllData();
+            }
+
+            setupLogin() {
+                const loginForm = document.getElementById('adminLoginForm');
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const password = document.getElementById('adminPassword').value;
+                    
+                    if (password === 'Abutalha') {
+                        document.getElementById('adminLoginScreen').style.display = 'none';
+                        document.getElementById('adminDashboard').style.display = 'block';
+                        this.loadAllData();
+                    } else {
+                        alert('❌ Invalid password');
+                    }
+                });
+            }
+
+            setupNavigation() {
+                const navItems = document.querySelectorAll('.admin-nav-item');
+                const tabs = document.querySelectorAll('.admin-tab');
+
+                navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const tab = item.dataset.tab;
+                        
+                        navItems.forEach(i => i.classList.remove('active'));
+                        tabs.forEach(t => t.classList.remove('active'));
+                        
+                        item.classList.add('active');
+                        document.getElementById(`admin-${tab}`).classList.add('active');
+                        
+                        this.loadDataForTab(tab);
+                    });
+                });
+            }
+
+            setupForms() {
+                // Homework form
+                document.getElementById('addHomeworkForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addHomework();
+                });
+
+                // Notes form
+                document.getElementById('addNotesForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addNotes();
+                });
+
+                // Timetable form
+                document.getElementById('timetableForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.updateTimetable();
+                });
+
+                // Results form
+                document.getElementById('resultsForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addResult();
+                });
+            }
+
+            loadAllData() {
+                this.loadStats();
+                this.loadDataForTab('homework');
+                this.loadDataForTab('notes');
+                this.loadDataForTab('timetable');
+                this.loadDataForTab('results');
+            }
+
+            loadStats() {
+                const homework = JSON.parse(localStorage.getItem('homework')) || [];
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                const timetables = JSON.parse(localStorage.getItem('timetables')) || [];
+                const results = JSON.parse(localStorage.getItem('results')) || [];
+
+                document.getElementById('totalStudents').textContent = results.length || 1;
+                document.getElementById('totalHomework').textContent = homework.length;
+                document.getElementById('totalNotes').textContent = notes.length;
+                document.getElementById('totalResults').textContent = results.length;
+            }
+
+            loadDataForTab(tab) {
+                switch(tab) {
+                    case 'homework':
+                        this.loadHomeworkTable();
+                        break;
+                    case 'notes':
+                        this.loadNotesTable();
+                        break;
+                    case 'results':
+                        this.loadResultsTable();
+                        break;
+                }
+            }
+
+            addHomework() {
+                const homework = {
+                    id: Date.now().toString(36),
+                    class: document.getElementById('hwClass').value,
+                    subject: document.getElementById('hwSubject').value,
+                    description: document.getElementById('hwDescription').value,
+                    dueDate: document.getElementById('hwDueDate').value,
+                    createdAt: new Date().toISOString()
+                };
+
+                const homeworkList = JSON.parse(localStorage.getItem('homework')) || [];
+                homeworkList.push(homework);
+                localStorage.setItem('homework', JSON.stringify(homeworkList));
+
+                document.getElementById('addHomeworkForm').reset();
+                this.loadHomeworkTable();
+                this.loadStats();
+                alert('✅ Homework added successfully!');
+            }
+
+            loadHomeworkTable() {
+                const homework = JSON.parse(localStorage.getItem('homework')) || [];
+                const table = document.getElementById('homeworkTable');
+                
+                if (homework.length === 0) {
+                    table.innerHTML = '<div class="empty-message">No homework added yet</div>';
+                    return;
+                }
+
+                table.innerHTML = `
+                    <div class="table-header">
+                        <span>Class</span>
+                        <span>Subject</span>
+                        <span>Due Date</span>
+                        <span>Actions</span>
+                    </div>
+                    ${homework.map(hw => `
+                        <div class="table-row">
+                            <span>Class ${hw.class}</span>
+                            <span>${hw.subject}</span>
+                            <span>${new Date(hw.dueDate).toLocaleDateString()}</span>
+                            <div class="table-actions">
+                                <button onclick="deleteItem('homework', '${hw.id}')">🗑️</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            }
+
+            addNotes() {
+                const note = {
+                    id: Date.now().toString(36),
+                    class: document.getElementById('notesClass').value,
+                    subject: document.getElementById('notesSubject').value,
+                    title: document.getElementById('notesTitle').value,
+                    content: document.getElementById('notesContent').value,
+                    createdAt: new Date().toISOString()
+                };
+
+                const notesList = JSON.parse(localStorage.getItem('notes')) || [];
+                notesList.push(note);
+                localStorage.setItem('notes', JSON.stringify(notesList));
+
+                document.getElementById('addNotesForm').reset();
+                this.loadNotesTable();
+                this.loadStats();
+                alert('✅ Notes added successfully!');
+            }
+
+            loadNotesTable() {
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                const table = document.getElementById('notesTable');
+                
+                if (notes.length === 0) {
+                    table.innerHTML = '<div class="empty-message">No notes added yet</div>';
+                    return;
+                }
+
+                table.innerHTML = `
+                    <div class="table-header">
+                        <span>Class</span>
+                        <span>Subject</span>
+                        <span>Title</span>
+                        <span>Actions</span>
+                    </div>
+                    ${notes.map(note => `
+                        <div class="table-row">
+                            <span>Class ${note.class}</span>
+                            <span>${note.subject}</span>
+                            <span>${note.title}</span>
+                            <div class="table-actions">
+                                <button onclick="deleteItem('notes', '${note.id}')">🗑️</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            }
+
+            updateTimetable() {
+                const classNum = document.getElementById('ttClass').value;
+                const timetable = {
+                    class: classNum,
+                    period1: document.getElementById('period1').value || 'Free',
+                    period2: document.getElementById('period2').value || 'Free',
+                    period3: document.getElementById('period3').value || 'Free',
+                    period4: document.getElementById('period4').value || 'Free',
+                    period5: document.getElementById('period5').value || 'Free',
+                    period6: document.getElementById('period6').value || 'Free',
+                    updatedAt: new Date().toISOString()
+                };
+
+                const timetables = JSON.parse(localStorage.getItem('timetables')) || [];
+                const existingIndex = timetables.findIndex(t => t.class === classNum);
+                
+                if (existingIndex >= 0) {
+                    timetables[existingIndex] = timetable;
+                } else {
+                    timetables.push(timetable);
+                }
+                
+                localStorage.setItem('timetables', JSON.stringify(timetables));
+                alert('✅ Timetable updated successfully!');
+            }
+
+            addResult() {
+                const result = {
+                    id: Date.now().toString(36),
+                    class: document.getElementById('resultClass').value,
+                    studentName: document.getElementById('resultStudent').value,
+                    math: parseInt(document.getElementById('mathMarks').value) || 0,
+                    english: parseInt(document.getElementById('englishMarks').value) || 0,
+                    science: parseInt(document.getElementById('scienceMarks').value) || 0,
+                    hindi: parseInt(document.getElementById('hindiMarks').value) || 0,
+                    createdAt: new Date().toISOString()
+                };
+
+                const results = JSON.parse(localStorage.getItem('results')) || [];
+                results.push(result);
+                localStorage.setItem('results', JSON.stringify(results));
+
+                document.getElementById('resultsForm').reset();
+                this.loadResultsTable();
+                this.loadStats();
+                alert('✅ Results saved successfully!');
+            }
+
+            loadResultsTable() {
+                const results = JSON.parse(localStorage.getItem('results')) || [];
+                const table = document.getElementById('resultsTable');
+                
+                if (results.length === 0) {
+                    table.innerHTML = '<div class="empty-message">No results added yet</div>';
+                    return;
+                }
+
+                table.innerHTML = `
+                    <div class="table-header">
+                        <span>Class</span>
+                        <span>Student</span>
+                        <span>Total</span>
+                        <span>Actions</span>
+                    </div>
+                    ${results.map(result => {
+                        const total = result.math + result.english + result.science + result.hindi;
+                        return `
+                            <div class="table-row">
+                                <span>Class ${result.class}</span>
+                                <span>${result.studentName}</span>
+                                <span>${total}/400</span>
+                                <div class="table-actions">
+                                    <button onclick="deleteItem('results', '${result.id}')">🗑️</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            }
+        }
+
+        // Global functions
+        function deleteItem(type, id) {
+            if (confirm(`Delete this ${type}?`)) {
+                const items = JSON.parse(localStorage.getItem(type)) || [];
+                const filtered = items.filter(item => item.id !== id);
+                localStorage.setItem(type, JSON.stringify(filtered));
+                
+                new ProfessionalAdmin().loadDataForTab(type);
+                new ProfessionalAdmin().loadStats();
+            }
+        }
+
+        function logoutAdmin() {
+            if (confirm('Logout from admin panel?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize admin
+        new ProfessionalAdmin();
+    </script>
 </body>
 </html>
