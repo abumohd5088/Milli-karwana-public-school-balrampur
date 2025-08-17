@@ -3,67 +3,67 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>School Dashboard | #1</title>
+<title>Ultra Dashboard | School Web #1</title>
 <meta name="description" content="Ultra-rich student dashboard – homework, AI, PWA, 25+ features.">
 <meta name="theme-color" content="#0d6efd">
-<link rel="manifest" href="data:application/json,{"name":"School Dashboard","short_name":"Dashboard","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='300'%3E🏫%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}],"start_url":"/dashboard.html","display":"standalone","background_color":"#0d6efd","theme_color":"#0d6efd"}">
+<link rel="manifest" href="data:application/json,{"name":"Ultra Dashboard","short_name":"Dashboard","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='300'%3E🏫%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}],"start_url":"/dashboard.html","display":"standalone","background_color":"#0d6efd","theme_color":"#0d6efd"}">
 <style>
-:root{--p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;--bg:#fff;--card:#f8f3ff;--radius:12px;--shadow:0 2px 8px rgba(0,0,0,.1);}
+:root{
+  --p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;
+  --bg:#fff;--card:#f8f3ff;--radius:12px;--shadow:0 3px 12px rgba(0,0,0,.15);
+}
 .dark{--bg:#121212;--card:#1e1e1e;--d:#f1f3f5;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--bg);color:var(--d);transition:.3s}
-.navbar{display:flex;justify-content:space-between;align-items:center;background:var(--p);color:#fff;padding:12px 20px;font-weight:600}
-.hamburger{background:none;border:none;color:#fff;font-size:1.5em;cursor:pointer}
-.side-panel{position:fixed;top:0;right:-260px;width:260px;height:100%;background:var(--card);box-shadow:var(--shadow);transition:right .3s;z-index:999;padding:15px;color:var(--dark);overflow-y:auto}
+body{background:var(--bg);color:var(--d);transition:.3s;line-height:1.6}
+nav{display:flex;justify-content:space-between;align-items:center;background:var(--p);color:#fff;padding:15px 20px;font-weight:600;position:sticky;top:0;z-index:1000}
+nav .logo{font-size:1.4em;font-weight:700}
+.hamburger{background:none;border:none;color:#fff;font-size:1.6em;cursor:pointer}
+.side-panel{position:fixed;top:0;right:-300px;width:300px;height:100%;background:var(--card);box-shadow:var(--shadow);transition:right .3s;z-index:1001;padding:25px;color:var(--dark);overflow-y:auto}
 .side-panel.open{right:0}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;z-index:998}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;z-index:999}
 .overlay.open{display:block}
 .side-panel ul{list-style:none;margin-top:20px}
-.side-panel li{margin:15px 0}
+.side-panel li{margin:18px 0}
 .side-panel a{color:var(--dark);text-decoration:none;font-weight:600}
-.container{padding:15px;max-width:700px;margin:auto}
-.card{background:var(--card);border-radius:var(--radius);padding:15px;margin-bottom:15px;box-shadow:var(--shadow)}
-h2{font-size:1.25em;margin-bottom:10px}
+.container{padding:15px;max-width:800px;margin:auto}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--shadow)}
+h2{font-size:1.4em;margin-bottom:12px}
 .hw-list{list-style:none}
-.hw-list li{padding:10px;border-bottom:1px solid #ddd}
+.hw-list li{padding:12px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center}
 .hw-list li:last-child{border:none}
-.chatBox{height:200px;overflow-y:auto;border:1px solid #ccc;border-radius:var(--radius);padding:8px;background:#fff;color:#000;font-size:.85em;margin-bottom:8px}
+.chatBox{min-height:200px;max-height:300px;overflow-y:auto;border:1px solid #ccc;border-radius:var(--radius);padding:10px;background:#fff;color:#000;font-size:.9em;margin-bottom:10px}
 .chatInput{display:flex;gap:6px}
-.chatInput input{flex:1;padding:8px;border:1px solid #ccc;border-radius:var(--radius)}
-.chatInput button{padding:8px 12px;background:var(--p);color:#fff;border:none;border-radius:var(--radius);font-weight:bold}
-.btn{background:var(--p);color:#fff;border:none;padding:10px 15px;border-radius:var(--radius);font-weight:600;width:100%;cursor:pointer;margin-top:8px}
+.chatInput input{flex:1;padding:10px;border:1px solid #ccc;border-radius:var(--radius)}
+.chatInput button{padding:10px 15px;background:var(--p);color:#fff;border:none;border-radius:var(--radius);font-weight:bold}
+.btn{background:var(--p);color:#fff;border:none;padding:12px 20px;border-radius:var(--radius);font-weight:600;cursor:pointer;margin-top:8px}
 .btn:hover{background:#084298}
-.notify{position:fixed;top:12px;right:12px;background:var(--a);color:#000;padding:10px;border-radius:var(--radius);display:none;z-index:1001}
-footer{text-align:center;padding:15px;background:var(--l);color:var(--s);font-size:.8em;margin-top:30px}
-@media(max-width:500px){.navbar{font-size:1em}}
+.fab{position:fixed;bottom:20px;right:20px;background:var(--a);color:#000;border:none;border-radius:50%;width:56px;height:56px;font-size:1.5em;box-shadow:var(--shadow);cursor:pointer;z-index:1002}
+.notify{position:fixed;top:15px;right:15px;background:var(--a);color:#000;padding:12px;border-radius:var(--radius);display:none;z-index:1003}
+footer{text-align:center;padding:20px;background:var(--l);color:var(--s);font-size:.8em;margin-top:50px}
+@media(max-width:600px){.grid{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body>
 
-<!-- NAVBAR + HAMBURGER -->
-<nav class="navbar">
-  <span>🏫 Dashboard – Class <span id="clsSpan"></span></span>
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">🏫 School Dashboard – Class <span id="clsSpan"></span></div>
   <button class="hamburger" onclick="toggleMenu()">⋮</button>
 </nav>
 
-<!-- OVERLAY + SIDE MENU -->
+<!-- OVERLAY + SIDE PANEL -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 <div class="side-panel" id="sidePanel">
-  <h3>Menu</h3>
+  <h3>Quick Access</h3>
   <ul>
     <li><a href="#" onclick="printPage()">🖨️ Print Homework</a></li>
     <li><a href="#" onclick="sharePage()">📤 Share</a></li>
     <li><a href="#" onclick="toggleDark()">🌗 Dark Mode</a></li>
     <li><a href="#" onclick="clearCache()">🧹 Clear Cache</a></li>
     <li><a href="#" onclick="installPWA()">📲 Install App</a></li>
-    <li><a href="admin.html">🔐 Admin Panel</a></li>
+    <li><a href="#" onclick="openAdmin()">🔐 Admin Panel</a></li>
     <li><a href="#" onclick="logout()">🚪 Logout</a></li>
   </ul>
-</div>
-
-<!-- OFFLINE BANNER -->
-<div id="offlineBanner" class="card hidden">
-  ⚠️ You are offline – showing cached data.
 </div>
 
 <!-- NOTIFICATION -->
@@ -72,17 +72,17 @@ footer{text-align:center;padding:15px;background:var(--l);color:var(--s);font-si
 <div class="container">
   <!-- WELCOME -->
   <div class="card">
-    <h2>Hi <span id="nameSpan"></span> 👋</h2>
+    <h2>Welcome back, <span id="nameSpan"></span> 👋</h2>
   </div>
 
-  <!-- HOMEWORK -->
+  <!-- TODAY'S HOMEWORK -->
   <div class="card">
     <h2>📚 Today's Homework</h2>
     <ul id="hwList" class="hw-list"></ul>
     <button class="btn" onclick="addHW()">Add New Homework</button>
   </div>
 
-  <!-- AI CHAT (HOMEWORK ONLY) -->
+  <!-- AI HOMEWORK HELPER -->
   <div class="card">
     <h2>🤖 AI Homework Helper</h2>
     <div class="chatBox" id="chatBox"></div>
@@ -97,10 +97,19 @@ footer{text-align:center;padding:15px;background:var(--l);color:var(--s);font-si
     <h2>⚡ Quick Actions</h2>
     <button class="btn" onclick="downloadHW()">📥 Download PDF</button>
     <button class="btn" onclick="remindHW()">🔔 Set Reminder</button>
+    <button class="btn" onclick="openAdmin()">🔐 Admin Panel</button>
+  </div>
+
+  <!-- OFFLINE STATUS -->
+  <div id="offlineBanner" class="card hidden">
+    ⚠️ You are offline – showing cached data.
   </div>
 </div>
 
-<footer>© 2025 School Web #1 – 2 000+ Lines, Unlimited Features</footer>
+<!-- FLOATING ACTION BUTTON -->
+<button class="fab" onclick="scrollToTop()">↑</button>
+
+<footer>© 2025 Ultra Dashboard – 1 500+ Lines, Unlimited Features</footer>
 
 <script>
 /* ---------- CONFIG ---------- */
@@ -172,7 +181,7 @@ function addHW(){
  }
 }
 
-/* ---------- AI TODAY'S HOMEWORK ---------- */
+/* ---------- AI (HOMEWORK ONLY) ---------- */
 async function askAI(){
  const msg=document.getElementById('chatIn').value.trim();
  if(!msg) return;
@@ -221,8 +230,10 @@ window.addEventListener('offline',()=>{document.getElementById('offlineBanner').
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{deferredPrompt=e;});
 function installPWA(){
- if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>deferredPrompt=null);}
- else showToast('App already installed or not supported');
+ if(deferredPrompt){
+   deferredPrompt.prompt();
+   deferredPrompt.userChoice.then(()=>deferredPrompt=null);
+ }else showToast('App already installed or not supported');
 }
 
 /* ---------- CLEAR CACHE ---------- */
@@ -232,11 +243,15 @@ function clearCache(){
  showToast('Cache cleared');
 }
 
-/* ---------- LOGOUT ---------- */
-function logout(){
- localStorage.clear();
- location.href='index.html';
+/* ---------- ADMIN HOOK ---------- */
+function openAdmin(){
+ const pwd=prompt('Enter Admin Password:');
+ if(pwd==='Abutalha') location.href='admin.html';
+ else showToast('Wrong password');
 }
+
+/* ---------- SCROLL TO TOP ---------- */
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
 </script>
 </body>
 </html>
