@@ -5,14 +5,15 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #f8fafc;
     color: #1e293b;
+    line-height: 1.5;
 }
 
 .login-page {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,12 +36,11 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    font-weight: bold;
 }
 
 .login-container h1 {
     color: white;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .login-form {
@@ -72,10 +72,43 @@ input, select {
     transform: scale(0.95);
 }
 
-.admin-secret {
+.admin-link {
+    color: white;
+    font-size: 0.875rem;
     margin-top: 1rem;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .app-header {
@@ -85,12 +118,6 @@ input, select {
     align-items: center;
     gap: 1rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-}
-
-.header-info {
-    flex: 1;
 }
 
 .nav-btn {
@@ -100,17 +127,14 @@ input, select {
     cursor: pointer;
     width: 44px;
     height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .feature-tabs {
     display: flex;
     gap: 0.5rem;
     padding: 1rem;
-    background: white;
     overflow-x: auto;
+    background: white;
 }
 
 .tab-btn {
@@ -118,7 +142,6 @@ input, select {
     border: none;
     background: #f1f5f9;
     border-radius: 20px;
-    font-size: 0.9rem;
     cursor: pointer;
     white-space: nowrap;
 }
@@ -130,6 +153,7 @@ input, select {
 
 .tab-content {
     display: none;
+    padding: 1rem;
 }
 
 .tab-content.active {
@@ -139,19 +163,14 @@ input, select {
 .toolbar {
     padding: 1rem;
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
 .date-input, .subject-select {
-    padding: 0.75rem;
+    padding: 0.5rem;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    font-size: 0.9rem;
-}
-
-.content-area {
-    padding: 1rem;
 }
 
 .item-list {
@@ -166,144 +185,31 @@ input, select {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
-}
-
-.item-title {
-    font-weight: 600;
+.item-card h3 {
     color: #2563eb;
-}
-
-.item-content {
     margin-bottom: 0.5rem;
 }
 
-.item-footer {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.timetable-grid {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.timetable-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 80px;
-    gap: 1rem;
+.admin-grid {
     padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-    align-items: center;
-}
-
-.timetable-row:last-child {
-    border-bottom: none;
-}
-
-.timetable-time {
-    background: #f1f5f9;
-    padding: 0.5rem;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.results-grid {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.results-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 1rem;
-    padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-    align-items: center;
+    gap: 2rem;
+}
+
+.admin-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.admin-section h3 {
+    margin-bottom: 1rem;
+    color: #2563eb;
 }
 
 .empty-state {
     text-align: center;
     padding: 3rem;
     color: #64748b;
-}
-
-.admin-controls {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 0.5rem;
-}
-
-.admin-btn {
-    padding: 0.75rem 1rem;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 0.875rem;
-    cursor: pointer;
-}
-
-.add-form {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.add-form.hidden {
-    display: none;
-}
-
-.form-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
-}
-
-.form-content input,
-.form-content textarea {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-}
-
-.delete-btn {
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    cursor: pointer;
-}
-
-@media (max-width: 480px) {
-    .timetable-row,
-    .results-row {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-    }
 }
