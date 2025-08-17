@@ -9,17 +9,18 @@
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
         body{background:var(--bg);color:var(--d);display:flex;align-items:center;justify-content:center;height:100vh;padding:20px;}
         .card{background:var(--card);border-radius:12px;padding:25px;width:100%;max-width:380px;box-shadow:0 4px 12px rgba(0,0,0,.1);}
-        h2{margin-bottom:15px;text-align:center}
+        h2{text-align:center;margin-bottom:15px;}
         input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;}
         button{width:100%;padding:12px;margin-top:8px;border:none;border-radius:8px;background:var(--p);color:#fff;font-weight:bold;cursor:pointer;}
         .hidden{display:none}
-        .chatBox{max-height:140px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;color:#000;margin-top:10px;font-size:.85em}
+        .aiBox{background:#e7f3ff;border:1px solid var(--p);border-radius:8px;padding:10px;margin-top:10px;font-size:.85em}
     </style>
 </head>
 <body>
     <div class="card">
         <h2>🏫 Student Login</h2>
-        <input type="text" id="name" placeholder="Your Name" required/>
+
+        <input type="text" id="name" placeholder="Student Name" required/>
         <select id="cls">
             <option value="">Select Class</option>
             <option value="1">Class 1</option><option value="2">Class 2</option><option value="3">Class 3</option>
@@ -27,60 +28,34 @@
             <option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option>
             <option value="10">Class 10</option><option value="11">Class 11</option><option value="12">Class 12</option>
         </select>
-        <button onclick="login()">Login</button>
+        <input type="text" id="parent" placeholder="Parent's Name" required/>
 
-        <!-- Help Section (hidden initially) -->
-        <div id="helpSection" class="hidden">
-            <hr style="margin:15px 0">
-            <p style="text-align:center;font-weight:bold">Need Help? Ask Class <span id="showCls"></span> AI:</p>
-            <div class="chatBox" id="chatBox"></div>
-            <input id="chatIn" placeholder="Type your question..."/>
-            <button onclick="askAI()">Ask AI</button>
+        <button onclick="showAIHelp()">🤖 AI Support – How to Login?</button>
+
+        <div id="aiHelp" class="aiBox hidden">
+            <b>Steps to Login:</b><br>
+            1. Enter your <b>Name</b><br>
+            2. Select your <b>Class</b><br>
+            3. Enter your <b>Parent's Name</b><br>
+            4. Click <b>Login</b> to go to dashboard
         </div>
 
-        <button id="nextBtn" class="hidden" onclick="goDashboard()">Next ➜ Dashboard</button>
+        <button onclick="login()">Login</button>
     </div>
 
 <script>
-const API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
+function showAIHelp(){
+    document.getElementById('aiHelp').classList.toggle('hidden');
+}
 function login(){
     const name = document.getElementById('name').value.trim();
     const cls  = document.getElementById('cls').value;
-    if(!name || !cls){ alert('Enter name & class'); return; }
+    const parent = document.getElementById('parent').value.trim();
+    if(!name || !cls || !parent){ alert('Please fill all fields'); return; }
     localStorage.setItem('name',name);
     localStorage.setItem('cls',cls);
-    document.getElementById('showCls').innerText = cls;
-    document.getElementById('helpSection').classList.remove('hidden');
-    document.getElementById('nextBtn').classList.remove('hidden');
-}
-
-async function askAI(){
-    const msg = document.getElementById('chatIn').value.trim();
-    if(!msg) return;
-    const cls = localStorage.getItem('cls');
-    const box = document.getElementById('chatBox');
-    box.innerHTML += `<div><b>You:</b> ${msg}</div>`;
-    document.getElementById('chatIn').value='';
-
-    try{
-        const res = await fetch(API_URL,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({contents:[{parts:[{text:`Class ${cls} student: ${msg}. Reply short & friendly.`}]}]})
-        });
-        const data = await res.json();
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No reply';
-        box.innerHTML += `<div><b>AI:</b> ${reply}</div>`;
-        box.scrollTop = box.scrollHeight;
-    }catch(e){
-        box.innerHTML += `<div><b>Error:</b> Check connection</div>`;
-    }
-}
-
-function goDashboard(){
-    location.href='dashboard.html';
+    localStorage.setItem('parent',parent);
+    location.href = 'dashboard.html';
 }
 </script>
 </body>
