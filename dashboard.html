@@ -3,310 +3,251 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0d6efd" />
-    <title>Student Dashboard | School Web #1</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>School Dashboard | LearnSmart</title>
+    <meta name="theme-color" content="#1d4ed8" />
+    <meta name="description" content="Student dashboard for homework, AI help, and school resources" />
+    <link rel="manifest" href="application/json;base64,eyJuYW1lIjoiU2Nob29sIERhc2hib2FyZCIsInNob3J0X25hbWUiOiJTY2hvb2wiLCJzdGFydF91cmwiOiJkYXNoYm9hcmQuaHRtbCIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxZDRlZDgiLCJ0aGVtZV9jb2xvciI6IiMxZDRlZDgifQ==" />
     <style>
         :root {
-            --p: #0d6efd;
-            --s: #6c757d;
-            --l: #f8f9fa;
-            --d: #212529;
-            --a: #ffc107;
-            --bg: #fff;
-            --card: #f1f3f5;
-            --shadow: 0 4px 12px rgba(0,0,0,0.1);
-            --border: #ddd;
-            --success: #198754;
-            --danger: #dc3545;
-            --warning: #fd7e14;
-            --info: #0dcaf0;
+            --primary: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-mono: 'Courier New', monospace;
         }
 
-        .dark-mode {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --d: #e0e0e0;
-            --border: #333;
-            --shadow: 0 4px 12px rgba(0,0,0,0.3);
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --dark: #f8fafc;
+            --light: #1e293b;
+            --gray: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: var(--font-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         body {
-            background: var(--bg);
-            color: var(--d);
+            background-color: var(--light);
+            color: var(--dark);
             min-height: 100vh;
             position: relative;
-            padding-bottom: 80px;
         }
 
+        /* Layout */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 1rem;
         }
 
+        /* Header */
         header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 15px 0;
-            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--p);
+            font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .logo i {
-            font-size: 1.8rem;
+            gap: 0.5rem;
         }
 
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
             font-size: 0.9rem;
+            text-align: right;
         }
 
-        .user-info .name {
+        .user-name {
             font-weight: 600;
         }
 
-        .user-info .class {
-            background: var(--p);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
+        .class-info {
+            opacity: 0.9;
+            font-size: 0.85rem;
         }
 
-        .main-content {
-            margin-bottom: 20px;
+        /* Main content */
+        main {
+            padding: 1.5rem 0;
         }
 
-        .welcome-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--light);
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            border-left: 4px solid var(--p);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
         }
 
-        .welcome-header {
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .welcome-title {
-            font-size: 1.3rem;
+        .card-title {
+            font-size: 1.25rem;
             font-weight: 600;
-            color: var(--d);
-        }
-
-        .date-info {
-            font-size: 0.85rem;
-            color: var(--s);
-        }
-
-        .homework-section {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--d);
+            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
         }
 
-        .section-title i {
-            color: var(--p);
-        }
-
+        /* Homework list */
         .homework-list {
             list-style: none;
         }
 
         .homework-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            background: var(--bg);
-            border-radius: 8px;
-            border-left: 3px solid var(--p);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background-color: rgba(59, 130, 246, 0.05);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
             display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            align-items: flex-start;
+            gap: 0.75rem;
         }
 
-        .homework-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .homework-emoji {
+        .hw-emoji {
             font-size: 1.5rem;
+            min-width: 24px;
         }
 
-        .homework-text {
+        .hw-content {
             flex: 1;
         }
 
-        .homework-subject {
+        .hw-subject {
             font-weight: 600;
-            margin-bottom: 3px;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
         }
 
-        .homework-desc {
-            font-size: 0.9rem;
-            color: var(--s);
-        }
-
-        .homework-due {
-            font-size: 0.8rem;
-            background: var(--info);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-
-        .ai-chat {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-        }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .chat-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chat-title i {
-            color: var(--success);
-        }
-
-        .status-indicator {
-            width: 10px;
-            height: 10px;
-            background: #28a745;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        .status-online {
-            background: #28a745;
-        }
-
-        .status-offline {
-            background: #dc3545;
-        }
-
-        .chat-messages {
-            height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .message {
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            border-radius: 18px;
-            max-width: 80%;
+        .hw-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
             line-height: 1.4;
-            font-size: 0.9rem;
         }
 
-        .message.user {
-            background: var(--p);
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
+        .hw-due {
+            font-size: 0.8rem;
+            color: var(--warning);
+            margin-top: 0.5rem;
+            font-weight: 500;
         }
 
-        .message.ai {
-            background: var(--bg);
-            color: var(--d);
+        /* AI Chat */
+        .ai-chat {
+            height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-right: 0.5rem;
+        }
+
+        .ai-message, .user-message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .ai-message {
             align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            align-items: flex-start;
         }
 
-        .message-container {
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            border: 1px solid var(--primary-light);
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 0.25rem;
+        }
+
+        /* Input area */
+        .chat-input-area {
             display: flex;
-            margin-bottom: 10px;
-        }
-
-        .message-container.user {
-            justify-content: flex-end;
-        }
-
-        .message-container.ai {
-            justify-content: flex-start;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
 
         .chat-input {
             flex: 1;
-            padding: 12px 15px;
+            padding: 0.75rem;
             border: 1px solid var(--border);
             border-radius: 8px;
             outline: none;
-            background: var(--bg);
-            color: var(--d);
+            background-color: var(--light);
+            color: var(--dark);
         }
 
         .chat-input:focus {
-            border-color: var(--p);
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         .send-btn {
-            padding: 0 20px;
-            background: var(--p);
+            padding: 0.75rem 1rem;
+            background-color: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
@@ -314,304 +255,142 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 50px;
         }
 
-        .send-btn i {
-            font-size: 1.2rem;
+        .send-btn:hover {
+            background-color: var(--primary-light);
         }
 
+        /* Menu */
         .menu-btn {
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--p);
+            color: white;
             cursor: pointer;
-            padding: 8px;
+            padding: 0.5rem;
         }
 
-        .menu {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 280px;
-            height: 100%;
-            background: var(--card);
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            transition: right 0.3s ease;
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 1rem;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 220px;
             z-index: 1000;
-            padding: 20px;
-            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
         }
 
-        .menu.open {
-            right: 0;
-        }
-
-        .menu-header {
-            display: flex;
-            align-items: center;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .menu-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--s);
-            cursor: pointer;
-            margin-left: auto;
-        }
-
-        .menu-list {
-            list-style: none;
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
         .menu-item {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
+            padding: 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: var(--d);
+            gap: 0.75rem;
             cursor: pointer;
-            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+            transition: background-color 0.2s ease;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
         }
 
         .menu-item:hover {
-            background: rgba(13, 110, 253, 0.1);
-            border-radius: 8px;
+            background-color: rgba(59, 130, 246, 0.05);
         }
 
-        .menu-item i {
+        .menu-icon {
+            color: var(--primary);
             font-size: 1.2rem;
-            color: var(--p);
+            min-width: 24px;
+            text-align: center;
         }
 
-        .menu-divider {
-            height: 1px;
-            background: var(--border);
-            margin: 15px 0;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
+        /* FAB */
         .fab {
             position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--p);
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background-color: var(--primary);
             color: white;
             border: none;
             border-radius: 50%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            cursor: pointer;
+            font-size: 1.5rem;
             z-index: 99;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.3s ease;
         }
 
-        .fab.show {
+        .fab.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .fab i {
-            font-size: 1.5rem;
+        .fab:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
         }
 
+        /* Offline banner */
         .offline-banner {
             position: fixed;
             top: -60px;
             left: 0;
-            width: 100%;
-            background: var(--danger);
+            right: 0;
+            background-color: var(--danger);
             color: white;
+            padding: 1rem;
             text-align: center;
-            padding: 10px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            z-index: 100;
+            font-weight: 600;
+            z-index: 1000;
             transition: top 0.3s ease;
-        }
-
-        .offline-banner.active {
-            top: 0;
-        }
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--card);
-            padding: 15px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 98;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        .footer-text {
-            font-size: 0.8rem;
-            color: var(--s);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn i {
-            font-size: 1.1rem;
-        }
-
-        .btn-primary {
-            background: var(--p);
-            color: white;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--p);
-            border: 1px solid var(--p);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1001;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            gap: 0.5rem;
         }
 
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
+        .offline-banner.show {
+            top: 0;
         }
 
-        .modal-content {
-            background: var(--card);
-            width: 90%;
-            max-width: 400px;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--s);
-            cursor: pointer;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--d);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg);
-            color: var(--d);
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--p);
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
-        }
-
-        .btn-block {
-            width: 100%;
-        }
-
+        /* Toast notifications */
         .toast {
             position: fixed;
-            top: 20px;
+            top: 80px;
             right: 20px;
-            background: var(--success);
+            background-color: var(--success);
             color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1002;
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
             transform: translateX(100%);
             transition: transform 0.3s ease;
-            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
         }
 
         .toast.show {
@@ -619,1247 +398,823 @@
         }
 
         .toast.danger {
-            background: var(--danger);
+            background-color: var(--danger);
         }
 
-        .toast.warning {
-            background: var(--warning);
+        /* PDF button */
+        .pdf-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #dc2626;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: background-color 0.2s ease;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
+        .pdf-btn:hover {
+            background-color: #b91c1c;
+        }
 
-            header {
-                padding: 10px;
-            }
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
 
-            .welcome-card, .homework-section, .ai-chat {
-                padding: 15px;
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer-link {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            .grid {
+                grid-template-columns: 1fr;
             }
 
             .homework-item {
-                padding: 12px;
+                flex-direction: column;
             }
 
-            .chat-messages {
-                height: 150px;
-            }
-
-            .fab {
-                width: 45px;
-                height: 45px;
-                right: 15px;
-                bottom: 85px;
-            }
-
-            footer {
-                padding: 12px 0;
-            }
-
-            .footer-content {
-                gap: 10px;
-            }
-
-            .action-buttons {
-                gap: 5px;
-            }
-
-            .btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-
-            .btn i {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 1.3rem;
-            }
-
-            .user-info {
-                display: none;
-            }
-
-            .welcome-title {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
-                font-size: 1rem;
-            }
-
-            .homework-item {
-                gap: 8px;
-            }
-
-            .homework-emoji {
-                font-size: 1.3rem;
-            }
-
-            .homework-desc {
-                font-size: 0.85rem;
-            }
-
-            .chat-title {
-                font-size: 1rem;
-            }
-
-            .message {
-                font-size: 0.85rem;
-                padding: 8px 12px;
-            }
-
-            .chat-input {
-                padding: 10px 12px;
-            }
-
-            .send-btn {
-                padding: 0 15px;
-            }
-
-            .menu {
-                width: 100%;
-            }
-
-            .fab {
-                width: 40px;
-                height: 40px;
-                right: 15px;
-                bottom: 80px;
-            }
-
-            .toast {
-                top: 15px;
-                right: 15px;
-                padding: 12px 15px;
-                font-size: 0.85rem;
+            .hw-emoji {
+                margin-bottom: 0.5rem;
             }
         }
 
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        .slide-up {
-            animation: slideUp 0.5s ease-out;
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
-        /* Icons using pseudo-elements */
-        .icon-home::before {
-            content: "🏠";
-        }
-        .icon-print::before {
-            content: "🖨️";
-        }
-        .icon-share::before {
-            content: "📤";
-        }
-        .icon-theme::before {
-            content: "🌓";
-        }
-        .icon-app::before {
-            content: "📱";
-        }
-        .icon-clear::before {
-            content: "🧹";
-        }
-        .icon-admin::before {
-            content: "🔐";
-        }
-        .icon-logout::before {
-            content: "🚪";
-        }
-        .icon-top::before {
-            content: "⬆️";
-        }
-        .icon-chat::before {
-            content: "💬";
-        }
-        .icon-homework::before {
-            content: "📚";
-        }
-        .icon-math::before {
-            content: "➗";
-        }
-        .icon-science::before {
-            content: "🔬";
-        }
-        .icon-english::before {
-            content: "📖";
-        }
-        .icon-history::before {
-            content: "🏛️";
-        }
-        .icon-art::before {
-            content: "🎨";
-        }
-        .icon-sports::before {
-            content: "⚽";
-        }
-        .icon-download::before {
-            content: "⬇️";
-        }
-        .icon-pdf::before {
-            content: "📄";
-        }
-        .icon-notification::before {
-            content: "🔔";
-        }
-        .icon-menu::before {
-            content: "☰";
-        }
-        .icon-send::before {
-            content: "➡️";
-        }
-        .icon-close::before {
-            content: "×";
-        }
-
-        /* Loading animation */
+        /* Loading */
         .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background-color: var(--gray);
             border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
+            animation: loading 1.4s infinite ease-in-out both;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes loading {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
         }
 
-        /* PDF Viewer */
-        .pdf-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1003;
-            flex-direction: column;
-        }
-
-        .pdf-container.active {
-            display: flex;
-        }
-
-        .pdf-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: #333;
-            color: white;
-        }
-
-        .pdf-title {
-            font-weight: 600;
-        }
-
-        .pdf-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .pdf-embed {
-            flex: 1;
-            border: none;
-        }
-
-        /* Notification permission modal */
-        .notif-permission {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            max-width: 300px;
-            display: none;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .notif-permission p {
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: var(--d);
-        }
-
-        .notif-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .notif-btn {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-
-        .notif-btn.yes {
-            background: var(--p);
-            color: white;
-        }
-
-        .notif-btn.no {
-            background: var(--border);
-            color: var(--d);
+        /* Print styles */
+        @media print {
+            header, .chat-input-area, .fab, .dropdown-menu, .offline-banner, footer, .menu-btn {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .container {
+                padding: 0;
+            }
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+            .homework-item {
+                border-left: 4px solid #1d4ed8 !important;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Offline Banner -->
     <div class="offline-banner" id="offlineBanner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         You are offline. Some features may not work.
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <span id="toastMessage">Notification</span>
+    </div>
+
     <!-- Header -->
-    <header>
+    <header id="header">
         <div class="logo">
-            <span>🏫</span>
-            <span>School Web</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+            LearnSmart
         </div>
-        <button class="menu-btn" id="menuBtn">
-            <span class="icon-menu"></span>
-        </button>
+        <div>
+            <button class="menu-btn" id="menuBtn">⋮</button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="menu-item" id="printItem">
+                    <span class="menu-icon">🖨️</span>
+                    <span>Print Dashboard</span>
+                </div>
+                <div class="menu-item" id="shareItem">
+                    <span class="menu-icon">📤</span>
+                    <span>Share</span>
+                </div>
+                <div class="menu-item" id="darkModeItem">
+                    <span class="menu-icon">🌙</span>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="menu-item" id="installItem">
+                    <span class="menu-icon">📲</span>
+                    <span>Install App</span>
+                </div>
+                <div class="menu-item" id="clearCacheItem">
+                    <span class="menu-icon">🗑️</span>
+                    <span>Clear Cache</span>
+                </div>
+                <div class="menu-item" id="adminItem">
+                    <span class="menu-icon">🔑</span>
+                    <span>Admin Panel</span>
+                </div>
+                <div class="menu-item" id="logoutItem">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Content -->
     <div class="container">
-        <div class="user-info">
-            <span class="name" id="userName">Student</span>
-            <span class="class" id="userClass">Class X</span>
-        </div>
-
-        <div class="main-content">
-            <!-- Welcome Card -->
-            <div class="welcome-card fade-in">
-                <div class="welcome-header">
-                    <h2 class="welcome-title">Good morning! 🌞</h2>
-                    <span class="date-info" id="currentDate">Loading...</span>
-                </div>
-                <p>Here's what you need to do today. Stay focused and keep up the great work! 💪</p>
-            </div>
-
-            <!-- Homework Section -->
-            <div class="homework-section slide-up">
-                <h3 class="section-title">
-                    <span class="icon-homework"></span>
-                    Today's Homework
-                </h3>
-                <ul class="homework-list" id="homeworkList">
-                    <!-- Homework items will be added here -->
-                </ul>
-            </div>
-
-            <!-- AI Chat Section -->
-            <div class="ai-chat slide-up">
-                <div class="chat-header">
-                    <h3 class="chat-title">
-                        <span class="icon-chat"></span>
-                        School AI Assistant
-                        <span class="status-indicator" id="aiStatus"></span>
-                        <span id="aiStatusText">Online</span>
-                    </h3>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message-container ai">
-                        <div class="message ai">
-                            Hello! I'm your school AI assistant. How can I help you with your studies today? 📚
-                        </div>
+        <main class="main-content">
+            <div class="grid">
+                <!-- Homework Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Today's Homework
+                        </h2>
                     </div>
-                </div>
-                <div class="input-group">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask about homework, subjects, or school info..." />
-                    <button class="send-btn" id="sendBtn">
-                        <span class="icon-send"></span>
+                    <ul class="homework-list" id="homeworkList">
+                        <!-- Homework items will be added here -->
+                    </ul>
+                    <button class="pdf-btn" id="downloadPdf">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Download as PDF
                     </button>
                 </div>
+
+                <!-- AI Chat Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            AI Homework Helper
+                        </h2>
+                    </div>
+                    <div class="ai-chat" id="aiChat">
+                        <div class="ai-message">
+                            <div>Hello! I'm your school AI assistant. 🤖 How can I help you with your homework today?</div>
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask about homework..." />
+                        <button class="send-btn" id="sendBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <!-- User Info -->
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Student Name</div>
+                    <div class="class-info" id="userClass">Class</div>
+                </div>
+            </div>
+        </main>
     </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="scrollToTop">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-text">© 2023 School Web. All rights reserved.</div>
-            <div class="action-buttons">
-                <button class="btn btn-outline" id="downloadPdfBtn">
-                    <span class="icon-pdf"></span>
-                    PDF
-                </button>
-                <button class="btn btn-primary" id="notifyBtn">
-                    <span class="icon-notification"></span>
-                    Notify
-                </button>
-            </div>
+        <div>© 2025 LearnSmart School Platform. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="admin.html" class="footer-link">Admin</a>
         </div>
     </footer>
-
-    <!-- Floating Action Button -->
-    <button class="fab" id="scrollTopBtn">
-        <span class="icon-top"></span>
-    </button>
-
-    <!-- Menu -->
-    <div class="overlay" id="overlay"></div>
-    <div class="menu" id="menu">
-        <div class="menu-header">
-            <h3>Menu</h3>
-            <button class="menu-close" id="menuClose">
-                <span class="icon-close"></span>
-            </button>
-        </div>
-        <ul class="menu-list">
-            <li class="menu-item" id="printItem">
-                <span class="icon-print"></span>
-                Print Dashboard
-            </li>
-            <li class="menu-item" id="shareItem">
-                <span class="icon-share"></span>
-                Share
-            </li>
-            <li class="menu-item" id="themeItem">
-                <span class="icon-theme"></span>
-                Dark Mode
-            </li>
-            <li class="menu-item" id="installItem">
-                <span class="icon-app"></span>
-                Install App
-            </li>
-            <li class="menu-item" id="clearCacheItem">
-                <span class="icon-clear"></span>
-                Clear Cache
-            </li>
-            <li class="menu-divider"></li>
-            <li class="menu-item" id="adminItem">
-                <span class="icon-admin"></span>
-                Admin Panel
-            </li>
-            <li class="menu-item" id="logoutItem">
-                <span class="icon-logout"></span>
-                Logout
-            </li>
-        </ul>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div class="toast" id="toast">
-        <span id="toastMessage">This is a toast message</span>
-    </div>
-
-    <!-- Modals -->
-    <div class="modal" id="passwordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Admin Access</h3>
-                <button class="modal-close" id="closePasswordModal">×</button>
-            </button>
-            </div>
-            <div class="form-group">
-                <label for="adminPassword">Enter Password</label>
-                <input type="password" class="form-control" id="adminPassword" placeholder="Enter admin password" />
-            </div>
-            <button class="btn btn-block btn-primary" id="submitPassword">Submit</button>
-        </div>
-    </div>
-
-    <div class="modal" id="clearCacheModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Clear Cache</h3>
-                <button class="modal-close" id="closeClearCacheModal">×</button>
-            </button>
-            </div>
-            <p>Are you sure you want to clear all cached data? This will remove stored homework, settings, and other local data.</p>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button class="btn btn-outline" id="cancelClear">Cancel</button>
-                <button class="btn btn-danger btn-block" id="confirmClear">Clear Cache</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PDF Viewer -->
-    <div class="pdf-container" id="pdfContainer">
-        <div class="pdf-header">
-            <span class="pdf-title">Homework Summary</span>
-            <button class="pdf-close" id="closePdf">✕</button>
-        </div>
-        <iframe src="" class="pdf-embed" id="pdfEmbed"></iframe>
-    </div>
-
-    <!-- Notification Permission -->
-    <div class="notif-permission" id="notifPermission">
-        <p>Enable notifications to receive homework reminders and updates?</p>
-        <div class="notif-buttons">
-            <button class="notif-btn yes" id="allowNotif">Allow</button>
-            <button class="notif-btn no" id="denyNotif">Not now</button>
-        </div>
-    </div>
 
     <script>
         // App state
         const state = {
-            user: {
-                name: '',
-                cls: '',
-                parent: ''
-            },
-            darkMode: false,
-            aiOnline: true,
-            homework: [],
-            chatHistory: [],
-            notificationPermission: false,
-            installPrompt: null
+            userName: '',
+            userClass: '',
+            userParent: '',
+            isDarkMode: false,
+            installPrompt: null,
+            aiResponses: [
+                "📚 Great question! For your math homework, remember to show all your steps when solving equations. Don't forget to check your answers by plugging them back in! 🧮",
+                "📝 Your English assignment on persuasive writing is due tomorrow! Focus on strong arguments and use rhetorical questions to engage your reader. 🖋️",
+                "🔬 Science project tip: Make sure your hypothesis is testable and your variables are clearly defined. Document everything in your lab notebook! 🧪",
+                "🎨 Art class reminder: Bring your sketchbook tomorrow! We're starting our perspective drawing unit. Practice drawing basic shapes in 3D. 🖼️",
+                "🎵 Music theory homework: Practice identifying time signatures. Listen to different songs and count the beats per measure. 🎶",
+                "🌍 History project: When researching ancient civilizations, focus on their social structures and technological advancements. Use primary sources when possible! 🏛️",
+                "💪 PE assignment: Complete 20 minutes of physical activity and journal about how it made you feel. Try something new like yoga or dance! 🏃",
+                "📊 Math tip: When graphing linear equations, always label your axes and include a title. Use a ruler for straight lines! 📈",
+                "📖 Reading log: Don't forget to record 20 minutes of reading tonight. Try to identify the theme and main conflict in your book. 📚",
+                "🧮 Algebra reminder: Remember the order of operations (PEMDAS)! Practice simplifying expressions with parentheses first. ➗",
+                "🧪 Science lab: Safety first! Always wear goggles and follow the procedure step by step. Record your observations carefully. ⚠️",
+                "✍️ Essay writing: Start with a strong thesis statement that answers the prompt directly. Support each point with evidence from the text. 📝",
+                "📅 Project planning: Break large assignments into smaller tasks with deadlines. Use a calendar to track your progress! 🗓️",
+                "🔍 Research skills: Evaluate your sources for credibility. Look for author credentials and publication dates. 📚",
+                "🧠 Study tip: Use active recall instead of passive reading. Test yourself with flashcards or practice problems. 🧠",
+                "⏰ Time management: Use the Pomodoro technique - 25 minutes focused work, then a 5-minute break. It boosts productivity! ⏳",
+                "🤝 Group work: Assign roles clearly and communicate regularly. Respect everyone's ideas and contributions. 👥",
+                "💡 Creative project: Think outside the box! Use unconventional materials or approaches to make your work stand out. 🎨",
+                "📈 Data analysis: When interpreting graphs, look for trends, outliers, and patterns. What story does the data tell? 📊",
+                "🗣️ Presentation skills: Practice speaking slowly and clearly. Make eye contact with your audience. 🎤",
+                "🧩 Problem solving: Break complex problems into smaller parts. Solve one piece at a time. 🧱",
+                "🎯 Goal setting: Make your goals SMART - Specific, Measurable, Achievable, Relevant, Time-bound. ✅",
+                "📖 Vocabulary building: Use new words in sentences and find synonyms. Flashcards are great for memorization! 🃏",
+                "✍️ Creative writing: Show, don't tell! Use sensory details to bring your scenes to life. 🖋️",
+                "🧮 Math games: Practice multiplication tables with timed quizzes. Turn learning into a game! 🎲",
+                "🔬 Experiment design: Make sure you have a control group and only change one variable at a time. 🧪",
+                "📚 Literature analysis: Look for symbolism and figurative language. How do they enhance the theme? 📖",
+                "🎨 Visual learning: Create mind maps or diagrams to organize information. Colors can help with memory! 🖍️",
+                "🎧 Listening skills: Take notes on key points and questions. Summarize what you heard in your own words. 📝",
+                "🗣️ Public speaking: Start with a strong opening and end with a memorable conclusion. Practice in front of a mirror! 🪞",
+                "🧩 Puzzle solving: Look for patterns and eliminate impossible options. Sometimes stepping away helps! 🧠",
+                "📅 Calendar management: Color-code different types of assignments. Set reminders for important deadlines! 🔔",
+                "🤝 Collaboration: Use 'I' statements when discussing ideas. Be open to feedback and compromise. 🤝",
+                "💡 Innovation: Combine existing ideas in new ways. What if you mixed science with art? 🎨",
+                "📈 Progress tracking: Keep a journal of your learning journey. Celebrate small victories! 🏆",
+                "🎯 Focus techniques: Eliminate distractions and create a dedicated study space. Silence your phone! 📵",
+                "📖 Reading comprehension: Summarize each paragraph in one sentence. What's the main idea? 🧠",
+                "✍️ Editing checklist: Check for spelling, grammar, punctuation, and clarity. Read your work aloud! 🔊",
+                "🧮 Mental math: Practice estimating answers before calculating. It helps catch mistakes! 🧠",
+                "🔬 Scientific method: Question, research, hypothesis, experiment, analyze, conclude. Follow the steps! 📋",
+                "📚 Source evaluation: Who wrote it? When? Why? What evidence do they provide? 🔍",
+                "🎨 Design principles: Consider balance, contrast, alignment, and repetition in your work. 🖼️",
+                "🎧 Audio projects: Script first, then record. Edit for clarity and remove background noise. 🎙️",
+                "🗣️ Debate prep: Research both sides of the argument. Anticipate counter-arguments. 🤔",
+                "🧩 Critical thinking: Question assumptions and look for evidence. Don't accept claims at face value! 🧠",
+                "📅 Long-term planning: Work backward from the deadline. Set milestones for each phase. 🗓️",
+                "🤝 Peer review: Give constructive feedback using the 'sandwich method' - positive, improvement, positive. 🥪",
+                "💡 Creative block: Take a walk, listen to music, or try free writing. Inspiration will come! 🌿",
+                "📈 Data visualization: Choose the right chart type for your data. Keep it simple and clear. 📊",
+                "🎯 Productivity: Prioritize tasks by importance and urgency. Focus on high-impact activities first! ⏫",
+                "📖 Active reading: Annotate texts with questions, connections, and predictions. Engage with the material! 📝",
+                "✍️ Writing process: Draft freely first, then revise for structure and clarity. Don't edit while creating! ✍️",
+                "🧮 Problem decomposition: Break complex problems into smaller, manageable parts. Solve step by step. ➗",
+                "🔬 Variables: Independent (what you change), dependent (what you measure), controlled (what you keep the same). 📋",
+                "📚 Text features: Use headings, captions, and indexes to navigate nonfiction texts efficiently. 🔍",
+                "🎨 Color theory: Complementary colors create contrast, analogous colors create harmony. 🎨",
+                "🎧 Sound design: Consider volume, pitch, and timing. How does sound enhance your message? 🎵",
+                "🗣️ Audience awareness: Tailor your language and examples to your listeners. Who are they? 🎯",
+                "🧩 Pattern recognition: Look for similarities and differences. What rules govern this system? 🔍",
+                "📅 Task management: Use checklists and break large tasks into 15-30 minute chunks. ✅",
+                "🤝 Conflict resolution: Listen actively, acknowledge feelings, and seek win-win solutions. 🤝",
+                "💡 Brainstorming: Defer judgment and encourage wild ideas. Quantity leads to quality! 💡",
+                "📈 Trend analysis: Look at data over time. What factors might explain changes? 📈",
+                "🎯 Self-assessment: Compare your work to the rubric. What strengths can you build on? 🧐",
+                "📖 Text structure: Identify cause-effect, problem-solution, compare-contrast patterns. 🧱",
+                "✍️ Voice and tone: Match your writing style to the purpose and audience. Be authentic! 🗣️",
+                "🧮 Estimation: Round numbers to make mental calculations easier. Check if your answer is reasonable. 🧠",
+                "🔬 Evidence: Qualitative (descriptive) and quantitative (numerical). Both are important! 📊",
+                "📚 Inference: Read between the lines. What can you conclude from the information given? 🔍",
+                "🎨 Composition: Use the rule of thirds and leading lines to create engaging visuals. 🖼️",
+                "🎧 Multimedia: Combine text, images, and audio for maximum impact. But don't overload! ⚖️",
+                "🗣️ Persuasion: Use ethos (credibility), pathos (emotion), and logos (logic) in your arguments. 🎯",
+                "🧩 Systems thinking: How do the parts relate to the whole? What feedback loops exist? 🔁",
+                "📅 Procrastination: Start with the easiest part. Momentum will carry you forward! 🚀",
+                "🤝 Feedback: Be specific, timely, and actionable. Focus on the work, not the person. 🎯",
+                "💡 Mind mapping: Start with a central idea and branch out with related concepts. 🌳",
+                "📈 Benchmarking: Compare your progress to standards or previous work. How have you improved? 📊",
+                "🎯 Reflection: What worked well? What would you do differently next time? Keep a journal! 📓"
+            ],
+            usedResponses: new Set(),
+            currentResponseIndex: 0
         };
 
         // DOM Elements
         const elements = {
+            header: document.getElementById('header'),
             userName: document.getElementById('userName'),
             userClass: document.getElementById('userClass'),
-            currentDate: document.getElementById('currentDate'),
             homeworkList: document.getElementById('homeworkList'),
-            chatMessages: document.getElementById('chatMessages'),
+            aiChat: document.getElementById('aiChat'),
             chatInput: document.getElementById('chatInput'),
             sendBtn: document.getElementById('sendBtn'),
             menuBtn: document.getElementById('menuBtn'),
-            menu: document.getElementById('menu'),
-            overlay: document.getElementById('overlay'),
-            menuClose: document.getElementById('menuClose'),
-            scrollTopBtn: document.getElementById('scrollTopBtn'),
-            offlineBanner: document.getElementById('offlineBanner'),
-            aiStatus: document.getElementById('aiStatus'),
-            aiStatusText: document.getElementById('aiStatusText'),
-            toast: document.getElementById('toast'),
-            passwordModal: document.getElementById('passwordModal'),
-            closePasswordModal: document.getElementById('closePasswordModal'),
-            adminPassword: document.getElementById('adminPassword'),
-            submitPassword: document.getElementById('submitPassword'),
-            clearCacheModal: document.getElementById('clearCacheModal'),
-            closeClearCacheModal: document.getElementById('closeClearCacheModal'),
-            cancelClear: document.getElementById('cancelClear'),
-            confirmClear: document.getElementById('confirmClear'),
-            downloadPdfBtn: document.getElementById('downloadPdfBtn'),
-            notifyBtn: document.getElementById('notifyBtn'),
-            pdfContainer: document.getElementById('pdfContainer'),
-            pdfEmbed: document.getElementById('pdfEmbed'),
-            closePdf: document.getElementById('closePdf'),
-            notifPermission: document.getElementById('notifPermission'),
-            allowNotif: document.getElementById('allowNotif'),
-            denyNotif: document.getElementById('denyNotif')
-        };
-
-        // Menu Items
-        const menuItems = {
+            dropdownMenu: document.getElementById('dropdownMenu'),
             printItem: document.getElementById('printItem'),
             shareItem: document.getElementById('shareItem'),
-            themeItem: document.getElementById('themeItem'),
+            darkModeItem: document.getElementById('darkModeItem'),
             installItem: document.getElementById('installItem'),
             clearCacheItem: document.getElementById('clearCacheItem'),
             adminItem: document.getElementById('adminItem'),
-            logoutItem: document.getElementById('logoutItem')
+            logoutItem: document.getElementById('logoutItem'),
+            scrollToTop: document.getElementById('scrollToTop'),
+            offlineBanner: document.getElementById('offlineBanner'),
+            toast: document.getElementById('toast'),
+            toastMessage: document.getElementById('toastMessage'),
+            downloadPdf: document.getElementById('downloadPdf')
+        };
+
+        // Homework data by class
+        const homeworkData = {
+            '1': [
+                { subject: 'Math', description: 'Count numbers 1-20 and write them in your notebook', due: 'Tomorrow', emoji: '🔢' },
+                { subject: 'English', description: 'Practice writing your name and 5 simple words', due: 'Tomorrow', emoji: '🔤' },
+                { subject: 'Art', description: 'Draw a picture of your family using crayons', due: 'Tomorrow', emoji: '🎨' }
+            ],
+            '2': [
+                { subject: 'Math', description: 'Complete addition problems 1-10 on page 25', due: 'Tomorrow', emoji: '➕' },
+                { subject: 'English', description: 'Read "The Cat in the Hat" and draw your favorite scene', due: 'Tomorrow', emoji: '📖' },
+                { subject: 'Science', description: 'Observe plants in your garden and list 3 things you notice', due: 'Tomorrow', emoji: '🌱' }
+            ],
+            '3': [
+                { subject: 'Math', description: 'Multiplication tables 1-5, practice 10 minutes', due: 'Tomorrow', emoji: '✖️' },
+                { subject: 'English', description: 'Write a 5-sentence story about your weekend', due: 'Tomorrow', emoji: '✍️' },
+                { subject: 'Science', description: 'Collect 5 different types of leaves and label them', due: 'Tomorrow', emoji: '🍃' }
+            ],
+            '4': [
+                { subject: 'Math', description: 'Solve word problems on fractions (worksheet)', due: 'Tomorrow', emoji: '🧮' },
+                { subject: 'English', description: 'Vocabulary: Learn 10 new words, use each in a sentence', due: 'Tomorrow', emoji: '📚' },
+                { subject: 'History', description: 'Research ancient Egypt and list 5 facts', due: 'Tomorrow', emoji: '🏺' }
+            ],
+            '5': [
+                { subject: 'Math', description: 'Geometry: Identify different types of angles and triangles', due: 'Tomorrow', emoji: '📐' },
+                { subject: 'English', description: 'Write a persuasive paragraph on "Why recess should be longer"', due: 'Tomorrow', emoji: '🗣️' },
+                { subject: 'Science', description: 'Design an experiment to test plant growth with different liquids', due: 'Tomorrow', emoji: '🔬' }
+            ],
+            '6': [
+                { subject: 'Math', description: 'Algebra: Solve one-step equations (problems 1-20)', due: 'Tomorrow', emoji: '➗' },
+                { subject: 'English', description: 'Analyze the theme of "The Giver" in a 1-page response', due: 'Tomorrow', emoji: '📖' },
+                { subject: 'Geography', description: 'Label all continents and oceans on a blank map', due: 'Tomorrow', emoji: '🌍' }
+            ],
+            '7': [
+                { subject: 'Math', description: 'Proportions and ratios word problems (worksheet)', due: 'Tomorrow', emoji: '📊' },
+                { subject: 'English', description: 'Draft the first section of your research paper on renewable energy', due: 'Tomorrow', emoji: '✍️' },
+                { subject: 'Science', description: 'Complete lab report on chemical reactions experiment', due: 'Tomorrow', emoji: '🧪' }
+            ],
+            '8': [
+                { subject: 'Math', description: 'Pythagorean theorem applications (problems 1-15)', due: 'Tomorrow', emoji: '📐' },
+                { subject: 'English', description: 'Revise your narrative essay with peer feedback', due: 'Tomorrow', emoji: '📝' },
+                { subject: 'History', description: 'Create a timeline of World War II major events', due: 'Tomorrow', emoji: '🕰️' }
+            ],
+            '9': [
+                { subject: 'Math', description: 'Quadratic equations: Solve by factoring (problems 1-20)', due: 'Tomorrow', emoji: '📈' },
+                { subject: 'English', description: 'Analyze Shakespeare\'s use of imagery in Macbeth Act 1', due: 'Tomorrow', emoji: '🎭' },
+                { subject: 'Biology', description: 'Diagram and label the parts of a cell', due: 'Tomorrow', emoji: '🧫' }
+            ],
+            '10': [
+                { subject: 'Math', description: 'Trigonometry: Solve right triangle problems using sine, cosine, tangent', due: 'Tomorrow', emoji: '🔺' },
+                { subject: 'English', description: 'Write a literary analysis of symbolism in "The Great Gatsby"', due: 'Tomorrow', emoji: '📚' },
+                { subject: 'Chemistry', description: 'Balance chemical equations (worksheet problems 1-15)', due: 'Tomorrow', emoji: '🧪' }
+            ],
+            '11': [
+                { subject: 'Math', description: 'Calculus: Find derivatives of polynomial functions (problems 1-25)', due: 'Tomorrow', emoji: '➗' },
+                { subject: 'English', description: 'Develop thesis and outline for your research paper on social issues', due: 'Tomorrow', emoji: '📝' },
+                { subject: 'Physics', description: 'Solve kinematics problems involving acceleration and velocity', due: 'Tomorrow', emoji: '⚡' }
+            ],
+            '12': [
+                { subject: 'Math', description: 'AP Calculus: Integration techniques practice problems', due: 'Tomorrow', emoji: '📈' },
+                { subject: 'English', description: 'Revise college application essay with teacher feedback', due: 'Tomorrow', emoji: '🎓' },
+                { subject: 'Science', description: 'Complete senior research project proposal and bibliography', due: 'Tomorrow', emoji: '🔬' }
+            ]
         };
 
         // Initialize the app
         function init() {
-            loadUserData();
+            // Load user data from localStorage
+            loadData();
+            
+            // Set up event listeners
             setupEventListeners();
-            generateHomework();
-            updateDate();
-            checkOnlineStatus();
+            
+            // Display homework
+            displayHomework();
+            
+            // Check PWA installability
+            checkInstallability();
+            
+            // Check network status
+            updateNetworkStatus();
+            
+            // Load dark mode preference
             loadDarkMode();
-            showNotificationPrompt();
-            setupAIResponses();
-            updateInstallButton();
+            
+            // Show welcome message
+            setTimeout(() => {
+                addAIMessage(`Welcome back, ${state.userName}! I'm your school AI assistant. How can I help you with your homework today? 👋`);
+            }, 500);
         }
 
         // Load user data from localStorage
-        function loadUserData() {
-            try {
-                state.user.name = localStorage.getItem('name') || 'Student';
-                state.user.cls = localStorage.getItem('cls') || 'X';
-                state.user.parent = localStorage.getItem('parent') || '';
-
-                elements.userName.textContent = state.user.name;
-                elements.userClass.textContent = `Class ${state.user.cls}`;
-            } catch (error) {
-                showToast('Error loading user data', 'danger');
-                console.error('Error loading user data:', error);
-            }
+        function loadData() {
+            state.userName = localStorage.getItem('name') || 'Student';
+            state.userClass = localStorage.getItem('cls') || '1';
+            state.userParent = localStorage.getItem('parent') || '';
+            
+            // Update UI
+            elements.userName.textContent = state.userName;
+            elements.userClass.textContent = `Class ${state.userClass}`;
         }
 
-        // Setup all event listeners
+        // Display homework for current class
+        function displayHomework() {
+            const classHomework = homeworkData[state.userClass] || homeworkData['1'];
+            elements.homeworkList.innerHTML = '';
+            
+            classHomework.forEach(hw => {
+                const li = document.createElement('li');
+                li.className = 'homework-item fade-in';
+                li.innerHTML = `
+                    <span class="hw-emoji">${hw.emoji}</span>
+                    <div class="hw-content">
+                        <div class="hw-subject">${hw.subject}</div>
+                        <div class="hw-desc">${hw.description}</div>
+                        <div class="hw-due">📅 Due: ${hw.due}</div>
+                    </div>
+                `;
+                elements.homeworkList.appendChild(li);
+            });
+        }
+
+        // Setup event listeners
         function setupEventListeners() {
-            // Menu toggle
-            elements.menuBtn.addEventListener('click', toggleMenu);
-            elements.menuClose.addEventListener('click', closeMenu);
-            elements.overlay.addEventListener('click', closeMenu);
-
+            // Menu button
+            elements.menuBtn.addEventListener('click', toggleDropdown);
+            
             // Menu items
-            menuItems.printItem.addEventListener('click', printDashboard);
-            menuItems.shareItem.addEventListener('click', shareDashboard);
-            menuItems.themeItem.addEventListener('click', toggleDarkMode);
-            menuItems.installItem.addEventListener('click', installApp);
-            menuItems.clearCacheItem.addEventListener('click', showClearCacheModal);
-            menuItems.adminItem.addEventListener('click', showPasswordModal);
-            menuItems.logoutItem.addEventListener('click', logout);
-
+            elements.printItem.addEventListener('click', handlePrint);
+            elements.shareItem.addEventListener('click', handleShare);
+            elements.darkModeItem.addEventListener('click', toggleDarkMode);
+            elements.installItem.addEventListener('click', handleInstall);
+            elements.clearCacheItem.addEventListener('click', clearCache);
+            elements.adminItem.addEventListener('click', handleAdmin);
+            elements.logoutItem.addEventListener('click', handleLogout);
+            
             // Chat functionality
-            elements.sendBtn.addEventListener('click', sendChatMessage);
+            elements.sendBtn.addEventListener('click', handleSendMessage);
             elements.chatInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    sendChatMessage();
+                    handleSendMessage();
                 }
             });
-
+            
             // Scroll to top
-            elements.scrollTopBtn.addEventListener('click', scrollToTop);
+            elements.scrollToTop.addEventListener('click', scrollToTop);
             window.addEventListener('scroll', toggleScrollButton);
-
-            // Online/Offline events
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
-
-            // PDF and notifications
-            elements.downloadPdfBtn.addEventListener('click', generatePDF);
-            elements.notifyBtn.addEventListener('click', sendNotification);
-            elements.closePdf.addEventListener('click', () => {
-                elements.pdfContainer.classList.remove('active');
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!elements.dropdownMenu.contains(e.target) && e.target !== elements.menuBtn) {
+                    elements.dropdownMenu.classList.remove('show');
+                }
             });
-
-            // Modal events
-            elements.closePasswordModal.addEventListener('click', closePasswordModal);
-            elements.submitPassword.addEventListener('click', verifyPassword);
-            elements.closeClearCacheModal.addEventListener('click', closeClearCacheModal);
-            elements.cancelClear.addEventListener('click', closeClearCacheModal);
-            elements.confirmClear.addEventListener('click', clearAllCache);
-
-            // Notification permission
-            elements.allowNotif.addEventListener('click', () => {
-                requestNotificationPermission();
-                elements.notifPermission.style.display = 'none';
-            });
-            elements.denyNotif.addEventListener('click', () => {
-                elements.notifPermission.style.display = 'none';
-            });
-
+            
+            // Network status
+            window.addEventListener('online', updateNetworkStatus);
+            window.addEventListener('offline', updateNetworkStatus);
+            
             // PWA install prompt
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 state.installPrompt = e;
-                updateInstallButton();
+                showToast('App ready to install! Tap "Install App" in the menu.', 'success');
             });
-
-            window.addEventListener('appinstalled', () => {
-                state.installPrompt = null;
-                updateInstallButton();
-                showToast('App installed successfully! 🎉', 'success');
-            });
+            
+            // PDF download
+            elements.downloadPdf.addEventListener('click', generatePDF);
         }
 
-        // Toggle menu
-        function toggleMenu() {
-            elements.menu.classList.toggle('open');
-            elements.overlay.classList.toggle('active');
+        // Toggle dropdown menu
+        function toggleDropdown() {
+            elements.dropdownMenu.classList.toggle('show');
         }
 
-        function closeMenu() {
-            elements.menu.classList.remove('open');
-            elements.overlay.classList.remove('active');
+        // Handle print
+        function handlePrint() {
+            elements.dropdownMenu.classList.remove('show');
+            window.print();
+            showToast('Printing dashboard...', 'success');
         }
 
-        // Print dashboard
-        function printDashboard() {
-            closeMenu();
-            showToast('Preparing print preview...', 'info');
-            setTimeout(() => {
-                window.print();
-            }, 500);
-        }
-
-        // Share dashboard
-        function shareDashboard() {
-            closeMenu();
+        // Handle share
+        function handleShare() {
+            elements.dropdownMenu.classList.remove('show');
+            
             if (navigator.share) {
                 navigator.share({
                     title: 'My School Dashboard',
-                    text: `Check out my school dashboard! Homework and AI assistance all in one place. 📚`,
+                    text: `Check out my homework for today!`,
                     url: window.location.href
                 }).then(() => {
                     showToast('Shared successfully!', 'success');
                 }).catch(() => {
-                    showToast('Share cancelled', 'warning');
+                    showToast('Share cancelled', 'danger');
                 });
             } else {
                 // Fallback for browsers that don't support Web Share API
-                copyToClipboard(window.location.href);
-                showToast('Link copied to clipboard!', 'success');
-            }
-        }
-
-        // Copy text to clipboard
-        function copyToClipboard(text) {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text);
-            } else {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => {
+                        showToast('Link copied to clipboard!', 'success');
+                    })
+                    .catch(() => {
+                        showToast('Failed to copy link', 'danger');
+                    });
             }
         }
 
         // Toggle dark mode
         function toggleDarkMode() {
-            closeMenu();
-            state.darkMode = !state.darkMode;
-            document.body.classList.toggle('dark-mode', state.darkMode);
-            localStorage.setItem('darkMode', state.darkMode);
-            updateThemeIcon();
-            showToast(state.darkMode ? 'Dark mode enabled 🌙' : 'Light mode enabled ☀️', 'info');
-        }
-
-        // Update theme icon in menu
-        function updateThemeIcon() {
-            const icon = menuItems.themeItem.querySelector('.icon-theme');
-            icon.textContent = state.darkMode ? '☀️' : '🌙';
+            elements.dropdownMenu.classList.remove('show');
+            state.isDarkMode = !state.isDarkMode;
+            document.body.setAttribute('data-theme', state.isDarkMode ? 'dark' : 'light');
+            localStorage.setItem('darkMode', state.isDarkMode);
+            showToast(`Dark mode ${state.isDarkMode ? 'enabled' : 'disabled'}`, 'success');
+            elements.darkModeItem.innerHTML = `
+                <span class="menu-icon">${state.isDarkMode ? '☀️' : '🌙'}</span>
+                <span>${state.isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+            `;
         }
 
         // Load dark mode preference
         function loadDarkMode() {
-            const savedMode = localStorage.getItem('darkMode');
-            state.darkMode = savedMode === 'true';
-            document.body.classList.toggle('dark-mode', state.darkMode);
-            updateThemeIcon();
+            state.isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (state.isDarkMode) {
+                document.body.setAttribute('data-theme', 'dark');
+                elements.darkModeItem.innerHTML = `
+                    <span class="menu-icon">☀️</span>
+                    <span>Light Mode</span>
+                `;
+            }
         }
 
-        // Install PWA app
-        function installApp() {
-            closeMenu();
+        // Check PWA installability
+        function checkInstallability() {
+            // The beforeinstallprompt event will set state.installPrompt
+            // We'll show a toast when it's available
+        }
+
+        // Handle PWA install
+        function handleInstall() {
+            elements.dropdownMenu.classList.remove('show');
+            
             if (state.installPrompt) {
                 state.installPrompt.prompt();
                 state.installPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        showToast('App installation started! 📱', 'success');
+                        showToast('App installed successfully!', 'success');
                     }
                     state.installPrompt = null;
-                    updateInstallButton();
                 });
             } else {
-                showToast('Add to home screen from browser menu', 'warning');
+                showToast('App is already installed or cannot be installed', 'danger');
             }
         }
 
-        // Update install button text
-        function updateInstallButton() {
-            const text = state.installPrompt ? 'Install App' : 'App Installed';
-            menuItems.installItem.innerHTML = `<span class="icon-app"></span> ${text}`;
-            menuItems.installItem.style.opacity = state.installPrompt ? '1' : '0.6';
+        // Clear cache
+        function clearCache() {
+            elements.dropdownMenu.classList.remove('show');
+            
+            // Clear localStorage
+            localStorage.clear();
+            
+            // Reset app state
+            state.usedResponses.clear();
+            state.currentResponseIndex = 0;
+            
+            showToast('Cache cleared! Please log in again.', 'success');
+            
+            // Redirect to login after a delay
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
         }
 
-        // Show clear cache modal
-        function showClearCacheModal() {
-            closeMenu();
-            elements.clearCacheModal.classList.add('active');
-        }
-
-        function closeClearCacheModal() {
-            elements.clearCacheModal.classList.remove('active');
-        }
-
-        // Clear all cache
-        function clearAllCache() {
-            try {
-                // Clear localStorage
-                localStorage.clear();
-                
-                // Clear any cached data
-                state.homework = [];
-                state.chatHistory = [];
-                
-                // Update UI
-                elements.homeworkList.innerHTML = '';
-                elements.chatMessages.innerHTML = `
-                    <div class="message-container ai">
-                        <div class="message ai">
-                            Cache cleared successfully! You'll need to log in again. 😊
-                        </div>
-                    </div>
-                `;
-                
-                closeClearCacheModal();
-                showToast('Cache cleared! Logging out...', 'success');
-                
-                // Redirect to login
-                setTimeout(() => {
-                    logout();
-                }, 2000);
-                
-            } catch (error) {
-                showToast('Error clearing cache', 'danger');
-                console.error('Error clearing cache:', error);
-            }
-        }
-
-        // Show password modal for admin
-        function showPasswordModal() {
-            closeMenu();
-            elements.passwordModal.classList.add('active');
-            elements.adminPassword.value = '';
-        }
-
-        function closePasswordModal() {
-            elements.passwordModal.classList.remove('active');
-        }
-
-        // Verify admin password
-        function verifyPassword() {
-            const password = elements.adminPassword.value.trim();
+        // Handle admin access
+        function handleAdmin() {
+            elements.dropdownMenu.classList.remove('show');
+            const password = prompt('Enter admin password:');
             if (password === 'Abutalha') {
-                closePasswordModal();
-                showToast('Admin access granted! 🔐', 'success');
-                // Redirect to admin panel
+                showToast('Redirecting to admin panel...', 'success');
                 setTimeout(() => {
                     window.location.href = 'admin.html';
                 }, 1000);
-            } else {
+            } else if (password !== null) {
                 showToast('Incorrect password!', 'danger');
-                elements.adminPassword.value = '';
             }
         }
 
-        // Logout
-        function logout() {
-            try {
+        // Handle logout
+        function handleLogout() {
+            elements.dropdownMenu.classList.remove('show');
+            if (confirm('Are you sure you want to logout?')) {
                 localStorage.removeItem('name');
                 localStorage.removeItem('cls');
                 localStorage.removeItem('parent');
-                showToast('Logged out successfully', 'info');
+                showToast('Logged out successfully!', 'success');
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1000);
-            } catch (error) {
-                console.error('Error during logout:', error);
-                window.location.href = 'index.html';
             }
         }
 
-        // Send chat message
-        function sendChatMessage() {
+        // Handle sending chat message
+        function handleSendMessage() {
             const message = elements.chatInput.value.trim();
             if (!message) return;
-
+            
             // Add user message
-            addChatMessage(message, 'user');
+            addUserMessage(message);
+            
+            // Clear input
             elements.chatInput.value = '';
-
-            // Simulate AI thinking
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Process message and respond after a delay
             setTimeout(() => {
-                const aiResponse = getAIResponse(message);
-                addChatMessage(aiResponse, 'ai');
-            }, 600);
+                removeTypingIndicator();
+                const response = generateAIResponse(message);
+                addAIMessage(response);
+            }, 1000 + Math.random() * 1000);
         }
 
-        // Add message to chat
-        function addChatMessage(text, sender) {
-            const messageContainer = document.createElement('div');
-            messageContainer.className = `message-container ${sender}`;
-            
-            const message = document.createElement('div');
-            message.className = `message ${sender}`;
-            message.textContent = text;
-            
-            messageContainer.appendChild(message);
-            elements.chatMessages.appendChild(messageContainer);
-            
-            // Scroll to bottom
-            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-            
-            // Save to history
-            state.chatHistory.push({ text, sender });
+        // Add user message to chat
+        function addUserMessage(message) {
+            const div = document.createElement('div');
+            div.className = 'user-message';
+            div.innerHTML = `
+                ${message}
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            elements.aiChat.appendChild(div);
+            scrollToChatBottom();
         }
 
-        // AI responses - never repeats the same canned answer
-        const aiResponses = {
-            math: [
-                "Let's solve this math problem together! 🧮 Remember to show your work step by step.",
-                "Math is all about patterns! Look for the sequence and you'll find the answer. 🔍",
-                "Don't forget your order of operations: PEMDAS! Parentheses first. 📐",
-                "Try drawing a diagram to visualize the math problem. It often helps! 🖍️",
-                "Check your calculations twice - accuracy matters in math! ✅",
-                "Break down complex equations into smaller parts. You've got this! 💪",
-                "Remember, practice makes perfect in mathematics. Keep working at it! 📈"
-            ],
-            science: [
-                "Science is all about observation and experimentation! 🔬 What hypothesis can you form?",
-                "Remember the scientific method: Question, Hypothesis, Experiment, Conclusion! 🧪",
-                "Look for patterns in your data - they often reveal important insights! 📊",
-                "Safety first in the lab! Always wear your goggles and follow procedures. 👓",
-                "The natural world is full of wonders. What questions does this make you curious about? 🌍",
-                "Document your observations carefully - details matter in science! 📝",
-                "Think like a scientist: be skeptical, test assumptions, and seek evidence! 🔎"
-            ],
-            english: [
-                "Great writing comes from reading widely and practicing regularly! 📖",
-                "Vary your sentence structure to make your writing more engaging! ✍️",
-                "Show, don't tell! Use vivid descriptions to bring your writing to life. 🎨",
-                "Proofread carefully - even small errors can distract readers. 🔍",
-                "Find your unique voice in your writing. Authenticity shines through! 🗣️",
-                "Expand your vocabulary by noting interesting words you encounter. 📚",
-                "Structure your essay with a clear introduction, body, and conclusion. 🏗️"
-            ],
-            history: [
-                "History teaches us valuable lessons about human nature and society. 🕰️",
-                "Consider the context of historical events - what was happening around them? 🌐",
-                "Primary sources offer direct windows into the past. Analyze them critically! 📜",
-                "Look for cause and effect relationships in historical developments. 🔗",
-                "Different perspectives can give us fuller understanding of historical events. 👥",
-                "Maps are essential tools for understanding historical movements and changes. 🗺️",
-                "The past is prologue - how do historical events shape our present? 🔮"
-            ],
-            general: [
-                "I'm here to help with your schoolwork! Ask me about any subject. 📚",
-                "Remember to manage your time effectively for all your assignments. ⏳",
-                "Break large tasks into smaller, manageable chunks. Progress builds confidence! 🧱",
-                "Don't hesitate to ask teachers for clarification when needed. They're here to help! 🙋",
-                "Form study groups with classmates - teaching others reinforces your own learning! 👥",
-                "Take regular breaks during study sessions to maintain focus and prevent burnout. ☕",
-                "Celebrate your academic achievements, no matter how small! Every step forward counts. 🎉",
-                "Organization is key to academic success. Keep your materials and schedule in order. 🗂️",
-                "Your effort matters more than perfection. Keep trying and you will improve! 💯",
-                "Connect new information to what you already know - it aids retention. 🔗",
-                "Stay curious! The desire to learn will serve you well throughout life. 🔍",
-                "Mistakes are opportunities to learn. Analyze them and grow stronger. 🌱",
-                "Set specific, achievable goals for your studies. Track your progress! 🎯",
-                "Your education is an investment in your future self. Stay committed! 💼",
-                "Balance is important - make time for both studies and relaxation. ⚖️"
-            ],
-            homework: [
-                "Start with the most challenging assignment while your mind is fresh! 🧠",
-                "Review your class notes before beginning homework to refresh key concepts. 📓",
-                "Set a timer for focused work sessions - try the Pomodoro technique! ⏱️",
-                "Keep your workspace organized and free from distractions. 🧹",
-                "If you're stuck, take a short break and come back with fresh eyes. 🚶",
-                "Complete assignments as soon as possible to avoid last-minute stress. 📅",
-                "Double-check all your work before submission - attention to detail counts! ✅",
-                "Use homework as an opportunity to identify what you need more practice with. 🎯"
-            ]
-        };
+        // Add AI message to chat
+        function addAIMessage(message) {
+            const div = document.createElement('div');
+            div.className = 'ai-message';
+            div.innerHTML = `
+                ${message}
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            elements.aiChat.appendChild(div);
+            scrollToChatBottom();
+        }
 
-        let usedResponses = {
-            math: [],
-            science: [],
-            english: [],
-            history: [],
-            general: [],
-            homework: []
-        };
+        // Show typing indicator
+        function showTypingIndicator() {
+            const div = document.createElement('div');
+            div.className = 'ai-message';
+            div.id = 'typingIndicator';
+            div.innerHTML = `
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            elements.aiChat.appendChild(div);
+            scrollToChatBottom();
+        }
 
-        // Get AI response based on message content
-        function getAIResponse(message) {
-            message = message.toLowerCase();
-            
-            // Reset used responses if all have been used
-            Object.keys(usedResponses).forEach(category => {
-                if (usedResponses[category].length >= aiResponses[category].length) {
-                    usedResponses[category] = [];
-                }
-            });
-            
-            // Determine category based on keywords
-            let category = 'general';
-            let responses = aiResponses.general;
-            
-            if (message.includes('math') || message.includes('calculate') || message.includes('number') || 
-                message.includes('equation') || message.includes('problem')) {
-                category = 'math';
-                responses = aiResponses.math;
-            } else if (message.includes('science') || message.includes('experiment') || 
-                      message.includes('lab') || message.includes('biology') || message.includes('chemistry')) {
-                category = 'science';
-                responses = aiResponses.science;
-            } else if (message.includes('english') || message.includes('write') || 
-                      message.includes('essay') || message.includes('grammar') || message.includes('read')) {
-                category = 'english';
-                responses = aiResponses.english;
-            } else if (message.includes('history') || message.includes('past') || 
-                      message.includes('ancient') || message.includes('war') || message.includes('country')) {
-                category = 'history';
-                responses = aiResponses.history;
-            } else if (message.includes('homework') || message.includes('assignment') || 
-                      message.includes('due') || message.includes('task')) {
-                category = 'homework';
-                responses = aiResponses.homework;
+        // Remove typing indicator
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.remove();
             }
+        }
+
+        // Generate AI response based on message
+        function generateAIResponse(message) {
+            // Normalize message for analysis
+            const lowerMessage = message.toLowerCase();
             
-            // Filter out already used responses
-            const availableResponses = responses.filter(r => !usedResponses[category].includes(r));
+            // Check for homework-related keywords
+            const homeworkKeywords = ['homework', 'assignment', 'task', 'project', 'due', 'deadline', 'work'];
+            const subjectKeywords = ['math', 'english', 'science', 'history', 'art', 'music', 'pe', 'gym', 'physics', 'chemistry', 'biology'];
+            const helpKeywords = ['help', 'assist', 'explain', 'how', 'why', 'what', 'solve', 'do'];
             
-            // If all responses have been used, reset the list
-            if (availableResponses.length === 0) {
-                usedResponses[category] = [];
-                return getRandomItem(responses);
-            }
+            let hasHomework = homeworkKeywords.some(keyword => lowerMessage.includes(keyword));
+            let hasSubject = subjectKeywords.some(keyword => lowerMessage.includes(keyword));
+            let needsHelp = helpKeywords.some(keyword => lowerMessage.includes(keyword));
             
-            // Get random response from available ones
-            const response = getRandomItem(availableResponses);
-            usedResponses[category].push(response);
+            // Get a unique response
+            let response = getUniqueAIResponse();
+            
+            // Personalize with student name
+            response = response.replace('your', `${state.userName}'s`);
             
             return response;
         }
 
-        // Get random item from array
-        function getRandomItem(array) {
-            return array[Math.floor(Math.random() * array.length)];
-        }
-
-        // Generate homework based on class
-        function generateHomework() {
-            const classNum = parseInt(state.user.cls) || 1;
-            const subjects = [
-                { name: 'Mathematics', emoji: '➗', key: 'math' },
-                { name: 'Science', emoji: '🔬', key: 'science' },
-                { name: 'English', emoji: '📖', key: 'english' },
-                { name: 'History', emoji: '🏛️', key: 'history' },
-                { name: 'Art', emoji: '🎨', key: 'art' },
-                { name: 'Physical Education', emoji: '⚽', key: 'sports' }
-            ];
-            
-            // Clear existing homework
-            elements.homeworkList.innerHTML = '';
-            state.homework = [];
-            
-            // Generate homework for 3-4 subjects based on class level
-            const numSubjects = classNum <= 5 ? 3 : classNum <= 8 ? 4 : 5;
-            const selectedSubjects = getRandomUniqueItems(subjects, numSubjects);
-            
-            selectedSubjects.forEach(subject => {
-                const homework = generateHomeworkForSubject(subject, classNum);
-                state.homework.push(homework);
-                addHomeworkItem(homework);
-            });
-            
-            // If no homework generated, add a default
-            if (state.homework.length === 0) {
-                const defaultHomework = {
-                    subject: 'Mathematics',
-                    emoji: '➗',
-                    description: 'Practice multiplication tables 1-12',
-                    due: 'Tomorrow'
-                };
-                state.homework.push(defaultHomework);
-                addHomeworkItem(defaultHomework);
-            }
-        }
-
-        // Get random unique items from array
-        function getRandomUniqueItems(array, count) {
-            const shuffled = [...array].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
-        }
-
-        // Generate homework for a specific subject
-        function generateHomeworkForSubject(subject, classLevel) {
-            const mathTasks = [
-                'Complete exercises 1-15 on page 45',
-                'Solve 10 word problems involving fractions',
-                'Practice multiplication tables 6-9',
-                'Work on geometry problems involving area and perimeter',
-                'Complete the algebra worksheet',
-                'Review for the upcoming math test',
-                'Solve 5 equations with variables on both sides',
-                'Work on percentage and discount problems'
-            ];
-            
-            const scienceTasks = [
-                'Complete the lab report on plant cells',
-                'Research and write about the water cycle',
-                'Prepare for the science quiz on ecosystems',
-                'Draw and label the parts of a flower',
-                'Conduct a home experiment and document results',
-                'Research renewable energy sources',
-                'Study for the astronomy test',
-                'Complete the worksheet on states of matter'
-            ];
-            
-            const englishTasks = [
-                'Write a 300-word story using 10 vocabulary words',
-                'Read Chapter 7 and answer comprehension questions',
-                'Complete the grammar worksheet on punctuation',
-                'Write a persuasive essay on a topic of your choice',
-                'Practice spelling words for the weekly test',
-                'Analyze the poem discussed in class',
-                'Work on your creative writing journal',
-                'Prepare for the reading comprehension test'
-            ];
-            
-            const historyTasks = [
-                'Read about ancient civilizations and take notes',
-                'Create a timeline of important events',
-                'Research a historical figure and prepare a presentation',
-                'Answer questions about the American Revolution',
-                'Study for the geography quiz',
-                'Write a paragraph about cultural traditions',
-                'Complete the worksheet on government systems',
-                'Research famous explorers and their discoveries'
-            ];
-            
-            const artTasks = [
-                'Draw a landscape using pencil shading techniques',
-                'Create a collage using magazine cutouts',
-                'Paint a scene using watercolors',
-                'Sculpt a figure using clay or playdough',
-                'Design a poster for a school event',
-                'Sketch from observation for 30 minutes',
-                'Create a self-portrait',
-                'Experiment with color mixing'
-            ];
-            
-            const sportsTasks = [
-                'Practice dribbling and passing for 20 minutes',
-                'Run one mile and record your time',
-                'Practice free throws - 50 attempts',
-                'Learn and practice a new dance routine',
-                'Do 3 sets of 15 push-ups and sit-ups',
-                'Practice yoga or stretching exercises',
-                'Play a sport with friends for 30 minutes',
-                'Record your physical activity for the week'
-            ];
-            
-            let task = '';
-            let due = 'Tomorrow';
-            
-            // Select task based on subject
-            switch (subject.key) {
-                case 'math':
-                    task = getRandomItem(mathTasks);
-                    break;
-                case 'science':
-                    task = getRandomItem(scienceTasks);
-                    break;
-                case 'english':
-                    task = getRandomItem(englishTasks);
-                    break;
-                case 'history':
-                    task = getRandomItem(historyTasks);
-                    break;
-                case 'art':
-                    task = getRandomItem(artTasks);
-                    break;
-                case 'sports':
-                    task = getRandomItem(sportsTasks);
-                    break;
-                default:
-                    task = 'Complete the assigned worksheet';
+        // Get a unique AI response (never repeats)
+        function getUniqueAIResponse() {
+            // If we've used all responses, reset the set
+            if (state.usedResponses.size >= state.aiResponses.length - 1) {
+                state.usedResponses.clear();
             }
             
-            // Adjust due date based on class level and day of week
-            const today = new Date().getDay(); // 0 = Sunday, 6 = Saturday
-            if (today === 5) { // Friday
-                due = 'Monday';
-            } else if (today === 6) { // Saturday
-                due = 'Monday';
-            } else {
-                due = 'Tomorrow';
+            // Find an unused response
+            let candidateIndex;
+            let attempts = 0;
+            const maxAttempts = state.aiResponses.length;
+            
+            do {
+                // Use a deterministic but varied selection method
+                candidateIndex = (state.currentResponseIndex + 1) % state.aiResponses.length;
+                state.currentResponseIndex = candidateIndex;
+                attempts++;
+            } while (state.usedResponses.has(candidateIndex) && attempts < maxAttempts);
+            
+            // If all responses are used, pick any
+            if (attempts >= maxAttempts) {
+                candidateIndex = Math.floor(Math.random() * state.aiResponses.length);
             }
             
-            // For higher grades, sometimes assign longer deadlines
-            if (classLevel > 8 && Math.random() > 0.7) {
-                due = 'in 3 days';
-            }
-            
-            return {
-                subject: subject.name,
-                emoji: subject.emoji,
-                description: task,
-                due: due
-            };
+            // Mark as used and return
+            state.usedResponses.add(candidateIndex);
+            return state.aiResponses[candidateIndex];
         }
 
-        // Add homework item to the list
-        function addHomeworkItem(homework) {
-            const li = document.createElement('li');
-            li.className = 'homework-item';
-            li.innerHTML = `
-                <span class="homework-emoji">${homework.emoji}</span>
-                <div class="homework-text">
-                    <div class="homework-subject">${homework.subject}</div>
-                    <div class="homework-desc">${homework.description}</div>
-                </div>
-                <span class="homework-due">${homework.due}</span>
-            `;
-            elements.homeworkList.appendChild(li);
+        // Get current time for messages
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         }
 
-        // Update current date
-        function updateDate() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date();
-            elements.currentDate.textContent = today.toLocaleDateString(undefined, options);
-        }
-
-        // Check online status
-        function checkOnlineStatus() {
-            updateOnlineStatus();
-            setInterval(updateOnlineStatus, 30000); // Check every 30 seconds
-        }
-
-        // Update online/offline status
-        function updateOnlineStatus() {
-            const isOnline = navigator.onLine;
-            if (isOnline) {
-                elements.offlineBanner.classList.remove('active');
-                state.aiOnline = true;
-                elements.aiStatus.classList.add('status-online');
-                elements.aiStatus.classList.remove('status-offline');
-                elements.aiStatusText.textContent = 'Online';
-            } else {
-                elements.offlineBanner.classList.add('active');
-                state.aiOnline = false;
-                elements.aiStatus.classList.remove('status-online');
-                elements.aiStatus.classList.add('status-offline');
-                elements.aiStatusText.textContent = 'Offline';
-                showToast('You are offline. AI chat limited.', 'warning');
-            }
+        // Scroll chat to bottom
+        function scrollToChatBottom() {
+            elements.aiChat.scrollTop = elements.aiChat.scrollHeight;
         }
 
         // Toggle scroll to top button
         function toggleScrollButton() {
             if (window.pageYOffset > 300) {
-                elements.scrollTopBtn.classList.add('show');
+                elements.scrollToTop.classList.add('visible');
             } else {
-                elements.scrollTopBtn.classList.remove('show');
+                elements.scrollToTop.classList.remove('visible');
             }
         }
 
@@ -1871,163 +1226,39 @@
             });
         }
 
-        // Setup AI responses with periodic messages
-        function setupAIResponses() {
-            // Occasionally show helpful tips
-            const tips = [
-                "Don't forget to review your notes tonight! 📓",
-                "Start your homework early to avoid stress! ⏳",
-                "Take short breaks every 25 minutes - it helps! ☕",
-                "Ask for help if you don't understand something! 🙋",
-                "Organize your workspace for better focus! 🧹",
-                "Check your assignment due dates regularly! 📅",
-                "Stay hydrated while studying - drink water! 💧",
-                "Get a good night's sleep before tests! 😴"
-            ];
-            
-            // Show a tip every 5-10 minutes
-            setInterval(() => {
-                if (Math.random() > 0.7 && state.aiOnline) {
-                    const tip = getRandomItem(tips);
-                    addChatMessage(tip, 'ai');
-                }
-            }, 300000 + Math.random() * 300000); // 5-10 minutes
-        }
-
-        // Generate PDF of homework
-        function generatePDF() {
-            showToast('Generating PDF...', 'info');
-            
-            // Create a simple HTML representation of the dashboard
-            const pdfContent = `
-                <html>
-                <head>
-                    <title>Homework Summary - ${state.user.name}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-                        .header { text-align: center; border-bottom: 2px solid #0d6efd; padding-bottom: 10px; margin-bottom: 20px; }
-                        .title { color: #0d6efd; margin: 0; }
-                        .student-info { margin: 10px 0; font-size: 14px; }
-                        .section { margin: 20px 0; }
-                        .section-title { color: #0d6efd; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px; }
-                        .homework-item { background: #f8f9fa; margin: 10px 0; padding: 15px; border-radius: 5px; border-left: 4px solid #0d6efd; }
-                        .homework-subject { font-weight: bold; margin-bottom: 5px; }
-                        .homework-desc { margin-bottom: 5px; }
-                        .homework-due { font-size: 12px; color: #6c757d; }
-                        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #6c757d; border-top: 1px solid #ddd; padding-top: 10px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <h1 class="title">🏫 School Web Dashboard</h1>
-                        <div class="student-info">
-                            <strong>Student:</strong> ${state.user.name} | 
-                            <strong>Class:</strong> ${state.user.cls} | 
-                            <strong>Date:</strong> ${new Date().toLocaleDateString()}
-                        </div>
-                    </div>
-                    
-                    <div class="section">
-                        <h2 class="section-title">📚 Today's Homework</h2>
-                        ${state.homework.map(hw => `
-                            <div class="homework-item">
-                                <div class="homework-subject">${hw.emoji} ${hw.subject}</div>
-                                <div class="homework-desc">${hw.description}</div>
-                                <div class="homework-due">Due: ${hw.due}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="section">
-                        <h2 class="section-title">💬 AI Assistant Tips</h2>
-                        <p>Remember to:</p>
-                        <ul>
-                            <li>Review your notes regularly</li>
-                            <li>Start assignments early</li>
-                            <li>Take regular breaks</li>
-                            <li>Ask for help when needed</li>
-                            <li>Get enough sleep</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer">
-                        Generated by School Web Dashboard • ${new Date().toLocaleString()}
-                    </div>
-                </body>
-                </html>
-            `;
-            
-            // Create blob and show in PDF viewer
-            const blob = new Blob([pdfContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            elements.pdfEmbed.src = url;
-            elements.pdfContainer.classList.add('active');
-            
-            showToast('PDF generated successfully! 📄', 'success');
-        }
-
-        // Request notification permission
-        function requestNotificationPermission() {
-            if (!('Notification' in window)) {
-                showToast('This browser does not support notifications', 'danger');
-                return;
-            }
-            
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    state.notificationPermission = true;
-                    showToast('Notifications enabled! 🔔', 'success');
-                } else {
-                    showToast('Notifications denied', 'warning');
-                }
-            });
-        }
-
-        // Send notification
-        function sendNotification() {
-            if (!state.notificationPermission) {
-                requestNotificationPermission();
-                return;
-            }
-            
-            if (Notification.permission === 'granted') {
-                const homeworkCount = state.homework.length;
-                const notification = new Notification('Homework Reminder', {
-                    body: `You have ${homeworkCount} assignments due soon. Stay on track! 📚`,
-                    icon: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="%230d6efd"/><path d="M20 24h24v8H20zm0 12h24v8H20z" fill="white"/></svg>',
-                    tag: 'homework-reminder'
-                });
-                
-                notification.onclick = () => {
-                    window.focus();
-                    notification.close();
-                };
-                
-                showToast('Notification sent! 🔔', 'success');
+        // Update network status
+        function updateNetworkStatus() {
+            if (navigator.onLine) {
+                elements.offlineBanner.classList.remove('show');
             } else {
-                requestNotificationPermission();
+                elements.offlineBanner.classList.add('show');
             }
-        }
-
-        // Show notification permission prompt
-        function showNotificationPrompt() {
-            // Show after 10 seconds if permission not granted
-            setTimeout(() => {
-                if (!state.notificationPermission && Notification.permission !== 'denied') {
-                    elements.notifPermission.style.display = 'block';
-                }
-            }, 10000);
         }
 
         // Show toast notification
         function showToast(message, type = 'success') {
-            elements.toast.textContent = message;
-            elements.toast.className = `toast ${type}`;
-            elements.toast.classList.add('show');
-            
+            elements.toastMessage.textContent = message;
+            elements.toast.className = 'toast';
+            if (type === 'danger') {
+                elements.toast.classList.add('danger');
+            }
+            setTimeout(() => {
+                elements.toast.classList.add('show');
+            }, 100);
             setTimeout(() => {
                 elements.toast.classList.remove('show');
             }, 3000);
+        }
+
+        // Generate PDF (simulated)
+        function generatePDF() {
+            showToast('Generating PDF... This would create a printable version of your homework.', 'success');
+            
+            // In a real app, you would use a library like jsPDF
+            // For this demo, we'll just trigger the browser's print dialog
+            setTimeout(() => {
+                window.print();
+            }, 1000);
         }
 
         // Initialize the app when DOM is loaded
