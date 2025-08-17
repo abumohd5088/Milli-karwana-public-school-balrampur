@@ -4,18 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#0d6efd" />
-    <meta name="description" content="Student Homework Dashboard with AI Assistant" />
+    <meta name="description" content="Student Homework Dashboard | School Web" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="format-detection" content="telephone=no" />
     <title>📚 School Dashboard</title>
 
-    <!-- Ionicons CDN -->
+    <!-- Ionicons for Icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <noscript><script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script></noscript>
 
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <style>
@@ -29,28 +27,21 @@
             --danger: #dc3545;
             --warning: #ffc107;
             --info: #0dcaf0;
-            --light: #f8f9fa;
-            --dark: #212529;
             --border: #dee2e6;
             --shadow: rgba(0, 0, 0, 0.1);
             --shadow-lg: rgba(0, 0, 0, 0.15);
             --radius: 16px;
             --radius-sm: 8px;
-            --radius-lg: 24px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --font: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
             --fab-size: 56px;
-            --header-height: 60px;
-            --menu-width: 300px;
-            --break-md: 768px;
-            --break-sm: 480px;
         }
 
         body.dark {
             --p: #0b5ed7;
             --w: #212529;
             --d: #f8f9fa;
-            --l: #1a1a1a;
+            --l: #121212;
             --border: #495057;
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-lg: rgba(0, 0, 0, 0.4);
@@ -64,7 +55,6 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -75,7 +65,6 @@
             transition: var(--transition);
             min-height: 100vh;
             position: relative;
-            overscroll-behavior: none;
         }
 
         .container {
@@ -101,7 +90,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            letter-spacing: -0.5px;
         }
 
         .menu-btn {
@@ -178,23 +166,12 @@
             align-items: center;
             gap: 12px;
             font-size: 0.98rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
             animation: fadeInUp 0.4s ease forwards;
-            counter-increment: item;
-            position: relative;
         }
 
-        .homework-item::before {
-            content: counter(item);
-            background: var(--success);
-            color: white;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 0.8rem;
+        .homework-item ion-icon {
+            color: var(--success);
             flex-shrink: 0;
         }
 
@@ -204,7 +181,6 @@
 
         .homework-item:active {
             transform: translateY(1px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         /* AI Chat */
@@ -231,22 +207,18 @@
             flex-direction: column;
             gap: 10px;
             min-height: 200px;
-            max-height: 320px;
+            max-height: 300px;
             overflow-y: auto;
             padding: 8px 0;
             margin-bottom: 16px;
-            scroll-behavior: smooth;
         }
 
         .msg {
-            max-width: 82%;
+            max-width: 80%;
             padding: 12px 16px;
             border-radius: 18px;
             line-height: 1.5;
             font-size: 0.95rem;
-            word-wrap: break-word;
-            position: relative;
-            animation: fadeIn 0.3s ease;
         }
 
         .user {
@@ -263,39 +235,10 @@
             border-bottom-left-radius: 6px;
         }
 
-        .msg::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            width: 12px;
-            height: 12px;
-            background: transparent;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: blink 1.4s infinite;
-        }
-
-        .user::after {
-            right: 4px;
-            background: white;
-        }
-
-        .ai::after {
-            left: 4px;
-            background: var(--p);
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.6; }
-            50% { opacity: 0; }
-            100% { opacity: 0.6; }
-        }
-
         .chat-input {
             display: flex;
             gap: 12px;
             margin-top: 12px;
-            align-items: center;
         }
 
         .chat-input input {
@@ -307,7 +250,6 @@
             color: var(--d);
             font-size: 0.95rem;
             outline: none;
-            transition: border 0.2s;
         }
 
         .chat-input input:focus {
@@ -315,7 +257,7 @@
             box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
         }
 
-        .chat-input button, .voice-btn {
+        .chat-input button {
             padding: 0 20px;
             background: var(--p);
             color: white;
@@ -324,19 +266,6 @@
             cursor: pointer;
             font-weight: 600;
             min-width: 72px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .voice-btn {
-            background: var(--warning);
-            margin-left: 8px;
-        }
-
-        .voice-btn:active, .chat-input button:active {
-            transform: translateY(1px);
         }
 
         /* Study Timer */
@@ -382,42 +311,12 @@
         .pause { background: var(--warning); color: var(--d); }
         .reset { background: var(--danger); color: white; }
 
-        /* Mood Tracker */
-        .mood-tracker {
-            background: var(--w);
-            padding: 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 4px 16px var(--shadow);
-            margin-top: 16px;
-        }
-
-        .mood-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-            color: var(--warning);
-            font-weight: 600;
-        }
-
-        .mood-options {
-            display: flex;
-            justify-content: space-around;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        .mood-selected {
-            opacity: 0.6;
-            transform: scale(0.9);
-        }
-
         /* Menu */
         .menu-panel {
             position: fixed;
             top: 0;
-            right: calc(0px - var(--menu-width));
-            width: var(--menu-width);
+            right: -300px;
+            width: 300px;
             height: 100vh;
             background: var(--w);
             box-shadow: -6px 0 20px var(--shadow-lg);
@@ -425,7 +324,6 @@
             transition: right 0.4s ease;
             padding: 24px;
             overflow-y: auto;
-            overscroll-behavior: contain;
         }
 
         .menu-panel.open {
@@ -448,16 +346,6 @@
             cursor: pointer;
             color: #6c757d;
             margin-left: auto;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .close-btn:active {
-            background: rgba(0,0,0,0.05);
         }
 
         .menu-item {
@@ -470,7 +358,6 @@
             color: var(--d);
             text-decoration: none;
             transition: background 0.2s;
-            font-size: 1.02rem;
         }
 
         .menu-item:active {
@@ -509,16 +396,11 @@
             opacity: 0;
             transform: translateY(24px);
             transition: opacity 0.3s ease, transform 0.3s ease;
-            tap-highlight-color: transparent;
         }
 
         .fab.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .fab:active {
-            transform: translateY(1px);
         }
 
         /* Offline Banner */
@@ -534,7 +416,6 @@
             font-weight: 600;
             z-index: 1001;
             transition: top 0.4s ease;
-            font-size: 0.95rem;
         }
 
         .offline-banner.show {
@@ -555,7 +436,6 @@
             transform: translateX(100%);
             transition: transform 0.35s ease;
             font-size: 0.95rem;
-            white-space: nowrap;
             pointer-events: none;
         }
 
@@ -578,11 +458,6 @@
             font-size: 0.95rem;
             font-weight: 500;
             margin-top: 18px;
-            transition: background 0.2s;
-        }
-
-        .pdf-btn:active {
-            background: #c02a38;
         }
 
         /* PWA Install */
@@ -636,23 +511,16 @@
             .fab { bottom: 24px; right: 24px; }
             .chat-input input { padding: 12px; }
             .homework-item { padding: 12px 16px; font-size: 0.95rem; }
-            .timer-display { font-size: 1.8rem; }
         }
 
         @media (min-width: 768px) {
             .container { padding: 32px; }
         }
 
-        @media (pointer: coarse) {
-            .menu-btn, .close-btn, .fab { touch-action: manipulation; }
-        }
-
         /* Print */
         @media print {
-            .menu-btn, .fab, .chat-input, .pwa-install, .pdf-btn, .ai-chat, .study-timer, .mood-tracker { display: none !important; }
+            .menu-btn, .fab, .chat-input, .pwa-install, .pdf-btn, .ai-chat, .study-timer { display: none !important; }
             body { background: white !important; }
-            .container { padding: 16px; }
-            .card, .class-info { box-shadow: none; border: 1px solid #ddd; }
         }
     </style>
 </head>
@@ -740,24 +608,13 @@
             <div class="study-timer">
                 <div class="timer-title">
                     <ion-icon name="timer"></ion-icon>
-                    <span>Focus Timer</span>
+                    <span>Focus Timer (25 min)</span>
                 </div>
                 <div class="timer-display" id="timerDisplay">25:00</div>
                 <div class="timer-controls">
                     <button class="timer-btn start" id="startTimer">▶️ Start</button>
                     <button class="timer-btn pause" id="pauseTimer">⏸️ Pause</button>
                     <button class="timer-btn reset" id="resetTimer">🔄 Reset</button>
-                </div>
-            </div>
-
-            <!-- Mood Tracker -->
-            <div class="mood-tracker">
-                <div class="mood-title">
-                    <ion-icon name="happy"></ion-icon>
-                    <span>How are you feeling today?</span>
-                </div>
-                <div class="mood-options" id="moodOptions">
-                    😭 😟 😐 😊 😄
                 </div>
             </div>
 
@@ -768,12 +625,11 @@
                     <span>AI Homework Helper</span>
                 </div>
                 <div class="messages-container" id="chatMessages">
-                    <div class="msg ai">👋 Hi <span id="aiGreetName"></span>! I'm your school AI. Ask about homework, deadlines, or study tips! 📚</div>
+                    <div class="msg ai">👋 Hi <span id="aiName"></span>! Ask me about homework, deadlines, or study tips! 📚</div>
                 </div>
                 <div class="chat-input">
                     <input type="text" id="userInput" placeholder="Ask something..." />
                     <button id="sendBtn">Send</button>
-                    <button class="voice-btn" id="voiceBtn">🎤</button>
                 </div>
             </div>
 
@@ -792,41 +648,41 @@
     <script>
         const GEMINI_API_KEY = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
-        const APP_VERSION = '3.0.0';
+        const APP_VERSION = '3.1.0';
 
-        // DOM Elements
+        // DOM
+        const $ = sel => document.querySelector(sel);
+        const $$ = sel => document.querySelectorAll(sel);
+
         const els = {
-            menuBtn: document.getElementById('menuBtn'),
-            closeMenu: document.getElementById('closeMenu'),
-            menuPanel: document.getElementById('menuPanel'),
-            offlineBanner: document.getElementById('offlineBanner'),
-            toast: document.getElementById('toast'),
-            pwaInstall: document.getElementById('pwaInstall'),
-            installBtn: document.getElementById('installBtn'),
-            scrollTopBtn: document.getElementById('scrollTopBtn'),
-            greeting: document.getElementById('greeting'),
-            displayName: document.getElementById('displayName'),
-            displayClass: document.getElementById('displayClass'),
-            homeworkList: document.getElementById('homeworkList'),
-            chatMessages: document.getElementById('chatMessages'),
-            aiGreetName: document.getElementById('aiGreetName'),
-            userInput: document.getElementById('userInput'),
-            sendBtn: document.getElementById('sendBtn'),
-            voiceBtn: document.getElementById('voiceBtn'),
-            downloadPdf: document.getElementById('downloadPdf'),
-            timerDisplay: document.getElementById('timerDisplay'),
-            startTimer: document.getElementById('startTimer'),
-            pauseTimer: document.getElementById('pauseTimer'),
-            resetTimer: document.getElementById('resetTimer'),
-            moodOptions: document.getElementById('moodOptions')
+            menuBtn: $('#menuBtn'),
+            closeMenu: $('#closeMenu'),
+            menuPanel: $('#menuPanel'),
+            offlineBanner: $('#offlineBanner'),
+            toast: $('#toast'),
+            pwaInstall: $('#pwaInstall'),
+            installBtn: $('#installBtn'),
+            scrollTopBtn: $('#scrollTopBtn'),
+            greeting: $('#greeting'),
+            displayName: $('#displayName'),
+            displayClass: $('#displayClass'),
+            homeworkList: $('#homeworkList'),
+            chatMessages: $('#chatMessages'),
+            aiName: $('#aiName'),
+            userInput: $('#userInput'),
+            sendBtn: $('#sendBtn'),
+            downloadPdf: $('#downloadPdf'),
+            timerDisplay: $('#timerDisplay'),
+            startTimer: $('#startTimer'),
+            pauseTimer: $('#pauseTimer'),
+            resetTimer: $('#resetTimer')
         };
 
-        // User
         let userName = '';
         let userClass = '';
         let deferredPrompt;
         let timer;
-        let timeLeft = 25 * 60; // 25 min
+        let timeLeft = 25 * 60;
         let timerRunning = false;
 
         // AI Response Pool (never repeats)
@@ -850,49 +706,38 @@
             "🔄 Review mistakes: Redo wrong problems. Learn > grade! 📈",
             "👥 Study group: Meet peers tomorrow. Teaching reinforces learning! 🤝",
             "📌 Highlight: Use colors for key terms, definitions, examples. 🖍️",
-            "🚀 Motivation: You've aced tough topics before. This is no different! 💪",
-            "📌 Pro tip: Use Cornell Notes for better retention! ✏️",
-            "🧩 Mind map your essay first — structure = clarity! 🗺️",
-            "📚 Read aloud — it improves comprehension! 🗣️",
-            "📉 Graph your progress weekly. Growth feels real! 📊",
-            "🎯 Set SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound! 🎯"
+            "🚀 Motivation: You've aced tough topics before. This is no different! 💪"
         ];
 
-        let usedResponses = [];
+        let usedAi = [];
 
         function getAiResponse() {
-            if (usedResponses.length >= aiPool.length) usedResponses = [];
-            const available = aiPool.filter(r => !usedResponses.includes(r));
+            if (usedAi.length >= aiPool.length) usedAi = [];
+            const available = aiPool.filter(r => !usedAi.includes(r));
             const resp = available[Math.floor(Math.random() * available.length)] || aiPool[0];
-            usedResponses.push(resp);
-            return resp;
-        }
-
-        function getRandomEmoji() {
-            return ['📚', '🧠', '🎯', '✅', '🚀', '🌟', '💡', '📈', '🎓', '🧪', '🔍', '✍️', '📌', '⏰'][Math.floor(Math.random() * 14)];
+            usedAi.push(resp);
+            return resp + ' ' + ['📚', '🧠', '🎯', '✅', '🚀'][Math.floor(Math.random() * 5)];
         }
 
         async function getGeminiReply(prompt) {
             try {
-                const hwText = Array.from(els.homeworkList.children).map(li => li.textContent).join('; ');
-                const context = `You're a school AI for ${userName} in Class ${userClass}. Homework: ${hwText}. Reply with helpful, unique, emoji-rich advice. Never repeat. Max 2 sentences.`;
+                const hw = Array.from(els.homeworkList.children).map(li => li.textContent).join('; ');
+                const context = `You are a helpful school assistant for ${userName} in Class ${userClass}. Homework: ${hw}. Reply with school advice, emojis, never repeat. Max 2 sentences.`;
                 const res = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: context + ' ' + prompt }] }],
-                        generationConfig: { temperature: 0.7, maxOutputTokens: 180 }
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 150 }
                     })
                 });
 
                 if (!res.ok) throw new Error();
                 const data = await res.json();
-                let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || getAiResponse();
-                text = text.replace(/\*\*/g, '').trim();
-                return text + ' ' + getRandomEmoji();
-            } catch (err) {
-                console.warn('Gemini failed:', err);
-                return getAiResponse() + ' ' + getRandomEmoji();
+                return (data?.candidates?.[0]?.content?.parts?.[0]?.text || getAiResponse())
+                    .replace(/\*\*/g, '').trim();
+            } catch {
+                return getAiResponse();
             }
         }
 
@@ -909,7 +754,7 @@
             userClass = localStorage.getItem('cls') || '1';
 
             if (!userName || !userClass) {
-                alert('Please login first!');
+                alert('Login first!');
                 location.href = 'index.html';
                 return;
             }
@@ -917,178 +762,136 @@
             els.displayName.textContent = userName;
             els.displayClass.textContent = `Class ${userClass}`;
             els.greeting.textContent = `👋 Hello, ${userName}! Ready for Class ${userClass}?`;
-            els.aiGreetName.textContent = userName;
+            els.aiName.textContent = userName;
 
             loadHomework();
         }
 
         function loadHomework() {
-            const mockHomework = {
-                '1': ['🔤 Learn A-B-C', '✍️ Trace letters', '🎨 Color alphabet'],
-                '2': ['🔢 Count to 50', '➕ Addition 1-5', '📓 Write numbers'],
-                '3': ['📖 Read story', '✍️ 5 sentences', '🎨 Draw character'],
-                '7': ['🧪 Lab report', '🧮 Algebra', '📘 Essay draft'],
-                '10': ['🔬 Biology project', '📊 Stats homework', '📝 History essay'],
-                '12': ['🎓 College essay', '🔬 Research outline', '📚 Lit analysis']
+            const db = {
+                '1': ['🔤 Learn A-B-C', '✍️ Trace letters A-Z', '🎨 Color alphabet'],
+                '2': ['🔢 Count to 100', '➕ Addition 1-10', '📓 Write numbers 1-50'],
+                '7': ['🧪 Science experiment', '📘 Read Chapter 3', '📝 Math worksheet'],
+                '10': ['🔬 Biology project due', '📊 Statistics homework', '📖 Essay draft'],
+                '12': ['🎓 College essay', '🔬 Research outline', '📚 Literature analysis']
             };
 
-            const list = mockHomework[userClass] || ['No homework today! 🎉'];
+            const list = db[userClass] || ['No homework today! 🎉'];
             els.homeworkList.innerHTML = '';
             list.forEach(task => {
                 const li = document.createElement('li');
                 li.className = 'homework-item';
-                li.innerHTML = `<ion-icon name="checkmark-circle"></ion-icon> <span>${task}</span>`;
+                li.innerHTML = `<ion-icon name="checkmark-circle"></ion-icon> ${task}`;
                 els.homeworkList.appendChild(li);
             });
         }
 
-        // Timer
-        function updateTimer() {
-            const mins = Math.floor(timeLeft / 60);
-            const secs = timeLeft % 60;
-            els.timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                timerRunning = false;
-                showToast('⏰ Time up! Take a 5-min break! 🧘');
-                Notification.requestPermission().then(p => {
-                    if (p === 'granted') new Notification('Study Time Complete!', { body: 'Great focus!' });
-                });
-                resetTimerFunc();
-            } else {
-                timeLeft--;
-            }
-        }
-
-        function startTimerFunc() {
-            if (!timerRunning) {
-                timer = setInterval(updateTimer, 1000);
-                timerRunning = true;
-            }
-        }
-
-        function pauseTimerFunc() {
-            clearInterval(timer);
-            timerRunning = false;
-        }
-
-        function resetTimerFunc() {
-            clearInterval(timer);
-            timeLeft = 25 * 60;
-            updateTimer();
-            timerRunning = false;
-        }
-
-        // Setup
         function setup() {
             loadUser();
-            updateTimer();
 
-            // Event Listeners
-            els.menuBtn.addEventListener('click', () => {
+            // Menu
+            els.menuBtn.onclick = () => {
                 els.menuPanel.classList.add('open');
                 document.body.style.overflow = 'hidden';
-            });
-
-            els.closeMenu.addEventListener('click', () => {
+            };
+            els.closeMenu.onclick = () => {
                 els.menuPanel.classList.remove('open');
                 document.body.style.overflow = '';
-            });
+            };
 
-            document.getElementById('darkModeToggle').addEventListener('click', () => {
+            // Dark Mode
+            $('#darkModeToggle').onclick = () => {
                 document.body.classList.toggle('dark');
                 localStorage.setItem('dark', document.body.classList.contains('dark'));
-                showToast(document.body.classList.contains('dark') ? '🌙 Dark mode on' : '☀️ Light mode on');
+                showToast(document.body.classList.contains('dark') ? '🌙 Dark On' : '☀️ Light On');
                 els.menuPanel.classList.remove('open');
-            });
+            };
+            if (localStorage.getItem('dark') === 'true') document.body.classList.add('dark');
 
-            if (localStorage.getItem('dark') === 'true') {
-                document.body.classList.add('dark');
-            }
-
-            document.getElementById('printOption').addEventListener('click', e => {
+            // Print
+            $('#printOption').onclick = e => {
                 e.preventDefault();
                 window.print();
                 els.menuPanel.classList.remove('open');
                 showToast('🖨️ Printing...');
-            });
+            };
 
-            document.getElementById('shareOption').addEventListener('click', async e => {
+            // Share
+            $('#shareOption').onclick = async e => {
                 e.preventDefault();
                 if (navigator.share) {
                     navigator.share({
                         title: 'My Homework',
                         text: `Class ${userClass} Homework: ${Array.from(els.homeworkList.children).map(li => li.textContent).join(', ')}`,
                         url: location.href
-                    }).catch(() => {}).finally(() => {
-                        els.menuPanel.classList.remove('open');
-                    });
+                    }).finally(() => els.menuPanel.classList.remove('open'));
                 } else {
                     showToast('📱 Share not supported');
                 }
-            });
+            };
 
-            document.getElementById('pwaInstallBtn').addEventListener('click', e => {
+            // PWA
+            window.addEventListener('beforeinstallprompt', e => {
                 e.preventDefault();
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then(() => deferredPrompt = null);
-                } else {
-                    showToast('⏳ Install not ready');
-                }
+                deferredPrompt = e;
+                els.pwaInstall.style.display = 'block';
+            });
+            $('#pwaInstallBtn').onclick = e => {
+                e.preventDefault();
+                if (deferredPrompt) deferredPrompt.prompt();
                 els.menuPanel.classList.remove('open');
-            });
+            };
+            $('#installBtn').onclick = () => {
+                if (deferredPrompt) deferredPrompt.prompt();
+            };
 
-            document.getElementById('clearCacheBtn').addEventListener('click', e => {
+            // Clear Cache
+            $('#clearCacheBtn').onclick = e => {
                 e.preventDefault();
-                if (confirm('Clear cache and logout?')) {
+                if (confirm('Clear cache?')) {
                     localStorage.clear();
                     caches?.keys?.().then(keys => keys.forEach(k => caches.delete(k)));
-                    showToast('🧹 Cache cleared');
+                    showToast('🧹 Cleared!');
                     setTimeout(() => location.href = 'index.html', 800);
                 }
                 els.menuPanel.classList.remove('open');
-            });
+            };
 
-            document.getElementById('logoutBtn').addEventListener('click', e => {
+            // Logout
+            $('#logoutBtn').onclick = e => {
                 e.preventDefault();
                 if (confirm('Logout?')) {
                     localStorage.removeItem('name');
                     localStorage.removeItem('cls');
-                    showToast('👋 Logged out');
+                    showToast('👋 Bye!');
                     setTimeout(() => location.href = 'index.html', 800);
                 }
                 els.menuPanel.classList.remove('open');
-            });
+            };
 
-            els.downloadPdf.addEventListener('click', () => {
+            // PDF
+            els.downloadPdf.onclick = () => {
                 const text = Array.from(els.homeworkList.children).map(li => '• ' + li.textContent).join('\n');
                 const blob = new Blob([`
-🎓 School Homework
------------------
+🎓 Homework - Class ${userClass}
 Student: ${userName}
-Class: ${userClass}
 Date: ${new Date().toLocaleDateString()}
 
-📋 Homework:
 ${text}
-
-Generated by School Web
                 `.trim()], { type: 'text/plain' });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = `homework-${userClass}-${new Date().toISOString().split('T')[0]}.txt`;
+                a.download = `homework-${userClass}.txt`;
                 a.click();
                 URL.revokeObjectURL(a.href);
                 showToast('📥 PDF saved!');
-            });
+            };
 
             // Chat
-            els.sendBtn.addEventListener('click', sendMsg);
-            els.userInput.addEventListener('keypress', e => e.key === 'Enter' && sendMsg());
+            els.sendBtn.onclick = send;
+            els.userInput.onkeypress = e => e.key === 'Enter' && send();
 
-            function sendMsg() {
+            function send() {
                 const val = els.userInput.value.trim();
                 if (!val) return;
                 addMsg(val, true);
@@ -1102,75 +905,49 @@ Generated by School Web
                 });
             }
 
-            // Voice Input
-            els.voiceBtn.addEventListener('click', () => {
-                if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    const recognition = new SpeechRecognition();
-                    recognition.lang = 'en-US';
-                    recognition.start();
-                    recognition.onresult = e => {
-                        els.userInput.value = e.results[0][0].transcript;
-                    };
-                } else {
-                    showToast('🎤 Voice not supported');
-                }
-            });
-
             // Timer
-            els.startTimer.addEventListener('click', startTimerFunc);
-            els.pauseTimer.addEventListener('click', pauseTimerFunc);
-            els.resetTimer.addEventListener('click', resetTimerFunc);
-
-            // Mood Tracker
-            els.moodOptions.addEventListener('click', e => {
-                if (e.target.tagName === 'DIV') return;
-                const emojis = ['😭', '😟', '😐', '😊', '😄'];
-                Array.from(els.moodOptions.children).forEach((el, i) => {
-                    el.classList.toggle('mood-selected', el.textContent !== e.target.textContent);
-                });
-                showToast(`You're feeling: ${e.target.textContent} 💬`);
-            });
+            function updateTimer() {
+                const m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+                els.timerDisplay.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timerRunning = false;
+                    showToast('⏰ Time up! Take a break! 🧘');
+                    resetTimer.click();
+                } else timeLeft--;
+            }
+            els.startTimer.onclick = () => {
+                if (!timerRunning) timer = setInterval(updateTimer, 1000);
+                timerRunning = true;
+            };
+            els.pauseTimer.onclick = () => {
+                clearInterval(timer);
+                timerRunning = false;
+            };
+            els.resetTimer.onclick = () => {
+                clearInterval(timer);
+                timeLeft = 25 * 60;
+                updateTimer();
+                timerRunning = false;
+            };
+            updateTimer();
 
             // FAB
-            els.scrollTopBtn.addEventListener('click', () => {
+            els.scrollTopBtn.onclick = () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            window.addEventListener('scroll', () => {
+            };
+            window.onscroll = () => {
                 els.scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
-            });
+            };
 
-            window.addEventListener('online', () => {
-                els.offlineBanner.classList.remove('show');
-                showToast('🟢 Back online!');
-            });
-
-            window.addEventListener('offline', () => {
-                els.offlineBanner.classList.add('show');
-            });
-
-            window.addEventListener('beforeinstallprompt', e => {
-                e.preventDefault();
-                deferredPrompt = e;
-                els.pwaInstall.style.display = 'block';
-            });
-
-            els.installBtn.addEventListener('click', () => {
-                if (deferredPrompt) deferredPrompt.prompt();
-            });
+            // Offline
+            window.ononline = () => els.offlineBanner.classList.remove('show');
+            window.onoffline = () => els.offlineBanner.classList.add('show');
 
             // Service Worker
             if ('serviceWorker' in navigator) {
-                const swScript = `
-                    self.addEventListener('install', e => e.waitUntil(caches.open('school-v${APP_VERSION}')));
-                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-                    self.addEventListener('push', e => {
-                        const data = e.data?.json() || {};
-                        self.registration.showNotification(data.title || 'Reminder', { body: data.body });
-                    });
-                `;
-                const blob = new Blob([swScript], { type: 'text/javascript' });
+                const sw = `self.addEventListener('install',e=>e.waitUntil(caches.open('v${APP_VERSION}')));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
+                const blob = new Blob([sw], { type: 'text/javascript' });
                 navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
             }
 
@@ -1191,7 +968,7 @@ Generated by School Web
 
         document.addEventListener('DOMContentLoaded', () => {
             setup();
-            setTimeout(() => document.getElementById('mainContent').classList.add('fade-in'), 100);
+            setTimeout(() => $('#mainContent').classList.add('fade-in'), 100);
         });
     </script>
 </body>
