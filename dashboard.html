@@ -4,141 +4,117 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard | School Web #1</title>
+    <meta name="theme-color" content="#0d6efd">
     <style>
-        :root{
-            --primary:#0d6efd;
-            --secondary:#6c757d;
-            --light:#f8f9fa;
-            --dark:#212529;
-            --accent:#ffc107;
-            --bg:#ffffff;
-            --card:#f1f3f5;
-        }
-        body.dark{
-            --bg:#121212;
-            --card:#1e1e1e;
-            --light:#212529;
-            --dark:#f8f9fa;
-        }
+        :root{--p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;--bg:#fff;--card:#f8f3ff;}
+        .dark{--bg:#121212;--card:#1e1e1e;--d:#f1f3f5;}
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-        body{background:var(--bg);color:var(--dark);transition:.3s;}
-        .navbar{display:flex;justify-content:space-between;align-items:center;background:var(--primary);color:#fff;padding:12px 20px;font-weight:600;}
-        .toggle-mode{background:none;border:none;color:#fff;font-size:1.2em;cursor:pointer;}
-        .container{padding:15px;}
-        .card{background:var(--card);border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 6px rgba(0,0,0,.1);}
-        h2{margin-bottom:10px;font-size:1.2em;}
-        .btn{background:var(--primary);color:#fff;border:none;padding:10px 15px;border-radius:8px;font-weight:600;width:100%;cursor:pointer;margin-top:8px;}
-        .btn:hover{background:#084298;}
-        .hw-list li{margin:8px 0;}
-        .chat-box{height:200px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;color:#000;margin-bottom:8px;}
-        .chat-input{display:flex;gap:5px;}
-        .chat-input input{flex:1;padding:8px;border:1px solid #ccc;border-radius:8px;}
-        .chat-input button{padding:8px 12px;background:var(--accent);border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
-        footer{text-align:center;padding:15px;background:var(--light);color:var(--secondary);font-size:.8em;margin-top:30px;}
-        @media(max-width:600px){.navbar{font-size:1em;}.card{padding:12px;}}
+        body{background:var(--bg);color:var(--d);transition:.3s}
+        .navbar{display:flex;justify-content:space-between;align-items:center;background:var(--p);color:#fff;padding:12px 20px;font-weight:600}
+        .toggle{background:none;border:none;color:#fff;font-size:1.3em}
+        .container{padding:15px;max-width:600px;margin:auto}
+        .card{background:var(--card);border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+        h2{font-size:1.2em;margin-bottom:10px}
+        ul{list-style:none}
+        li{margin:8px 0}
+        .chatBox{height:180px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;color:#000;font-size:.85em;margin-bottom:8px}
+        .chatInput{display:flex;gap:5px}
+        .chatInput input{flex:1;padding:8px;border:1px solid #ccc;border-radius:8px}
+        .chatInput button{padding:8px 12px;background:var(--p);color:#fff;border:none;border-radius:8px;font-weight:bold}
+        footer{text-align:center;padding:15px;background:var(--l);color:var(--s);font-size:.8em;margin-top:30px}
+        @media(max-width:500px){.navbar{font-size:1em}}
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <span>🏫 Dashboard - Class <span id="dispClass"></span></span>
-        <button class="toggle-mode" onclick="toggleDark()">🌙</button>
+        <span>🏫 Dashboard – Class <span id="clsSpan"></span></span>
+        <button class="toggle" onclick="toggleDark()">🌙</button>
     </nav>
 
     <div class="container">
         <!-- Welcome -->
         <div class="card">
-            <h2>Hi, <span id="dispName"></span> 👋</h2>
-            <button class="btn" onclick="logout()">Logout</button>
+            <h2>Hi <span id="nameSpan"></span> 👋</h2>
+            <button onclick="logout()">Logout</button>
         </div>
 
-        <!-- Homework Section -->
+        <!-- Homework -->
         <div class="card">
-            <h2>📚 Homework (Class <span id="hwClass"></span>)</h2>
-            <ul class="hw-list" id="hwList">
-                <li>Loading...</li>
-            </ul>
-            <button class="btn" onclick="addHW()">Add New Homework</button>
+            <h2>📚 Homework</h2>
+            <ul id="hwList"></ul>
         </div>
 
-        <!-- AI Chat -->
+        <!-- AI (only homework) -->
         <div class="card">
-            <h2>🤖 AI Homework Helper</h2>
-            <div class="chat-box" id="chatBox"></div>
-            <div class="chat-input">
-                <input id="chatIn" placeholder="Ask homework question..." />
+            <h2>🤖 Homework Helper</h2>
+            <div class="chatBox" id="chatBox"></div>
+            <div class="chatInput">
+                <input id="chatIn" placeholder="Ask about homework…"/>
                 <button onclick="askAI()">Send</button>
             </div>
         </div>
-
-        <!-- Quick Links -->
-        <div class="card">
-            <h2>🔗 Quick Links</h2>
-            <button class="btn" onclick="location.href='admin.html'">Admin Panel</button>
-            <button class="btn" onclick="window.open('https://wa.me/?text=Check%20my%20homework','_blank')">Share on WhatsApp</button>
-        </div>
     </div>
 
-    <footer>© 2025 School Web - Built by #1</footer>
+    <footer>© 2025 School Web #1 – Professional & Mobile Ready</footer>
 
-    <script>
-        // Dark mode
-        function toggleDark(){
-            document.body.classList.toggle('dark');
-            localStorage.setItem('dark',document.body.classList.contains('dark'));
-        }
-        if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');}
+<script>
+/* ---------- CONFIG ---------- */
+const API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-        // Auth check
-        if(!localStorage.getItem('studentName')) location.href='index.html';
+/* ---------- AUTH ---------- */
+if(!localStorage.getItem('name')) location.href='index.html';
+const cls = localStorage.getItem('cls');
+const name = localStorage.getItem('name');
+document.getElementById('clsSpan').innerText = cls;
+document.getElementById('nameSpan').innerText = name;
 
-        // Display name & class
-        const cls = localStorage.getItem('studentClass');
-        document.getElementById('dispName').innerText = localStorage.getItem('studentName');
-        document.getElementById('dispClass').innerText = cls;
-        document.getElementById('hwClass').innerText = cls;
+/* ---------- DARK MODE ---------- */
+function toggleDark(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('dark',document.body.classList.contains('dark'));
+}
+if(localStorage.getItem('dark')==='true') document.body.classList.add('dark');
 
-        // Dummy homework (replace with dynamic later)
-        const hw = [
-            'Maths: Ex 3.1 Q1-5',
-            'Science: Draw diagram of cell',
-            'English: Write essay on “My School”'
-        ];
-        document.getElementById('hwList').innerHTML = hw.map(h=>`<li>${h}</li>`).join('');
+/* ---------- CLASS-WISE HOMEWORK ---------- */
+const homeworkDB = {
+    "1": ["Math – Count 1-50", "English – A-Z writing"],
+    "2": ["Math – Tables 2-5", "EVS – My Family worksheet"],
+    "3": ["Math – Addition 3-digit", "English – Story reading"],
+    "4": ["Math – Long division", "Science – Plant parts diagram"],
+    "5": ["Math – Fraction basics", "English – Paragraph writing"],
+    "6": ["Math – Algebra intro", "Science – Light reflection"],
+    "7": ["Math – Simple equations", "History – Delhi Sultanate"],
+    "8": ["Math – Rational numbers", "Physics – Force & pressure"],
+    "9": ["Math – Polynomials", "Chemistry – Matter notes"],
+    "10": ["Math – Quadratic equations", "Physics – Electricity derivations"],
+    "11": ["Math – Sets & functions", "Chemistry – Mole concept"],
+    "12": ["Math – Relations & functions", "Physics – Electrostatics problems"]
+};
+document.getElementById('hwList').innerHTML = homeworkDB[cls].map(h=>`<li>${h}</li>`).join('');
 
-        // Logout
-        function logout(){
-            localStorage.clear();
-            location.href='index.html';
-        }
+/* ---------- AI HOMEWORK CHAT ---------- */
+async function askAI(){
+    const msg = document.getElementById('chatIn').value.trim();
+    if(!msg) return;
+    const box=document.getElementById('chatBox');
+    box.innerHTML+=`<div><b>You:</b> ${msg}</div>`;
+    document.getElementById('chatIn').value='';
+    const prompt=`Class ${cls} student: ${msg}. Reply only about homework, short & clear.`;
+    try{
+        const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+        const data=await res.json();
+        const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'No reply';
+        box.innerHTML+=`<div><b>AI:</b> ${reply}</div>`;
+        box.scrollTop=box.scrollHeight;
+    }catch(e){box.innerHTML+=`<div><b>Error:</b> Check internet</div>`;}
+}
 
-        // AI Chat
-        async function askAI(){
-            const msg = document.getElementById('chatIn').value;
-            if(!msg) return;
-            const box = document.getElementById('chatBox');
-            box.innerHTML += `<div><b>You:</b> ${msg}</div>`;
-            document.getElementById('chatIn').value='';
-
-            const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs",{
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({contents:[{parts:[{text:`Class ${cls} student asks: ${msg}`}]}]})
-            });
-            const data = await res.json();
-            const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No reply";
-            box.innerHTML += `<div><b>AI:</b> ${reply}</div>`;
-            box.scrollTop = box.scrollHeight;
-        }
-
-        // Placeholder for add HW
-        function addHW(){
-            const task = prompt("Enter new homework:");
-            if(task){
-                const li=document.createElement('li');
-                li.innerText=task;
-                document.getElementById('hwList').appendChild(li);
-            }
-        }
-    </script>
+/* ---------- LOGOUT ---------- */
+function logout(){
+    localStorage.clear();
+    location.href='index.html';
+}
+</script>
 </body>
 </html>
