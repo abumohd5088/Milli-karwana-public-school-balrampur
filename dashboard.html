@@ -9,9 +9,9 @@
 <body>
     <header class="app-header">
         <button onclick="goHome()" class="nav-btn">🏠</button>
-        <div class="header-info">
-            <h1 id="studentNameDisplay">Student</h1>
-            <p>Class <span id="classDisplay">1</span></p>
+        <div>
+            <h1 id="studentName">Student</h1>
+            <p>Class <span id="currentClass">1</span></p>
         </div>
         <button onclick="goBack()" class="nav-btn">✖️</button>
     </header>
@@ -23,70 +23,64 @@
         <button class="tab-btn" onclick="showTab('results')">📊 Results</button>
     </div>
 
-    <main class="content-area">
-        <!-- Homework Tab -->
-        <div id="homeworkTab" class="tab-content active">
-            <div class="toolbar">
-                <input type="date" id="hwDate" class="date-input">
-                <select id="hwSubject" class="subject-select">
-                    <option value="all">All Subjects</option>
-                    <option value="Math">Math</option>
-                    <option value="English">English</option>
-                    <option value="Science">Science</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Social">Social</option>
-                    <option value="EVS">EVS</option>
-                </select>
-            </div>
-            <div id="homeworkList" class="item-list"></div>
+    <!-- Homework Section -->
+    <div id="homeworkTab" class="tab-content active">
+        <div class="toolbar">
+            <input type="date" id="hwDate" class="date-input">
+            <select id="hwSubject" class="subject-select">
+                <option value="all">All</option>
+                <option value="Math">Math</option>
+                <option value="English">English</option>
+                <option value="Science">Science</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Social">Social</option>
+                <option value="EVS">EVS</option>
+            </select>
+            <button onclick="addHomework()" class="add-btn">+ Add</button>
         </div>
-
-        <!-- Notes Tab -->
-        <div id="notesTab" class="tab-content">
-            <div class="toolbar">
-                <select id="noteSubject" class="subject-select" onchange="loadNotes()">
-                    <option value="Math">Math</option>
-                    <option value="English">English</option>
-                    <option value="Science">Science</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Social">Social</option>
-                    <option value="EVS">EVS</option>
-                </select>
-            </div>
-            <div id="notesList" class="item-list"></div>
-        </div>
-
-        <!-- Timetable Tab -->
-        <div id="timetableTab" class="tab-content">
-            <div id="timetableContent" class="timetable-grid"></div>
-        </div>
-
-        <!-- Results Tab -->
-        <div id="resultsTab" class="tab-content">
-            <div id="resultsContent" class="results-grid"></div>
-        </div>
-    </main>
-
-    <!-- Hidden Admin Controls -->
-    <div id="adminControls" class="admin-controls hidden">
-        <button onclick="showAddForm('homework')" class="admin-btn">+ Homework</button>
-        <button onclick="showAddForm('notes')" class="admin-btn">+ Notes</button>
+        <div id="homeworkList" class="item-list"></div>
     </div>
 
-    <!-- Add Forms -->
-    <div id="addForm" class="add-form hidden">
-        <div class="form-content">
-            <h3 id="formTitle">Add Item</h3>
+    <!-- Notes Section -->
+    <div id="notesTab" class="tab-content">
+        <div class="toolbar">
+            <select id="noteSubject" class="subject-select" onchange="loadNotes()">
+                <option value="Math">Math</option>
+                <option value="English">English</option>
+                <option value="Science">Science</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Social">Social</option>
+            </select>
+            <button onclick="addNotes()" class="add-btn">+ Add</button>
+        </div>
+        <div id="notesList" class="item-list"></div>
+    </div>
+
+    <!-- Timetable Section -->
+    <div id="timetableTab" class="tab-content">
+        <div id="timetableContent" class="timetable-grid"></div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="resultsTab" class="tab-content">
+        <div id="resultsContent" class="results-grid"></div>
+    </div>
+
+    <!-- Add Form Modal -->
+    <div id="addFormModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeForm()">&times;</span>
+            <h3 id="formTitle">Add New Item</h3>
             <input type="text" id="itemTitle" placeholder="Title">
             <textarea id="itemContent" placeholder="Content"></textarea>
             <input type="date" id="itemDate" class="date-input">
             <div class="form-actions">
-                <button onclick="saveItem()" class="btn btn-primary">Save</button>
-                <button onclick="closeAddForm()" class="btn btn-secondary">Cancel</button>
+                <button onclick="saveItem()" class="btn">Save</button>
+                <button onclick="closeForm()" class="btn btn-secondary">Cancel</button>
             </div>
         </div>
     </div>
 
-    <script src="js/complete.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
