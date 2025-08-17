@@ -1,86 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Springfield Academy</title>
-    <link rel="stylesheet" href="css/mobile.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="css/ultra-pro.css" />
 </head>
-<body>
-    <header class="app-header">
-        <button onclick="goHome()" class="nav-btn">🏠</button>
-        <div>
-            <h1 id="studentName">Student</h1>
-            <p>Class <span id="currentClass">1</span></p>
-        </div>
-        <button onclick="goBack()" class="nav-btn">✖️</button>
-    </header>
+<body class="dashboard-body">
+  <header>
+    <h2>Hi, <span id="greet-name"></span>!</h2>
+    <p>Class <span id="greet-class"></span></p>
+  </header>
 
-    <div class="feature-tabs">
-        <button class="tab-btn active" onclick="showTab('homework')">📚 Homework</button>
-        <button class="tab-btn" onclick="showTab('notes')">📝 Notes</button>
-        <button class="tab-btn" onclick="showTab('timetable')">📅 Timetable</button>
-        <button class="tab-btn" onclick="showTab('results')">📊 Results</button>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="homework">Homework</button>
+    <button class="tab-btn" data-tab="notes">Notes</button>
+    <button class="tab-btn" data-tab="timetable">Timetable</button>
+    <button class="tab-btn" data-tab="results">Results</button>
+  </div>
+
+  <div class="tab-content">
+    <!-- Homework Tab -->
+    <div id="homework" class="tab-pane active">
+      <h3>📚 Homework</h3>
+      <ul id="homework-list"></ul>
     </div>
 
-    <!-- Homework Section -->
-    <div id="homeworkTab" class="tab-content active">
-        <div class="toolbar">
-            <input type="date" id="hwDate" class="date-input">
-            <select id="hwSubject" class="subject-select">
-                <option value="all">All</option>
-                <option value="Math">Math</option>
-                <option value="English">English</option>
-                <option value="Science">Science</option>
-                <option value="Hindi">Hindi</option>
-                <option value="Social">Social</option>
-                <option value="EVS">EVS</option>
-            </select>
-            <button onclick="addHomework()" class="add-btn">+ Add</button>
-        </div>
-        <div id="homeworkList" class="item-list"></div>
+    <!-- Notes Tab -->
+    <div id="notes" class="tab-pane">
+      <h3>📝 Notes</h3>
+      <ul id="notes-list"></ul>
     </div>
 
-    <!-- Notes Section -->
-    <div id="notesTab" class="tab-content">
-        <div class="toolbar">
-            <select id="noteSubject" class="subject-select" onchange="loadNotes()">
-                <option value="Math">Math</option>
-                <option value="English">English</option>
-                <option value="Science">Science</option>
-                <option value="Hindi">Hindi</option>
-                <option value="Social">Social</option>
-            </select>
-            <button onclick="addNotes()" class="add-btn">+ Add</button>
-        </div>
-        <div id="notesList" class="item-list"></div>
+    <!-- Timetable Tab -->
+    <div id="timetable" class="tab-pane">
+      <h3>📅 Timetable</h3>
+      <div id="timetable-content"></div>
     </div>
 
-    <!-- Timetable Section -->
-    <div id="timetableTab" class="tab-content">
-        <div id="timetableContent" class="timetable-grid"></div>
+    <!-- Results Tab -->
+    <div id="results" class="tab-pane">
+      <h3>📊 Results</h3>
+      <div id="results-content"></div>
     </div>
+  </div>
 
-    <!-- Results Section -->
-    <div id="resultsTab" class="tab-content">
-        <div id="resultsContent" class="results-grid"></div>
-    </div>
+  <!-- Admin FAB -->
+  <button id="admin-fab" title="Admin Panel">⚙️</button>
 
-    <!-- Add Form Modal -->
-    <div id="addFormModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close" onclick="closeForm()">&times;</span>
-            <h3 id="formTitle">Add New Item</h3>
-            <input type="text" id="itemTitle" placeholder="Title">
-            <textarea id="itemContent" placeholder="Content"></textarea>
-            <input type="date" id="itemDate" class="date-input">
-            <div class="form-actions">
-                <button onclick="saveItem()" class="btn">Save</button>
-                <button onclick="closeForm()" class="btn btn-secondary">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/app.js"></script>
+  <script src="js/ultra-pro.js"></script>
 </body>
 </html>
