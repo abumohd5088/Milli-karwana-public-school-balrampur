@@ -9,7 +9,13 @@
     <meta name="theme-color" content="#667eea">
 </head>
 <body>
-    <!-- Header with Profile -->
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-time" id="statusTime">12:00</div>
+        <div class="status-battery">🔋100%</div>
+    </div>
+
+    <!-- Header -->
     <header class="dashboard-header">
         <div class="header-content">
             <div class="header-left">
@@ -22,10 +28,10 @@
             <div class="header-right">
                 <button class="notification-btn" onclick="showNotifications()">
                     <span>🔔</span>
-                    <div class="notification-badge">3</div>
+                    <span class="notification-count">3</span>
                 </button>
-                <button class="logout-btn" onclick="logout()">
-                    <span>🚪</span>
+                <button class="profile-btn" onclick="showProfile()">
+                    <span>👤</span>
                 </button>
             </div>
         </div>
@@ -33,60 +39,34 @@
 
     <!-- Quick Stats -->
     <div class="quick-stats">
-        <div class="stat-item">
+        <div class="stat-item" onclick="scrollToSection('homework')">
             <div class="stat-icon">📝</div>
-            <div class="stat-info">
-                <div class="stat-number" id="hwCount">0</div>
-                <div class="stat-label">Homework</div>
-            </div>
+            <div class="stat-number" id="hwCount">0</div>
+            <div class="stat-label">Homework</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" onclick="scrollToSection('notes')">
             <div class="stat-icon">📖</div>
-            <div class="stat-info">
-                <div class="stat-number" id="notesCount">0</div>
-                <div class="stat-label">Notes</div>
-            </div>
+            <div class="stat-number" id="notesCount">0</div>
+            <div class="stat-label">Notes</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" onclick="scrollToSection('results')">
             <div class="stat-icon">📊</div>
-            <div class="stat-info">
-                <div class="stat-number" id="resultsCount">0</div>
-                <div class="stat-label">Results</div>
-            </div>
+            <div class="stat-number" id="resultsCount">0</div>
+            <div class="stat-label">Results</div>
         </div>
     </div>
-
-    <!-- Navigation -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" data-tab="homework">
-            <span class="nav-icon">📝</span>
-            <span class="nav-text">Homework</span>
-        </button>
-        <button class="nav-item" data-tab="notes">
-            <span class="nav-icon">📖</span>
-            <span class="nav-text">Notes</span>
-        </button>
-        <button class="nav-item" data-tab="timetable">
-            <span class="nav-icon">⏰</span>
-            <span class="nav-text">Timetable</span>
-        </button>
-        <button class="nav-item" data-tab="results">
-            <span class="nav-icon">📊</span>
-            <span class="nav-text">Results</span>
-        </button>
-    </nav>
 
     <!-- Main Content -->
     <main class="dashboard-main">
         <!-- Homework Section -->
-        <section class="tab-content active" id="homework">
+        <section class="content-section" id="homework">
             <div class="section-header">
-                <h2>📚 Today's Homework</h2>
-                <button class="refresh-btn pulse" onclick="refreshHomework()">
+                <h2>Today's Homework 📚</h2>
+                <button class="refresh-btn" onclick="refreshHomework()">
                     <span>🔄</span>
                 </button>
             </div>
-            <div class="content-grid" id="homeworkGrid"></div>
+            <div class="cards-container" id="homeworkCards"></div>
             <div class="empty-state" id="homeworkEmpty" style="display: none;">
                 <div class="empty-icon">📚</div>
                 <h3>No Homework Today!</h3>
@@ -95,25 +75,25 @@
         </section>
 
         <!-- Notes Section -->
-        <section class="tab-content" id="notes">
+        <section class="content-section" id="notes">
             <div class="section-header">
-                <h2>📖 Study Materials</h2>
-                <button class="refresh-btn pulse" onclick="refreshNotes()">
+                <h2>Study Materials 📖</h2>
+                <button class="refresh-btn" onclick="refreshNotes()">
                     <span>🔄</span>
                 </button>
             </div>
-            <div class="content-grid" id="notesGrid"></div>
+            <div class="cards-container" id="notesCards"></div>
             <div class="empty-state" id="notesEmpty" style="display: none;">
                 <div class="empty-icon">📖</div>
                 <h3>No Notes Available</h3>
-                <p>Check back later or ask your teacher</p>
+                <p>Check with your teacher</p>
             </div>
         </section>
 
         <!-- Timetable Section -->
-        <section class="tab-content" id="timetable">
+        <section class="content-section" id="timetable">
             <div class="section-header">
-                <h2>⏰ Class Schedule</h2>
+                <h2>Class Schedule ⏰</h2>
                 <div class="date-display" id="currentDate"></div>
             </div>
             <div class="timetable-container" id="timetableDisplay">
@@ -124,10 +104,12 @@
         </section>
 
         <!-- Results Section -->
-        <section class="tab-content" id="results">
+        <section class="content-section" id="results">
             <div class="section-header">
-                <h2>📊 Your Performance</h2>
-                <button class="view-all-btn" onclick="viewAllResults()">View All</button>
+                <h2>Your Performance 📊</h2>
+                <button class="view-all-btn" onclick="viewAllResults()">
+                    View All
+                </button>
             </div>
             <div class="results-container" id="resultsDisplay">
                 <div class="loading-spinner">
@@ -137,61 +119,60 @@
         </section>
     </main>
 
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-        <button class="action-btn primary" onclick="addReminder()">
-            <span>➕</span>
-            <span>Add Reminder</span>
+    <!-- Floating Action Button -->
+    <button class="fab-main" onclick="showAddOptions()">
+        <span>➕</span>
+    </button>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <button class="action-btn" onclick="addReminder()">
+            <span>⏰</span>
+            Remind
         </button>
-        <button class="action-btn secondary" onclick="shareProgress()">
+        <button class="action-btn" onclick="shareProgress()">
             <span>📤</span>
-            <span>Share</span>
+            Share
+        </button>
+        <button class="action-btn" onclick="contactTeacher()">
+            <span>👨‍🏫</span>
+            Help
         </button>
     </div>
 
-    <!-- Floating Admin Button -->
-    <button class="admin-fab" onclick="window.location.href='admin.html'" title="Admin Panel">
-        ⚙️
-    </button>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-section="homework">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">Homework</span>
+        </button>
+        <button class="nav-item" data-section="notes">
+            <span class="nav-icon">📖</span>
+            <span class="nav-text">Notes</span>
+        </button>
+        <button class="nav-item" data-section="timetable">
+            <span class="nav-icon">⏰</span>
+            <span class="nav-text">Schedule</span>
+        </button>
+        <button class="nav-item" data-section="results">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Results</span>
+        </button>
+    </nav>
 
     <!-- Footer -->
-    <footer class="dashboard-footer">
+    <footer class="app-footer">
         <div class="footer-content">
-            <p>&copy; 2025 Springfield India School. All rights reserved.</p>
+            <p>&copy; 2025 Springfield India School System</p>
             <p>Made with ❤️ for Indian Students</p>
             <div class="footer-links">
                 <a href="#" onclick="showPrivacy()">Privacy</a>
                 <a href="#" onclick="showTerms()">Terms</a>
                 <a href="#" onclick="showHelp()">Help</a>
+                <a href="#" onclick="showAbout()">About</a>
             </div>
         </div>
     </footer>
-
-    <!-- Notification Panel -->
-    <div class="notification-panel" id="notificationPanel">
-        <div class="notification-header">
-            <h3>Notifications</h3>
-            <button onclick="closeNotifications()">✖️</button>
-        </div>
-        <div class="notification-list">
-            <div class="notification-item unread">
-                <div class="notification-icon">📝</div>
-                <div class="notification-content">
-                    <strong>New Homework Added</strong>
-                    <p>Math assignment for tomorrow</p>
-                    <small>2 hours ago</small>
-                </div>
-            </div>
-            <div class="notification-item">
-                <div class="notification-icon">📊</div>
-                <div class="notification-content">
-                    <strong>Results Published</strong>
-                    <p>Check your recent test scores</p>
-                    <small>1 day ago</small>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
         // Professional Dashboard Manager
@@ -208,6 +189,7 @@
 
             init() {
                 this.setupUI();
+                this.setupNavigation();
                 this.loadAllData();
                 this.startClock();
                 this.setupInteractions();
@@ -215,37 +197,75 @@
 
             setupUI() {
                 // Set welcome message
-                document.getElementById('welcomeText').textContent = `Welcome back, ${this.user.name}`;
+                document.getElementById('welcomeText').textContent = `Hi, ${this.user.name}`;
                 document.getElementById('classText').textContent = `Class ${this.user.class}`;
                 
                 // Show current date
                 document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-IN', {
                     weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
+                    day: 'numeric',
+                    month: 'long'
                 });
 
-                // Show admin button for admin
-                if (this.user.name.toLowerCase() === 'admin') {
-                    document.querySelector('.admin-fab').style.display = 'flex';
-                }
+                // Update status bar
+                this.updateStatusBar();
+            }
+
+            setupNavigation() {
+                const navItems = document.querySelectorAll('.nav-item');
+                const sections = document.querySelectorAll('.content-section');
+
+                navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const section = item.dataset.section;
+                        
+                        // Update active states
+                        navItems.forEach(i => i.classList.remove('active'));
+                        sections.forEach(s => s.style.display = 'none');
+                        
+                        item.classList.add('active');
+                        document.getElementById(section).style.display = 'block';
+                        
+                        // Load section data
+                        this.loadSectionData(section);
+                    });
+                });
+
+                // Show first section
+                this.loadSectionData('homework');
             }
 
             loadAllData() {
-                this.loadHomework();
-                this.loadNotes();
-                this.loadTimetable();
-                this.loadResults();
                 this.updateStats();
+                this.loadSectionData('homework');
+                this.loadSectionData('notes');
+                this.loadSectionData('timetable');
+                this.loadSectionData('results');
+            }
+
+            loadSectionData(section) {
+                switch(section) {
+                    case 'homework':
+                        this.loadHomework();
+                        break;
+                    case 'notes':
+                        this.loadNotes();
+                        break;
+                    case 'timetable':
+                        this.loadTimetable();
+                        break;
+                    case 'results':
+                        this.loadResults();
+                        break;
+                }
             }
 
             loadHomework() {
                 const homework = JSON.parse(localStorage.getItem('homework')) || [];
                 const filtered = homework.filter(h => h.class === this.user.class);
-                const container = document.getElementById('homeworkGrid');
+                const container = document.getElementById('homeworkCards');
                 const empty = document.getElementById('homeworkEmpty');
-                
+
                 if (filtered.length === 0) {
                     container.style.display = 'none';
                     empty.style.display = 'block';
@@ -256,27 +276,25 @@
                 empty.style.display = 'none';
                 
                 container.innerHTML = '';
-                filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-                    .slice(0, 3) // Show only 3 recent
-                    .forEach(hw => {
-                        container.appendChild(this.createHomeworkCard(hw));
-                    });
+                filtered.slice(0, 3).forEach(hw => {
+                    container.appendChild(this.createHomeworkCard(hw));
+                });
             }
 
             createHomeworkCard(hw) {
                 const card = document.createElement('div');
-                card.className = 'homework-card animated';
+                card.className = 'modern-card';
                 const daysLeft = Math.ceil((new Date(hw.dueDate) - new Date()) / (1000 * 60 * 60 * 24));
                 
                 card.innerHTML = `
                     <div class="card-header">
-                        <span class="subject-badge">${hw.subject}</span>
-                        <span class="due-badge ${daysLeft <= 1 ? 'urgent' : ''}">${daysLeft}d left</span>
+                        <span class="subject-tag">${hw.subject}</span>
+                        <span class="due-indicator ${daysLeft <= 1 ? 'urgent' : ''}">${daysLeft}d left</span>
                     </div>
-                    <h3>${hw.description}</h3>
-                    <div class="card-actions">
-                        <button class="btn-done" onclick="markDone('${hw.id}')">✅ Done</button>
-                        <button class="btn-remind" onclick="setReminder('${hw.id}')">🔔 Remind</button>
+                    <p class="card-content">${hw.description}</p>
+                    <div class="card-footer">
+                        <span class="due-date">Due: ${new Date(hw.dueDate).toLocaleDateString()}</span>
+                        <button class="card-action" onclick="markDone('${hw.id}')">✅</button>
                     </div>
                 `;
                 return card;
@@ -285,9 +303,9 @@
             loadNotes() {
                 const notes = JSON.parse(localStorage.getItem('notes')) || [];
                 const filtered = notes.filter(n => n.class === this.user.class);
-                const container = document.getElementById('notesGrid');
+                const container = document.getElementById('notesCards');
                 const empty = document.getElementById('notesEmpty');
-                
+
                 if (filtered.length === 0) {
                     container.style.display = 'none';
                     empty.style.display = 'block';
@@ -305,16 +323,16 @@
 
             createNoteCard(note) {
                 const card = document.createElement('div');
-                card.className = 'note-card animated';
+                card.className = 'modern-card note-card';
                 
                 card.innerHTML = `
                     <div class="card-header">
-                        <span class="subject-badge">${note.subject}</span>
-                        <span class="class-badge">Class ${note.class}</span>
+                        <span class="subject-tag">${note.subject}</span>
+                        <span class="class-tag">Class ${note.class}</span>
                     </div>
-                    <h3>${note.title}</h3>
-                    <p>${note.content.substring(0, 100)}${note.content.length > 100 ? '...' : ''}</p>
-                    <button class="btn-read-more" onclick="readMore('${note.id}')">Read More</button>
+                    <h3 class="note-title">${note.title}</h3>
+                    <p class="note-preview">${note.content.substring(0, 120)}...</p>
+                    <button class="read-more-btn" onclick="readNote('${note.id}')">Read More →</button>
                 `;
                 return card;
             }
@@ -323,45 +341,37 @@
                 const timetables = JSON.parse(localStorage.getItem('timetables')) || [];
                 const timetable = timetables.find(t => t.class === this.user.class);
                 const container = document.getElementById('timetableDisplay');
-                
+
                 if (!timetable) {
-                    container.innerHTML = '<div class="empty-state">⏰ No timetable set</div>';
+                    container.innerHTML = '<div class="empty-state">⏰ No timetable set for your class</div>';
                     return;
                 }
 
                 const periods = [
-                    { time: '9:00-9:45', period: 'period1' },
-                    { time: '9:45-10:30', period: 'period2' },
-                    { time: '10:30-11:15', period: 'period3' },
-                    { time: '11:30-12:15', period: 'period4' },
-                    { time: '12:15-1:00', period: 'period5' },
-                    { time: '1:00-1:45', period: 'period6' }
+                    { time: '9:00-9:45', subject: timetable.period1 || 'Free' },
+                    { time: '9:45-10:30', subject: timetable.period2 || 'Free' },
+                    { time: '10:30-11:15', subject: timetable.period3 || 'Free' },
+                    { time: '11:30-12:15', subject: timetable.period4 || 'Free' },
+                    { time: '12:15-1:00', subject: timetable.period5 || 'Free' },
+                    { time: '1:00-1:45', subject: timetable.period6 || 'Free' }
                 ];
 
-                const grid = document.createElement('div');
-                grid.className = 'timetable-grid';
-                
-                periods.forEach(p => {
-                    const div = document.createElement('div');
-                    div.className = 'timetable-item';
-                    div.innerHTML = `
+                container.innerHTML = periods.map(p => `
+                    <div class="timetable-slot">
                         <div class="time">${p.time}</div>
-                        <div class="subject">${timetable[p.period] || 'Free Period'}</div>
-                    `;
-                    grid.appendChild(div);
-                });
-                
-                container.innerHTML = '';
-                container.appendChild(grid);
+                        <div class="subject">${p.subject}</div>
+                        ${p.subject !== 'Free' ? '<div class="status active">Active</div>' : '<div class="status free">Free</div>'}
+                    </div>
+                `).join('');
             }
 
             loadResults() {
                 const results = JSON.parse(localStorage.getItem('results')) || [];
                 const filtered = results.filter(r => r.class === this.user.class && r.studentName === this.user.name);
                 const container = document.getElementById('resultsDisplay');
-                
+
                 if (filtered.length === 0) {
-                    container.innerHTML = '<div class="empty-state">📊 No results posted</div>';
+                    container.innerHTML = '<div class="empty-state">📊 No results posted yet</div>';
                     return;
                 }
 
@@ -375,18 +385,23 @@
                 
                 const total = subjects.reduce((sum, s) => sum + s.score, 0);
                 const percentage = Math.round(total / 4);
-                
+
                 container.innerHTML = `
-                    <div class="result-summary">
+                    <div class="performance-card">
                         <div class="overall-score">
                             <div class="score-circle">
-                                <span class="score-number">${percentage}%</span>
-                                <span class="score-label">Overall</span>
+                                <div class="score-number">${percentage}%</div>
+                                <div class="score-label">Overall</div>
+                            </div>
+                            <div class="score-details">
+                                <h3>Latest Results</h3>
+                                <p>Total: ${total}/400</p>
+                                <p>Grade: ${this.getGrade(percentage)}</p>
                             </div>
                         </div>
                         <div class="subject-scores">
                             ${subjects.map(s => `
-                                <div class="score-item">
+                                <div class="score-row">
                                     <span class="subject-name">${s.name}</span>
                                     <div class="score-bar">
                                         <div class="score-fill" style="width: ${s.score}%"></div>
@@ -397,6 +412,15 @@
                         </div>
                     </div>
                 `;
+            }
+
+            getGrade(percentage) {
+                if (percentage >= 90) return 'A+';
+                if (percentage >= 80) return 'A';
+                if (percentage >= 70) return 'B+';
+                if (percentage >= 60) return 'B';
+                if (percentage >= 50) return 'C';
+                return 'D';
             }
 
             updateStats() {
@@ -411,18 +435,19 @@
 
             startClock() {
                 setInterval(() => {
-                    // Update any dynamic content
-                }, 60000);
+                    const now = new Date();
+                    document.getElementById('statusTime').textContent = now.toLocaleTimeString('en-IN', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                }, 1000);
             }
 
             setupInteractions() {
-                // Add smooth scrolling
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        // Add click animation
-                        item.style.transform = 'scale(0.95)';
-                        setTimeout(() => item.style.transform = '', 150);
-                    });
+                // Add touch feedback
+                document.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('touchstart', () => btn.style.transform = 'scale(0.95)');
+                    btn.addEventListener('touchend', () => btn.style.transform = '');
                 });
             }
         }
@@ -437,52 +462,48 @@
 
         function refreshHomework() {
             const btn = event.target;
-            btn.classList.add('spinning');
-            setTimeout(() => btn.classList.remove('spinning'), 1000);
+            btn.style.transform = 'rotate(360deg)';
+            setTimeout(() => btn.style.transform = '', 500);
             dashboard.loadHomework();
         }
 
         function refreshNotes() {
             const btn = event.target;
-            btn.classList.add('spinning');
-            setTimeout(() => btn.classList.remove('spinning'), 1000);
+            btn.style.transform = 'rotate(360deg)';
+            setTimeout(() => btn.style.transform = '', 500);
             dashboard.loadNotes();
         }
 
         function showNotifications() {
-            document.getElementById('notificationPanel').style.display = 'block';
+            alert('🔔 Notifications panel coming soon!');
         }
 
-        function closeNotifications() {
-            document.getElementById('notificationPanel').style.display = 'none';
+        function showProfile() {
+            alert('👤 Profile page coming soon!');
+        }
+
+        function showAddOptions() {
+            alert('➕ Add options: Homework, Notes, Reminder');
         }
 
         function addReminder() {
-            alert('📅 Reminder feature coming soon!');
+            alert('⏰ Reminder feature coming soon!');
         }
 
         function shareProgress() {
             if (navigator.share) {
                 navigator.share({
                     title: 'Springfield India Dashboard',
-                    text: `Check out my progress at Springfield India School!`,
+                    text: `Check out my progress at Springfield India!`,
                     url: window.location.href
                 });
             } else {
-                alert('🔗 Share link copied!');
+                alert('🔗 Share functionality copied to clipboard!');
             }
         }
 
-        function showPrivacy() {
-            alert('🔒 Privacy Policy: We protect your data and never share it.');
-        }
-
-        function showTerms() {
-            alert('📋 Terms of Service: Use responsibly and respect others.');
-        }
-
-        function showHelp() {
-            alert('❓ Help: Contact your teacher or email support@springfieldindia.edu');
+        function contactTeacher() {
+            alert('📧 Contact: teacher@springfieldindia.edu');
         }
 
         function viewAllResults() {
@@ -490,415 +511,31 @@
         }
 
         function markDone(id) {
-            alert('✅ Marked as completed!');
+            alert('✅ Great job! Homework marked as completed.');
         }
 
-        function setReminder(id) {
-            alert('🔔 Reminder set for tomorrow!');
+        function readNote(id) {
+            alert('📖 Full note content will open in detail view.');
         }
 
-        function readMore(id) {
-            alert('📖 Full note content will open in a new view!');
+        function showPrivacy() {
+            alert('🔒 Privacy: Your data is encrypted and never shared.');
+        }
+
+        function showTerms() {
+            alert('📋 Terms: Use responsibly and respect others.');
+        }
+
+        function showHelp() {
+            alert('❓ Help: Contact support@springfieldindia.edu or call +91-123-456-7890');
+        }
+
+        function showAbout() {
+            alert('🏫 About: Springfield India - Empowering students since 2025');
         }
 
         // Initialize dashboard
         const dashboard = new ProfessionalDashboard();
-
-        // Add loading states
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
     </script>
-
-    <style>
-        /* Additional Professional Styles */
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 0 20px;
-            margin: 20px 0;
-        }
-
-        .stat-item {
-            background: white;
-            padding: 16px;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .stat-item:active {
-            transform: scale(0.95);
-        }
-
-        .stat-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .stat-number {
-            font-size: 20px;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #718096;
-        }
-
-        .notification-btn {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 20px;
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: #f56565;
-            color: white;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .action-buttons {
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            gap: 12px;
-            z-index: 99;
-        }
-
-        .action-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .action-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .action-btn.secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-
-        .action-btn:active {
-            transform: scale(0.95);
-        }
-
-        .dashboard-footer {
-            background: #2d3748;
-            color: white;
-            padding: 30px 20px;
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        .footer-content p {
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 12px;
-        }
-
-        .footer-links a {
-            color: #a0aec0;
-            text-decoration: none;
-            font-size: 12px;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .notification-panel {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .notification-header {
-            background: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 16px 16px 0 0;
-        }
-
-        .notification-list {
-            background: white;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 0 20px 20px;
-        }
-
-        .notification-item {
-            display: flex;
-            gap: 12px;
-            padding: 16px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .notification-item.unread {
-            background: #f7fafc;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .notification-icon {
-            font-size: 20px;
-        }
-
-        .notification-content strong {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .notification-content small {
-            color: #718096;
-        }
-
-        .dashboard-main {
-            padding: 20px;
-            padding-bottom: 150px;
-        }
-
-        .spinning {
-            animation: spin 1s linear;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loaded .dashboard-main {
-            animation: fadeInUp 0.6s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .homework-card, .note-card {
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .subject-badge, .due-badge, .class-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .subject-badge {
-            background: #667eea;
-            color: white;
-        }
-
-        .due-badge {
-            background: #48bb78;
-            color: white;
-        }
-
-        .due-badge.urgent {
-            background: #f56565;
-        }
-
-        .class-badge {
-            background: #e2e8f0;
-            color: #4a5568;
-        }
-
-        .score-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin: 0 auto 20px;
-        }
-
-        .score-number {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .score-label {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .score-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .score-bar {
-            flex: 1;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .score-fill {
-            height: 100%;
-            background: #48bb78;
-            transition: width 0.3s ease;
-        }
-
-        .timetable-item {
-            background: white;
-            padding: 16px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .time {
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .subject {
-            font-weight: 500;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #718096;
-        }
-
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 8px;
-            color: #2d3748;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .btn-done, .btn-remind, .btn-read-more {
-            flex: 1;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-done {
-            background: #48bb78;
-            color: white;
-        }
-
-        .btn-remind {
-            background: #ed8936;
-            color: white;
-        }
-
-        .btn-read-more {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-done:active, .btn-remind:active, .btn-read-more:active {
-            transform: scale(0.95);
-        }
-
-        @media (max-width: 480px) {
-            .action-buttons {
-                bottom: 70px;
-            }
-            
-            .quick-stats {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </body>
 </html>
