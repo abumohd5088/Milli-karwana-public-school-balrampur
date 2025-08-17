@@ -3,73 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Springfield Academy - Class Portal</title>
+    <title>Springfield Academy - Student Portal</title>
     <link rel="stylesheet" href="css/ultra.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="index-page">
-    <div class="hero-section">
-        <div class="hero-content">
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
             <img src="images/logo.png" alt="School Logo" class="school-logo">
             <h1>Springfield Academy</h1>
-            <p class="subtitle">Class 1-8 Student Portal</p>
-        </div>
-    </div>
-
-    <div class="class-selection">
-        <h2>Select Your Class</h2>
-        <div class="class-grid">
-            <div class="class-card" data-class="1">
-                <div class="class-icon">1</div>
-                <h3>Class 1</h3>
-                <p>Age 6-7 Years</p>
-            </div>
-            <div class="class-card" data-class="2">
-                <div class="class-icon">2</div>
-                <h3>Class 2</h3>
-                <p>Age 7-8 Years</p>
-            </div>
-            <div class="class-card" data-class="3">
-                <div class="class-icon">3</div>
-                <h3>Class 3</h3>
-                <p>Age 8-9 Years</p>
-            </div>
-            <div class="class-card" data-class="4">
-                <div class="class-icon">4</div>
-                <h3>Class 4</h3>
-                <p>Age 9-10 Years</p>
-            </div>
-            <div class="class-card" data-class="5">
-                <div class="class-icon">5</div>
-                <h3>Class 5</h3>
-                <p>Age 10-11 Years</p>
-            </div>
-            <div class="class-card" data-class="6">
-                <div class="class-icon">6</div>
-                <h3>Class 6</h3>
-                <p>Age 11-12 Years</p>
-            </div>
-            <div class="class-card" data-class="7">
-                <div class="class-icon">7</div>
-                <h3>Class 7</h3>
-                <p>Age 12-13 Years</p>
-            </div>
-            <div class="class-card" data-class="8">
-                <div class="class-icon">8</div>
-                <h3>Class 8</h3>
-                <p>Age 13-14 Years</p>
+            <p class="tagline">Student Portal - Class 1-8</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="studentName" placeholder="Enter Your Name" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-graduation-cap"></i>
+                    <select id="classSelect" required>
+                        <option value="">Select Class</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Next
+                </button>
+            </form>
+            
+            <!-- Hidden Admin Trigger -->
+            <div class="admin-hint">
+                <small>Admin? Triple-click anywhere + type "Abutalha"</small>
             </div>
         </div>
     </div>
 
     <!-- Hidden Admin Login -->
-    <div id="adminLogin" class="admin-login hidden">
+    <div id="adminLogin" class="admin-overlay hidden">
         <div class="admin-modal">
             <button class="close-btn" onclick="closeAdmin()">×</button>
-            <h3>Admin Access</h3>
-            <input type="password" id="adminPass" placeholder="Enter Password">
-            <button onclick="adminLogin()" class="btn btn-primary">Access Admin</button>
+            <h3>🔐 Admin Access</h3>
+            <input type="password" id="adminPass" placeholder="Password: Abutalha" required>
+            <button onclick="verifyAdmin()" class="btn btn-primary">Access</button>
         </div>
     </div>
 
