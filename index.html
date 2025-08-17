@@ -10,56 +10,112 @@
 <body class="login-body">
   <div class="login-container">
     <img src="images/logo.png" alt="Logo" class="logo" />
-    <h1>Welcome to Springfield India</h1>
-    <p>Select your class to continue</p>
+    <h1>Springfield India</h1>
+    <p>Choose your role to continue</p>
 
-    <div class="input-group">
-      <label for="student-name">Your Name</label>
-      <input type="text" id="student-name" placeholder="Enter your name" required />
-    </div>
+    <select id="role-select">
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+      <option value="parent">Parent</option>
+      <option value="admin">Admin</option>
+    </select>
 
-    <div class="input-group">
-      <label for="class-select">Class</label>
-      <select id="class-select">
+    <div id="student-fields">
+      <input type="text" id="student-name" placeholder="Your Name" />
+      <select id="student-class">
         <option value="">Select Class</option>
-        <script>
-          for (let i = 1; i <= 12; i++) {
-            document.write(`<option value="${i}">Class ${i}</option>`);
-          }
-        </script>
+        <script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script>
       </select>
     </div>
 
-    <button id="next-btn" class="btn-primary">Next</button>
+    <div id="teacher-fields" style="display:none;">
+      <input type="text" id="teacher-id" placeholder="Teacher ID" />
+      <input type="text" id="teacher-name" placeholder="Full Name" />
+    </div>
 
-    <!-- Hidden Admin Link -->
-    <a href="admin.html" id="admin-link" style="display:none;">Admin Panel</a>
+    <div id="parent-fields" style="display:none;">
+      <input type="text" id="parent-child-name" placeholder="Child's Name" />
+      <select id="parent-child-class">
+        <option value="">Child's Class</option>
+        <script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script>
+      </select>
+    </div>
+
+    <div id="admin-fields" style="display:none;">
+      <input type="password" id="admin-pass" placeholder="Admin Password" />
+    </div>
+
+    <!-- Biometric Sim -->
+    <button id="bio-btn" class="btn-outline">🔐 Use Biometric Login</button>
+
+    <button id="next-btn" class="btn-primary">Sign In</button>
+
+    <!-- Hidden Debug Link -->
+    <a href="admin.html" id="debug-link" style="display:none; font-size:0.8rem; margin-top:10px;">🔧 Admin Panel</a>
   </div>
 
+  <script src="js/utils.js"></script>
   <script>
-    document.getElementById('next-btn').onclick = () => {
-      const name = document.getElementById('student-name').value.trim();
-      const cls = document.getElementById('class-select').value;
-      if (!name || !cls) {
-        alert("Please enter your name and select your class.");
-        return;
-      }
-      localStorage.setItem('studentName', name);
-      localStorage.setItem('studentClass', cls);
-      window.location.href = 'dashboard.html';
+    const roleFields = {
+      student: ['student-fields'],
+      teacher: ['teacher-fields'],
+      parent: ['parent-fields'],
+      admin: ['admin-fields']
     };
 
-    // Show admin link on triple-click
-    let clicks = 0;
-    document.body.addEventListener('click', () => {
-      clicks++;
-      if (clicks === 3) {
-        document.getElementById('admin-link').style.display = 'block';
-        setTimeout(() => (document.getElementById('admin-link').style.display = 'none'), 3000);
-        clicks = 0;
-      }
-      setTimeout(() => { if (clicks < 3) clicks = 0; }, 500);
+    document.getElementById('role-select').onchange = function () {
+      Object.keys(roleFields).forEach(k => document.getElementById(k + '-fields').style.display = 'none');
+      const fields = roleFields[this.value];
+      fields.forEach(f => document.getElementById(f).style.display = 'block');
+    };
+
+    // Show debug link on long press
+    let pressTimer;
+    document.body.addEventListener('mousedown', () => {
+      pressTimer = setTimeout(() => {
+        document.getElementById('debug-link').style.display = 'block';
+        setTimeout(() => document.getElementById('debug-link').style.display = 'none', 3000);
+      }, 2000);
     });
+    document.body.addEventListener('mouseup', () => clearTimeout(press););
+
+    document.getElementById('bio-btn').onclick = () => alert("✅ Simulated biometric login successful!");
+
+    document.getElementById('next-btn').onclick = function () {
+      const role = document.getElementById('role-select').value;
+
+      if (role === 'student') {
+        const name = document.getElementById('student-name').value.trim();
+        const cls = document.getElementById('student-class').value;
+        if (!name || !cls) return alert("Enter name and class!");
+        localStorage.setItem('user', JSON.stringify({ role, name, class: cls }));
+      }
+
+      if (role === 'teacher') {
+        const id = document.getElementById('teacher-id').value;
+        const name = document.getElementById('teacher-name').value;
+        if (!id || !name) return alert("Enter ID and name!");
+        localStorage.setItem('user', JSON.stringify({ role, id, name }));
+      }
+
+      if (role === 'parent') {
+        const child = document.getElementById('parent-child-name').value;
+        const cls = document.getElementById('parent-child-class').value;
+        if (!child || !cls) return alert("Enter child info!");
+        localStorage.setItem('user', JSON.stringify({ role, child, class: cls }));
+      }
+
+      if (role === 'admin') {
+        if (document.getElementById('admin-pass').value !== 'Abutalha') {
+          return alert("❌ Wrong password!");
+        }
+        localStorage.setItem('user', JSON.stringify({ role: 'admin' }));
+      }
+
+      // Redirect
+      const pages = { student: 'dashboard.html', teacher: 'teacher.html', parent: 'parent.html', admin: 'admin.html' };
+      window.location.href = pages[role];
+    };
   </script>
 </body>
 </html>
