@@ -1,52 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel</title>
-  <link rel="stylesheet" href="css/ultra-pro.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Admin - Springfield India #1</title>
+    <link rel="stylesheet" href="css/ultra-pro.css">
+    <link rel="icon" href="images/favicon.ico">
+    <meta name="theme-color" content="#667eea">
 </head>
-<body class="admin-body">
-  <div id="login-screen" class="centered-screen">
-    <div class="card">
-      <h2>🔐 Admin Login</h2>
-      <input type="password" id="admin-pass" placeholder="Password" />
-      <button id="login-btn" class="btn-primary">Login</button>
-    </div>
-  </div>
-
-  <div id="admin-panel" style="display:none;">
-    <header>
-      <h1>Admin Dashboard</h1>
-      <button id="logout-btn" class="btn-sm">Logout</button>
-    </header>
-
-    <div class="stats-grid">
-      <div class="stat-card"><h3>Students</h3><p id="stat-students">0</p></div>
-      <div class="stat-card"><h3>Teachers</h3><p id="stat-teachers">0</p></div>
-      <div class="stat-card"><h3>Homework</h3><p id="stat-hw">0</p></div>
-      <div class="stat-card"><h3>Messages</h3><p id="stat-msg">0</p></div>
-    </div>
-
-    <div class="admin-controls">
-      <h2>⚙️ System Controls</h2>
-      <button id="export-data" class="btn-primary">Export Data (CSV)</button>
-      <button id="sync-cloud" class="btn-outline">☁️ Sync to Cloud</button>
-      <label><input type="checkbox" id="dark-mode-global"/> Enable Dark Mode Globally</label>
+<body>
+    <!-- Admin Login -->
+    <div class="admin-login" id="adminLogin">
+        <div class="login-form">
+            <h1>🔐 Admin Access</h1>
+            <p class="subtitle">Springfield India School System</p>
+            <form id="adminLoginForm" novalidate>
+                <div class="input-group">
+                    <label for="adminPassword">Enter Password</label>
+                    <input type="password" id="adminPassword" required 
+                           placeholder="Password: Abutalha">
+                    <span class="input-icon">🔒</span>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <span>Access Admin Panel</span>
+                </button>
+            </form>
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                ← Back to Login
+            </button>
+        </div>
     </div>
 
-    <!-- Full modules: Users, Homework, Notes, Timetable, Results, Messages, Events -->
-    <!-- See JS for full logic -->
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <header class="admin-header">
+            <h1>📊 Admin Dashboard</h1>
+            <button class="logout-btn" onclick="logoutAdmin()">
+                <span>🚪 Logout</span>
+            </button>
+        </header>
 
-    <div id="manage-section">
-      <h3>🗑️ Manage All Data</h3>
-      <button id="clear-hw">Clear Homework</button>
-      <button id="clear-notes">Clear Notes</button>
-      <button id="reset-system">⚠️ Factory Reset</button>
+        <!-- Statistics Cards -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <h3 id="totalStudents">0</h3>
+                    <p>Students</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-info">
+                    <h3 id="totalHomework">0</h3>
+                    <p>Homework</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <div class="stat-info">
+                    <h3 id="totalNotes">0</h3>
+                    <p>Notes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Navigation -->
+        <nav class="admin-tabs">
+            <button class="admin-tab active" data-tab="manage-homework">
+                <span>📝</span> Manage Homework
+            </button>
+            <button class="admin-tab" data-tab="manage-notes">
+                <span>📖</span> Manage Notes
+            </button>
+            <button class="admin-tab" data-tab="manage-timetable">
+                <span>⏰</span> Manage Timetable
+            </button>
+            <button class="admin-tab" data-tab="manage-results">
+                <span>📊</span> Manage Results
+            </button>
+        </nav>
+
+        <!-- Admin Content -->
+        <main class="admin-content">
+            <!-- Manage Homework -->
+            <section class="admin-section active" id="manage-homework">
+                <div class="form-card">
+                    <h3>➕ Add New Homework</h3>
+                    <form id="addHomeworkForm" novalidate>
+                        <div class="form-row">
+                            <select id="hwClass" required>
+                                <option value="">📚 Select Class</option>
+                                ${Array.from({length: 12}, (_, i) => 
+                                    `<option value="${i+1}">Class ${i+1}</option>`
+                                ).join('')}
+                            </select>
+                            <select id="hwSubject" required>
+                                <option value="">🎯 Select Subject</option>
+                                <option value="Math">📐 Mathematics</option>
+                                <option value="English">📚 English</option>
+                                <option value="Science">🔬 Science</option>
+                                <option value="Hindi">🕉️ Hindi</option>
+                                <option value="Social">🌍 Social Science</option>
+                                <option value="EVS">🌱 Environmental Studies</option>
+                                <option value="Computer">💻 Computer Science</option>
+                                <option value="Sanskrit">📿 Sanskrit</option>
+                            </select>
+                        </div>
+                        <textarea id="hwDescription" required 
+                                  placeholder="✍️ Enter homework description..."></textarea>
+                        <input type="date" id="hwDueDate" required>
+                        <button type="submit" class="btn-primary">
+                            <span>📤 Add Homework</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="manage-card">
+                    <h3>📋 All Homework</h3>
+                    <div id="homeworkList" class="manage-list"></div>
+                </div>
+            </section>
+
+            <!-- Manage Notes -->
+            <section class="admin-section" id="manage-notes">
+                <div class="form-card">
+                    <h3>➕ Add New Notes</h3>
+                    <form id="addNotesForm" novalidate>
+                        <div class="form-row">
+                            <select id="notesClass" required>
+                                <option value="">📚 Select Class</option>
+                                ${Array.from({length: 12}, (_, i) => 
+                                    `<option value="${i+1}">Class ${i+1}</option>`
+                                ).join('')}
+                            </select>
+                            <select id="notesSubject" required>
+                                <option value="">🎯 Select Subject</option>
+                                <option value="Math">📐 Mathematics</option>
+                                <option value="English">📚 English</option>
+                                <option value="Science">🔬 Science</option>
+                                <option value="Hindi">🕉️ Hindi</option>
+                                <option value="Social">🌍 Social Science</option>
+                                <option value="EVS">🌱 Environmental Studies</option>
+                                <option value="Computer">💻 Computer Science</option>
+                                <option value="Sanskrit">📿 Sanskrit</option>
+                            </select>
+                        </div>
+                        <input type="text" id="notesTitle" required 
+                               placeholder="📝 Note title...">
+                        <textarea id="notesContent" required 
+                                  placeholder="✍️ Note content..."></textarea>
+                        <button type="submit" class="btn-primary">
+                            <span>📤 Add Notes</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="manage-card">
+                    <h3>📋 All Notes</h3>
+                    <div id="notesList" class="manage-list"></div>
+                </div>
+            </section>
+
+            <!-- Manage Timetable -->
+            <section class="admin-section" id="manage-timetable">
+                <div class="form-card">
+                    <h3>🕐 Update Class Timetable</h3>
+                    <form id="timetableForm" novalidate>
+                        <select id="ttClass" required>
+                            <option value="">📚 Select Class</option>
+                            ${Array.from({length: 12}, (_, i) => 
+                                `<option value="${i+1}">Class ${i+1}</option>`
+                            ).join('')}
+                        </select>
+                        
+                        <div class="timetable-grid">
+                            ${Array.from({length: 6}, (_, i) => `
+                                <div class="period-input">
+                                    <label>Period ${i+1}</label>
+                                    <input type="text" id="period${i+1}" 
+                                           placeholder="Enter subject">
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">
+                            <span>💾 Save Timetable</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Manage Results -->
+            <section class="admin-section" id="manage-results">
+                <div class="form-card">
+                    <h3>📊 Add Student Results</h3>
+                    <form id="resultsForm" novalidate>
+                        <div class="form-row">
+                            <select id="resultClass" required>
+                                <option value="">📚 Select Class</option>
+                                ${Array.from({length: 12}, (_, i) => 
+                                    `<option value="${i+1}">Class ${i+1}</option>`
+                                ).join('')}
+                            </select>
+                            <input type="text" id="studentName" required 
+                                   placeholder="👤 Student Name">
+                        </div>
+                        
+                        <div class="marks-grid">
+                            <div class="mark-input">
+                                <label>📐 Math</label>
+                                <input type="number" min="0" max="100" id="mathMarks" 
+                                       placeholder="0-100">
+                            </div>
+                            <div class="mark-input">
+                                <label>📚 English</label>
+                                <input type="number" min="0" max="100" id="englishMarks" 
+                                       placeholder="0-100">
+                            </div>
+                            <div class="mark-input">
+                                <label>🔬 Science</label>
+                                <input type="number" min="0" max="100" id="scienceMarks" 
+                                       placeholder="0-100">
+                            </div>
+                            <div class="mark-input">
+                                <label>🕉️ Hindi</label>
+                                <input type="number" min="0" max="100" id="hindiMarks" 
+                                       placeholder="0-100">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">
+                            <span>💾 Save Results</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
 
-  <script src="js/utils.js"></script>
-  <script src="js/admin.js"></script>
+    <script src="js/ultra-pro.js"></script>
 </body>
 </html>
