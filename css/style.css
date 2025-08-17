@@ -1,0 +1,82 @@
+/* style.css */
+:root {
+    --primary: #0d6efd;
+    --secondary: #f8f9fa;
+    --accent: #ffc107;
+    --text: #212529;
+    --bg: #ffffff;
+    --card-bg: #f1f3f5;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.navbar {
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+input, select, button, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #084298;
+}
+
+.hidden {
+    display: none;
+}
+
+#chatBox {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+footer.footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--secondary);
+    color: var(--text);
+    font-size: 0.9em;
+    margin-top: 40px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 1.1em;
+    }
+}
