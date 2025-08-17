@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Springfield Academy</title>
+    <title>Springfield Academy - Login</title>
     <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
@@ -31,21 +31,49 @@
             <button type="submit" class="btn">Next →</button>
         </form>
         
-        <div style="font-size: 0.8rem; color: #666; margin-top: 2rem;">
-            Admin: <span onclick="adminAccess()" style="cursor: pointer; text-decoration: underline;">Access Here</span>
-        </div>
+        <!-- Hidden Admin Access -->
+        <div class="admin-link" onclick="showAdminLogin()">🔐 Admin Access</div>
     </div>
 
-    <!-- Hidden Admin Login -->
+    <!-- Admin Login Modal -->
     <div id="adminModal" class="modal hidden">
         <div class="modal-content">
             <span class="close" onclick="closeAdmin()">&times;</span>
             <h2>Admin Login</h2>
-            <input type="password" id="adminPass" placeholder="Enter Password">
+            <input type="password" id="adminPass" placeholder="Password: Abutalha">
             <button onclick="verifyAdmin()" class="btn">Login</button>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script>
+        function login(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value;
+            const classNum = document.getElementById('classSelect').value;
+            
+            localStorage.setItem('studentName', name);
+            localStorage.setItem('currentClass', classNum);
+            
+            window.location.href = 'dashboard.html';
+        }
+
+        function showAdminLogin() {
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function verifyAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === 'Abutalha') {
+                localStorage.setItem('isAdmin', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                alert('Wrong password!');
+            }
+        }
+    </script>
 </body>
 </html>
