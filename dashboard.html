@@ -4,58 +4,108 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard | School Web #1</title>
+    <meta name="description" content="Official school dashboard – homework, AI assistant, notifications, offline ready.">
     <meta name="theme-color" content="#0d6efd">
+    <link rel="manifest" href="data:application/json,{"name":"School Dashboard","short_name":"Dashboard","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='300'%3E🏫%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}],"start_url":"/dashboard.html","display":"standalone","background_color":"#0d6efd","theme_color":"#0d6efd"}">
     <style>
-        :root{--p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;--bg:#fff;--card:#f8f3ff;}
-        .dark{--bg:#121212;--card:#1e1e1e;--d:#f1f3f5;}
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-        body{background:var(--bg);color:var(--d);transition:.3s}
-        .navbar{display:flex;justify-content:space-between;align-items:center;background:var(--p);color:#fff;padding:12px 20px;font-weight:600}
-        .toggle{background:none;border:none;color:#fff;font-size:1.3em}
-        .container{padding:15px;max-width:600px;margin:auto}
-        .card{background:var(--card);border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-        h2{font-size:1.2em;margin-bottom:10px}
-        ul{list-style:none}
-        li{margin:8px 0}
-        .chatBox{height:180px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;color:#000;font-size:.85em;margin-bottom:8px}
+        :root{
+            --primary:#0d6efd;
+            --secondary:#6c757d;
+            --light:#f8f9fa;
+            --dark:#212529;
+            --accent:#ffc107;
+            --bg:#ffffff;
+            --card:#f8f3ff;
+            --shadow:0 2px 8px rgba(0,0,0,.1);
+            --radius:12px;
+            --font:'Poppins',sans-serif;
+        }
+        .dark{
+            --bg:#121212;
+            --card:#1e1e1e;
+            --light:#212529;
+            --dark:#f1f3f5;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:var(--font);}
+        body{background:var(--bg);color:var(--dark);transition:.3s}
+        .navbar{display:flex;justify-content:space-between;align-items:center;background:var(--primary);color:#fff;padding:12px 20px;font-weight:600}
+        .menu-btn{background:none;border:none;color:#fff;font-size:1.4em;cursor:pointer}
+        .side-panel{position:fixed;top:0;right:-250px;width:250px;height:100%;background:var(--card);box-shadow:var(--shadow);transition:right .3s;z-index:999;padding:15px;color:var(--dark)}
+        .side-panel.open{right:0}
+        .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;z-index:998}
+        .overlay.open{display:block}
+        .side-panel ul{list-style:none;margin-top:20px}
+        .side-panel li{margin:15px 0}
+        .side-panel a{color:var(--dark);text-decoration:none;font-weight:600}
+        .container{padding:15px;max-width:700px;margin:auto}
+        .card{background:var(--card);border-radius:var(--radius);padding:15px;margin-bottom:15px;box-shadow:var(--shadow)}
+        h2{font-size:1.25em;margin-bottom:10px}
+        .btn{background:var(--primary);color:#fff;border:none;padding:10px 15px;border-radius:var(--radius);font-weight:600;width:100%;cursor:pointer;margin-top:8px}
+        .btn:hover{background:#084298}
+        .chatBox{height:200px;overflow-y:auto;border:1px solid #ccc;border-radius:var(--radius);padding:8px;background:#fff;color:#000;font-size:.85em;margin-bottom:8px}
         .chatInput{display:flex;gap:5px}
-        .chatInput input{flex:1;padding:8px;border:1px solid #ccc;border-radius:8px}
-        .chatInput button{padding:8px 12px;background:var(--p);color:#fff;border:none;border-radius:8px;font-weight:bold}
-        footer{text-align:center;padding:15px;background:var(--l);color:var(--s);font-size:.8em;margin-top:30px}
+        .chatInput input{flex:1;padding:8px;border:1px solid #ccc;border-radius:var(--radius)}
+        .chatInput button{padding:8px 12px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-weight:bold}
+        .hw-list li{margin:8px 0}
+        .notify{position:fixed;top:10px;right:10px;background:var(--accent);color:#000;padding:10px;border-radius:var(--radius);display:none;z-index:1001}
+        footer{text-align:center;padding:15px;background:var(--light);color:var(--secondary);font-size:.8em;margin-top:30px}
         @media(max-width:500px){.navbar{font-size:1em}}
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <span>🏫 Dashboard – Class <span id="clsSpan"></span></span>
-        <button class="toggle" onclick="toggleDark()">🌙</button>
-    </nav>
 
-    <div class="container">
-        <!-- Welcome -->
-        <div class="card">
-            <h2>Hi <span id="nameSpan"></span> 👋</h2>
-            <button onclick="logout()">Logout</button>
-        </div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <span>🏫 Dashboard – Class <span id="clsSpan"></span></span>
+    <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+</nav>
 
-        <!-- Homework -->
-        <div class="card">
-            <h2>📚 Homework</h2>
-            <ul id="hwList"></ul>
-        </div>
+<!-- SIDE MENU -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="side-panel" id="sidePanel">
+    <h3>Menu</h3>
+    <ul>
+        <li><a href="#" onclick="printPage()">🖨️ Print</a></li>
+        <li><a href="#" onclick="sharePage()">📤 Share</a></li>
+        <li><a href="#" onclick="toggleDark()">🌗 Dark Mode</a></li>
+        <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+        <li><a href="admin.html">🔐 Admin Panel</a></li>
+    </ul>
+</div>
 
-        <!-- AI (only homework) -->
-        <div class="card">
-            <h2>🤖 Homework Helper</h2>
-            <div class="chatBox" id="chatBox"></div>
-            <div class="chatInput">
-                <input id="chatIn" placeholder="Ask about homework…"/>
-                <button onclick="askAI()">Send</button>
-            </div>
+<div class="container">
+    <!-- Welcome -->
+    <div class="card">
+        <h2>Hi <span id="nameSpan"></span> 👋</h2>
+    </div>
+
+    <!-- Homework -->
+    <div class="card">
+        <h2>📚 Homework</h2>
+        <ul id="hwList" class="hw-list"></ul>
+        <button class="btn" onclick="addHW()">Add New Homework</button>
+    </div>
+
+    <!-- AI -->
+    <div class="card">
+        <h2>🤖 AI Homework Helper</h2>
+        <div class="chatBox" id="chatBox"></div>
+        <div class="chatInput">
+            <input id="chatIn" placeholder="Ask about homework…"/>
+            <button onclick="askAI()">Send</button>
         </div>
     </div>
 
-    <footer>© 2025 School Web #1 – Professional & Mobile Ready</footer>
+    <!-- Offline -->
+    <div id="offlineMsg" class="card hidden">
+        <p>⚠️ You are offline. Data may be outdated.</p>
+    </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div id="notify" class="notify"></div>
+
+<footer>© 2025 School Web #1 – Professional & Mobile Ready</footer>
 
 <script>
 /* ---------- CONFIG ---------- */
@@ -69,46 +119,87 @@ const name = localStorage.getItem('name');
 document.getElementById('clsSpan').innerText = cls;
 document.getElementById('nameSpan').innerText = name;
 
+/* ---------- MENU ---------- */
+function toggleMenu(){
+    document.getElementById('sidePanel').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+}
+
 /* ---------- DARK MODE ---------- */
 function toggleDark(){
     document.body.classList.toggle('dark');
     localStorage.setItem('dark',document.body.classList.contains('dark'));
+    showToast('Theme changed');
 }
 if(localStorage.getItem('dark')==='true') document.body.classList.add('dark');
 
-/* ---------- CLASS-WISE HOMEWORK ---------- */
-const homeworkDB = {
-    "1": ["Math – Count 1-50", "English – A-Z writing"],
-    "2": ["Math – Tables 2-5", "EVS – My Family worksheet"],
-    "3": ["Math – Addition 3-digit", "English – Story reading"],
-    "4": ["Math – Long division", "Science – Plant parts diagram"],
-    "5": ["Math – Fraction basics", "English – Paragraph writing"],
-    "6": ["Math – Algebra intro", "Science – Light reflection"],
-    "7": ["Math – Simple equations", "History – Delhi Sultanate"],
-    "8": ["Math – Rational numbers", "Physics – Force & pressure"],
-    "9": ["Math – Polynomials", "Chemistry – Matter notes"],
-    "10": ["Math – Quadratic equations", "Physics – Electricity derivations"],
-    "11": ["Math – Sets & functions", "Chemistry – Mole concept"],
-    "12": ["Math – Relations & functions", "Physics – Electrostatics problems"]
-};
-document.getElementById('hwList').innerHTML = homeworkDB[cls].map(h=>`<li>${h}</li>`).join('');
+/* ---------- NOTIFICATION ---------- */
+function showToast(msg){
+    const el=document.getElementById('notify');
+    el.innerText=msg;
+    el.style.display='block';
+    setTimeout(()=>el.style.display='none',2000);
+}
 
-/* ---------- AI HOMEWORK CHAT ---------- */
+/* ---------- PRINT & SHARE ---------- */
+function printPage(){ window.print(); }
+function sharePage(){
+    if(navigator.share){
+        navigator.share({title:'School Dashboard',url:location.href});
+    }else{
+        showToast('Sharing not supported');
+    }
+}
+
+/* ---------- HOMEWORK ---------- */
+const homeworkDB = {
+    "1": ["Math – Count 1-50", "English – A-Z writing", "Art – Colour apple"],
+    "2": ["Math – Tables 2-5", "EVS – My Family", "Hindi – Varnamala"],
+    "3": ["Math – Addition 3-digit", "English – Story reading", "Science – Body parts"],
+    "4": ["Math – Long division", "Science – Plant diagram", "SST – Our country"],
+    "5": ["Math – Fraction basics", "English – Paragraph", "EVS – Water cycle"],
+    "6": ["Math – Algebra intro", "Science – Light", "History – Ancient India"],
+    "7": ["Math – Simple equations", "History – Delhi Sultanate", "Geography – Atmosphere"],
+    "8": ["Math – Rational numbers", "Physics – Force & pressure", "Chemistry – Metals"],
+    "9": ["Math – Polynomials", "Chemistry – Matter", "Physics – Motion"],
+    "10": ["Math – Quadratic equations", "Physics – Electricity", "Chemistry – Acids"],
+    "11": ["Math – Sets", "Chemistry – Mole concept", "Physics – Units"],
+    "12": ["Math – Relations", "Physics – Electrostatics", "Chemistry – Solutions"]
+};
+document.getElementById('hwList').innerHTML = homeworkDB[cls].map(hw=>`<li>${hw}</li>`).join('');
+
+function addHW(){
+    const task=prompt('Enter homework:');
+    if(task){
+        const li=document.createElement('li');
+        li.innerText=task;
+        document.getElementById('hwList').appendChild(li);
+        showToast('Added');
+    }
+}
+
+/* ---------- AI HOMEWORK ONLY ---------- */
 async function askAI(){
-    const msg = document.getElementById('chatIn').value.trim();
+    const msg=document.getElementById('chatIn').value.trim();
     if(!msg) return;
     const box=document.getElementById('chatBox');
     box.innerHTML+=`<div><b>You:</b> ${msg}</div>`;
     document.getElementById('chatIn').value='';
-    const prompt=`Class ${cls} student: ${msg}. Reply only about homework, short & clear.`;
+    const prompt=`You are a school assistant. The student is in class ${cls}. Only answer about homework or school-related topics. Question: ${msg}`;
     try{
         const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
         const data=await res.json();
-        const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'No reply';
+        const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'⚠️ Please ask homework-related questions only.';
         box.innerHTML+=`<div><b>AI:</b> ${reply}</div>`;
         box.scrollTop=box.scrollHeight;
-    }catch(e){box.innerHTML+=`<div><b>Error:</b> Check internet</div>`;}
+    }catch(e){
+        box.innerHTML+=`<div><b>Error:</b> Check internet</div>`;
+    }
 }
+
+/* ---------- OFFLINE CHECK ---------- */
+window.addEventListener('online',()=>{document.getElementById('offlineMsg').classList.add('hidden')});
+window.addEventListener('offline',()=>{document.getElementById('offlineMsg').classList.remove('hidden')});
 
 /* ---------- LOGOUT ---------- */
 function logout(){
