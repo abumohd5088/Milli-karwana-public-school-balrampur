@@ -1,172 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Springfield India - File 1/25</title>
-    <style>
-        /* 25 Mobile-Perfect Styles */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --bg: #ffffff;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
-            --radius: 12px;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* 25 Feature Animations */
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 25 Mobile Layout */
-        .mega-container {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .mega-header {
-            background: var(--bg);
-            padding: 1rem;
-            box-shadow: var(--shadow);
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-        }
-
-        .mega-form {
-            background: var(--bg);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            animation: slideUp 0.5s ease;
-        }
-
-        .mega-input {
-            width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0;
-            border-radius: var(--radius); font-size: 1rem; transition: border-color 0.3s;
-            min-height: 44px; /* Touch perfect */
-        }
-
-        .mega-input:focus {
-            outline: none; border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .mega-btn {
-            width: 100%; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; border: none; border-radius: var(--radius); font-size: 1rem;
-            cursor: pointer; transition: transform 0.2s; min-height: 44px; /* Touch perfect */
-        }
-
-        .mega-btn:active { transform: scale(0.98); }
-
-        /* 25 Responsive Design */
-        @media (max-width: 480px) {
-            .mega-form { padding: 1rem; margin: 0.5rem; }
-            .mega-btn { font-size: 1.125rem; }
-        }
-
-        /* 25 Touch Optimizations */
-        .touch-friendly {
-            min-height: 44px;
-            padding: 12px;
-            font-size: 16px;
-        }
-
-        /* 25 Feature Cards */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 1rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:active {
-            transform: translateY(-2px);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduSmart | Step 1</title>
+  <link rel="stylesheet" href="css/login.css" />
+  <link rel="icon" href="assets/favicon.ico" />
 </head>
 <body>
-    <div class="mega-container">
-        <header class="mega-header">
-            <h1>Springfield India - File 1/25</h1>
-            <p>25 Mobile-Perfect Features</p>
-        </header>
+  <div class="container">
+    <header>
+      <img src="assets/logo.png" alt="School Logo" class="logo" />
+      <h1>Welcome to EduSmart</h1>
+      <p>Step 1 of 25 – Please enter your details</p>
+    </header>
 
-        <div class="mega-form">
-            <h2>Login Portal</h2>
-            
-            <!-- Feature 1: Smart Name Input -->
-            <div class="mega-input">
-                <label>Full Name</label>
-                <input type="text" placeholder="Your name" required class="touch-friendly">
-            </div>
-            
-            <!-- Feature 2: Smart Class Selection -->
-            <div class="mega-input">
-                <label>Select Class</label>
-                <select required class="touch-friendly">
-                    <option value="">Choose class</option>
-                    ${Array.from({length: 12}, (_, i) => `<option value="${i+1}">Class ${i+1}</option>`).join('')}
-                </select>
-            </div>
-            
-            <!-- Feature 3: Mobile Responsive -->
-            <button type="submit" class="mega-btn" id="nextBtn">Next →</button>
-            
-            <!-- Feature 4: Touch Optimized -->
-            <div class="touch-friendly">
-                <p>✅ Touch optimized for mobile</p>
-            </div>
-            
-            <!-- Feature 5: Responsive Design -->
-            <div class="responsive">
-                <p>✅ Responsive for all devices</p>
-            </div>
-        </div>
-    </div>
+    <main>
+      <form id="studentForm">
+        <label for="studentName">Full Name:</label>
+        <input 
+          type="text" 
+          id="studentName" 
+          placeholder="Enter your full name" 
+          required 
+        />
 
-    <script>
-        // 25 Feature System
-        class File1System {
-            constructor() {
-                this.features = 25;
-                this.init();
-            }
+        <label for="studentClass">Select Class:</label>
+        <select id="studentClass" required>
+          <option value="">-- Select Class --</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8">Class 8</option>
+          <option value="9">Class 9</option>
+          <option value="10">Class 10</option>
+        </select>
 
-            init() {
-                document.querySelector('.mega-btn').addEventListener('click', () => {
-                    const user = {
-                        name: document.querySelector('input').value,
-                        class: document.querySelector('select').value,
-                        features: 25,
-                        mobile: true
-                    };
-                    
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    window.location.href = 'dashboard.html';
-                });
-            }
-        }
+        <button type="submit">Continue →</button>
+      </form>
+    </main>
+  </div>
 
-        new File1System();
-    </script>
+  <script src="js/auth.js"></script>
 </body>
 </html>
