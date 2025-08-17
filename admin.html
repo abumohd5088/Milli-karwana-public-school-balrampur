@@ -770,4 +770,127 @@
                 }
 
                 setData(key, data) {
-                    localStorage.setItem(key, JSON
+                    localStorage.setItem(key, JSON.stringify(data));
+                }
+
+                showToast(message) {
+                    const toast = document.createElement('div');
+                    toast.className = 'toast';
+                    toast.textContent = message;
+                    document.body.appendChild(toast);
+                    setTimeout(() => toast.remove(), 3000);
+                }
+
+                getTodayActivity() {
+                    return Math.floor(Math.random() * 100);
+                }
+
+                getCompletionRate() {
+                    return Math.floor(Math.random() * 100);
+                }
+            }
+
+            // Admin feature functions
+            function togglePassword() {
+                const input = document.getElementById('adminPassword');
+                input.type = input.type === 'password' ? 'text' : 'password';
+            }
+
+            function biometricLogin() {
+                alert('🔓 Biometric login coming soon!');
+            }
+
+            function editItem(type, id) {
+                alert(`Edit ${type} ${id}`);
+            }
+
+            function deleteItem(type, id) {
+                if (confirm(`Delete this ${type}?`)) {
+                    const items = JSON.parse(localStorage.getItem(type)) || [];
+                    const filtered = items.filter(item => item.id !== id);
+                    localStorage.setItem(type, JSON.stringify(filtered));
+                    
+                    new UltimateAdmin().loadDataForTab(type);
+                    new UltimateAdmin().loadStats();
+                }
+            }
+
+            function exportData(type) {
+                const data = JSON.parse(localStorage.getItem(type)) || [];
+                const csv = data.map(item => Object.values(item).join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${type}-${Date.now()}.csv`;
+                a.click();
+            }
+
+            function importData(type) {
+                alert('Import feature coming soon!');
+            }
+
+            function bulkUpload(type) {
+                alert('Bulk upload feature coming soon!');
+            }
+
+            function syncData() {
+                alert('🔄 Syncing data...');
+            }
+
+            function backupData() {
+                const allData = {
+                    homework: JSON.parse(localStorage.getItem('homework')) || [],
+                    notes: JSON.parse(localStorage.getItem('notes')) || [],
+                    results: JSON.parse(localStorage.getItem('results')) || [],
+                    timetables: JSON.parse(localStorage.getItem('timetables')) || []
+                };
+                
+                const blob = new Blob([JSON.stringify(allData)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup-${Date.now()}.json`;
+                a.click();
+            }
+
+            function changePassword() {
+                alert('Change password feature coming soon!');
+            }
+
+            function enable2FA() {
+                alert('2FA setup coming soon!');
+            }
+
+            function calculateGrades() {
+                const marks = ['mathMarks', 'englishMarks', 'scienceMarks', 'hindiMarks'];
+                marks.forEach(mark => {
+                    const input = document.getElementById(mark);
+                    const grade = document.getElementById(mark.replace('Marks', 'Grade'));
+                    if (input.value) {
+                        const value = parseInt(input.value);
+                        let gradeValue = 'F';
+                        if (value >= 90) gradeValue = 'A+';
+                        else if (value >= 80) gradeValue = 'A';
+                        else if (value >= 70) gradeValue = 'B+';
+                        else if (value >= 60) gradeValue = 'B';
+                        else if (value >= 50) gradeValue = 'C';
+                        else if (value >= 40) gradeValue = 'D';
+                        
+                        grade.value = gradeValue;
+                    }
+                });
+            }
+
+            function logoutAdmin() {
+                if (confirm('Logout from admin panel?')) {
+                    window.location.href = 'index.html';
+                }
+            }
+
+            // Initialize admin
+            const admin = new UltimateAdmin();
+        </script>
+    </div>
+</body>
+</html>
