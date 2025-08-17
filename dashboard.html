@@ -3,66 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Class - Springfield Academy</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Dashboard - Springfield Academy</title>
+    <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <h1>Select Your Class</h1>
-            <button id="logoutBtn" class="btn btn-secondary">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+    <header class="app-header">
+        <button onclick="goHome()" class="nav-btn">🏠</button>
+        <div class="header-info">
+            <h1 id="studentNameDisplay">Student</h1>
+            <p>Class <span id="classDisplay">1</span></p>
         </div>
+        <button onclick="goBack()" class="nav-btn">✖️</button>
     </header>
 
-    <main class="dashboard">
-        <div class="container">
-            <div class="class-grid">
-                <div class="class-card" data-class="1">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 1</h3>
-                    <p>Age 6-7</p>
-                </div>
-                <div class="class-card" data-class="2">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 2</h3>
-                    <p>Age 7-8</p>
-                </div>
-                <div class="class-card" data-class="3">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 3</h3>
-                    <p>Age 8-9</p>
-                </div>
-                <div class="class-card" data-class="4">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 4</h3>
-                    <p>Age 9-10</p>
-                </div>
-                <div class="class-card" data-class="5">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 5</h3>
-                    <p>Age 10-11</p>
-                </div>
-                <div class="class-card" data-class="6">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 6</h3>
-                    <p>Age 11-12</p>
-                </div>
-                <div class="class-card" data-class="7">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 7</h3>
-                    <p>Age 12-13</p>
-                </div>
-                <div class="class-card" data-class="8">
-                    <i class="fas fa-star"></i>
-                    <h3>Class 8</h3>
-                    <p>Age 13-14</p>
-                </div>
+    <div class="feature-tabs">
+        <button class="tab-btn active" onclick="showTab('homework')">📚 Homework</button>
+        <button class="tab-btn" onclick="showTab('notes')">📝 Notes</button>
+        <button class="tab-btn" onclick="showTab('timetable')">📅 Timetable</button>
+        <button class="tab-btn" onclick="showTab('results')">📊 Results</button>
+    </div>
+
+    <main class="content-area">
+        <!-- Homework Tab -->
+        <div id="homeworkTab" class="tab-content active">
+            <div class="toolbar">
+                <input type="date" id="hwDate" class="date-input">
+                <select id="hwSubject" class="subject-select">
+                    <option value="all">All Subjects</option>
+                    <option value="Math">Math</option>
+                    <option value="English">English</option>
+                    <option value="Science">Science</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Social">Social</option>
+                    <option value="EVS">EVS</option>
+                </select>
             </div>
+            <div id="homeworkList" class="item-list"></div>
+        </div>
+
+        <!-- Notes Tab -->
+        <div id="notesTab" class="tab-content">
+            <div class="toolbar">
+                <select id="noteSubject" class="subject-select" onchange="loadNotes()">
+                    <option value="Math">Math</option>
+                    <option value="English">English</option>
+                    <option value="Science">Science</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Social">Social</option>
+                    <option value="EVS">EVS</option>
+                </select>
+            </div>
+            <div id="notesList" class="item-list"></div>
+        </div>
+
+        <!-- Timetable Tab -->
+        <div id="timetableTab" class="tab-content">
+            <div id="timetableContent" class="timetable-grid"></div>
+        </div>
+
+        <!-- Results Tab -->
+        <div id="resultsTab" class="tab-content">
+            <div id="resultsContent" class="results-grid"></div>
         </div>
     </main>
 
-    <script src="js/app.js"></script>
+    <!-- Hidden Admin Controls -->
+    <div id="adminControls" class="admin-controls hidden">
+        <button onclick="showAddForm('homework')" class="admin-btn">+ Homework</button>
+        <button onclick="showAddForm('notes')" class="admin-btn">+ Notes</button>
+    </div>
+
+    <!-- Add Forms -->
+    <div id="addForm" class="add-form hidden">
+        <div class="form-content">
+            <h3 id="formTitle">Add Item</h3>
+            <input type="text" id="itemTitle" placeholder="Title">
+            <textarea id="itemContent" placeholder="Content"></textarea>
+            <input type="date" id="itemDate" class="date-input">
+            <div class="form-actions">
+                <button onclick="saveItem()" class="btn btn-primary">Save</button>
+                <button onclick="closeAddForm()" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/complete.js"></script>
 </body>
 </html>
