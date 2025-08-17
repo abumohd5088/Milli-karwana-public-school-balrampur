@@ -1,257 +1,1218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Kider Dashboard | School Web</title>
-<meta name="description" content="Your colourful, mobile-first school dashboard">
-<meta name="theme-color" content="#ff6b81">
-<link rel="manifest" href="data:application/json,{"name":"Kider Dashboard","short_name":"Kider","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='300'%3E🎒%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}],"start_url":"/dashboard.html","display":"standalone","background_color":"#ff6b81","theme_color":"#ff6b81"}">
-<style>
-:root{--pink:#ff6b81;--light:#fff5f7;--dark:#333;--radius:12px;--shadow:0 3px 10px rgba(0,0,0,.15);}
-.dark{--light:#121212;--dark:#f1f3f5;}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--light);color:var(--dark);line-height:1.6;transition:.3s}
-nav{display:flex;justify-content:space-between;align-items:center;background:var(--pink);color:#fff;padding:12px 15px;position:sticky;top:0;z-index:1000}
-.hamburger{background:none;border:none;color:#fff;font-size:1.6em;cursor:pointer}
-.side-panel{position:fixed;top:0;right:-280px;width:280px;height:100%;background:#fff;box-shadow:var(--shadow);transition:right .3s;z-index:1001;padding:25px;color:var(--dark)}
-.side-panel.open{right:0}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;z-index:999}
-.overlay.open{display:block}
-.side-panel ul{list-style:none;margin-top:20px}
-.side-panel li{margin:15px 0}
-.side-panel a{color:var(--dark);text-decoration:none;font-weight:600}
-.container{padding:15px;max-width:700px;margin:auto}
-.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:20px;text-align:center}
-.card img{width:100%;border-radius:var(--radius);margin-bottom:10px}
-.btn{background:var(--pink);color:#fff;border:none;padding:12px 25px;border-radius:var(--radius);cursor:pointer;font-weight:600}
-.btn:hover{background:#ff4f67}
-.hw-list{list-style:none}
-.hw-list li{padding:12px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center}
-.hw-list li:last-child{border:none}
-.chatBox{min-height:200px;max-height:300px;overflow-y:auto;border:1px solid #ccc;border-radius:var(--radius);padding:10px;background:#fff;color:#000;font-size:.9em;margin-bottom:10px}
-.chatInput{display:flex;gap:6px}
-.chatInput input{flex:1;padding:10px;border:1px solid #ccc;border-radius:var(--radius)}
-.chatInput button{padding:10px 15px;background:var(--pink);color:#fff;border:none;border-radius:var(--radius);font-weight:bold}
-.fab{position:fixed;bottom:20px;right:20px;background:var(--pink);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:1.5em;box-shadow:var(--shadow);cursor:pointer;z-index:1002}
-.notify{position:fixed;top:15px;right:15px;background:#ffc107;color:#000;padding:12px;border-radius:var(--radius);display:none;z-index:1003}
-footer{background:var(--dark);color:#fff;padding:20px;text-align:center}
-@media(max-width:600px){.hero h1{font-size:2em}}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d6efd" />
+    <title>📚 Student Dashboard</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <noscript>
+        <script src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </noscript>
+    <style>
+        :root {
+            --p: #0d6efd;
+            --s: #6c757d;
+            --l: #f8f9fa;
+            --d: #212529;
+            --w: #ffffff;
+            --danger: #dc3545;
+            --success: #198754;
+            --warning: #ffc107;
+            --gray: #6c757d;
+            --light: #f8f9fa;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--d);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body.dark-mode {
+            --p: #0b5ed7;
+            --l: #212529;
+            --d: #f8f9fa;
+            --w: #2c3034;
+            --border: #495057;
+            --shadow: rgba(0, 0, 0, 0.3);
+            background-color: #1a1a1a;
+            color: var(--l);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--p);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--p);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .greeting {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--p);
+        }
+
+        .class-info {
+            background: var(--w);
+            padding: 15px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px var(--shadow);
+            border-left: 4px solid var(--p);
+        }
+
+        .homework-card {
+            background: var(--w);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px var(--shadow);
+            border-top: 4px solid var(--success);
+        }
+
+        .homework-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: var(--success);
+        }
+
+        .homework-list {
+            list-style: none;
+        }
+
+        .homework-item {
+            padding: 12px 15px;
+            background: rgba(25, 135, 84, 0.1);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .homework-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .ai-chat {
+            background: var(--w);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-top: 20px;
+        }
+
+        .chat-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--p);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--w);
+            color: var(--d);
+        }
+
+        .chat-input button {
+            padding: 0 20px;
+            background: var(--p);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+            padding-right: 5px;
+        }
+
+        .msg {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .user {
+            background: var(--p);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai {
+            background: rgba(13, 110, 253, 0.1);
+            color: var(--d);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-height: 200px;
+        }
+
+        /* Menu */
+        .menu-panel {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: var(--w);
+            box-shadow: -5px 0 15px var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .menu-panel.open {
+            right: 0;
+        }
+
+        .menu-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--d);
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(13, 110, 253, 0.1);
+            color: var(--p);
+        }
+
+        .menu-item ion-icon {
+            font-size: 1.2rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 15px 0;
+        }
+
+        /* FAB */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background: var(--p);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .fab.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Offline Banner */
+        .offline-banner {
+            position: fixed;
+            top: -60px;
+            left: 0;
+            width: 100%;
+            background: var(--danger);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            z-index: 1001;
+            transition: top 0.3s ease;
+        }
+
+        .offline-banner.show {
+            top: 0;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1002;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: var(--w);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-top: 20px;
+            display: none;
+        }
+
+        .admin-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--danger);
+        }
+
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .admin-form input {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--w);
+            color: var(--d);
+        }
+
+        .admin-form button {
+            padding: 12px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* PDF Button */
+        .pdf-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            .menu-panel {
+                width: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            .homework-item, .msg {
+                font-size: 0.9rem;
+            }
+            .fab {
+                width: 50px;
+                height: 50px;
+                right: 15px;
+                bottom: 15px;
+            }
+            .menu-panel {
+                width: 100vw;
+            }
+        }
+
+        /* PWA Install Button */
+        .pwa-install {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--warning);
+            color: var(--d);
+            text-align: center;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .pwa-install button {
+            background: var(--d);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-left: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Print Styles */
+        @media print {
+            .menu-btn, .fab, .chat-input, .pwa-install, .pdf-btn {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav>
-  <span>🎒 Kider Dashboard – Class <span id="clsSpan"></span></span>
-  <button class="hamburger" onclick="toggleMenu()">☰</button>
-</nav>
-
-<!-- OVERLAY + SIDE PANEL -->
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-<div class="side-panel" id="sidePanel">
-  <h3>Menu</h3>
-  <ul>
-    <li><a href="#" onclick="printHW()">🖨️ Print Homework</a></li>
-    <li><a href="#" onclick="sharePage()">📤 Share</a></li>
-    <li><a href="#" onclick="toggleDark()">🌗 Dark</a></li>
-    <li><a href="#" onclick="installPWA()">📲 Install</a></li>
-    <li><a href="#" onclick="openAdmin()">🔐 Admin</a></li>
-    <li><a href="#" onclick="logout()">🚪 Logout</a></li>
-  </ul>
-</div>
-
-<!-- NOTIFICATION -->
-<div id="notify" class="notify"></div>
-
-<!-- WELCOME -->
-<div class="container">
-  <div class="card">
-    <h2>Welcome back, <span id="nameSpan"></span> 👋</h2>
-  </div>
-
-  <!-- CLASS HOMEWORK -->
-  <div class="card">
-    <h2>📚 Today's Homework</h2>
-    <ul id="hwList" class="hw-list"></ul>
-    <button class="btn" onclick="addHW()">Add New</button>
-  </div>
-
-  <!-- AI HELPER -->
-  <div class="card">
-    <h2>🤖 AI Homework Helper</h2>
-    <div class="chatBox" id="chatBox"></div>
-    <div class="chatInput">
-      <input id="chatIn" placeholder="Ask about homework…"/>
-      <button onclick="askAI()">Send</button>
+    <!-- Offline Banner -->
+    <div class="offline-banner" id="offlineBanner">
+        🔴 You are offline. Some features may not work.
     </div>
-  </div>
 
-  <!-- FACILITIES (matching Kider style) -->
-  <div class="card">
-    <h2>School Facilities</h2>
-    <div class="grid">
-      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23ff6b81'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🚌%3C/text%3E%3C/svg%3E" alt="Bus"><h4>School Bus</h4></div>
-      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23a18cd1'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🎾%3C/text%3E%3C/svg%3E" alt="Playground"><h4>Playground</h4></div>
-      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23fad961'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🥗%3C/text%3E%3C/svg%3E" alt="Canteen"><h4>Healthy Canteen</h4></div>
-      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%2356ccf2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🧠%3C/text%3E%3C/svg%3E" alt="Learning"><h4>Positive Learning</h4></div>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Action completed!</div>
+
+    <!-- Menu Panel -->
+    <div class="menu-panel" id="menuPanel">
+        <div class="menu-header">
+            <div class="logo">
+                <ion-icon name="school"></ion-icon>
+                <span>School Web</span>
+            </div>
+            <button class="close-btn" id="closeMenu">&times;</button>
+        </div>
+
+        <div class="menu-items">
+            <a href="#" class="menu-item" id="printOption">
+                <ion-icon name="print"></ion-icon>
+                <span>Print Homework</span>
+            </a>
+            <a href="#" class="menu-item" id="shareOption">
+                <ion-icon name="share"></ion-icon>
+                <span>Share</span>
+            </a>
+            <a href="#" class="menu-item" id="darkModeToggle">
+                <ion-icon name="moon"></ion-icon>
+                <span>Dark Mode</span>
+            </a>
+            <a href="#" class="menu-item" id="pwaInstallBtn">
+                <ion-icon name="download"></ion-icon>
+                <span>Install App</span>
+            </a>
+            <a href="#" class="menu-item" id="clearCacheBtn">
+                <ion-icon name="trash"></ion-icon>
+                <span>Clear Cache</span>
+            </a>
+            <div class="divider"></div>
+            <a href="#" class="menu-item" id="adminPanelBtn">
+                <ion-icon name="lock-closed"></ion-icon>
+                <span>Admin Panel</span>
+            </a>
+            <a href="#" class="menu-item" id="logoutBtn">
+                <ion-icon name="log-out"></ion-icon>
+                <span>Logout</span>
+            </a>
+        </div>
     </div>
-  </div>
 
-  <!-- OFFLINE BANNER -->
-  <div id="offlineBanner" class="card hidden">
-    ⚠️ You are offline – data cached.
-  </div>
-</div>
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <div class="logo">
+                <ion-icon name="book"></ion-icon>
+                <span>Dashboard</span>
+            </div>
+            <button class="menu-btn" id="menuBtn">
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </header>
 
-<!-- FLOATING ACTION BUTTON -->
-<button class="fab" onclick="scrollToTop()">↑</button>
+        <main id="mainContent">
+            <p class="greeting" id="greeting">Loading...</p>
 
-<footer>© 2025 Kider Dashboard – Unlimited Features</footer>
+            <div class="class-info" id="classInfo">
+                Class: <strong id="displayClass">-</strong><br>
+                Student: <strong id="displayName">-</strong>
+            </div>
 
-<script>
-/* ---------- CONFIG ---------- */
-const API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            <div class="homework-card">
+                <div class="homework-title">
+                    <ion-icon name="clipboard"></ion-icon>
+                    <span>Today's Homework</span>
+                </div>
+                <ul class="homework-list" id="homeworkList">
+                    <!-- Filled by JS -->
+                </ul>
+                <button class="pdf-btn" id="downloadPdf">
+                    <ion-icon name="document"></ion-icon>
+                    Download PDF
+                </button>
+            </div>
 
-/* ---------- AUTH ---------- */
-if(!localStorage.getItem('name')) location.href='index.html';
-const cls = localStorage.getItem('cls');
-const name = localStorage.getItem('name');
-document.getElementById('clsSpan').innerText = cls;
-document.getElementById('nameSpan').innerText = name;
+            <div class="ai-chat">
+                <div class="chat-title">
+                    <ion-icon name="chatbubble"></ion-icon>
+                    <span>School AI Assistant</span>
+                </div>
+                <div class="messages-container" id="chatMessages">
+                    <div class="msg ai">
+                        👋 Hello! I'm your school AI. Ask me about homework, deadlines, or study tips! 📚
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Ask about homework..." />
+                    <button id="sendBtn">Send</button>
+                </div>
+            </div>
 
-/* ---------- MENU ---------- */
-function toggleMenu(){
-  const panel=document.getElementById('sidePanel');
-  const overlay=document.getElementById('overlay');
-  panel.classList.toggle('open');
-  overlay.classList.toggle('open');
-}
+            <div class="pwa-install" id="pwaInstall">
+                💾 Install this app for offline access!
+                <button id="installBtn">Install</button>
+            </div>
 
-/* ---------- DARK MODE ---------- */
-function toggleDark(){
-  document.body.classList.toggle('dark');
-  localStorage.setItem('dark',document.body.classList.contains('dark'));
-  showToast('Theme updated');
-}
-if(localStorage.getItem('dark')==='true') document.body.classList.add('dark');
+            <!-- Admin Panel -->
+            <div class="admin-panel" id="adminPanel">
+                <div class="admin-title">
+                    <ion-icon name="alert"></ion-icon>
+                    <h3>Admin Panel</h3>
+                </div>
+                <p>⚠️ This is a restricted area. Only authorized personnel allowed.</p>
+                <div class="admin-form">
+                    <input type="password" id="adminPass" placeholder="Enter password" />
+                    <button id="submitAdmin">Access Admin</button>
+                </div>
+                <p><small><a href="admin.html" style="color:var(--warning)">🔧 Go to Admin Dashboard (File 3/25)</a></small></p>
+            </div>
+        </main>
+    </div>
 
-/* ---------- NOTIFICATION ---------- */
-function showToast(msg){
-  const el=document.getElementById('notify');
-  el.innerText=msg;
-  el.style.display='block';
-  setTimeout(()=>el.style.display='none',2000);
-}
+    <!-- Floating Action Button -->
+    <button class="fab" id="scrollTopBtn">
+        <ion-icon name="arrow-up"></ion-icon>
+    </button>
 
-/* ---------- HOMEWORK DB ---------- */
-const homeworkDB={
- "1":["Math – Count 🐣 1-50","English – A-Z ✍️","Art – Colour 🎨 apple"],
- "2":["Math – Tables 🔢 2-5","EVS – My Family 👨‍👩‍👧‍👦","Hindi – Varnamala 🔡"],
- "3":["Math – Addition ➕ 3-digit","English – Story 📖","Science – Body 🧍‍♂️ parts"],
- "4":["Math – Long division ➗","Science – Plant 🌱 diagram","SST – Our 🌍 country"],
- "5":["Math – Fraction 🥧 basics","English – Paragraph ✍️","EVS – Water 💧 cycle"],
- "6":["Math – Algebra 🧮 intro","Science – Light 💡","History – Ancient 🏺 India"],
- "7":["Math – Simple equations 🤓","History – Delhi 🕌 Sultanate","Geography – Atmosphere 🌪️"],
- "8":["Math – Rational 🔢 numbers","Physics – Force 💪 & pressure","Chemistry – Metals ⚙️"],
- "9":["Math – Polynomials 🧩","Chemistry – Matter ⚛️","Physics – Motion 🏃‍♂️"],
- "10":["Math – Quadratic ‼️ equations","Physics – Electricity ⚡","Chemistry – Acids 🍋"],
- "11":["Math – Sets 🧩","Chemistry – Mole 🐀 concept","Physics – Units 📏"],
- "12":["Math – Relations 🔗","Physics – Electrostatics ⚡","Chemistry – Solutions 🧪"]
-};
-document.getElementById('hwList').innerHTML=homeworkDB[cls].map(hw=>`<li>${hw}</li>`).join('');
+    <script>
+        // App version for cache
+        const APP_VERSION = '1.2.0';
+        const GEMINI_API_KEY = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
-function addHW(){
- const task=prompt('Enter homework:');
- if(task){
-   const li=document.createElement('li');
-   li.innerText=task;
-   document.getElementById('hwList').appendChild(li);
-   showToast('Added ✅');
- }
-}
+        // DOM Elements
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const menuPanel = document.getElementById('menuPanel');
+        const mainContent = document.getElementById('mainContent');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const offlineBanner = document.getElementById('offlineBanner');
+        const toast = document.getElementById('toast');
+        const pwaInstall = document.getElementById('pwaInstall');
+        const installBtn = document.getElementById('installBtn');
 
-/* ---------- AI (HOMEWORK ONLY + EMOJIS) ---------- */
-async function askAI(){
- const msg=document.getElementById('chatIn').value.trim();
- if(!msg) return;
- const box=document.getElementById('chatBox');
- box.innerHTML+=`<div><b>You:</b> ${msg}</div>`;
- document.getElementById('chatIn').value='';
- const prompt=`You are the school AI for class ${cls}. Answer strictly about today’s homework or school info. Question: ${msg}`;
- try{
-   const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
-   const data=await res.json();
-   const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||`📚 Today's homework for class ${cls}:\n`+homeworkDB[cls].join('\n');
-   box.innerHTML+=`<div><b>AI:</b> ${reply}</div>`;
-   box.scrollTop=box.scrollHeight;
- }catch(e){
-   box.innerHTML+=`<div><b>Offline 🤖:</b> ${homeworkDB[cls].join(' | ')}</div>`;
- }
-}
+        // User Info
+        const greeting = document.getElementById('greeting');
+        const displayName = document.getElementById('displayName');
+        const displayClass = document.getElementById('displayClass');
+        const homeworkList = document.getElementById('homeworkList');
 
-/* ---------- DOWNLOAD PDF ---------- */
-function downloadHW(){
- const text=`Class ${cls} Homework\n`+homeworkDB[cls].join('\n');
- const blob=new Blob([text],{type:'application/pdf'});
- const url=URL.createObjectURL(blob);
- const a=document.createElement('a');
- a.href=url;
- a.download=`Class${cls}_Homework.pdf`;
- a.click();
- URL.revokeObjectURL(url);
- showToast('PDF downloaded 🎉');
-}
+        // Chat Elements
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
 
-/* ---------- REMINDER ---------- */
-function remindHW(){
- if(!('Notification' in window)){showToast('Notifications not supported');return;}
- Notification.requestPermission().then(p=>{
-   if(p==='granted') new Notification('📚 Reminder',{body:'Check today’s homework! 🔔'});
-   else showToast('Allow notifications for reminders');
- });
-}
+        // Admin Panel
+        const adminPanel = document.getElementById('adminPanel');
+        const adminPass = document.getElementById('adminPass');
+        const submitAdmin = document.getElementById('submitAdmin');
+        const adminPanelBtn = document.getElementById('adminPanelBtn');
 
-/* ---------- OFFLINE ---------- */
-window.addEventListener('online',()=>{document.getElementById('offlineBanner').classList.add('hidden');});
-window.addEventListener('offline',()=>{document.getElementById('offlineBanner').classList.remove('hidden');});
+        // Initialize user data
+        let userName = '';
+        let userClass = '';
+        let deferredPrompt;
 
-/* ---------- PWA INSTALL ---------- */
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{deferredPrompt=e;});
-function installPWA(){
- if(deferredPrompt){
-   deferredPrompt.prompt();
-   deferredPrompt.userChoice.then(()=>deferredPrompt=null);
- }else showToast('App already installed or not supported');
-}
+        // Homework database (mock data)
+        const homeworkData = {
+            '1': ['🔤 Learn A-B-C', '✍️ Trace letters A-Z', '🎨 Color the alphabet'],
+            '2': ['🔢 Count to 100', '➕ Simple addition (1-10)', '📓 Write numbers 1-50'],
+            '3': ['📖 Read a storybook', '✍️ Write 5 sentences', '🎨 Draw your favorite character'],
+            '4': ['🌍 Learn continents', '🗺️ Label world map', '📝 Write 3 facts about Africa'],
+            '5': ['🧪 Science experiment report', '📖 Reading comprehension', '✏️ Math worksheet (fractions)'],
+            '6': ['📘 Book report due Friday', '📐 Geometry problems', '🔬 Science project planning'],
+            '7': ['📚 Novel analysis chapter 3', '🧮 Algebra equations', '🧪 Lab report draft'],
+            '8': ['🖋️ Essay: "My Future Goals"', '📊 Graph linear equations', '📖 Shakespeare reading'],
+            '9': ['🧪 Chemistry: Balancing equations', '📈 Math: Quadratic functions', '📘 English: Poetry analysis'],
+            '10': ['🔬 Biology: Cell structure diagram', '🧮 Trigonometry problems', '📝 History essay on WWII'],
+            '11': ['🧪 Physics: Motion calculations', '📊 Calculus derivatives', '📘 Literature: Theme analysis'],
+            '12': ['🎓 College essay draft', '🔬 Research paper outline', '📊 Statistics project data collection']
+        };
 
-/* ---------- ADMIN HOOK ---------- */
-function openAdmin(){
- const pwd=prompt('Enter Admin Password:');
- if(pwd==='Abutalha') location.href='admin.html';
- else showToast('❌ Wrong password');
-}
+        // AI Response Templates (never repeating)
+        const aiResponses = [
+            "📚 Great question! Remember: Math homework is due tomorrow. Don't forget to show your work! ✅",
+            "⏰ Pro tip: Start your essay early! Break it into sections: intro, body, conclusion. You've got this! 💪",
+            "📌 Reminder: Science project presentations are next Friday. Begin gathering materials now! 🔬",
+            "✅ Completed! Your math worksheet looks excellent. Just double-check question #7 for accuracy. 👍",
+            "📅 Plan ahead: History test is in 3 days. Focus on chapters 4-6 tonight. 📚",
+            "💡 Study hack: Use flashcards for vocabulary! 20 minutes tonight, 20 tomorrow = perfect score! 🃏",
+            "📎 Update: English reading assignment extended to Friday. More time for deep analysis! 📖",
+            "🎯 Goal setting: Aim to finish 50% of your project by Wednesday. Milestones help! 🗺️",
+            "🧮 Math check: Remember PEMDAS! Parentheses first, then exponents, multiplication... 📐",
+            "📝 Writing tip: Your thesis statement should be clear and arguable. Make it strong! 💥",
+            "🔬 Lab safety first! Always wear goggles and follow procedures exactly. Safety > speed! ⚠️",
+            "🗓️ Weekly planner: Block 30-minute study sessions. Consistency beats cramming! 📅",
+            "🔍 Research smart: Use school database, not just Google. Credible sources matter! 🏛️",
+            "🎧 Focus music: Try classical or lo-fi beats for concentration. Avoid lyrics! 🎵",
+            "👥 Group study: Meet peers tomorrow after school. Teaching others reinforces learning! 🤝",
+            "😴 Sleep matters: 8 hours tonight = sharper mind tomorrow. No all-nighters! 🌙",
+            "🍱 Brain food: Eat protein-rich breakfast. Eggs, nuts, yogurt fuel learning! 🥚",
+            "🧘 Stress less: Take 5-minute breaks every hour. Breathe deeply. You're doing great! 🌿",
+            "📤 Submit early: Don't wait until deadline. Tech issues happen. Be prepared! ☁️",
+            "🔄 Review system: Correct mistakes, then re-do problems. Growth mindset! 📈"
+        ];
 
-/* ---------- PRINT ---------- */
-function printHW(){window.print();}
+        let usedAiResponses = [];
 
-/* ---------- CLEAR CACHE ---------- */
-function clearCache(){
- localStorage.clear();
- caches.keys().then(names=>names.forEach(n=>caches.delete(n)));
- showToast('Cache cleared 🧹');
-}
+        // Get a non-repeating AI response
+        function getAiResponse() {
+            if (usedAiResponses.length >= aiResponses.length) {
+                usedAiResponses = []; // Reset if all used
+            }
 
-/* ---------- LOGOUT ---------- */
-function logout(){
- localStorage.clear();
- location.href='index.html';
-}
+            let available = aiResponses.filter(r => !usedAiResponses.includes(r));
+            if (available.length === 0) return aiResponses[0]; // Fallback
 
-/* ---------- SCROLL TO TOP ---------- */
-function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
-</script>
+            const response = available[Math.floor(Math.random() * available.length)];
+            usedAiResponses.push(response);
+            return response;
+        }
+
+        // Send AI message via Gemini
+        async function getGeminiResponse(prompt) {
+            try {
+                const classContext = `You are a school assistant for Class ${userClass}. `;
+                const homeworkContext = `Today's homework: ${homeworkData[userClass]?.join(', ')}. `;
+                const safetyFilter = `Always provide educational, positive, school-appropriate responses with emojis. Never generate harmful content.`;
+
+                const fullPrompt = classContext + homeworkContext + prompt + safetyFilter;
+
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: fullPrompt
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 200
+                        }
+                    })
+                });
+
+                if (!response.ok) throw new Error('API error');
+
+                const data = await response.json();
+                const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || getAiResponse();
+
+                // Clean and format response
+                return aiText.replace(/\*\*/g, '').trim() + ' ' + getRandomEmoji();
+            } catch (error) {
+                console.warn('Gemini API failed, using fallback:', error);
+                return getAiResponse(); // Fallback to local responses
+            }
+        }
+
+        // Get random educational emoji
+        function getRandomEmoji() {
+            const emojis = ['📚', '✏️', '🧠', '🎯', '✅', '🚀', '🌟', '💡', '🔍', '📈', '🎓', '📘', '🧪', '📐', '🎵'];
+            return emojis[Math.floor(Math.random() * emojis.length)];
+        }
+
+        // Display message in chat
+        function addMessage(text, isUser = false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${isUser ? 'user' : 'ai'}`;
+            msgDiv.textContent = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Initialize App
+        function initApp() {
+            // Load user data
+            userName = localStorage.getItem('name') || 'Student';
+            userClass = localStorage.getItem('cls') || '1';
+
+            if (!userName || !userClass) {
+                alert('Please login first!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update UI
+            displayName.textContent = userName;
+            displayClass.textContent = `Class ${userClass}`;
+            greeting.textContent = `👋 Hello, ${userName}! Welcome to your Class ${userClass} dashboard.`;
+
+            // Load homework
+            loadHomework();
+
+            // Check dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Setup event listeners
+            setupEventListeners();
+
+            // Check PWA installability
+            checkPWAInstall();
+
+            // Show welcome toast
+            showToast(`Welcome back, ${userName}! 🎉`);
+
+            // Request notification permission
+            requestNotificationPermission();
+        }
+
+        // Load homework for current class
+        function loadHomework() {
+            const homework = homeworkData[userClass] || ['No homework today! 🎉'];
+            homeworkList.innerHTML = '';
+            homework.forEach(task => {
+                const li = document.createElement('li');
+                li.className = 'homework-item';
+                li.innerHTML = `<ion-icon name="checkmark-circle"></ion-icon> ${task}`;
+                homeworkList.appendChild(li);
+            });
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Menu toggle
+            menuBtn.addEventListener('click', () => {
+                menuPanel.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeMenu.addEventListener('click', () => {
+                menuPanel.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!menuPanel.contains(e.target) && !menuBtn.contains(e.target) && menuPanel.classList.contains('open')) {
+                    menuPanel.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Dark mode toggle
+            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+
+            // Print
+            document.getElementById('printOption').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.print();
+                menuPanel.classList.remove('open');
+                showToast('🖨️ Printing homework...');
+            });
+
+            // Share
+            document.getElementById('shareOption').addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'My School Homework',
+                            text: `Class ${userClass} Homework: ${homeworkData[userClass]?.join(', ')}`,
+                            url: window.location.href
+                        });
+                        showToast('Shared successfully! 📤');
+                    } catch (err) {
+                        showToast('Share cancelled. 😔');
+                    }
+                } else {
+                    showToast('Share not supported on this device. 📱');
+                }
+                menuPanel.classList.remove('open');
+            });
+
+            // PWA Install
+            document.getElementById('pwaInstallBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const choice = deferredPrompt.userChoice;
+                    choice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            showToast('App installed! 🎉');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    showToast('Install prompt not available. Try later. ⏳');
+                }
+                menuPanel.classList.remove('open');
+            });
+
+            // Clear cache
+            document.getElementById('clearCacheBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('Clear all local data? This will log you out.')) {
+                    localStorage.clear();
+                    caches?.keys?.().then(names => {
+                        names.forEach(name => caches.delete(name));
+                    }).catch(() => {});
+                    showToast('Cache cleared! 🧹');
+                    setTimeout(() => window.location.href = 'index.html', 1000);
+                }
+                menuPanel.classList.remove('open');
+            });
+
+            // Admin Panel
+            adminPanelBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                adminPanel.style.display = 'block';
+                menuPanel.classList.remove('open');
+            });
+
+            submitAdmin.addEventListener('click', () => {
+                if (adminPass.value === 'Abutalha') {
+                    showToast('🔓 Admin access granted!');
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
+                } else {
+                    showToast('❌ Wrong password!');
+                    adminPass.value = '';
+                }
+            });
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('Logout from dashboard?')) {
+                    localStorage.removeItem('name');
+                    localStorage.removeItem('cls');
+                    localStorage.removeItem('parent');
+                    showToast('👋 Logged out!');
+                    setTimeout(() => window.location.href = 'index.html', 800);
+                }
+                menuPanel.classList.remove('open');
+            });
+
+            // Chat functionality
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // Scroll to top
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Download PDF
+            document.getElementById('downloadPdf').addEventListener('click', downloadPdf);
+
+            // Window events
+            window.addEventListener('scroll', toggleScrollButton);
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                showToast('🌙 Dark mode enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                showToast('☀️ Light mode enabled');
+            }
+            menuPanel.classList.remove('open');
+        }
+
+        // Send message in chat
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Show typing indicator
+            const typing = document.createElement('div');
+            typing.className = 'msg ai';
+            typing.textContent = '🧠 Thinking...';
+            chatMessages.appendChild(typing);
+
+            // Get AI response
+            getGeminiResponse(message).then(response => {
+                chatMessages.removeChild(typing);
+                addMessage(response);
+            }).catch(() => {
+                chatMessages.removeChild(typing);
+                addMessage(getAiResponse());
+            });
+        }
+
+        // Toggle scroll-to-top button
+        function toggleScrollButton() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }
+
+        // Update online/offline status
+        function updateOnlineStatus() {
+            if (navigator.onLine) {
+                offlineBanner.classList.remove('show');
+                showToast('🟢 Back online!');
+            } else {
+                offlineBanner.classList.add('show');
+            }
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Check PWA installability
+        function checkPWAInstall() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                pwaInstall.style.display = 'block';
+            });
+
+            installBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            showToast('App installation started! 📲');
+                            pwaInstall.style.display = 'none';
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            });
+        }
+
+        // Request notification permission
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        // Schedule homework reminder
+                        scheduleNotification();
+                    }
+                });
+            }
+        }
+
+        // Schedule notification
+        function scheduleNotification() {
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                navigator.serviceWorker.ready.then((sw) => {
+                    sw.pushManager.getSubscription().then(sub => {
+                        if (!sub) {
+                            // Would normally send to backend, but simplified
+                            console.log('Notification scheduled for homework');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Generate PDF and download
+        function downloadPdf() {
+            // In a real app, we'd use jsPDF or similar
+            // Here we simulate with a blob
+            const homeworkText = homeworkData[userClass]?.join('\n• ') || 'No homework';
+            const content = `
+🎓 School Homework Dashboard
+----------------------------
+Student: ${userName}
+Class: Class ${userClass}
+Date: ${new Date().toLocaleDateString()}
+Time: ${new Date().toLocaleTimeString()}
+
+📋 Today's Homework:
+• ${homeworkText}
+
+Generated by School Web App
+https://example.com
+            `.trim();
+
+            const blob = new Blob([content], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `homework-class${userClass}-${new Date().toISOString().split('T')[0]}.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 PDF downloaded!');
+        }
+
+        // Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.warn('SW registration failed', err);
+                });
+            });
+        }
+
+        // Inline Service Worker
+        const swScript = `
+            const CACHE_NAME = 'school-web-v${APP_VERSION.replace(/\./g, '')}';
+            const urlsToCache = [
+                '/',
+                '/dashboard.html'
+            ];
+
+            self.addEventListener('install', event => {
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then(cache => cache.addAll(urlsToCache))
+                );
+                self.skipWaiting();
+            });
+
+            self.addEventListener('activate', event => {
+                event.waitUntil(
+                    caches.keys().then(cacheNames => {
+                        return Promise.all(
+                            cacheNames.map(cacheName => {
+                                if (cacheName !== CACHE_NAME) {
+                                    return caches.delete(cacheName);
+                                }
+                            })
+                        );
+                    })
+                );
+                self.clients.claim();
+            });
+
+            self.addEventListener('fetch', event => {
+                event.respondWith(
+                    caches.match(event.request)
+                        .then(response => {
+                            if (response) {
+                                return response;
+                            }
+                            return fetch(event.request);
+                        })
+                );
+            });
+
+            self.addEventListener('push', event => {
+                const options = {
+                    body: event.data?.text() || 'New homework reminder!',
+                    icon: 'icon-192.png',
+                    badge: 'badge.png',
+                    tag: 'homework-reminder'
+                };
+                event.waitUntil(
+                    self.registration.showNotification('School Web', options)
+                );
+            });
+        `;
+
+        // Create service worker blob
+        const swBlob = new Blob([swScript], { type: 'text/javascript' });
+        const swUrl = URL.createObjectURL(swBlob);
+
+        // Register inline SW
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                registrations.forEach(r => r.unregister());
+                navigator.serviceWorker.register(swUrl);
+            }).catch(() => {});
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            setTimeout(() => mainContent.classList.add('fade-in'), 100);
+        });
+
+        // Mock icons if ionicons fails
+        window.addEventListener('error', (e) => {
+            if (e.target.tagName === 'SCRIPT' && e.target.src.includes('ionicons')) {
+                // Fallback to emoji
+                document.querySelectorAll('ion-icon').forEach(icon => {
+                    const name = icon.getAttribute('name');
+                    const emojiMap = {
+                        'school': '🏫',
+                        'book': '📚',
+                        'menu': '☰',
+                        'clipboard': '📋',
+                        'chatbubble': '💬',
+                        'arrow-up': '⬆️',
+                        'print': '🖨️',
+                        'share': '📤',
+                        'moon': '🌙',
+                        'download': '⬇️',
+                        'trash': '🗑️',
+                        'lock-closed': '🔒',
+                        'log-out': '🚪',
+                        'checkmark-circle': '✅',
+                        'document': '📄',
+                        'alert': '🚨'
+                    };
+                    icon.textContent = emojiMap[name] || '🔹';
+                });
+            }
+        }, true);
+    </script>
 </body>
 </html>
