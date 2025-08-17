@@ -7,25 +7,64 @@
     <link rel="stylesheet" href="css/ultra-pro.css">
     <link rel="icon" href="images/favicon.ico">
     <meta name="theme-color" content="#667eea">
+    <!-- PWA Manifest (Optional) -->
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <!-- Header -->
     <header class="dashboard-header">
         <div class="header-content">
             <div class="header-left">
-                <img src="images/logo.png" alt="Logo" class="header-logo">
-                <div>
-                    <h1 id="welcomeText">Welcome</h1>
-                    <p id="classText">Class</p>
+                <img src="images/logo.png" alt="Springfield India Logo" class="header-logo">
+                <div class="header-text">
+                    <h1 id="welcomeText">Welcome, Student!</h1>
+                    <p id="classText">Class <span id="classNumber">X</span></p>
                 </div>
             </div>
-            <button class="logout-btn" onclick="logout()">
+            <button class="logout-btn" onclick="logout()" title="Logout">
                 <span>🚪</span>
             </button>
         </div>
     </header>
 
-    <!-- Navigation -->
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <!-- Homework -->
+        <section class="tab-content active" id="homework">
+            <div class="section-header">
+                <h2>📚 Homework</h2>
+                <button class="refresh-btn" onclick="refreshHomework()" title="Refresh">🔄</button>
+            </div>
+            <div class="content-grid" id="homeworkGrid"></div>
+        </section>
+
+        <!-- Notes -->
+        <section class="tab-content" id="notes">
+            <div class="section-header">
+                <h2>📖 Study Notes</h2>
+                <button class="refresh-btn" onclick="refreshNotes()" title="Refresh">🔄</button>
+            </div>
+            <div class="content-grid" id="notesGrid"></div>
+        </section>
+
+        <!-- Timetable -->
+        <section class="tab-content" id="timetable">
+            <div class="section-header">
+                <h2>⏰ Today's Schedule</h2>
+            </div>
+            <div class="timetable-container" id="timetableDisplay"></div>
+        </section>
+
+        <!-- Results -->
+        <section class="tab-content" id="results">
+            <div class="section-header">
+                <h2>📊 Your Results</h2>
+            </div>
+            <div class="results-container" id="resultsDisplay"></div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <button class="nav-item active" data-tab="homework">
             <span class="nav-icon">📝</span>
@@ -45,51 +84,52 @@
         </button>
     </nav>
 
-    <!-- Main Content -->
-    <main class="dashboard-main">
-        <!-- Homework Section -->
-        <section class="tab-content active" id="homework">
-            <div class="section-header">
-                <h2>Homework</h2>
-                <button class="refresh-btn" onclick="refreshHomework()">🔄</button>
-            </div>
-            <div class="content-grid" id="homeworkGrid"></div>
-        </section>
-
-        <!-- Notes Section -->
-        <section class="tab-content" id="notes">
-            <div class="section-header">
-                <h2>Study Notes</h2>
-                <button class="refresh-btn" onclick="refreshNotes()">🔄</button>
-            </div>
-            <div class="content-grid" id="notesGrid"></div>
-        </section>
-
-        <!-- Timetable Section -->
-        <section class="tab-content" id="timetable">
-            <div class="section-header">
-                <h2>Today's Schedule</h2>
-            </div>
-            <div class="timetable-container" id="timetableDisplay"></div>
-        </section>
-
-        <!-- Results Section -->
-        <section class="tab-content" id="results">
-            <div class="section-header">
-                <h2>Your Results</h2>
-            </div>
-            <div class="results-container" id="resultsDisplay"></div>
-        </section>
-    </main>
-
-    <!-- Floating Admin Button -->
-    <button class="admin-fab" onclick="window.location.href='admin.html'">
+    <!-- Floating Admin Button (Hidden by default) -->
+    <button class="admin-fab" id="adminFab" style="display:none;" onclick="window.location.href='admin.html'">
         ⚙️
     </button>
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
+        <p>Loading your data...</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p><strong>🏫 Springfield India School</strong></p>
+            <p>📍 Balrampur, Uttar Pradesh</p>
+            <p>📞 <a href="tel:+919876543210">+91 98765 43210</a></p>
+            <p>📧 <a href="mailto:info@springfieldindia.edu.in">info@springfieldindia.edu.in</a></p>
+            <p class="footer-faq">
+                <a href="#faq" onclick="showFAQ()">❓ FAQ</a> | 
+                <a href="#privacy" onclick="showPrivacy()">🔒 Privacy</a>
+            </p>
+            <p class="copyright">© 2025 Springfield India School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- FAQ Modal -->
+    <div class="modal" id="faqModal" style="display:none;">
+        <div class="modal-content">
+            <h3>📚 Frequently Asked Questions</h3>
+            <ul>
+                <li><strong>Q: How to submit homework?</strong><br>A: Submit in class or upload via teacher's portal.</li>
+                <li><strong>Q: When are results declared?</strong><br>A: Within 2 weeks of exam.</li>
+                <li><strong>Q: How to contact teacher?</strong><br>A: Use messaging in parent portal or visit school.</li>
+            </ul>
+            <button onclick="closeModal('faqModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal" id="privacyModal" style="display:none;">
+        <div class="modal-content">
+            <h3>🔒 Privacy Policy</h3>
+            <p>We do not share student data with third parties. All data is stored securely on local devices.</p>
+            <button onclick="closeModal('privacyModal')">Close</button>
+        </div>
     </div>
 
     <script src="js/ultra-pro.js"></script>
