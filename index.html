@@ -1,79 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Springfield Academy - Login</title>
-    <link rel="stylesheet" href="css/mobile.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Springfield India School</title>
+  <link rel="stylesheet" href="css/ultra-pro.css" />
+  <link rel="icon" href="images/favicon.ico" />
 </head>
-<body>
-    <div class="login-container">
-        <div class="logo">🏫</div>
-        <h1>Springfield Academy</h1>
-        
-        <form id="loginForm" onsubmit="login(event)">
-            <input type="text" id="studentName" placeholder="Your Name" required>
-            <select id="classSelect" required>
-                <option value="">Select Class</option>
-                <option value="1">Class 1</option>
-                <option value="2">Class 2</option>
-                <option value="3">Class 3</option>
-                <option value="4">Class 4</option>
-                <option value="5">Class 5</option>
-                <option value="6">Class 6</option>
-                <option value="7">Class 7</option>
-                <option value="8">Class 8</option>
-                <option value="9">Class 9</option>
-                <option value="10">Class 10</option>
-                <option value="11">Class 11</option>
-                <option value="12">Class 12</option>
-            </select>
-            <button type="submit" class="btn">Next →</button>
-        </form>
-        
-        <!-- Hidden Admin Access -->
-        <div class="admin-link" onclick="showAdminLogin()">🔐 Admin Access</div>
+<body class="login-body">
+  <div class="login-container">
+    <img src="images/logo.png" alt="Logo" class="logo" />
+    <h1>Welcome to Springfield India</h1>
+    <p>Select your class to continue</p>
+
+    <div class="input-group">
+      <label for="student-name">Your Name</label>
+      <input type="text" id="student-name" placeholder="Enter your name" required />
     </div>
 
-    <!-- Admin Login Modal -->
-    <div id="adminModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close" onclick="closeAdmin()">&times;</span>
-            <h2>Admin Login</h2>
-            <input type="password" id="adminPass" placeholder="Password: Abutalha">
-            <button onclick="verifyAdmin()" class="btn">Login</button>
-        </div>
+    <div class="input-group">
+      <label for="class-select">Class</label>
+      <select id="class-select">
+        <option value="">Select Class</option>
+        <script>
+          for (let i = 1; i <= 12; i++) {
+            document.write(`<option value="${i}">Class ${i}</option>`);
+          }
+        </script>
+      </select>
     </div>
 
-    <script>
-        function login(e) {
-            e.preventDefault();
-            const name = document.getElementById('studentName').value;
-            const classNum = document.getElementById('classSelect').value;
-            
-            localStorage.setItem('studentName', name);
-            localStorage.setItem('currentClass', classNum);
-            
-            window.location.href = 'dashboard.html';
-        }
+    <button id="next-btn" class="btn-primary">Next</button>
 
-        function showAdminLogin() {
-            document.getElementById('adminModal').classList.remove('hidden');
-        }
+    <!-- Hidden Admin Link -->
+    <a href="admin.html" id="admin-link" style="display:none;">Admin Panel</a>
+  </div>
 
-        function closeAdmin() {
-            document.getElementById('adminModal').classList.add('hidden');
-        }
+  <script>
+    document.getElementById('next-btn').onclick = () => {
+      const name = document.getElementById('student-name').value.trim();
+      const cls = document.getElementById('class-select').value;
+      if (!name || !cls) {
+        alert("Please enter your name and select your class.");
+        return;
+      }
+      localStorage.setItem('studentName', name);
+      localStorage.setItem('studentClass', cls);
+      window.location.href = 'dashboard.html';
+    };
 
-        function verifyAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === 'Abutalha') {
-                localStorage.setItem('isAdmin', 'true');
-                window.location.href = 'admin.html';
-            } else {
-                alert('Wrong password!');
-            }
-        }
-    </script>
+    // Show admin link on triple-click
+    let clicks = 0;
+    document.body.addEventListener('click', () => {
+      clicks++;
+      if (clicks === 3) {
+        document.getElementById('admin-link').style.display = 'block';
+        setTimeout(() => (document.getElementById('admin-link').style.display = 'none'), 3000);
+        clicks = 0;
+      }
+      setTimeout(() => { if (clicks < 3) clicks = 0; }, 500);
+    });
+  </script>
 </body>
 </html>
