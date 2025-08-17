@@ -3,710 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dashboard - Springfield India [25 Features Edition]</title>
+    <title>Dashboard - 20 Features Springfield</title>
     <link rel="stylesheet" href="css/ultra-pro.css">
-    <link rel="icon" href="images/favicon.ico">
 </head>
 <body>
-    <!-- 1-5. Advanced Status Bar -->
-    <div class="mega-status">
-        <div class="status-left">
-            <span id="liveTime">12:00:00</span>
-            <span class="weather">☀️ 25°C</span>
-            <span class="location">📍 India</span>
-        </div>
-        <div class="status-right">
-            <span class="battery">🔋100% ⚡</span>
-            <span class="network">📶 5G</span>
-            <span class="online-status">🟢 Online</span>
-        </div>
+    <!-- 8. Status Bar -->
+    <div class="status-bar">
+        <span id="liveTime">12:00</span>
+        <span>📍 Springfield India</span>
+        <span>🔋100%</span>
     </div>
 
-    <!-- 6-10. Smart Header -->
-    <header class="mega-header">
-        <div class="header-content">
-            <div class="header-left">
-                <img src="images/logo.png" alt="Logo" class="header-logo pulse">
-                <div>
-                    <h1 id="aiGreeting">Welcome Back, Student!</h1>
-                    <p id="aiInsight">You have 3 assignments due today</p>
-                </div>
-            </div>
-            <div class="header-right">
-                <button class="smart-btn" onclick="showNotifications()">
-                    <span>🔔</span>
-                    <span class="notification-count">5</span>
-                </button>
-                <button class="smart-btn" onclick="showProfile()">
-                    <span>👤</span>
-                    <span class="profile-badge">Pro</span>
-                </button>
-                <button class="smart-btn" onclick="showSettings()">
-                    <span>⚙️</span>
-                </button>
-            </div>
-        </div>
+    <!-- 9. Header with AI -->
+    <header class="dashboard-header">
+        <h1 id="welcomeText">Welcome</h1>
+        <button onclick="logout()">🚪</button>
     </header>
 
-    <!-- 11-15. AI Dashboard Cards -->
-    <div class="ai-dashboard">
-        <!-- 11. AI Summary -->
-        <div class="ai-summary">
-            <h2>🤖 AI Summary</h2>
-            <div class="summary-cards">
-                <div class="summary-card">
-                    <div class="summary-icon">📊</div>
-                    <div class="summary-text">
-                        <strong>85%</strong> completion rate
-                    </div>
-                </div>
-                <div class="summary-card">
-                    <div class="summary-icon">⚡</div>
-                    <div class="summary-text">
-                        <strong>3</strong> tasks due today
-                    </div>
-                </div>
-                <div class="summary-card">
-                    <div class="summary-icon">🎯</div>
-                    <div class="summary-text">
-                        <strong>12</strong> new notes
-                    </div>
-                </div>
-            </div>
+    <!-- 10. AI Stats -->
+    <div class="ai-stats">
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-number" id="hwCount">0</div>
+            <div class="stat-label">AI Homework</div>
         </div>
-
-        <!-- 12. Real-time Stats -->
-        <div class="real-time-stats">
-            <div class="stat-card live">
-                <div class="stat-icon">👥</div>
-                <div class="stat-number" id="liveStudents">1,234</div>
-                <div class="stat-label">Online Students</div>
-            </div>
-            <div class="stat-card live">
-                <div class="stat-icon">📝</div>
-                <div class="stat-number" id="liveHomework">45</div>
-                <div class="stat-label">Active Homework</div>
-            </div>
-            <div class="stat-card live">
-                <div class="stat-icon">📖</div>
-                <div class="stat-number" id="liveNotes">89</div>
-                <div class="stat-label">New Notes</div>
-            </div>
-            <div class="stat-card live">
-                <div class="stat-icon">📊</div>
-                <div class="stat-number" id="liveResults">12</div>
-                <div class="stat-label">New Results</div>
-            </div>
-            <div class="stat-card live">
-                <div class="stat-icon">⏰</div>
-                <div class="stat-number" id="liveTime">12:00</div>
-                <div class="stat-label">Live Time</div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-number" id="notesCount">0</div>
+            <div class="stat-label">Smart Notes</div>
         </div>
-
-        <!-- 13. AI Recommendations -->
-        <div class="ai-recommendations">
-            <h2>🎯 AI Recommendations</h2>
-            <div class="recommendation-cards">
-                <div class="recommendation-card">
-                    <h3>Study Today</h3>
-                    <p>Math Chapter 5 - Complete in 2 hours</p>
-                    <button class="ai-btn">Start Now</button>
-                </div>
-                <div class="recommendation-card">
-                    <h3>Join Discussion</h3>
-                    <p>Science group - 15 members online</p>
-                    <button class="ai-btn">Join Chat</button>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-number" id="resultsCount">0</div>
+            <div class="stat-label">AI Results</div>
         </div>
     </div>
 
-    <!-- 16-20. Advanced Content Sections -->
-    <main class="mega-dashboard">
-        <!-- 16. Advanced Homework -->
-        <section class="mega-section active" id="homework">
-            <div class="section-header">
-                <h2>📚 AI-Powered Homework</h2>
-                <div class="section-tools">
-                    <button class="tool-btn" onclick="aiSuggest()">🤖 AI Suggest</button>
-                    <button class="tool-btn" onclick="smartFilter()">🔍 Smart Filter</button>
-                    <button class="tool-btn" onclick="voiceAdd()">🎤 Voice Add</button>
-                    <button class="tool-btn" onclick="bulkActions()">⚡ Bulk Actions</button>
-                </div>
-            </div>
-            <div class="homework-ai">
-                <div class="homework-cards" id="homeworkCards"></div>
-                <div class="ai-assistant">
-                    <div class="assistant-message">
-                        <strong>AI Assistant:</strong> Based on your schedule, I suggest completing Math homework first as it's due tomorrow.
-                    </div>
-                </div>
-            </div>
+    <!-- 11-20. Main Features -->
+    <main class="dashboard-main">
+        <!-- 11. AI Homework -->
+        <section class="feature-section">
+            <h2>📚 AI Homework</h2>
+            <div id="homeworkCards"></div>
+            <button onclick="addAIHomework()">+ Add AI Homework</button>
         </section>
 
-        <!-- 17. Smart Notes -->
-        <section class="mega-section" id="notes">
-            <div class="section-header">
-                <h2>🧠 Smart Notes Hub</h2>
-                <div class="section-tools">
-                    <button class="tool-btn" onclick="ocrScan()">📱 OCR Scan</button>
-                    <button class="tool-btn" onclick="aiSummarize()">🤖 AI Summarize</button>
-                    <button class="tool-btn" onclick="collaborate()">👥 Collaborate</button>
-                    <button class="tool-btn" onclick="exportNotes()">📤 Export</button>
-                </div>
-            </div>
-            <div class="notes-ai">
-                <div class="notes-cards" id="notesCards"></div>
-                <div class="ai-summary">
-                    <h3>AI Summary</h3>
-                    <p>You have 5 new notes. I've highlighted key points for quick review.</p>
-                </div>
-            </div>
+        <!-- 12. Smart Notes -->
+        <section class="feature-section">
+            <h2>📝 Smart Notes</h2>
+            <div id="notesCards"></div>
+            <button onclick="addSmartNotes()">+ Add Smart Notes</button>
         </section>
 
-        <!-- 18. Dynamic Timetable -->
-        <section class="mega-section" id="timetable">
-            <div class="section-header">
-                <h2>📅 Dynamic Schedule</h2>
-                <div class="section-tools">
-                    <button class="tool-btn" onclick="autoSchedule()">🤖 Auto Schedule</button>
-                    <button class="tool-btn" onclick="conflictCheck()">⚠️ Conflict Check</button>
-                    <button class="tool-btn" onclick="shareSchedule()">📤 Share</button>
-                    <button class="tool-btn" onclick="exportSchedule()">📊 Export Calendar</button>
-                </div>
-            </div>
-            <div class="timetable-ai">
-                <div class="calendar-view" id="calendarView"></div>
-                <div class="ai-suggestions">
-                    <h3>AI Schedule Optimization</h3>
-                    <p>Your free periods are highlighted. Consider using them for revision.</p>
-                </div>
-            </div>
+        <!-- 13. AI Results -->
+        <section class="feature-section">
+            <h2>📊 AI Results</h2>
+            <div id="resultsCards"></div>
+            <button onclick="addAIResults()">+ Add AI Results</button>
         </section>
 
-        <!-- 19. AI Results -->
-        <section class="mega-section" id="results">
-            <div class="section-header">
-                <h2>🎯 AI Results Analysis</h2>
-                <div class="section-tools">
-                    <button class="tool-btn" onclick="aiPredict()">🔮 AI Predict</button>
-                    <button class="tool-btn" onclick="compareResults()">📊 Compare</button>
-                    <button class="tool-btn" onclick="generateReport()">📈 Generate Report</button>
-                    <button class="tool-btn" onclick="shareResults()">📤 Share</button>
-                </div>
-            </div>
-            <div class="results-ai">
-                <div class="results-cards" id="resultsCards"></div>
-                <div class="ai-prediction">
-                    <h3>AI Performance Prediction</h3>
-                    <p>Based on your trends, you're likely to score 85%+ in upcoming exams.</p>
-                </div>
-            </div>
+        <!-- 14. Smart Attendance -->
+        <section class="feature-section">
+            <h2>✅ Smart Attendance</h2>
+            <div id="attendanceCalendar"></div>
+            <button onclick="markAttendance()">+ Mark Attendance</button>
         </section>
 
-        <!-- 20. AI Attendance -->
-        <section class="mega-section" id="attendance">
-            <div class="section-header">
-                <h2>✅ Smart Attendance</h2>
-                <div class="section-tools">
-                    <button class="tool-btn" onclick="faceRecognition()">👤 Face Recognition</button>
-                    <button class="tool-btn" onclick="qrCheckIn()">📱 QR Check-in</button>
-                    <button class="tool-btn" onclick="autoMark()">🤖 Auto Mark</button>
-                    <button class="tool-btn" onclick="exportAttendance()">📤 Export</button>
-                </div>
-            </div>
-            <div class="attendance-ai">
-                <div class="attendance-calendar" id="attendanceCalendar"></div>
-                <div class="ai-attendance">
-                    <h3>AI Attendance Insights</h3>
-                    <p>Your attendance is 95%. You're on track for perfect attendance award!</p>
-                </div>
-            </div>
+        <!-- 15. AI Assistant -->
+        <section class="feature-section">
+            <h2>🤖 AI Assistant</h2>
+            <input type="text" id="aiInput" placeholder="Ask AI anything...">
+            <button onclick="askAI()">Send to AI</button>
         </section>
 
-        <!-- 21-25. Extra Features -->
-        <section class="mega-section" id="extras">
-            <div class="section-header">
-                <h2>🚀 Super Features</h2>
-                <div class="section-tools">
-                    <button class="tool-btn" onclick="startVideoCall()">📹 Video Call</button>
-                    <button class="tool-btn" onclick="startScreenShare()">📺 Screen Share</button>
-                    <button class="tool-btn" onclick="startWhiteboard()">🎨 Whiteboard</button>
-                    <button class="tool-btn" onclick="startRecording()">🎥 Record Session</button>
-                </div>
-            </div>
-            <div class="extras-ai">
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h3>🎯 AI Tutor</h3>
-                        <p>Personal AI tutor available 24/7</p>
-                        <button class="ai-btn">Start Learning</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3>📊 Progress Tracker</h3>
-                        <p>Track your growth over time</p>
-                        <button class="ai-btn">View Progress</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3>🤖 AI Chatbot</h3>
-                        <p>Get instant answers to questions</p>
-                        <button class="ai-btn">Chat Now</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3>📱 Mobile Sync</h3>
-                        <p>Sync across all devices</p>
-                        <button class="ai-btn">Sync Now</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3>🎮 Gamification</h3>
-                        <p>Earn points and badges</p>
-                        <button class="ai-btn">View Badges</button>
-                    </div>
-                </div>
-            </div>
+        <!-- 16. Voice Commands -->
+        <section class="feature-section">
+            <h2>🎤 Voice Commands</h2>
+            <button onclick="startVoice()">Start Voice</button>
+            <div id="voiceOutput"></div>
+        </section>
+
+        <!-- 17. QR Codes -->
+        <section class="feature-section">
+            <h2>📱 QR Codes</h2>
+            <button onclick="generateQR()">Generate QR</button>
+            <div id="qrDisplay"></div>
+        </section>
+
+        <!-- 18. Smart Search -->
+        <section class="feature-section">
+            <h2>🔍 Smart Search</h2>
+            <input type="text" id="searchInput" placeholder="Search anything..." oninput="smartSearch()">
+            <div id="searchResults"></div>
+        </section>
+
+        <!-- 19. Export/Import -->
+        <section class="feature-section">
+            <h2>📤📥 Export/Import</h2>
+            <button onclick="exportData()">Export All</button>
+            <button onclick="importData()">Import All</button>
+        </section>
+
+        <!-- 20. Real-time Sync -->
+        <section class="feature-section">
+            <h2>🔄 Real-time Sync</h2>
+            <button onclick="syncData()">Sync Now</button>
+            <div id="syncStatus">Synced</div>
         </section>
     </main>
 
-    <!-- 21. Floating AI Assistant -->
-    <div class="ai-assistant-float">
-        <button class="ai-float-btn" onclick="toggleAIAssistant()">
-            <span id="aiBtnIcon">🤖</span>
-        </button>
-        <div class="ai-assistant-panel" id="aiAssistantPanel">
-            <div class="ai-header">
-                <h3>AI Assistant</h3>
-                <button onclick="closeAIAssistant()">✖️</button>
-            </div>
-            <div class="ai-chat">
-                <div class="ai-message">
-                    <strong>AI:</strong> How can I help you today?
-                </div>
-            </div>
-            <div class="ai-input">
-                <input type="text" placeholder="Ask me anything..." id="aiInput">
-                <button onclick="sendAIMessage()">📤</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 22. Smart Navigation -->
-    <nav class="smart-nav">
-        <button class="nav-item active" data-section="homework">
-            <span class="nav-icon">📚</span>
-            <span class="nav-text">Homework</span>
-            <span class="nav-badge">3</span>
-        </button>
-        <button class="nav-item" data-section="notes">
-            <span class="nav-icon">📝</span>
-            <span class="nav-text">Notes</span>
-            <span class="nav-badge">5</span>
-        </button>
-        <button class="nav-item" data-section="timetable">
-            <span class="nav-icon">📅</span>
-            <span class="nav-text">Schedule</span>
-        </button>
-        <button class="nav-item" data-section="results">
-            <span class="nav-icon">📊</span>
-            <span class="nav-text">Results</span>
-        </button>
-        <button class="nav-item" data-section="attendance">
-            <span class="nav-icon">✅</span>
-            <span class="nav-text">Attendance</span>
-        </button>
-        <button class="nav-item" data-section="extras">
-            <span class="nav-icon">🚀</span>
-            <span class="nav-text">Super</span>
-        </button>
+    <!-- 21. AI Navigation -->
+    <nav class="ai-nav">
+        <button data-section="homework">📚</button>
+        <button data-section="notes">📝</button>
+        <button data-section="results">📊</button>
+        <button data-section="attendance">✅</button>
+        <button data-section="ai">🤖</button>
     </nav>
 
-    <!-- 23-25. Advanced Panels -->
-    <div class="advanced-panels">
-        <!-- 23. Notification Center -->
-        <div class="notification-center" id="notificationCenter">
-            <div class="notification-header">
-                <h3>🔔 Notification Center</h3>
-                <button onclick="closeNotifications()">✖️</button>
-            </div>
-            <div class="notification-list">
-                <div class="notification-item">
-                    <div class="notification-icon">📝</div>
-                    <div class="notification-content">
-                        <strong>Math Homework</strong>
-                        <p>Due in 2 hours • AI reminder</p>
-                        <small>Just now</small>
-                    </div>
-                </div>
-                <div class="notification-item">
-                    <div class="notification-icon">📊</div>
-                    <div class="notification-content">
-                        <strong>Results Published</strong>
-                        <p>Your scores are ready • AI analysis</p>
-                        <small>5 min ago</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 24. Settings Panel -->
-        <div class="settings-panel" id="settingsPanel">
-            <div class="settings-header">
-                <h3>⚙️ Super Settings</h3>
-                <button onclick="closeSettings()">✖️</button>
-            </div>
-            <div class="settings-content">
-                <div class="setting-group">
-                    <h4>🎨 Appearance</h4>
-                    <label><input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()"> Dark Mode</label>
-                    <label><input type="checkbox" id="animationsToggle" checked> Animations</label>
-                    <label><input type="checkbox" id="soundsToggle" checked> Sounds</label>
-                </div>
-                <div class="setting-group">
-                    <h4>🔔 Notifications</h4>
-                    <label><input type="checkbox" id="emailToggle" checked> Email</label>
-                    <label><input type="checkbox" id="pushToggle" checked> Push</label>
-                    <label><input type="checkbox" id="smsToggle"> SMS</label>
-                </div>
-                <div class="setting-group">
-                    <h4>🔐 Security</h4>
-                    <label><input type="checkbox" id="biometricToggle" checked> Biometric</label>
-                    <label><input type="checkbox" id="2faToggle"> 2FA</label>
-                    <label><input type="checkbox" id="locationToggle"> Location</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- 25. AI Assistant Panel -->
-        <div class="ai-assistant-panel" id="aiAssistantPanel">
-            <div class="ai-header">
-                <h3>🤖 AI Assistant</h3>
-                <button onclick="closeAIAssistant()">✖️</button>
-            </div>
-            <div class="ai-chat">
-                <div class="ai-message">
-                    <strong>AI Assistant:</strong> Hello! I can help you with homework, notes, and more. Ask me anything!
-                </div>
-                <div class="ai-message">
-                    <strong>AI Assistant:</strong> Based on your schedule, I recommend starting Math homework first.
-                </div>
-            </div>
-            <div class="ai-input">
-                <input type="text" placeholder="Ask AI anything..." id="aiInput">
-                <button onclick="sendToAI()">📤 Send</button>
-            </div>
-            <div class="ai-suggestions">
-                <button onclick="askAI('help homework')">📝 Help with homework</button>
-                <button onclick="askAI('explain notes')">📖 Explain notes</button>
-                <button onclick="askAI('schedule tips')">⏰ Schedule tips</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Ultimate Dashboard with 25 Features
-        class UltimateDashboard {
+        // 20 Features Dashboard
+        class TwentyFeaturesDashboard {
             constructor() {
                 this.user = JSON.parse(localStorage.getItem('currentUser'));
-                this.features = 25;
                 this.init();
             }
 
             init() {
                 this.setupUI();
-                this.setupNavigation();
                 this.loadAllData();
                 this.startRealTime();
-                this.setupAI();
             }
 
             setupUI() {
-                document.getElementById('aiGreeting').textContent = `Welcome back, ${this.user.name}!`;
-                document.getElementById('aiInsight').textContent = `You have ${this.getTodayTasks()} tasks today`;
-                this.startLiveUpdates();
-            }
-
-            setupNavigation() {
-                const navItems = document.querySelectorAll('.nav-item');
-                const sections = document.querySelectorAll('.mega-section');
-
-                navItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const section = item.dataset.section;
-                        
-                        navItems.forEach(i => i.classList.remove('active'));
-                        sections.forEach(s => s.style.display = 'none');
-                        
-                        item.classList.add('active');
-                        document.getElementById(section).style.display = 'block';
-                        
-                        this.loadSectionData(section);
-                    });
-                });
-
-                this.loadSectionData('homework');
+                document.getElementById('welcomeText').textContent = `Welcome, ${this.user.name}`;
+                this.updateStats();
             }
 
             loadAllData() {
                 this.loadHomework();
                 this.loadNotes();
-                this.loadTimetable();
                 this.loadResults();
                 this.loadAttendance();
-                this.loadExtras();
-                this.updateRealTimeStats();
-            }
-
-            loadSectionData(section) {
-                switch(section) {
-                    case 'homework': this.loadHomework(); break;
-                    case 'notes': this.loadNotes(); break;
-                    case 'timetable': this.loadTimetable(); break;
-                    case 'results': this.loadResults(); break;
-                    case 'attendance': this.loadAttendance(); break;
-                    case 'extras': this.loadExtras(); break;
-                }
+                this.loadAI();
             }
 
             loadHomework() {
-                const homework = this.getData('homework').filter(h => h.class === this.user.class);
-                const container = document.getElementById('homeworkCards');
-                
-                container.innerHTML = homework.map(hw => `
-                    <div class="homework-card">
-                        <div class="card-header">
-                            <span class="subject-badge">${hw.subject}</span>
-                            <span class="ai-priority">${hw.priority}</span>
-                        </div>
+                const homework = this.getData('homework');
+                document.getElementById('homeworkCards').innerHTML = homework.map(hw => `
+                    <div class="feature-card">
+                        <h3>${hw.subject}</h3>
                         <p>${hw.description}</p>
-                        <div class="card-footer">
-                            <span class="due-date">Due: ${new Date(hw.dueDate).toLocaleDateString()}</span>
-                            <div class="card-actions">
-                                <button onclick="markAI('${hw.id}')">✅ AI Mark</button>
-                                <button onclick="aiRemind('${hw.id}')">🔔 AI Remind</button>
-                                <button onclick="aiHelp('${hw.id}')">🤖 AI Help</button>
-                            </div>
-                        </div>
+                        <small>Due: ${hw.dueDate}</small>
                     </div>
                 `).join('');
             }
 
             loadNotes() {
-                const notes = this.getData('notes').filter(n => n.class === this.user.class);
-                const container = document.getElementById('notesCards');
-                
-                container.innerHTML = notes.map(note => `
-                    <div class="note-card">
-                        <div class="card-header">
-                            <span class="subject-badge">${note.subject}</span>
-                            <span class="ai-summary">AI Summary Available</span>
-                        </div>
+                const notes = this.getData('notes');
+                document.getElementById('notesCards').innerHTML = notes.map(note => `
+                    <div class="feature-card">
                         <h3>${note.title}</h3>
-                        <p>${note.content.substring(0, 100)}...</p>
-                        <div class="card-actions">
-                            <button onclick="aiRead('${note.id}')">🤖 AI Read</button>
-                            <button onclick="aiSummarize('${note.id}')">📊 AI Summarize</button>
-                            <button onclick="aiQuiz('${note.id}')">🎯 AI Quiz</button>
-                        </div>
+                        <p>${note.content}</p>
                     </div>
                 `).join('');
-            }
-
-            loadTimetable() {
-                const timetables = this.getData('timetables');
-                const timetable = timetables.find(t => t.class === this.user.class);
-                
-                if (timetable) {
-                    const calendar = document.getElementById('calendarView');
-                    calendar.innerHTML = `
-                        <div class="calendar-header">
-                            <div class="calendar-day">Mon</div>
-                            <div class="calendar-day">Tue</div>
-                            <div class="calendar-day">Wed</div>
-                            <div class="calendar-day">Thu</div>
-                            <div class="calendar-day">Fri</div>
-                        </div>
-                        ${Object.entries(timetable).filter(([key]) => key.startsWith('period')).map(([period, subject]) => `
-                            <div class="calendar-slot">
-                                <div class="time">${period.replace('period', '')}</div>
-                                <div class="subject">${subject}</div>
-                                <div class="ai-optimize">AI Optimized</div>
-                            </div>
-                        `).join('')}
-                    `;
-                }
             }
 
             loadResults() {
-                const results = this.getData('results').filter(r => r.class === this.user.class && r.studentName === this.user.name);
-                const container = document.getElementById('resultsCards');
-                
-                container.innerHTML = results.map(result => {
-                    const subjects = [
-                        { name: 'Math', score: result.math },
-                        { name: 'English', score: result.english },
-                        { name: 'Science', score: result.science },
-                        { name: 'Hindi', score: result.hindi }
-                    ];
-                    const total = subjects.reduce((sum, s) => sum + s.score, 0);
-                    return `
-                        <div class="results-card">
-                            <div class="overall-score">
-                                <div class="score-circle">
-                                    <div class="score-number">${Math.round(total/4)}%</div>
-                                </div>
-                                <div class="ai-prediction">AI Prediction: +5% next time</div>
-                            </div>
-                            <div class="subject-scores">
-                                ${subjects.map(s => `
-                                    <div class="score-row">
-                                        <span>${s.name}</span>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: ${s.score}%"></div>
-                                        </div>
-                                        <span>${s.score}/100</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+                const results = this.getData('results');
+                document.getElementById('resultsCards').innerHTML = results.map(result => `
+                    <div class="feature-card">
+                        <h3>${result.subject}</h3>
+                        <p>Score: ${result.score}/100</p>
+                    </div>
+                `).join('');
             }
 
             loadAttendance() {
-                const attendance = this.getData('attendance') || [];
-                const calendar = document.getElementById('attendanceCalendar');
-                
-                calendar.innerHTML = Array.from({length: 30}, (_, i) => {
-                    const day = i + 1;
-                    const status = Math.random() > 0.1 ? 'present' : 'absent';
-                    return `<div class="attendance-day ${status}">${day}</div>`;
-                }).join('');
+                const attendance = this.getData('attendance');
+                document.getElementById('attendanceCalendar').innerHTML = `
+                    <div class="calendar">
+                        ${Array.from({length: 30}, (_, i) => `
+                            <div class="calendar-day ${Math.random() > 0.1 ? 'present' : 'absent'}">${i+1}</div>
+                        `).join('')}
+                    </div>
+                `;
             }
 
-            loadExtras() {
-                const extras = [
-                    { title: 'AI Tutor', description: 'Personal AI tutor available 24/7' },
-                    { title: 'Progress Tracker', description: 'Track your growth over time' },
-                    { title: 'AI Chatbot', description: 'Get instant answers to questions' },
-                    { title: 'Mobile Sync', description: 'Sync across all devices' },
-                    { title: 'Gamification', description: 'Earn points and badges' }
-                ];
-                
-                document.getElementById('extras').innerHTML = extras.map(extra => `
-                    <div class="feature-card">
-                        <h3>${extra.title}</h3>
-                        <p>${extra.description}</p>
-                        <button class="ai-btn">Try Now</button>
-                    </div>
-                `).join('');
+            loadAI() {
+                // AI integration
             }
 
             startRealTime() {
                 setInterval(() => {
-                    document.getElementById('liveTime').textContent = new Date().toLocaleTimeString();
-                    this.updateRealTimeStats();
-                }, 1000);
+                    this.updateStats();
+                }, 5000);
             }
 
-            updateRealTimeStats() {
-                const random = () => Math.floor(Math.random() * 100) + 1000;
-                ['liveStudents', 'liveHomework', 'liveNotes', 'liveResults'].forEach(id => {
-                    document.getElementById(id).textContent = random();
-                });
-            }
-
-            getTodayTasks() {
-                return Math.floor(Math.random() * 5) + 1;
+            updateStats() {
+                document.getElementById('hwCount').textContent = this.getData('homework').length;
+                document.getElementById('notesCount').textContent = this.getData('notes').length;
+                document.getElementById('resultsCount').textContent = this.getData('results').length;
             }
 
             getData(key) {
                 return JSON.parse(localStorage.getItem(key)) || [];
             }
 
-            toggleAIAssistant() {
-                const panel = document.getElementById('aiAssistantPanel');
-                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            addAIHomework() {
+                const homework = {
+                    id: Date.now(),
+                    subject: 'Math',
+                    description: 'Complete Chapter 5 - AI assigned',
+                    dueDate: '2025-08-25'
+                };
+                let hw = this.getData('homework');
+                hw.push(homework);
+                localStorage.setItem('homework', JSON.stringify(hw));
+                this.loadHomework();
             }
 
-            sendToAI() {
-                const input = document.getElementById('aiInput');
-                const message = input.value;
-                if (message) {
-                    alert(`AI Response: ${message}`);
-                    input.value = '';
+            logout() {
+                if (confirm('Logout from 20 features?')) {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'index.html';
                 }
             }
 
-            askAI(question) {
-                alert(`AI Processing: ${question}`);
+            addSmartNotes() {
+                const note = {
+                    id: Date.now(),
+                    title: 'AI Generated Note',
+                    content: 'This is a smart AI note'
+                };
+                let notes = this.getData('notes');
+                notes.push(note);
+                localStorage.setItem('notes', JSON.stringify(notes));
+                this.loadNotes();
             }
 
-            markAI(id) {
-                alert('AI marked as completed');
+            addAIResults() {
+                const result = {
+                    id: Date.now(),
+                    subject: 'Math',
+                    score: 95
+                };
+                let results = this.getData('results');
+                results.push(result);
+                localStorage.setItem('results', JSON.stringify(results));
+                this.loadResults();
             }
 
-            aiRemind(id) {
-                alert('AI reminder set');
+            markAttendance() {
+                let attendance = this.getData('attendance');
+                attendance.push({ date: new Date().toISOString().split('T')[0], status: 'present' });
+                localStorage.setItem('attendance', JSON.stringify(attendance));
+                this.loadAttendance();
             }
 
-            aiHelp(id) {
-                alert('AI help activated');
+            askAI() {
+                const input = document.getElementById('aiInput');
+                alert(`AI Response: ${input.value}`);
+                input.value = '';
             }
 
-            aiRead(id) {
-                alert('AI reading mode activated');
+            startVoice() {
+                alert('Voice commands started');
             }
 
-            aiSummarize(id) {
-                alert('AI summary generated');
+            generateQR() {
+                alert('QR generated');
             }
 
-            aiQuiz(id) {
-                alert('AI quiz created');
+            smartSearch() {
+                const input = document.getElementById('searchInput');
+                alert(`Searching: ${input.value}`);
+            }
+
+            exportData() {
+                const allData = {
+                    homework: this.getData('homework'),
+                    notes: this.getData('notes'),
+                    results: this.getData('results'),
+                    attendance: this.getData('attendance')
+                };
+                const blob = new Blob([JSON.stringify(allData)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'springfield-data.json';
+                a.click();
+            }
+
+            syncData() {
+                document.getElementById('syncStatus').textContent = 'Syncing...';
+                setTimeout(() => {
+                    document.getElementById('syncStatus').textContent = 'Synced';
+                }, 1000);
             }
         }
 
-        // Feature functions
-        function toggleAIAssistant() {
-            const panel = document.getElementById('aiAssistantPanel');
-            const icon = document.getElementById('aiBtnIcon');
-            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-            icon.textContent = panel.style.display === 'block' ? '✖️' : '🤖';
-        }
-
-        function showNotifications() {
-            document.getElementById('notificationCenter').style.display = 'block';
-        }
-
-        function closeNotifications() {
-            document.getElementById('notificationCenter').style.display = 'none';
-        }
-
-        function showSettings() {
-            document.getElementById('settingsPanel').style.display = 'block';
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsPanel').style.display = 'none';
-        }
-
-        function closeAIAssistant() {
-            document.getElementById('aiAssistantPanel').style.display = 'none';
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark');
-            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-        }
-
-        function sendToAI() {
-            const input = document.getElementById('aiInput');
-            alert(`AI Processing: ${input.value}`);
-            input.value = '';
-        }
-
-        // Initialize dashboard
-        const dashboard = new UltimateDashboard();
+        new TwentyFeaturesDashboard();
     </script>
 </body>
 </html>
