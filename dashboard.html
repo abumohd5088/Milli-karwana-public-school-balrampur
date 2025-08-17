@@ -3,65 +3,60 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Ultra Dashboard | School Web #1</title>
-<meta name="description" content="Ultra-rich student dashboard – homework, AI, PWA, 25+ features.">
-<meta name="theme-color" content="#0d6efd">
-<link rel="manifest" href="data:application/json,{"name":"Ultra Dashboard","short_name":"Dashboard","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='300'%3E🏫%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}],"start_url":"/dashboard.html","display":"standalone","background_color":"#0d6efd","theme_color":"#0d6efd"}">
+<title>Kider Dashboard | School Web</title>
+<meta name="description" content="Your colourful, mobile-first school dashboard">
+<meta name="theme-color" content="#ff6b81">
+<link rel="manifest" href="data:application/json,{"name":"Kider Dashboard","short_name":"Kider","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='300'%3E🎒%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}],"start_url":"/dashboard.html","display":"standalone","background_color":"#ff6b81","theme_color":"#ff6b81"}">
 <style>
-:root{
-  --p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;
-  --bg:#fff;--card:#f8f3ff;--radius:12px;--shadow:0 3px 12px rgba(0,0,0,.15);
-}
-.dark{--bg:#121212;--card:#1e1e1e;--d:#f1f3f5;}
+:root{--pink:#ff6b81;--light:#fff5f7;--dark:#333;--radius:12px;--shadow:0 3px 10px rgba(0,0,0,.15);}
+.dark{--light:#121212;--dark:#f1f3f5;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--bg);color:var(--d);transition:.3s;line-height:1.6}
-nav{display:flex;justify-content:space-between;align-items:center;background:var(--p);color:#fff;padding:15px 20px;font-weight:600;position:sticky;top:0;z-index:1000}
-nav .logo{font-size:1.4em;font-weight:700}
+body{background:var(--light);color:var(--dark);line-height:1.6;transition:.3s}
+nav{display:flex;justify-content:space-between;align-items:center;background:var(--pink);color:#fff;padding:12px 15px;position:sticky;top:0;z-index:1000}
 .hamburger{background:none;border:none;color:#fff;font-size:1.6em;cursor:pointer}
-.side-panel{position:fixed;top:0;right:-300px;width:300px;height:100%;background:var(--card);box-shadow:var(--shadow);transition:right .3s;z-index:1001;padding:25px;color:var(--dark);overflow-y:auto}
+.side-panel{position:fixed;top:0;right:-280px;width:280px;height:100%;background:#fff;box-shadow:var(--shadow);transition:right .3s;z-index:1001;padding:25px;color:var(--dark)}
 .side-panel.open{right:0}
 .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;z-index:999}
 .overlay.open{display:block}
 .side-panel ul{list-style:none;margin-top:20px}
-.side-panel li{margin:18px 0}
+.side-panel li{margin:15px 0}
 .side-panel a{color:var(--dark);text-decoration:none;font-weight:600}
-.container{padding:15px;max-width:800px;margin:auto}
-.card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--shadow)}
-h2{font-size:1.4em;margin-bottom:12px}
+.container{padding:15px;max-width:700px;margin:auto}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:20px;text-align:center}
+.card img{width:100%;border-radius:var(--radius);margin-bottom:10px}
+.btn{background:var(--pink);color:#fff;border:none;padding:12px 25px;border-radius:var(--radius);cursor:pointer;font-weight:600}
+.btn:hover{background:#ff4f67}
 .hw-list{list-style:none}
 .hw-list li{padding:12px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center}
 .hw-list li:last-child{border:none}
 .chatBox{min-height:200px;max-height:300px;overflow-y:auto;border:1px solid #ccc;border-radius:var(--radius);padding:10px;background:#fff;color:#000;font-size:.9em;margin-bottom:10px}
 .chatInput{display:flex;gap:6px}
 .chatInput input{flex:1;padding:10px;border:1px solid #ccc;border-radius:var(--radius)}
-.chatInput button{padding:10px 15px;background:var(--p);color:#fff;border:none;border-radius:var(--radius);font-weight:bold}
-.btn{background:var(--p);color:#fff;border:none;padding:12px 20px;border-radius:var(--radius);font-weight:600;cursor:pointer;margin-top:8px}
-.btn:hover{background:#084298}
-.fab{position:fixed;bottom:20px;right:20px;background:var(--a);color:#000;border:none;border-radius:50%;width:56px;height:56px;font-size:1.5em;box-shadow:var(--shadow);cursor:pointer;z-index:1002}
-.notify{position:fixed;top:15px;right:15px;background:var(--a);color:#000;padding:12px;border-radius:var(--radius);display:none;z-index:1003}
-footer{text-align:center;padding:20px;background:var(--l);color:var(--s);font-size:.8em;margin-top:50px}
-@media(max-width:600px){.grid{grid-template-columns:1fr!important}}
+.chatInput button{padding:10px 15px;background:var(--pink);color:#fff;border:none;border-radius:var(--radius);font-weight:bold}
+.fab{position:fixed;bottom:20px;right:20px;background:var(--pink);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:1.5em;box-shadow:var(--shadow);cursor:pointer;z-index:1002}
+.notify{position:fixed;top:15px;right:15px;background:#ffc107;color:#000;padding:12px;border-radius:var(--radius);display:none;z-index:1003}
+footer{background:var(--dark);color:#fff;padding:20px;text-align:center}
+@media(max-width:600px){.hero h1{font-size:2em}}
 </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav>
-  <div class="logo">🏫 School Dashboard – Class <span id="clsSpan"></span></div>
-  <button class="hamburger" onclick="toggleMenu()">⋮</button>
+  <span>🎒 Kider Dashboard – Class <span id="clsSpan"></span></span>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
 </nav>
 
 <!-- OVERLAY + SIDE PANEL -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 <div class="side-panel" id="sidePanel">
-  <h3>Quick Access</h3>
+  <h3>Menu</h3>
   <ul>
-    <li><a href="#" onclick="printPage()">🖨️ Print Homework</a></li>
+    <li><a href="#" onclick="printHW()">🖨️ Print Homework</a></li>
     <li><a href="#" onclick="sharePage()">📤 Share</a></li>
-    <li><a href="#" onclick="toggleDark()">🌗 Dark Mode</a></li>
-    <li><a href="#" onclick="clearCache()">🧹 Clear Cache</a></li>
-    <li><a href="#" onclick="installPWA()">📲 Install App</a></li>
-    <li><a href="#" onclick="openAdmin()">🔐 Admin Panel</a></li>
+    <li><a href="#" onclick="toggleDark()">🌗 Dark</a></li>
+    <li><a href="#" onclick="installPWA()">📲 Install</a></li>
+    <li><a href="#" onclick="openAdmin()">🔐 Admin</a></li>
     <li><a href="#" onclick="logout()">🚪 Logout</a></li>
   </ul>
 </div>
@@ -69,20 +64,20 @@ footer{text-align:center;padding:20px;background:var(--l);color:var(--s);font-si
 <!-- NOTIFICATION -->
 <div id="notify" class="notify"></div>
 
+<!-- WELCOME -->
 <div class="container">
-  <!-- WELCOME -->
   <div class="card">
     <h2>Welcome back, <span id="nameSpan"></span> 👋</h2>
   </div>
 
-  <!-- TODAY'S HOMEWORK -->
+  <!-- CLASS HOMEWORK -->
   <div class="card">
     <h2>📚 Today's Homework</h2>
     <ul id="hwList" class="hw-list"></ul>
-    <button class="btn" onclick="addHW()">Add New Homework</button>
+    <button class="btn" onclick="addHW()">Add New</button>
   </div>
 
-  <!-- AI HOMEWORK HELPER -->
+  <!-- AI HELPER -->
   <div class="card">
     <h2>🤖 AI Homework Helper</h2>
     <div class="chatBox" id="chatBox"></div>
@@ -92,24 +87,27 @@ footer{text-align:center;padding:20px;background:var(--l);color:var(--s);font-si
     </div>
   </div>
 
-  <!-- QUICK ACTIONS -->
+  <!-- FACILITIES (matching Kider style) -->
   <div class="card">
-    <h2>⚡ Quick Actions</h2>
-    <button class="btn" onclick="downloadHW()">📥 Download PDF</button>
-    <button class="btn" onclick="remindHW()">🔔 Set Reminder</button>
-    <button class="btn" onclick="openAdmin()">🔐 Admin Panel</button>
+    <h2>School Facilities</h2>
+    <div class="grid">
+      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23ff6b81'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🚌%3C/text%3E%3C/svg%3E" alt="Bus"><h4>School Bus</h4></div>
+      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23a18cd1'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🎾%3C/text%3E%3C/svg%3E" alt="Playground"><h4>Playground</h4></div>
+      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23fad961'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🥗%3C/text%3E%3C/svg%3E" alt="Canteen"><h4>Healthy Canteen</h4></div>
+      <div class="card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%2356ccf2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23fff'%3E🧠%3C/text%3E%3C/svg%3E" alt="Learning"><h4>Positive Learning</h4></div>
+    </div>
   </div>
 
-  <!-- OFFLINE STATUS -->
+  <!-- OFFLINE BANNER -->
   <div id="offlineBanner" class="card hidden">
-    ⚠️ You are offline – showing cached data.
+    ⚠️ You are offline – data cached.
   </div>
 </div>
 
 <!-- FLOATING ACTION BUTTON -->
 <button class="fab" onclick="scrollToTop()">↑</button>
 
-<footer>© 2025 Ultra Dashboard – 1 500+ Lines, Unlimited Features</footer>
+<footer>© 2025 Kider Dashboard – Unlimited Features</footer>
 
 <script>
 /* ---------- CONFIG ---------- */
@@ -147,27 +145,20 @@ function showToast(msg){
   setTimeout(()=>el.style.display='none',2000);
 }
 
-/* ---------- PRINT / SHARE ---------- */
-function printPage(){window.print();}
-function sharePage(){
-  if(navigator.share) navigator.share({title:'School Dashboard',url:location.href});
-  else showToast('Sharing not supported');
-}
-
 /* ---------- HOMEWORK DB ---------- */
 const homeworkDB={
- "1":["Math – Count 1-50","English – A-Z writing","Art – Colour apple"],
- "2":["Math – Tables 2-5","EVS – My Family","Hindi – Varnamala"],
- "3":["Math – Addition 3-digit","English – Story reading","Science – Body parts"],
- "4":["Math – Long division","Science – Plant diagram","SST – Our country"],
- "5":["Math – Fraction basics","English – Paragraph","EVS – Water cycle"],
- "6":["Math – Algebra intro","Science – Light","History – Ancient India"],
- "7":["Math – Simple equations","History – Delhi Sultanate","Geography – Atmosphere"],
- "8":["Math – Rational numbers","Physics – Force & pressure","Chemistry – Metals"],
- "9":["Math – Polynomials","Chemistry – Matter","Physics – Motion"],
- "10":["Math – Quadratic equations","Physics – Electricity","Chemistry – Acids"],
- "11":["Math – Sets","Chemistry – Mole concept","Physics – Units"],
- "12":["Math – Relations","Physics – Electrostatics","Chemistry – Solutions"]
+ "1":["Math – Count 🐣 1-50","English – A-Z ✍️","Art – Colour 🎨 apple"],
+ "2":["Math – Tables 🔢 2-5","EVS – My Family 👨‍👩‍👧‍👦","Hindi – Varnamala 🔡"],
+ "3":["Math – Addition ➕ 3-digit","English – Story 📖","Science – Body 🧍‍♂️ parts"],
+ "4":["Math – Long division ➗","Science – Plant 🌱 diagram","SST – Our 🌍 country"],
+ "5":["Math – Fraction 🥧 basics","English – Paragraph ✍️","EVS – Water 💧 cycle"],
+ "6":["Math – Algebra 🧮 intro","Science – Light 💡","History – Ancient 🏺 India"],
+ "7":["Math – Simple equations 🤓","History – Delhi 🕌 Sultanate","Geography – Atmosphere 🌪️"],
+ "8":["Math – Rational 🔢 numbers","Physics – Force 💪 & pressure","Chemistry – Metals ⚙️"],
+ "9":["Math – Polynomials 🧩","Chemistry – Matter ⚛️","Physics – Motion 🏃‍♂️"],
+ "10":["Math – Quadratic ‼️ equations","Physics – Electricity ⚡","Chemistry – Acids 🍋"],
+ "11":["Math – Sets 🧩","Chemistry – Mole 🐀 concept","Physics – Units 📏"],
+ "12":["Math – Relations 🔗","Physics – Electrostatics ⚡","Chemistry – Solutions 🧪"]
 };
 document.getElementById('hwList').innerHTML=homeworkDB[cls].map(hw=>`<li>${hw}</li>`).join('');
 
@@ -177,11 +168,11 @@ function addHW(){
    const li=document.createElement('li');
    li.innerText=task;
    document.getElementById('hwList').appendChild(li);
-   showToast('Added');
+   showToast('Added ✅');
  }
 }
 
-/* ---------- AI (HOMEWORK ONLY) ---------- */
+/* ---------- AI (HOMEWORK ONLY + EMOJIS) ---------- */
 async function askAI(){
  const msg=document.getElementById('chatIn').value.trim();
  if(!msg) return;
@@ -196,7 +187,7 @@ async function askAI(){
    box.innerHTML+=`<div><b>AI:</b> ${reply}</div>`;
    box.scrollTop=box.scrollHeight;
  }catch(e){
-   box.innerHTML+=`<div><b>Offline:</b> ${homeworkDB[cls].join(' | ')}</div>`;
+   box.innerHTML+=`<div><b>Offline 🤖:</b> ${homeworkDB[cls].join(' | ')}</div>`;
  }
 }
 
@@ -210,14 +201,14 @@ function downloadHW(){
  a.download=`Class${cls}_Homework.pdf`;
  a.click();
  URL.revokeObjectURL(url);
- showToast('PDF downloaded');
+ showToast('PDF downloaded 🎉');
 }
 
 /* ---------- REMINDER ---------- */
 function remindHW(){
  if(!('Notification' in window)){showToast('Notifications not supported');return;}
  Notification.requestPermission().then(p=>{
-   if(p==='granted') new Notification('📚 Reminder',{body:'Check today’s homework!'});
+   if(p==='granted') new Notification('📚 Reminder',{body:'Check today’s homework! 🔔'});
    else showToast('Allow notifications for reminders');
  });
 }
@@ -236,18 +227,27 @@ function installPWA(){
  }else showToast('App already installed or not supported');
 }
 
-/* ---------- CLEAR CACHE ---------- */
-function clearCache(){
- localStorage.clear();
- caches.keys().then(names=>names.forEach(n=>caches.delete(n)));
- showToast('Cache cleared');
-}
-
 /* ---------- ADMIN HOOK ---------- */
 function openAdmin(){
  const pwd=prompt('Enter Admin Password:');
  if(pwd==='Abutalha') location.href='admin.html';
- else showToast('Wrong password');
+ else showToast('❌ Wrong password');
+}
+
+/* ---------- PRINT ---------- */
+function printHW(){window.print();}
+
+/* ---------- CLEAR CACHE ---------- */
+function clearCache(){
+ localStorage.clear();
+ caches.keys().then(names=>names.forEach(n=>caches.delete(n)));
+ showToast('Cache cleared 🧹');
+}
+
+/* ---------- LOGOUT ---------- */
+function logout(){
+ localStorage.clear();
+ location.href='index.html';
 }
 
 /* ---------- SCROLL TO TOP ---------- */
