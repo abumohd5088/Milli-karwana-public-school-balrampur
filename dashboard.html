@@ -1,122 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dashboard - Springfield India [50 Features]</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard | School Web #1</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #667eea;
-            --bg: #ffffff;
-            --text: #1e293b;
-            --shadow: 0 2px 4px rgba(0,0,0,0.1);
-            --radius: 12px;
+        :root{
+            --primary:#0d6efd;
+            --secondary:#6c757d;
+            --light:#f8f9fa;
+            --dark:#212529;
+            --accent:#ffc107;
+            --bg:#ffffff;
+            --card:#f1f3f5;
         }
-
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
-
-        .mega-header {
-            background: var(--bg);
-            padding: 1rem;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body.dark{
+            --bg:#121212;
+            --card:#1e1e1e;
+            --light:#212529;
+            --dark:#f8f9fa;
         }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            width: 40px; height: 40px; border-radius: 50%;
-        }
-
-        .mega-nav {
-            display: flex;
-            background: var(--bg);
-            box-shadow: var(--shadow);
-            position: sticky;
-            bottom: 0;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: all 0.3s;
-        }
-
-        .nav-item.active { color: var(--primary); background: rgba(102, 126, 234, 0.1); }
-
-        .mega-content {
-            padding: 1rem;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-bottom: 4rem;
-        }
-
-        .mega-card {
-            background: var(--bg);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 480px) {
-            .mega-card { margin: 0.5rem; }
-        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+        body{background:var(--bg);color:var(--dark);transition:.3s;}
+        .navbar{display:flex;justify-content:space-between;align-items:center;background:var(--primary);color:#fff;padding:12px 20px;font-weight:600;}
+        .toggle-mode{background:none;border:none;color:#fff;font-size:1.2em;cursor:pointer;}
+        .container{padding:15px;}
+        .card{background:var(--card);border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 6px rgba(0,0,0,.1);}
+        h2{margin-bottom:10px;font-size:1.2em;}
+        .btn{background:var(--primary);color:#fff;border:none;padding:10px 15px;border-radius:8px;font-weight:600;width:100%;cursor:pointer;margin-top:8px;}
+        .btn:hover{background:#084298;}
+        .hw-list li{margin:8px 0;}
+        .chat-box{height:200px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;color:#000;margin-bottom:8px;}
+        .chat-input{display:flex;gap:5px;}
+        .chat-input input{flex:1;padding:8px;border:1px solid #ccc;border-radius:8px;}
+        .chat-input button{padding:8px 12px;background:var(--accent);border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
+        footer{text-align:center;padding:15px;background:var(--light);color:var(--secondary);font-size:.8em;margin-top:30px;}
+        @media(max-width:600px){.navbar{font-size:1em;}.card{padding:12px;}}
     </style>
 </head>
 <body>
-    <header class="mega-header">
-        <div class="header-content">
-            <img src="images/logo.png" alt="Logo" class="logo">
-            <h1>Dashboard - 50 Features</h1>
-        </div>
-    </header>
-
-    <main class="mega-content">
-        ${[...Array(50)].map((_, i) => `
-            <div class="mega-card">
-                <h3>Feature ${i+1}</h3>
-                <p>Mobile perfect functionality</p>
-            </div>
-        `).join('')}
-    </main>
-
-    <nav class="mega-nav">
-        ${['Homework', 'Notes', 'Schedule', 'Results', 'AI', 'Profile', 'Settings', 'Help'].map(item => `
-            <button class="nav-item" onclick="showSection('${item.toLowerCase()}')">
-                <span>📚</span>
-                <span>${item}</span>
-            </button>
-        `).join('')}
+    <nav class="navbar">
+        <span>🏫 Dashboard - Class <span id="dispClass"></span></span>
+        <button class="toggle-mode" onclick="toggleDark()">🌙</button>
     </nav>
 
+    <div class="container">
+        <!-- Welcome -->
+        <div class="card">
+            <h2>Hi, <span id="dispName"></span> 👋</h2>
+            <button class="btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Homework Section -->
+        <div class="card">
+            <h2>📚 Homework (Class <span id="hwClass"></span>)</h2>
+            <ul class="hw-list" id="hwList">
+                <li>Loading...</li>
+            </ul>
+            <button class="btn" onclick="addHW()">Add New Homework</button>
+        </div>
+
+        <!-- AI Chat -->
+        <div class="card">
+            <h2>🤖 AI Homework Helper</h2>
+            <div class="chat-box" id="chatBox"></div>
+            <div class="chat-input">
+                <input id="chatIn" placeholder="Ask homework question..." />
+                <button onclick="askAI()">Send</button>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="card">
+            <h2>🔗 Quick Links</h2>
+            <button class="btn" onclick="location.href='admin.html'">Admin Panel</button>
+            <button class="btn" onclick="window.open('https://wa.me/?text=Check%20my%20homework','_blank')">Share on WhatsApp</button>
+        </div>
+    </div>
+
+    <footer>© 2025 School Web - Built by #1</footer>
+
     <script>
-        // 50 Feature Dashboard
-        const user = JSON.parse(localStorage.getItem('currentUser')) || { name: 'Student', class: 'Demo' };
-        document.querySelector('.header-content h1').textContent = `Welcome, ${user.name} - Class ${user.class}`;
-        
-        function showSection(section) {
-            console.log(`Showing ${section} section`);
+        // Dark mode
+        function toggleDark(){
+            document.body.classList.toggle('dark');
+            localStorage.setItem('dark',document.body.classList.contains('dark'));
+        }
+        if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');}
+
+        // Auth check
+        if(!localStorage.getItem('studentName')) location.href='index.html';
+
+        // Display name & class
+        const cls = localStorage.getItem('studentClass');
+        document.getElementById('dispName').innerText = localStorage.getItem('studentName');
+        document.getElementById('dispClass').innerText = cls;
+        document.getElementById('hwClass').innerText = cls;
+
+        // Dummy homework (replace with dynamic later)
+        const hw = [
+            'Maths: Ex 3.1 Q1-5',
+            'Science: Draw diagram of cell',
+            'English: Write essay on “My School”'
+        ];
+        document.getElementById('hwList').innerHTML = hw.map(h=>`<li>${h}</li>`).join('');
+
+        // Logout
+        function logout(){
+            localStorage.clear();
+            location.href='index.html';
+        }
+
+        // AI Chat
+        async function askAI(){
+            const msg = document.getElementById('chatIn').value;
+            if(!msg) return;
+            const box = document.getElementById('chatBox');
+            box.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+            document.getElementById('chatIn').value='';
+
+            const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({contents:[{parts:[{text:`Class ${cls} student asks: ${msg}`}]}]})
+            });
+            const data = await res.json();
+            const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No reply";
+            box.innerHTML += `<div><b>AI:</b> ${reply}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // Placeholder for add HW
+        function addHW(){
+            const task = prompt("Enter new homework:");
+            if(task){
+                const li=document.createElement('li');
+                li.innerText=task;
+                document.getElementById('hwList').appendChild(li);
+            }
         }
     </script>
 </body>
