@@ -3,104 +3,85 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>School Web | #1 Login</title>
-    <meta name="theme-color" content="#0d6efd"/>
+    <title>Login | School Web #1</title>
     <style>
         :root{--p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;--bg:#fff;--card:#f1f3f5;}
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-        body{background:var(--bg);color:var(--d);display:flex;flex-direction:column;min-height:100vh;align-items:center;justify-content:center;padding:20px;}
-        .card{background:var(--card);border-radius:12px;padding:25px;width:100%;max-width:400px;box-shadow:0 4px 12px rgba(0,0,0,.1);}
+        body{background:var(--bg);color:var(--d);display:flex;align-items:center;justify-content:center;height:100vh;padding:20px;}
+        .card{background:var(--card);border-radius:12px;padding:25px;width:100%;max-width:380px;box-shadow:0 4px 12px rgba(0,0,0,.1);}
         h2{margin-bottom:15px;text-align:center}
         input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;}
-        button{width:100%;padding:12px;margin-top:12px;border:none;border-radius:8px;background:var(--p);color:#fff;font-size:1em;font-weight:bold;cursor:pointer;}
-        button:disabled{background:var(--s);cursor:not-allowed;}
+        button{width:100%;padding:12px;margin-top:8px;border:none;border-radius:8px;background:var(--p);color:#fff;font-weight:bold;cursor:pointer;}
         .hidden{display:none}
-        .chatBox{max-height:160px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;margin-top:10px;font-size:.9em;color:#000}
-        footer{position:fixed;bottom:10px;font-size:.75em;color:var(--s)}
+        .chatBox{max-height:140px;overflow-y:auto;border:1px solid #ccc;border-radius:8px;padding:8px;background:#fff;color:#000;margin-top:10px;font-size:.85em}
     </style>
 </head>
 <body>
+    <div class="card">
+        <h2>🏫 Student Login</h2>
+        <input type="text" id="name" placeholder="Your Name" required/>
+        <select id="cls">
+            <option value="">Select Class</option>
+            <option value="1">Class 1</option><option value="2">Class 2</option><option value="3">Class 3</option>
+            <option value="4">Class 4</option><option value="5">Class 5</option><option value="6">Class 6</option>
+            <option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option>
+            <option value="10">Class 10</option><option value="11">Class 11</option><option value="12">Class 12</option>
+        </select>
+        <button onclick="login()">Login</button>
 
-<!-- ✅ SECTION 1 : LOGIN / NAME + CLASS -->
-<div id="loginSection" class="card">
-    <h2>🏫 Student Login</h2>
-    <input type="text" id="name" placeholder="Your Name" required/>
-    <select id="cls">
-        <option value="">Select Class</option>
-        <option value="1">Class 1</option><option value="2">Class 2</option><option value="3">Class 3</option>
-        <option value="4">Class 4</option><option value="5">Class 5</option><option value="6">Class 6</option>
-        <option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option>
-        <option value="10">Class 10</option><option value="11">Class 11</option><option value="12">Class 12</option>
-    </select>
-    <button onclick="lockAndNext()">Lock & Next ➜</button>
-</div>
+        <!-- Help Section (hidden initially) -->
+        <div id="helpSection" class="hidden">
+            <hr style="margin:15px 0">
+            <p style="text-align:center;font-weight:bold">Need Help? Ask Class <span id="showCls"></span> AI:</p>
+            <div class="chatBox" id="chatBox"></div>
+            <input id="chatIn" placeholder="Type your question..."/>
+            <button onclick="askAI()">Ask AI</button>
+        </div>
 
-<!-- ✅ SECTION 2 : AI CHAT + PREVIEW -->
-<div id="aiSection" class="card hidden">
-    <h2>🤖 Hi <span id="showName"></span> – Class <span id="showCls"></span></h2>
-    <p>Ask anything about homework:</p>
-    <div class="chatBox" id="chatBox"></div>
-    <input id="chatIn" placeholder="Type here…"/>
-    <button onclick="askAI()">Send</button>
-    <button onclick="goDashboard()">Go to Dashboard ➜</button>
-</div>
-
-<footer>© 2025 School Web #1 – Mobile Ready</footer>
+        <button id="nextBtn" class="hidden" onclick="goDashboard()">Next ➜ Dashboard</button>
+    </div>
 
 <script>
-/* ========= CONFIG ========= */
 const API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-/* ========= LOGIN ========= */
-function lockAndNext(){
+function login(){
     const name = document.getElementById('name').value.trim();
     const cls  = document.getElementById('cls').value;
-    if(!name || !cls){ alert('Enter both fields'); return; }
+    if(!name || !cls){ alert('Enter name & class'); return; }
     localStorage.setItem('name',name);
     localStorage.setItem('cls',cls);
-    document.getElementById('loginSection').classList.add('hidden');
-    document.getElementById('aiSection').classList.remove('hidden');
-    document.getElementById('showName').innerText = name;
-    document.getElementById('showCls').innerText  = cls;
+    document.getElementById('showCls').innerText = cls;
+    document.getElementById('helpSection').classList.remove('hidden');
+    document.getElementById('nextBtn').classList.remove('hidden');
 }
 
-/* ========= AI CHAT ========= */
 async function askAI(){
     const msg = document.getElementById('chatIn').value.trim();
     if(!msg) return;
     const cls = localStorage.getItem('cls');
-    const prompt = `Student of class ${cls} asks: ${msg}. Reply in short, friendly tone.`;
-    document.getElementById('chatBox').innerHTML += `<div><b>You:</b> ${msg}</div>`;
+    const box = document.getElementById('chatBox');
+    box.innerHTML += `<div><b>You:</b> ${msg}</div>`;
     document.getElementById('chatIn').value='';
+
     try{
         const res = await fetch(API_URL,{
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+            body:JSON.stringify({contents:[{parts:[{text:`Class ${cls} student: ${msg}. Reply short & friendly.`}]}]})
         });
         const data = await res.json();
         const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No reply';
-        document.getElementById('chatBox').innerHTML += `<div><b>AI:</b> ${reply}</div>`;
-        document.getElementById('chatBox').scrollTop = 1e9;
+        box.innerHTML += `<div><b>AI:</b> ${reply}</div>`;
+        box.scrollTop = box.scrollHeight;
     }catch(e){
-        document.getElementById('chatBox').innerHTML += `<div><b>Error:</b> Check connection</div>`;
+        box.innerHTML += `<div><b>Error:</b> Check connection</div>`;
     }
 }
 
-/* ========= REDIRECT ========= */
 function goDashboard(){
-    location.href = 'dashboard.html';
+    location.href='dashboard.html';
 }
-
-/* ========= AUTO-FILL IF ALREADY LOGGED IN ========= */
-window.onload = () => {
-    if(localStorage.getItem('name')){
-        document.getElementById('name').value = localStorage.getItem('name');
-        document.getElementById('cls').value  = localStorage.getItem('cls');
-        lockAndNext();
-    }
-};
 </script>
 </body>
 </html>
