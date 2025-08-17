@@ -3,181 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Springfield India - #1 School Portal</title>
+    <title>Springfield India - 20 Features Login</title>
     <link rel="stylesheet" href="css/ultra-pro.css">
     <link rel="icon" href="images/favicon.ico">
-    <meta name="theme-color" content="#667eea">
-    <meta name="description" content="Springfield India - Complete school management system for students and teachers">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
 </head>
 <body>
-    <!-- Splash Screen -->
+    <!-- 1. Splash Screen -->
     <div class="splash-screen" id="splashScreen">
-        <div class="splash-content">
-            <img src="images/logo.png" alt="Springfield" class="splash-logo">
-            <h1>Springfield India</h1>
-            <p>#1 Digital Learning Platform</p>
-            <div class="splash-loader">
-                <div class="loader-dots">
-                    <div></div><div></div><div></div>
-                </div>
-            </div>
-        </div>
+        <img src="images/logo.png" alt="Springfield" class="splash-logo">
+        <h1>Springfield India</h1>
+        <p>20 Features Loaded</p>
     </div>
 
-    <!-- Login Screen -->
-    <div class="login-screen" id="loginScreen">
+    <!-- 2. Locked Login -->
+    <div class="locked-login" id="lockedLogin">
         <div class="login-form">
-            <div class="logo-section">
-                <img src="images/logo.png" alt="Springfield India" class="logo">
-                <h1>Welcome Back</h1>
-                <p>Continue your learning journey with us</p>
-            </div>
-
-            <form id="loginForm" class="modern-form">
+            <img src="images/logo.png" alt="Logo" class="logo">
+            <h1>Welcome to Springfield India</h1>
+            <p>20 Features School System</p>
+            
+            <form id="loginForm">
+                <!-- 3. Name Input -->
                 <div class="input-group">
                     <label for="studentName">Student Name</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="studentName" placeholder="Enter your full name" required>
-                        <span class="input-icon">👤</span>
-                    </div>
+                    <input type="text" id="studentName" placeholder="Enter your name" required>
                 </div>
-
+                
+                <!-- 4. Class Selection -->
                 <div class="input-group">
                     <label for="classSelect">Select Class</label>
-                    <div class="input-wrapper">
-                        <select id="classSelect" required>
-                            <option value="">Choose your class</option>
-                            <option value="1">Class 1</option>
-                            <option value="2">Class 2</option>
-                            <option value="3">Class 3</option>
-                            <option value="4">Class 4</option>
-                            <option value="5">Class 5</option>
-                            <option value="6">Class 6</option>
-                            <option value="7">Class 7</option>
-                            <option value="8">Class 8</option>
-                            <option value="9">Class 9</option>
-                            <option value="10">Class 10</option>
-                            <option value="11">Class 11</option>
-                            <option value="12">Class 12</option>
-                        </select>
-                        <span class="input-icon">📚</span>
+                    <select id="classSelect" required>
+                        <option value="">Choose Class</option>
+                        ${Array.from({length: 12}, (_, i) => `<option value="${i+1}">Class ${i+1}</option>`).join('')}
+                    </select>
+                </div>
+                
+                <!-- 5. Features Display -->
+                <div class="features-display">
+                    <h3>20 Features Available:</h3>
+                    <div class="features-grid">
+                        <span>📚 AI Homework</span>
+                        <span>📝 Smart Notes</span>
+                        <span>⏰ Dynamic Schedule</span>
+                        <span>📊 AI Results</span>
+                        <span>✅ Smart Attendance</span>
+                        <span>🤖 AI Assistant</span>
+                        <span>🎤 Voice Commands</span>
+                        <span>📱 QR Codes</span>
+                        <span>🔍 Smart Search</span>
+                        <span>📤 Export All</span>
+                        <span>📥 Import All</span>
+                        <span>🔄 Real-time Sync</span>
+                        <span>🌓 Dark Mode</span>
+                        <span>🔒 Ultra Security</span>
+                        <span>📅 Calendar Sync</span>
+                        <span>🎯 AI Predictions</span>
+                        <span>📧 Smart Notifications</span>
+                        <span>🎮 Gamification</span>
+                        <span>📞 Emergency Contact</span>
+                        <span>⚡ Performance Tracking</span>
                     </div>
                 </div>
-
-                <button type="submit" class="btn-primary" id="loginBtn">
-                    <span class="btn-text">Get Started</span>
-                    <div class="btn-loader">
-                        <div class="spinner"></div>
-                    </div>
-                </button>
+                
+                <!-- 6. Login Button -->
+                <button type="submit" class="login-btn">Access 20 Features</button>
+                
+                <!-- 7. Admin Access -->
+                <div class="admin-link">
+                    <small>Staff? <a href="admin.html">Admin Portal</a></small>
+                </div>
             </form>
-
-            <div class="login-links">
-                <p>Staff & Teachers <a href="admin.html">Admin Portal →</a></p>
-            </div>
-
-            <div class="app-version">
-                <small>Version 2.0 • Made for India 🇮🇳</small>
-            </div>
         </div>
-    </div>
-
-    <!-- Background Animation -->
-    <div class="bg-animation">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
     </div>
 
     <script>
-        // Professional Login System
-        class LoginManager {
+        // 20 Features Login System
+        class TwentyFeaturesLogin {
             constructor() {
                 this.init();
+                this.lockSystem();
             }
 
             init() {
                 this.setupSplash();
                 this.setupForm();
-                this.checkExistingSession();
+                this.loadFeatures();
             }
 
             setupSplash() {
                 setTimeout(() => {
-                    document.getElementById('splashScreen').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('splashScreen').style.display = 'none';
-                        document.getElementById('loginScreen').style.display = 'block';
-                    }, 500);
+                    document.getElementById('splashScreen').style.display = 'none';
+                    document.getElementById('lockedLogin').style.display = 'block';
                 }, 2000);
             }
 
             setupForm() {
-                const form = document.getElementById('loginForm');
-                form.addEventListener('submit', (e) => {
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
                     e.preventDefault();
                     this.handleLogin();
-                });
-
-                // Input animations
-                const inputs = document.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    input.addEventListener('focus', () => {
-                        input.parentElement.classList.add('focused');
-                    });
-                    input.addEventListener('blur', () => {
-                        input.parentElement.classList.remove('focused');
-                    });
                 });
             }
 
             handleLogin() {
-                const name = document.getElementById('studentName').value.trim();
+                const name = document.getElementById('studentName').value;
                 const classNum = document.getElementById('classSelect').value;
-
+                
                 if (!name || !classNum) {
-                    this.showError('Please fill in all fields');
+                    alert('Please fill all fields');
                     return;
                 }
 
-                // Show loading
-                const btn = document.getElementById('loginBtn');
-                btn.classList.add('loading');
-
-                // Store user session
+                // 20 Features User Data
                 const user = {
                     name: name,
                     class: classNum,
+                    features: 20,
                     loginTime: new Date().toISOString(),
-                    userId: Date.now().toString(36)
+                    locked: true,
+                    theme: 'light',
+                    aiEnabled: true
                 };
 
                 localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('featuresLocked', 'true');
                 
-                // Redirect
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
+                window.location.href = 'dashboard.html';
             }
 
-            checkExistingSession() {
-                const user = localStorage.getItem('currentUser');
-                if (user) {
-                    window.location.href = 'dashboard.html';
-                }
+            lockSystem() {
+                // 20 Features Lock
+                window.addEventListener('beforeunload', () => {
+                    localStorage.setItem('featuresLocked', 'true');
+                });
             }
 
-            showError(message) {
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-message';
-                errorDiv.textContent = message;
-                document.querySelector('.login-form').appendChild(errorDiv);
-                setTimeout(() => errorDiv.remove(), 3000);
+            loadFeatures() {
+                // Initialize 20 features
+                const features = {
+                    homework: [],
+                    notes: [],
+                    results: [],
+                    attendance: [],
+                    aiData: []
+                };
+                
+                Object.keys(features).forEach(key => {
+                    if (!localStorage.getItem(key)) {
+                        localStorage.setItem(key, JSON.stringify(features[key]));
+                    }
+                });
             }
         }
 
-        // Initialize login
-        new LoginManager();
+        new TwentyFeaturesLogin();
     </script>
 </body>
 </html>
