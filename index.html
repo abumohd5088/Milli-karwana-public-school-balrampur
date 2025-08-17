@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="css/ultra-pro.css">
     <link rel="icon" href="images/favicon.ico">
     <meta name="theme-color" content="#667eea">
-    <meta name="description" content="Springfield India - Complete school management system for students and teachers">
 </head>
 <body>
-    <!-- Splash Screen -->
+    <!-- 1. Animated Splash Screen -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
             <img src="images/logo.png" alt="Springfield" class="splash-logo">
@@ -24,15 +23,16 @@
         </div>
     </div>
 
-    <!-- Login Screen -->
+    <!-- 2. Professional Login -->
     <div class="login-screen" id="loginScreen">
         <div class="login-form">
             <div class="logo-section">
                 <img src="images/logo.png" alt="Springfield India" class="logo">
                 <h1>Welcome Back</h1>
-                <p>Continue your learning journey with us</p>
+                <p>Continue your learning journey</p>
             </div>
 
+            <!-- 3. Smart Form with Validation -->
             <form id="loginForm" class="modern-form">
                 <div class="input-group">
                     <label for="studentName">Student Name</label>
@@ -40,6 +40,7 @@
                         <input type="text" id="studentName" placeholder="Enter your full name" required>
                         <span class="input-icon">👤</span>
                     </div>
+                    <div class="validation-message" id="nameError"></div>
                 </div>
 
                 <div class="input-group">
@@ -47,21 +48,21 @@
                     <div class="input-wrapper">
                         <select id="classSelect" required>
                             <option value="">Choose your class</option>
-                            <option value="1">Class 1</option>
-                            <option value="2">Class 2</option>
-                            <option value="3">Class 3</option>
-                            <option value="4">Class 4</option>
-                            <option value="5">Class 5</option>
-                            <option value="6">Class 6</option>
-                            <option value="7">Class 7</option>
-                            <option value="8">Class 8</option>
-                            <option value="9">Class 9</option>
-                            <option value="10">Class 10</option>
-                            <option value="11">Class 11</option>
-                            <option value="12">Class 12</option>
+                            ${Array.from({length: 12}, (_, i) => `<option value="${i+1}">Class ${i+1}</option>`).join('')}
                         </select>
                         <span class="input-icon">📚</span>
                     </div>
+                </div>
+
+                <!-- 4. Remember Me Feature -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+
+                <!-- 5. Password Recovery -->
+                <div class="forgot-password">
+                    <a href="#" onclick="showPasswordRecovery()">Forgot password?</a>
                 </div>
 
                 <button type="submit" class="btn-primary" id="loginBtn">
@@ -72,26 +73,47 @@
                 </button>
             </form>
 
-            <div class="login-links">
-                <p>Staff & Teachers <a href="admin.html">Admin Portal →</a></p>
+            <!-- 6. Social Login -->
+            <div class="social-login">
+                <p>Or continue with</p>
+                <div class="social-buttons">
+                    <button class="social-btn" onclick="socialLogin('google')">
+                        <span>🔵</span> Google
+                    </button>
+                    <button class="social-btn" onclick="socialLogin('phone')">
+                        <span>📱</span> Phone
+                    </button>
+                </div>
             </div>
 
+            <!-- 7. Quick Access -->
+            <div class="quick-access">
+                <p>Staff? <a href="admin.html">Admin Portal</a></p>
+                <button class="guest-btn" onclick="guestLogin()">Continue as Guest</button>
+            </div>
+
+            <!-- 8. App Version -->
             <div class="app-version">
-                <small>Version 2.0 • Made for India 🇮🇳</small>
+                <small>Version 3.0 • Made for India 🇮🇳</small>
             </div>
         </div>
     </div>
 
-    <!-- Background Animation -->
+    <!-- 9. Background Animation -->
     <div class="bg-animation">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
         <div class="shape shape-3"></div>
     </div>
 
+    <!-- 10. Offline Indicator -->
+    <div class="offline-indicator" id="offlineIndicator">
+        <span>📡 You're offline</span>
+    </div>
+
     <script>
-        // Professional Login System
-        class LoginManager {
+        // 10 Advanced Features
+        class AdvancedLogin {
             constructor() {
                 this.init();
             }
@@ -99,7 +121,8 @@
             init() {
                 this.setupSplash();
                 this.setupForm();
-                this.checkExistingSession();
+                this.setupOfflineDetection();
+                this.checkRemembered();
             }
 
             setupSplash() {
@@ -119,24 +142,38 @@
                     this.handleLogin();
                 });
 
-                // Input animations
-                const inputs = document.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    input.addEventListener('focus', () => {
-                        input.parentElement.classList.add('focused');
-                    });
-                    input.addEventListener('blur', () => {
-                        input.parentElement.classList.remove('focused');
-                    });
+                // Real-time validation
+                document.getElementById('studentName').addEventListener('input', (e) => {
+                    this.validateName(e.target.value);
                 });
+            }
+
+            setupOfflineDetection() {
+                window.addEventListener('online', () => {
+                    document.getElementById('offlineIndicator').style.display = 'none';
+                });
+                window.addEventListener('offline', () => {
+                    document.getElementById('offlineIndicator').style.display = 'block';
+                });
+            }
+
+            validateName(name) {
+                const error = document.getElementById('nameError');
+                if (name.length < 3) {
+                    error.textContent = 'Name must be at least 3 characters';
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
             }
 
             handleLogin() {
                 const name = document.getElementById('studentName').value.trim();
                 const classNum = document.getElementById('classSelect').value;
+                const remember = document.getElementById('rememberMe').checked;
 
                 if (!name || !classNum) {
-                    this.showError('Please fill in all fields');
+                    this.showToast('Please fill all fields');
                     return;
                 }
 
@@ -144,40 +181,82 @@
                 const btn = document.getElementById('loginBtn');
                 btn.classList.add('loading');
 
-                // Store user session
+                // Store user with metadata
                 const user = {
                     name: name,
                     class: classNum,
                     loginTime: new Date().toISOString(),
-                    userId: Date.now().toString(36)
+                    userId: Date.now().toString(36),
+                    theme: 'light',
+                    notifications: true,
+                    lastVisit: new Date().toISOString()
                 };
 
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 
-                // Redirect
+                if (remember) {
+                    localStorage.setItem('rememberedUser', JSON.stringify({name, class: classNum}));
+                }
+
+                // Track login
+                this.trackLogin(user);
+
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 1500);
             }
 
-            checkExistingSession() {
-                const user = localStorage.getItem('currentUser');
-                if (user) {
-                    window.location.href = 'dashboard.html';
+            checkRemembered() {
+                const remembered = localStorage.getItem('rememberedUser');
+                if (remembered) {
+                    const data = JSON.parse(remembered);
+                    document.getElementById('studentName').value = data.name;
+                    document.getElementById('classSelect').value = data.class;
+                    document.getElementById('rememberMe').checked = true;
                 }
             }
 
-            showError(message) {
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-message';
-                errorDiv.textContent = message;
-                document.querySelector('.login-form').appendChild(errorDiv);
-                setTimeout(() => errorDiv.remove(), 3000);
+            trackLogin(user) {
+                // Analytics tracking
+                const logins = JSON.parse(localStorage.getItem('loginHistory') || '[]');
+                logins.push({...user, timestamp: new Date().toISOString()});
+                localStorage.setItem('loginHistory', JSON.stringify(logins.slice(-10)));
+            }
+
+            showPasswordRecovery() {
+                alert('Password recovery: Contact your teacher or admin@springfieldindia.edu');
+            }
+
+            socialLogin(provider) {
+                if (provider === 'google') {
+                    alert('Google login integration coming soon!');
+                } else if (provider === 'phone') {
+                    alert('Phone verification coming soon!');
+                }
+            }
+
+            guestLogin() {
+                const user = {
+                    name: 'Guest User',
+                    class: '1',
+                    isGuest: true,
+                    loginTime: new Date().toISOString()
+                };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'dashboard.html';
+            }
+
+            showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
             }
         }
 
-        // Initialize login
-        new LoginManager();
+        // Initialize
+        new AdvancedLogin();
     </script>
 </body>
 </html>
