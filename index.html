@@ -6,12 +6,12 @@
     <title>Springfield Academy</title>
     <link rel="stylesheet" href="css/mobile.css">
 </head>
-<body class="login-page">
+<body>
     <div class="login-container">
-        <img src="images/logo.png" alt="Logo" class="logo">
+        <div class="logo">🏫</div>
         <h1>Springfield Academy</h1>
         
-        <form id="loginForm">
+        <form id="loginForm" onsubmit="login(event)">
             <input type="text" id="studentName" placeholder="Your Name" required>
             <select id="classSelect" required>
                 <option value="">Select Class</option>
@@ -31,7 +31,21 @@
             <button type="submit" class="btn">Next →</button>
         </form>
         
-        <div class="admin-secret">Triple-click + type "Abutalha"</div>
+        <div style="font-size: 0.8rem; color: #666; margin-top: 2rem;">
+            Admin: <span onclick="adminAccess()" style="cursor: pointer; text-decoration: underline;">Access Here</span>
+        </div>
     </div>
+
+    <!-- Hidden Admin Login -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdmin()">&times;</span>
+            <h2>Admin Login</h2>
+            <input type="password" id="adminPass" placeholder="Enter Password">
+            <button onclick="verifyAdmin()" class="btn">Login</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
