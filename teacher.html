@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="css/ultra-pro.css" />
+</head>
+<body class="dashboard-body">
+  <header>
+    <h2>Teacher <span id="teacher-name"></span></h2>
+    <button id="mode-toggle">🌓</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="assign">➕ Assign Work</button>
+    <button class="tab-btn" data-tab="attendance">📋 Attendance</button>
+    <button class="tab-btn" data-tab="grades">📈 Grades</button>
+    <button class="tab-btn" data-tab="messages">💬 Messages</button>
+    <button class="tab-btn" data-tab="analytics">📊 Analytics</button>
+  </div>
+
+  <div class="tab-content">
+    <div id="assign" class="tab-pane active">
+      <h3>Assign Homework/Notes</h3>
+      <select id="assign-class"><script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script></select>
+      <select id="assign-subject"><option>Math</option><option>Science</option><option>English</option></select>
+      <input type="text" id="assign-title" placeholder="Title" />
+      <textarea id="assign-desc" placeholder="Description"></textarea>
+      <input type="date" id="assign-due" />
+      <button id="submit-assign" class="btn-primary">Publish</button>
+    </div>
+
+    <div id="attendance" class="tab-pane">
+      <h3>Take Attendance</h3>
+      <select id="att-class"><script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script></select>
+      <div id="att-list"></div>
+      <button id="save-att" class="btn-primary">Save Attendance</button>
+    </div>
+
+    <div id="grades" class="tab-pane">
+      <h3>Enter Grades</h3>
+      <select id="grade-class"><script>for(let i=1;i<=12;i++)document.write(`<option value="${i}">Class ${i}</option>`);</script></select>
+      <div id="grade-inputs"></div>
+      <button id="save-grades" class="btn-primary">Save Grades</button>
+    </div>
+
+    <div id="messages" class="tab-pane">
+      <h3>Messages</h3>
+      <div id="chat-area" style="height:200px; overflow-y:auto; border:1px solid #ddd; padding:10px; margin-bottom:10px;"></div>
+      <input type="text" id="chat-input" placeholder="Type a message..." />
+      <button id="send-msg">Send</button>
+    </div>
+
+    <div id="analytics" class="tab-pane">
+      <h3>Class Performance</h3>
+      <canvas id="class-chart" height="200"></canvas>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>
