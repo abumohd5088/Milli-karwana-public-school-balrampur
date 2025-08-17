@@ -3,145 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Springfield Academy - Student Portal</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta name="theme-color" content="#2563eb">
+    <title>Springfield Academy - Class Portal</title>
+    <link rel="stylesheet" href="css/ultra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <!-- Floating Admin Trigger -->
-    <div class="admin-trigger" onclick="showAdminPanel()">
-        <i class="fas fa-cog"></i>
-    </div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <img src="images/logo.png" alt="School" class="logo">
+<body class="index-page">
+    <div class="hero-section">
+        <div class="hero-content">
+            <img src="images/logo.png" alt="School Logo" class="school-logo">
             <h1>Springfield Academy</h1>
-            <p class="tagline">Class 1-8 Student Portal</p>
+            <p class="subtitle">Class 1-8 Student Portal</p>
         </div>
-    </header>
+    </div>
 
-    <!-- Class Selection -->
-    <main class="main-content">
-        <div class="container">
-            <div class="class-selector">
-                <h2>Select Your Class</h2>
-                <div class="class-grid">
-                    <button class="class-card" data-class="1">
-                        <i class="fas fa-star"></i>
-                        <span>Class 1</span>
-                    </button>
-                    <button class="class-card" data-class="2">
-                        <i class="fas fa-star"></i>
-                        <span>Class 2</span>
-                    </button>
-                    <button class="class-card" data-class="3">
-                        <i class="fas fa-star"></i>
-                        <span>Class 3</span>
-                    </button>
-                    <button class="class-card" data-class="4">
-                        <i class="fas fa-star"></i>
-                        <span>Class 4</span>
-                    </button>
-                    <button class="class-card" data-class="5">
-                        <i class="fas fa-star"></i>
-                        <span>Class 5</span>
-                    </button>
-                    <button class="class-card" data-class="6">
-                        <i class="fas fa-star"></i>
-                        <span>Class 6</span>
-                    </button>
-                    <button class="class-card" data-class="7">
-                        <i class="fas fa-star"></i>
-                        <span>Class 7</span>
-                    </button>
-                    <button class="class-card" data-class="8">
-                        <i class="fas fa-star"></i>
-                        <span>Class 8</span>
-                    </button>
-                </div>
+    <div class="class-selection">
+        <h2>Select Your Class</h2>
+        <div class="class-grid">
+            <div class="class-card" data-class="1">
+                <div class="class-icon">1</div>
+                <h3>Class 1</h3>
+                <p>Age 6-7 Years</p>
             </div>
-        </div>
-    </main>
-
-    <!-- Hidden Admin Panel -->
-    <div id="adminPanel" class="admin-panel hidden">
-        <div class="admin-content">
-            <button class="close-btn" onclick="hideAdminPanel()">×</button>
-            <h2>Admin Panel</h2>
-            
-            <div class="admin-tabs">
-                <button class="tab-btn active" onclick="showTab('homework')">Homework</button>
-                <button class="tab-btn" onclick="showTab('notes')">Notes</button>
-                <button class="tab-btn" onclick="showTab('timetable')">Timetable</button>
-                <button class="tab-btn" onclick="showTab('notice')">Notice</button>
+            <div class="class-card" data-class="2">
+                <div class="class-icon">2</div>
+                <h3>Class 2</h3>
+                <p>Age 7-8 Years</p>
             </div>
-            
-            <div id="adminForms">
-                <!-- Homework Form -->
-                <div id="homeworkTab" class="tab-content">
-                    <select id="adminClass">
-                        <option value="1">Class 1</option>
-                        <option value="2">Class 2</option>
-                        <option value="3">Class 3</option>
-                        <option value="4">Class 4</option>
-                        <option value="5">Class 5</option>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                    </select>
-                    <input type="date" id="adminDate" required>
-                    <input type="text" id="adminSubject" placeholder="Subject" required>
-                    <textarea id="adminDescription" placeholder="Description" required></textarea>
-                    <button onclick="addHomework()" class="btn btn-primary">Add Homework</button>
-                </div>
-                
-                <!-- Notes Form -->
-                <div id="notesTab" class="tab-content hidden">
-                    <select id="notesClass">
-                        <option value="1">Class 1</option>
-                        <option value="2">Class 2</option>
-                        <option value="3">Class 3</option>
-                        <option value="4">Class 4</option>
-                        <option value="5">Class 5</option>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                    </select>
-                    <input type="text" id="notesSubject" placeholder="Subject" required>
-                    <input type="text" id="notesTitle" placeholder="Title" required>
-                    <textarea id="notesContent" placeholder="Content" required></textarea>
-                    <button onclick="addNotes()" class="btn btn-primary">Add Notes</button>
-                </div>
-                
-                <!-- Timetable Form -->
-                <div id="timetableTab" class="tab-content hidden">
-                    <select id="timetableClass">
-                        <option value="1">Class 1</option>
-                        <option value="2">Class 2</option>
-                        <option value="3">Class 3</option>
-                        <option value="4">Class 4</option>
-                        <option value="5">Class 5</option>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                    </select>
-                    <input type="text" id="timetableData" placeholder="9:00-10:00 Math, 10:00-11:00 English..." required>
-                    <button onclick="addTimetable()" class="btn btn-primary">Update Timetable</button>
-                </div>
-                
-                <!-- Notice Form -->
-                <div id="noticeTab" class="tab-content hidden">
-                    <input type="text" id="noticeTitle" placeholder="Notice Title" required>
-                    <textarea id="noticeContent" placeholder="Notice Content" required></textarea>
-                    <button onclick="addNotice()" class="btn btn-primary">Post Notice</button>
-                </div>
+            <div class="class-card" data-class="3">
+                <div class="class-icon">3</div>
+                <h3>Class 3</h3>
+                <p>Age 8-9 Years</p>
+            </div>
+            <div class="class-card" data-class="4">
+                <div class="class-icon">4</div>
+                <h3>Class 4</h3>
+                <p>Age 9-10 Years</p>
+            </div>
+            <div class="class-card" data-class="5">
+                <div class="class-icon">5</div>
+                <h3>Class 5</h3>
+                <p>Age 10-11 Years</p>
+            </div>
+            <div class="class-card" data-class="6">
+                <div class="class-icon">6</div>
+                <h3>Class 6</h3>
+                <p>Age 11-12 Years</p>
+            </div>
+            <div class="class-card" data-class="7">
+                <div class="class-icon">7</div>
+                <h3>Class 7</h3>
+                <p>Age 12-13 Years</p>
+            </div>
+            <div class="class-card" data-class="8">
+                <div class="class-icon">8</div>
+                <h3>Class 8</h3>
+                <p>Age 13-14 Years</p>
             </div>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <!-- Hidden Admin Login -->
+    <div id="adminLogin" class="admin-login hidden">
+        <div class="admin-modal">
+            <button class="close-btn" onclick="closeAdmin()">×</button>
+            <h3>Admin Access</h3>
+            <input type="password" id="adminPass" placeholder="Enter Password">
+            <button onclick="adminLogin()" class="btn btn-primary">Access Admin</button>
+        </div>
+    </div>
+
+    <script src="js/ultra.js"></script>
 </body>
 </html>
