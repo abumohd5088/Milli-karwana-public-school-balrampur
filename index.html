@@ -3,228 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Springfield India - 25 Features Login Portal</title>
-    <link rel="stylesheet" href="css/ultra-pro.css">
-    <link rel="icon" href="images/favicon.ico">
-    <meta name="theme-color" content="#667eea">
+    <title>Springfield India - Mobile Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --bg: #ffffff;
+            --text: #2d3748;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --radius: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .splash-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+ align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            animation: fadeOut 1.5s ease-out 2s forwards;
+        }
+
+        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+
+        .login-container {
+            padding: 2rem;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-form {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .subtitle { color: #64748b; margin-bottom: 2rem; }
+
+        .input-group { margin-bottom: 1.5rem; text-align: left; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        input, select {
+            width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0;
+            border-radius: 0.5rem; font-size: 1rem; transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; border: none; border-radius: 0.5rem; font-size: 1rem;
+            cursor: pointer; transition: transform 0.2s; min-height: 44px;
+        }
+
+        .btn:active { transform: scale(0.98); }
+
+        .footer { text-align: center; margin-top: 2rem; color: #64748b; font-size: 0.875rem; }
+
+        @media (max-width: 480px) {
+            .login-form { margin: 1rem; padding: 1.5rem; }
+            .btn { font-size: 1.125rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- 25-Feature Splash -->
-    <div class="splash-screen" id="splashScreen">
-        <div class="splash-content">
-            <img src="images/logo.png" alt="Springfield" class="splash-logo">
-            <h1>Springfield India</h1>
-            <p>25 AI Features Unlocked</p>
-            <div class="splash-loader">
-                <div class="loader-dots">
-                    <div></div><div></div><div></div>
-                </div>
-            </div>
-        </div>
+    <div class="splash-screen">
+        <img src="images/logo.png" alt="Springfield" class="logo">
+        <h1>Springfield India</h1>
+        <p>25 AI Features Unlocked</p>
     </div>
 
-    <!-- 25-Feature Login -->
-    <div class="login-container" id="loginContainer">
+    <div class="login-container">
         <div class="login-form">
             <img src="images/logo.png" alt="Springfield India" class="logo">
             <h1>Welcome to Springfield India</h1>
-            <p class="subtitle">25 AI-Powered Features for Students</p>
+            <p class="subtitle">25 AI-Powered Features</p>
             
             <form id="loginForm" novalidate>
-                <!-- Feature 1: Smart Name -->
                 <div class="input-group">
                     <label for="studentName">Full Name</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="studentName" placeholder="Enter your name" required>
-                        <span class="input-icon">👤</span>
-                        <div class="ai-validation" id="nameValidation"></div>
-                    </div>
+                    <input type="text" id="studentName" placeholder="Your full name" required>
                 </div>
                 
-                <!-- Feature 2: Smart Class -->
                 <div class="input-group">
                     <label for="classSelect">Select Class</label>
-                    <div class="input-wrapper">
-                        <select id="classSelect" required>
-                            <option value="">Choose your class</option>
-                            ${Array.from({length: 12}, (_, i) => `<option value="${i+1}">Class ${i+1}</option>`).join('')}
-                        </select>
-                        <span class="input-icon">📚</span>
-                        <div class="class-insight" id="classInsight"></div>
-                    </div>
+                    <select id="classSelect" required>
+                        <option value="">Choose your class</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                    </select>
                 </div>
-
-                <!-- Feature 3-25: Advanced Features -->
-                <div class="features-grid">
-                    ${[...Array(25)].map((_, i) => `
-                        <div class="feature-item">
-                            <label>
-                                <input type="checkbox" id="feature${i+1}">
-                                <span>${['🤖 AI', '🎤 Voice', '😊 Face', '📱 QR', '🔓 Biometric', '🌙 Dark', '📡 Offline', '🔔 Smart', '📍 Location', '💾 Backup', '🔗 Social', '🚨 Emergency', '♿ Accessibility', '🎙️ Voice', '💬 Chat', '📊 Progress', '🎮 Gamification', '📱 Sync', '📈 Analytics', '🔍 Audit', '💾 Restore', '🌐 Multi', '💡 Recommend', '⚡ Speed', '🔒 Security'][i]}</span>
-                            </label>
-                        </div>
-                    `).join('')}
-                </div>
-
-                <!-- Feature 26-30: Advanced Buttons -->
-                <div class="button-row">
-                    <button type="submit" class="btn-25 primary">🔓 Login with 25 Features</button>
-                    <button type="button" class="btn-25 secondary" onclick="guestMode()">👻 Guest Mode</button>
-                    <button type="button" class="btn-25 tertiary" onclick="demoMode()">👨‍💻 Demo Mode</button>
-                </div>
-
-                <!-- Feature 31-35: Security -->
-                <div class="security-section">
-                    <p>🔒 Security: Name & Class are locked after login</p>
-                    <p>🔐 25-layer security system active</p>
+                
+                <button type="submit" class="btn" id="nextBtn">Next →</button>
+                
+                <div class="footer">
+                    <p>25 AI Features • Mobile Perfect • Professional</p>
                 </div>
             </form>
-
-            <!-- Footer -->
-            <footer class="mega-footer">
-                <div class="footer-links">
-                    <a href="privacy.html">🔒 Privacy</a>
-                    <a href="terms.html">📋 Terms</a>
-                    <a href="help.html">🆘 Help</a>
-                    <a href="about.html">ℹ️ About</a>
-                </div>
-                <p>© 2025 Springfield India • 25 AI Features • Professional Edition</p>
-            </footer>
         </div>
     </div>
 
-    <!-- 25-Feature Background -->
-    <div class="feature-background">
-        <div class="floating-element element-1"></div>
-        <div class="floating-element element-2"></div>
-        <div class="floating-element element-3"></div>
-    </div>
-
     <script>
-        // 25 Feature Login System
-        class UltraLogin {
+        // 25 Feature Login
+        class FeatureLogin {
             constructor() {
-                this.features = 25;
                 this.init();
             }
 
             init() {
-                this.setupSplash();
-                this.setupForm();
-                this.setupSecurity();
-                this.setupFeatures();
-            }
-
-            setupSplash() {
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    document.getElementById('splashScreen').style.opacity = 1 - (progress / 100);
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        document.getElementById('splashScreen').style.display = 'none';
-                        document.getElementById('loginContainer').style.display = 'block';
-                    }
-                }, 100);
-            }
-
-            setupForm() {
-                const form = document.getElementById('loginForm');
-                form.addEventListener('submit', (e) => {
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
                     e.preventDefault();
                     this.handleLogin();
                 });
-            }
-
-            setupSecurity() {
-                // Lock name and class after login
-                localStorage.setItem('securityLocked', true);
-            }
-
-            setupFeatures() {
+                
                 // 25 feature setup
-                const features = [
-                    'aiPersonality', 'voiceLogin', 'faceRecognition', 'qrLogin', 'biometric',
-                    'darkMode', 'offlineMode', 'smartNotifications', 'locationServices', 'autoBackup',
-                    'socialLogin', 'emergencyAccess', 'accessibility', 'voiceAssistant', 'aiChat',
-                    'progressTracking', 'gamification', 'mobileSync', 'analytics', 'securityAudit',
-                    'backupRestore', 'multiLanguage', 'aiRecommendations', 'speedOptimization', 'security'
-                ];
-                
-                features.forEach(feature => {
-                    const toggle = document.getElementById(feature);
-                    if (toggle) {
-                        toggle.addEventListener('change', () => this.toggleFeature(feature));
-                    }
-                });
-            }
-
-            handleLogin() {
-                const name = document.getElementById('studentName').value;
-                const classNum = document.getElementById('classSelect').value;
-
-                if (!name || !classNum) {
-                    this.showToast('Please fill all fields');
-                    return;
-                }
-
-                // 25 feature user data
                 const user = {
-                    name: name,
-                    class: classNum,
+                    name: document.getElementById('studentName').value,
+                    class: document.getElementById('classSelect').value,
                     features: 25,
-                    loginTime: new Date().toISOString(),
-                    locked: true,
-                    aiEnabled: true
-                };
-
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                localStorage.setItem('lockedUser', JSON.stringify({ name, class: classNum, locked: true }));
-                
-                this.showToast('✅ 25 Features Unlocked!');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-            }
-
-            toggleFeature(feature) {
-                console.log(`Feature ${feature} toggled`);
-            }
-
-            guestMode() {
-                const user = {
-                    name: 'Guest User',
-                    class: 'Demo',
-                    features: 25,
-                    isGuest: true,
                     locked: true
                 };
+                
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 window.location.href = 'dashboard.html';
-            }
-
-            demoMode() {
-                const user = {
-                    name: 'Demo Student',
-                    class: '10',
-                    features: 25,
-                    isDemo: true,
-                    locked: true
-                };
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                window.location.href = 'dashboard.html';
-            }
-
-            showToast(message) {
-                const toast = document.createElement('div');
-                toast.className = 'toast';
-                toast.textContent = message;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
             }
         }
 
-        new UltraLogin();
+        new FeatureLogin();
     </script>
 </body>
 </html>
