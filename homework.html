@@ -3,56 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homework - Class <span id="hwClass">1</span></title>
+    <title>Homework - Springfield Academy</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header class="header">
+    <!-- Header with Back & Close -->
+    <header class="header sticky">
         <div class="container">
-            <h1>Homework - Class <span id="hwClass">1</span></h1>
-            <div class="header-actions">
-                <button onclick="history.back()" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-            </div>
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 id="pageTitle">Homework</h1>
+            <button class="close-btn" onclick="goHome()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </header>
 
-    <main class="homework-section">
+    <!-- Filters -->
+    <div class="filter-bar">
+        <div class="filter-item">
+            <label for="dateSelect">📅</label>
+            <input type="date" id="dateSelect" value="">
+        </div>
+        <div class="filter-item">
+            <label for="subjectFilter">📚</label>
+            <select id="subjectFilter">
+                <option value="all">All</option>
+                <option value="Math">Math</option>
+                <option value="English">English</option>
+                <option value="Science">Science</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Social">Social</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <main class="content">
         <div class="container">
-            <div class="filter-bar">
-                <div class="date-selector">
-                    <label for="dateSelect">📅 Date:</label>
-                    <input type="date" id="dateSelect" value="">
-                </div>
-                <div class="subject-filter">
-                    <label for="subjectFilter">📚 Subject:</label>
-                    <select id="subjectFilter">
-                        <option value="all">All Subjects</option>
-                        <option value="Math">Math</option>
-                        <option value="English">English</option>
-                        <option value="Science">Science</option>
-                        <option value="Hindi">Hindi</option>
-                        <option value="Social">Social Studies</option>
-                    </select>
-                </div>
+            <div id="classDisplay" class="class-badge">Class <span id="currentClass">1</span></div>
+            <div id="homeworkList" class="list-container">
+                <!-- Dynamic homework -->
             </div>
-            
-            <div id="homeworkList" class="homework-list">
-                <!-- Dynamic content -->
-            </div>
-            
-            <!-- Hidden Admin Form -->
-            <div id="addHomeworkForm" style="display: none;" class="admin-form">
-                <h3>Add Homework</h3>
-                <input type="text" id="hwSubject" placeholder="Subject" required>
-                <textarea id="hwDescription" placeholder="Description" required></textarea>
-                <input type="date" id="hwDueDate" required>
-                <button onclick="saveHomework()" class="btn btn-primary">Save</button>
-                <button onclick="hideAdminForm()" class="btn btn-secondary">Cancel</button>
+            <div id="emptyState" class="empty-state hidden">
+                <i class="fas fa-smile"></i>
+                <p>Great! No homework today! 🎉</p>
             </div>
         </div>
     </main>
+
+    <!-- Floating Add (Admin Only) -->
+    <button id="addBtn" class="floating-add hidden" onclick="showAddForm()">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Add Form Modal -->
+    <div id="addModal" class="modal hidden">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideAddForm()">×</button>
+            <h2>Add Homework</h2>
+            <input type="text" id="hwSubject" placeholder="Subject" required>
+            <textarea id="hwDescription" placeholder="Description" required></textarea>
+            <input type="date" id="hwDueDate" required>
+            <div class="modal-actions">
+                <button onclick="saveHomework()" class="btn btn-primary">Save</button>
+                <button onclick="hideAddForm()" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/app.js"></script>
 </body>
