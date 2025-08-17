@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - Class <span class="current-class">1</span></title>
+    <link rel="stylesheet" href="css/ultra.css">
+</head>
+<body>
+    <header class="app-header">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1>Results - <span class="current-class">1</span></h1>
+        <button class="close-btn" onclick="goHome()">
+            <i class="fas fa-times"></i>
+        </button>
+    </header>
+
+    <main class="content-area">
+        <div class="results-container">
+            <div class="results-header">
+                <h2>Academic Performance</h2>
+                <div class="student-info">
+                    <p><strong>Class:</strong> <span class="current-class">1</span></p>
+                    <p><strong>Student:</strong> Student Name</p>
+                </div>
+            </div>
+            <div id="resultsContent" class="results-grid">
+                <!-- Dynamic results -->
+            </div>
+        </div>
+    </main>
+
+    <script src="js/ultra.js"></script>
+</body>
+</html>
