@@ -4,65 +4,96 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Milli Karwaan Public School | Login</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
     body{
       min-height:100vh;display:flex;align-items:center;justify-content:center;
       background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-      color:#fff;transition:0.4s ease;
+      color:#fff;overflow:hidden;
     }
+
+    /* Floating animated background circles */
+    .circle{
+      position:absolute;border-radius:50%;background:rgba(255,255,255,0.08);
+      animation:float 12s infinite ease-in-out;
+    }
+    .circle:nth-child(1){width:120px;height:120px;top:10%;left:15%;animation-delay:0s;}
+    .circle:nth-child(2){width:200px;height:200px;bottom:10%;right:10%;animation-delay:3s;}
+    .circle:nth-child(3){width:80px;height:80px;bottom:25%;left:20%;animation-delay:6s;}
+
+    @keyframes float{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-30px);}
+    }
+
     .card{
-      background:rgba(255,255,255,0.08);backdrop-filter:blur(15px);
-      padding:2rem;border-radius:20px;width:95%;max-width:420px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.5);animation:fadeIn 1s ease-in-out;
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(20px);
+      padding:2rem;border-radius:25px;width:95%;max-width:420px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.5);
+      animation:fadeIn 1.2s ease-in-out;
+      z-index:2;position:relative;
     }
     .logo{text-align:center;margin-bottom:1rem;}
-    .logo img{width:90px;filter:drop-shadow(0 0 8px #fff);}
-    h2{text-align:center;margin-bottom:1rem;font-weight:600;}
+    .logo img{width:90px;filter:drop-shadow(0 0 8px #00c6ff);}
+    h2{text-align:center;margin-bottom:1rem;font-weight:700;font-size:1.6rem;}
+
     label{font-size:0.9rem;margin-top:1rem;display:block;}
     input,select{
-      width:100%;padding:0.8rem;margin-top:0.3rem;border:none;
-      border-radius:10px;background:rgba(255,255,255,0.2);
+      width:100%;padding:0.8rem;margin-top:0.4rem;border:none;
+      border-radius:12px;background:rgba(255,255,255,0.2);
       color:#fff;outline:none;transition:0.3s;
     }
+    input:focus,select:focus{
+      box-shadow:0 0 10px #00c6ff;transform:scale(1.02);
+    }
     input::placeholder{color:#ddd;}
-    input:focus,select:focus{background:rgba(255,255,255,0.3);}
+
     button{
       margin-top:1.5rem;width:100%;padding:0.9rem;border:none;
       border-radius:12px;background:linear-gradient(135deg,#00c6ff,#0072ff);
       color:#fff;font-weight:600;cursor:pointer;transition:0.3s;
+      font-size:1rem;box-shadow:0 5px 15px rgba(0,114,255,0.4);
     }
-    button:hover{opacity:0.85;transform:scale(1.02);}
+    button:hover{transform:translateY(-2px);opacity:0.9;}
+
     .google-btn{
       margin-top:1rem;width:100%;background:#fff;color:#444;
       font-weight:600;display:flex;align-items:center;justify-content:center;
-      gap:10px;padding:0.8rem;border-radius:12px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.2);cursor:pointer;
+      gap:10px;border-radius:12px;padding:0.8rem;
+      box-shadow:0 5px 15px rgba(0,0,0,0.2);cursor:pointer;
+      transition:0.3s;
     }
-    .google-btn img{width:20px;}
-    .toggle{margin-top:1rem;text-align:center;cursor:pointer;font-size:0.85rem;}
-    .ai-box{
-      margin-top:1.5rem;padding:1rem;border-radius:12px;
-      background:rgba(0,0,0,0.4);font-size:0.9rem;
+    .google-btn:hover{transform:translateY(-2px);opacity:0.9;}
+    .google-btn img{width:22px;}
+
+    .toggle{
+      margin-top:1rem;text-align:center;cursor:pointer;font-size:0.9rem;
     }
-    .ai-box textarea{
-      width:100%;border:none;border-radius:8px;padding:0.6rem;
-      margin-bottom:0.5rem;resize:none;font-size:0.9rem;
-    }
-    .ai-response{margin-top:0.5rem;font-size:0.85rem;color:#f0f0f0;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
   </style>
+
+  <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+  <!-- Floating Background -->
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+
   <div class="card">
     <div class="logo">
       <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo">
     </div>
     <h2>Welcome to MKPS Balrampur</h2>
 
-    <!-- Student Form -->
+    <!-- Manual Login -->
     <form id="studentForm">
       <label>Student Name</label>
       <input type="text" id="studentName" placeholder="Enter your name" required>
@@ -90,22 +121,14 @@
       data-auto_prompt="false">
     </div>
     <div class="g_id_signin google-btn" data-type="standard" data-shape="rect" data-theme="outline" data-text="signin_with" data-size="large">
-      <img src="https://developers.google.com/identity/images/g-logo.png" alt=""> Sign in with Google
-    </div>
-
-    <!-- AI Assistant -->
-    <div class="ai-box">
-      <p>🤖 Ask AI (Homework Help):</p>
-      <textarea id="aiQuery" rows="2" placeholder="Type your question..."></textarea>
-      <button type="button" onclick="askAI()">Ask AI</button>
-      <div class="ai-response" id="aiResponse"></div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/> Sign in with Google
     </div>
 
     <div class="toggle" onclick="toggleTheme()">🌗 Toggle Dark/Light</div>
   </div>
 
   <script>
-    // Theme Toggle
+    // Theme toggle
     function toggleTheme(){
       document.body.classList.toggle("light");
       if(document.body.classList.contains("light")){
@@ -117,7 +140,7 @@
       }
     }
 
-    // Manual Form Login
+    // Manual form login
     document.getElementById("studentForm").addEventListener("submit",function(e){
       e.preventDefault();
       let student={
@@ -125,21 +148,28 @@
         class:document.getElementById("studentClass").value,
         parent:document.getElementById("parentName").value.trim()
       };
+      if(!student.name||!student.class||!student.parent){alert("Please fill all fields");return;}
       localStorage.setItem("mkps_student",JSON.stringify(student));
       window.location.href="dashboard.html";
     });
 
-    // Google Login Response
+    // Google login response
     function handleGoogleResponse(response){
       try{
         const data=jwt_decode(response.credential);
-        let student={name:data.name,email:data.email,class:"",parent:"GoogleLogin"};
+        let student={
+          name:data.name,
+          email:data.email,
+          class:"",parent:"GoogleLogin"
+        };
         localStorage.setItem("mkps_student",JSON.stringify(student));
         window.location.href="dashboard.html";
-      }catch(err){alert("Google login failed: "+err.message);}
+      }catch(err){
+        alert("Google login failed: "+err.message);
+      }
     }
 
-    // JWT Decode
+    // JWT decode
     function jwt_decode(token){
       let base64Url=token.split('.')[1];
       let base64=base64Url.replace(/-/g,'+').replace(/_/g,'/');
@@ -149,24 +179,7 @@
       return JSON.parse(jsonPayload);
     }
 
-    // AI Assistant (Gemini API)
-    async function askAI(){
-      const query=document.getElementById("aiQuery").value.trim();
-      const output=document.getElementById("aiResponse");
-      if(!query){output.innerText="⚠️ Please enter a question.";return;}
-      output.innerText="⏳ Thinking...";
-      try{
-        const res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU",{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({contents:[{parts:[{text:query}]}]})
-        });
-        const data=await res.json();
-        output.innerText=data?.candidates?.[0]?.content?.parts?.[0]?.text || "❌ No answer.";
-      }catch(err){output.innerText="⚠️ AI Error: "+err.message;}
-    }
-
-    // Auto redirect if logged in
+    // If already logged in → go to dashboard
     if(localStorage.getItem("mkps_student")){
       window.location.href="dashboard.html";
     }
