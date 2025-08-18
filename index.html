@@ -6,134 +6,123 @@
   <title>Milli Karwaan Public School | Login</title>
   <link rel="icon" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg,#0d6efd,#6610f2,#6f42c1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      color: #fff;
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    body{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#0d6efd,#6610f2);
+      color:#fff;padding:1rem;
     }
-    .login-box {
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(15px);
-      border-radius: 25px;
-      padding: 2rem;
-      width: 92%;
-      max-width: 420px;
-      text-align: center;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.5);
-      animation: fadeIn 1.2s ease;
+    .card{
+      background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);
+      border-radius:20px;padding:2rem;width:100%;max-width:420px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.5);text-align:center;animation:fadeIn 1s ease;
     }
-    .login-box img {
-      width: 85px;
-      margin-bottom: 10px;
+    .card img{width:90px;margin-bottom:10px}
+    h2{margin-bottom:10px;font-weight:600}
+    input,select{
+      width:100%;padding:12px;margin:8px 0;border:none;
+      border-radius:10px;font-size:15px;
     }
-    h2 {
-      margin-bottom: 15px;
-      font-weight: 600;
+    .btn{
+      width:100%;padding:12px;border-radius:10px;margin-top:10px;
+      background:#ffc107;color:#000;font-weight:600;border:none;
+      cursor:pointer;font-size:16px;transition:.3s;
     }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 12px;
-      border: none;
-      outline: none;
-      font-size: 16px;
+    .btn:hover{background:#ffdd57}
+    .divider{margin:20px 0;display:flex;align-items:center;text-align:center}
+    .divider::before,.divider::after{
+      content:"";flex:1;border-bottom:1px solid rgba(255,255,255,0.4)
     }
-    .btn {
-      margin-top: 15px;
-      display: inline-block;
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      background: #ffc107;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 16px;
-    }
-    .btn:hover { background: #ffdd57; }
-    .divider {
-      margin: 20px 0;
-      display: flex;
-      align-items: center;
-      text-align: center;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid rgba(255,255,255,0.4);
-    }
-    .divider:not(:empty)::before { margin-right: .75em; }
-    .divider:not(:empty)::after { margin-left: .75em; }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(40px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
+    .divider:not(:empty)::before{margin-right:.75em}
+    .divider:not(:empty)::after{margin-left:.75em}
+    #aiBox{margin-top:15px;font-size:14px;background:rgba(0,0,0,0.3);
+      padding:10px;border-radius:10px;display:none;text-align:left}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <div class="login-box">
+  <div class="card">
     <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo">
     <h2>Milli Karwaan Public School</h2>
+    <p>📍 Balrampur (U.P.)</p>
 
     <!-- Manual Login -->
-    <input type="text" id="studentName" placeholder="👦 Student Name" required>
-    <select id="studentClass" required>
+    <input type="text" id="studentName" placeholder="👦 Student Name">
+    <select id="studentClass">
       <option value="">📚 Select Class</option>
-      <option>Class 1</option><option>Class 2</option>
-      <option>Class 3</option><option>Class 4</option>
-      <option>Class 5</option><option>Class 6</option>
+      <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+      <option>Class 4</option><option>Class 5</option><option>Class 6</option>
       <option>Class 7</option><option>Class 8</option>
     </select>
-    <input type="text" id="parentName" placeholder="👨‍👩‍👧 Parent Name" required>
+    <input type="text" id="parentName" placeholder="👨‍👩‍👧 Parent Name">
     <button class="btn" onclick="manualLogin()">Login 🚀</button>
 
     <div class="divider">OR</div>
 
     <!-- Google Login -->
     <div id="g_id_onload"
-         data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
-         data-context="signin"
-         data-ux_mode="redirect"
-         data-login_uri="https://abumohd5088.github.io/Milli-karwana-public-school-balrampur/dashboard.html"
-         data-auto_prompt="false">
-    </div>
+      data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="popup"
+      data-callback="handleGoogleLogin"
+      data-auto_prompt="false"></div>
+
     <div class="g_id_signin"
-         data-type="standard"
-         data-shape="pill"
-         data-theme="outline"
-         data-text="signin_with"
-         data-size="large"
-         data-logo_alignment="center">
-    </div>
+      data-type="standard"
+      data-shape="pill"
+      data-theme="outline"
+      data-text="signin_with"
+      data-size="large"
+      data-logo_alignment="center"></div>
+
+    <!-- AI Demo Box -->
+    <div id="aiBox">🤖 <b>AI:</b> Loading welcome message...</div>
   </div>
 
-  <script>
-    // Manual login
-    function manualLogin(){
-      let name = document.getElementById("studentName").value.trim();
-      let cls = document.getElementById("studentClass").value;
-      let parent = document.getElementById("parentName").value.trim();
+<script>
+ // Manual Login
+ function manualLogin(){
+   let name=document.getElementById("studentName").value.trim();
+   let cls=document.getElementById("studentClass").value;
+   let parent=document.getElementById("parentName").value.trim();
+   if(!name||!cls||!parent){alert("❌ Please fill all details");return;}
+   localStorage.setItem("mkps_student",JSON.stringify({name,cls,parent}));
+   window.location.href="dashboard.html";
+ }
 
-      if(!name || !cls || !parent){
-        alert("❌ Please fill all details");
-        return;
-      }
-      localStorage.setItem("mkps_student", JSON.stringify({
-        name: name,
-        class: cls,
-        parent: parent
-      }));
-      window.location.href = "dashboard.html";
-    }
-  </script>
+ // Google Login callback
+ function handleGoogleLogin(response){
+   const data=jwtDecode(response.credential);
+   localStorage.setItem("mkps_student",JSON.stringify({
+     name:data.name,class:"Google User",parent:data.email
+   }));
+   window.location.href="dashboard.html";
+ }
+
+ // JWT decode
+ function jwtDecode(token){
+   return JSON.parse(atob(token.split('.')[1]));
+ }
+
+ // AI Welcome (Gemini API)
+ async function aiWelcome(){
+   try{
+     const res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs",{
+       method:"POST",
+       headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({contents:[{parts:[{text:"Write a short, warm welcome message for students logging into Milli Karwaan Public School portal with emojis."}]}]})
+     });
+     const data=await res.json();
+     let msg=data.candidates[0].content.parts[0].text;
+     document.getElementById("aiBox").style.display="block";
+     document.getElementById("aiBox").innerText="🤖 AI: "+msg;
+   }catch(e){
+     document.getElementById("aiBox").style.display="block";
+     document.getElementById("aiBox").innerText="⚠️ AI not responding right now.";
+   }
+ }
+ aiWelcome();
+</script>
 </body>
 </html>
