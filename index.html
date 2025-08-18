@@ -1,177 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Milli Karwaan Public School Balrampur — Student Access</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#d21a1a">
-<style>
-  :root{
-    --red:#d21a1a;--dark:#111;--light:#f7f7f9;--ink:#222;--muted:#6a6a6a;--glass:rgba(255,255,255,.7);
-    --ring:0 0 0 3px rgba(210,26,26,.15);--shadow:0 20px 60px rgba(0,0,0,.25)
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);
-    background: radial-gradient(1200px 600px at 10% -10%, #ffeded 0, transparent 60%),
-                radial-gradient(1000px 600px at 110% 110%, #ffe2e2 0, transparent 60%),
-                linear-gradient(180deg,#fff, #f6f6f6);
-  }
-  header{
-    display:flex;gap:14px;align-items:center;justify-content:center;padding:18px 14px;border-bottom:1px solid #eee;background:#fff50;
-    position:sticky;top:0;backdrop-filter:saturate(1.1) blur(6px);z-index:5
-  }
-  header img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.12)}
-  header .meta{line-height:1.15}
-  header .meta h1{font-size:18px;margin:0 0 2px;font-weight:800;letter-spacing:.2px}
-  header .meta p{margin:0;color:var(--muted);font-size:12px}
-  .call{
-    margin-left:auto;display:none
-  }
-  .wrap{min-height:calc(100% - 90px);display:grid;place-items:center;padding:22px}
-  .card{
-    width:min(760px,100%);background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.9));
-    border:1px solid rgba(0,0,0,.06);border-radius:18px;box-shadow:var(--shadow);backdrop-filter:blur(10px);
-    position:relative;overflow:hidden
-  }
-  .card:before{
-    content:"";position:absolute;inset:-1px;pointer-events:none;background:
-      linear-gradient(120deg,transparent 0 25%,rgba(255,255,255,.35) 40%,transparent 55%),
-      radial-gradient(600px 120px at -10% -20%, rgba(210,26,26,.08), transparent 60%),
-      radial-gradient(600px 120px at 120% 120%, rgba(210,26,26,.06), transparent 60%);
-    mix-blend:screen;animation:sweep 5s linear infinite
-  }
-  @keyframes sweep{to{transform:translateX(35%)}}
-  .inner{padding:28px}
-  h2{margin:0 0 8px;font-size:24px}
-  p.lead{margin:0 0 22px;color:#444}
-  form{display:grid;grid-template-columns:1fr;gap:14px}
-  label{font-size:13px;font-weight:600;color:#333}
-  input,select,button{
-    width:100%;padding:14px 14px;border-radius:12px;border:1px solid #ddd;background:#fff;font-size:15px;
-    transition:border-color .2s, box-shadow .2s
-  }
-  input:focus,select:focus{outline:none;border-color:var(--red);box-shadow:var(--ring)}
-  button{
-    background:linear-gradient(180deg,#ff3b3b,#d21a1a);color:#fff;font-weight:700;letter-spacing:.2px;border:none;cursor:pointer
-  }
-  button:hover{filter:brightness(.98)}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .notice{margin-top:10px;font-size:13px;color:var(--muted)}
-  .footer{
-    text-align:center;margin-top:16px;font-size:12px;color:var(--muted)
-  }
-  .help{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .pill{
-    font-size:12px;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #eee;color:#444
-  }
-  .btn-call{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;color:#d21a1a}
-  @media (min-width:700px){.call{display:block}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milli Karwaan Public School | Login</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      margin: 0; font-family: Arial, sans-serif;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; background: linear-gradient(135deg,#0d6efd,#6f42c1);
+      color: white; text-align: center;
+    }
+    .card {
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(15px);
+      padding: 20px; border-radius: 15px; width: 95%; max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 15px; }
+    #chat {
+      background: rgba(0,0,0,0.2); height: 200px; overflow-y: auto;
+      margin: 10px 0; padding: 10px; border-radius: 10px;
+      font-size: 0.9rem; text-align: left;
+    }
+    #chat p { margin: 5px 0; }
+    .me { color: #ffc107; }
+    .ai { color: #0df5e3; }
+    input, button {
+      padding: 10px; margin-top: 5px;
+      width: 100%; border-radius: 10px; border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: #ffc107; font-weight: bold; cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <img alt="School Logo" src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
-  <div class="meta">
-    <h1>Milli Karwaan Public School Balrampur</h1>
-    <p>Boluha Police Chowki Balrampur • <a href="mailto:madamsir066@gmail.com" style="color:inherit">madamsir066@gmail.com</a></p>
-  </div>
-  <a class="call" href="tel:9758919151"><button class="pill btn-call">📞 Call: 9758919151</button></a>
-</header>
+  <div class="card">
+    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" width="80">
+    <h1>Milli Karwaan Public School</h1>
+    <p>Login with Google to continue</p>
 
-<main class="wrap">
-  <section class="card" aria-labelledby="gateTitle">
-    <div class="inner">
-      <h2 id="gateTitle">Student Access</h2>
-      <p class="lead">Enter your details to unlock your personalized portal. Your class homework will load automatically.</p>
-
-      <form id="gate" novalidate>
-        <div>
-          <label for="studentName">Student Name</label>
-          <input id="studentName" name="studentName" placeholder="e.g., Ayaan Khan" required autocomplete="name">
-        </div>
-        <div class="row">
-          <div>
-            <label for="classNum">Class (1–12)</label>
-            <select id="classNum" name="classNum" required>
-              <option value="">Select Class</option>
-              <script>
-                // build options 1..12
-                for(let i=1;i<=12;i++){
-                  document.write(`<option value="${i}">Class ${i}</option>`);
-                }
-              </script>
-            </select>
-          </div>
-          <div>
-            <label for="parentName">Parent's Name</label>
-            <input id="parentName" name="parentName" placeholder="e.g., Mr. Khan" required>
-          </div>
-        </div>
-        <button type="submit">Continue to Dashboard</button>
-        <div class="notice" id="err" role="alert" aria-live="polite"></div>
-      </form>
-
-      <div class="help">
-        <span class="pill">🔒 Data stored only on this device</span>
-        <span class="pill">⚡ Fast & mobile-first</span>
-        <span class="pill">🎨 Smooth animations</span>
-      </div>
-
-      <p class="footer">© <span id="year"></span> MKPS Balrampur • Need help? <a href="mailto:madamsir066@gmail.com">Email us</a></p>
+    <!-- Google Login -->
+    <div id="g_id_onload"
+         data-client_id="529549341206-1fnunb0pn34k7bjqe9ot5mc1vplantfj.apps.googleusercontent.com"
+         data-callback="handleLogin">
     </div>
-  </section>
-</main>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <!-- AI Chat Help -->
+    <h3>🤖 Login Help</h3>
+    <div id="chat"><p class="ai">AI: Ask me about login steps 👇</p></div>
+    <input type="text" id="userInput" placeholder="Type here...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
 <script>
-  // Redirect if already logged
-  try{
-    const exists = localStorage.getItem('mkps_student');
-    if(exists){ location.replace('dashboard.html'); }
-  }catch(e){ console.warn('Storage error', e); }
+// Handle Google login
+function handleLogin(response) {
+  const data = JSON.parse(atob(response.credential.split('.')[1]));
+  localStorage.setItem("mkps_student", JSON.stringify({
+    name: data.name,
+    email: data.email,
+    picture: data.picture
+  }));
+  alert("Welcome " + data.name + " 🎉");
+  window.location.href = "dashboard.html";
+}
 
-  const form = document.getElementById('gate');
-  const err  = document.getElementById('err');
-  document.getElementById('year').textContent = new Date().getFullYear();
+// AI Chat (Gemini API)
+async function sendMessage(){
+  let input = document.getElementById("userInput");
+  let text = input.value.trim();
+  if(!text) return;
+  let chat = document.getElementById("chat");
+  chat.innerHTML += `<p class="me">👤 You: ${text}</p>`;
+  input.value = "";
 
-  // Prevent going back to gate after login
-  function lockHistory(){
-    history.pushState({mkps:'gate-locked'},'',location.href);
-    window.onpopstate = ()=> history.go(1);
+  try {
+    let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        contents:[{parts:[{text:`Only answer login or account related questions. Question: ${text}` }]}]
+      })
+    });
+    let data = await res.json();
+    let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I didn't get that.";
+    chat.innerHTML += `<p class="ai">🤖 AI: ${aiText}</p>`;
+    chat.scrollTop = chat.scrollHeight;
+  } catch(err){
+    chat.innerHTML += `<p class="ai">⚠️ Error: ${err.message}</p>`;
   }
-
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const studentName = form.studentName.value.trim();
-    const classNum    = form.classNum.value.trim();
-    const parentName  = form.parentName.value.trim();
-
-    if(!studentName || !classNum || !parentName){
-      err.textContent = 'Please fill all fields correctly.';
-      return;
-    }
-    const payload = { name:studentName, class:Number(classNum), parent:parentName, at:Date.now() };
-    try{
-      localStorage.setItem('mkps_student', JSON.stringify(payload));
-      // ensure the rest of data exists (seed minimal structures if missing)
-      const ensure = (k, def)=>{ if(!localStorage.getItem(k)) localStorage.setItem(k, JSON.stringify(def)); };
-      ensure('mkps_homework', {});
-      ensure('mkps_teachers', []);
-      ensure('mkps_events', []);
-      ensure('mkps_notices', []);
-      ensure('mkps_timetable', {});
-      ensure('mkps_gallery', []);
-      ensure('mkps_messages', []);
-      lockHistory();
-      location.assign('dashboard.html');
-    }catch(e){
-      console.error(e);
-      err.textContent = 'Storage is blocked. Please enable localStorage in your browser.';
-    }
-  });
+}
 </script>
 </body>
 </html>
