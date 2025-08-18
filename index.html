@@ -6,92 +6,117 @@
   <title>Milli Karwaan Public School | Login</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    body {
-      margin: 0; font-family: Arial, sans-serif;
-      display: flex; justify-content: center; align-items: center;
-      height: 100vh; background: linear-gradient(135deg,#0d6efd,#6f42c1);
-      color: white; text-align: center;
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial;}
+    body{
+      min-height:100vh;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#007bff,#6610f2,#6f42c1);
+      background-size:300% 300%;animation:bgmove 15s infinite alternate;
+      color:#fff;
     }
-    .card {
-      background: rgba(255,255,255,0.1); backdrop-filter: blur(15px);
-      padding: 20px; border-radius: 15px; width: 95%; max-width: 400px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    @keyframes bgmove{
+      from{background-position:0 0;}
+      to{background-position:100% 100%;}
     }
-    h1 { font-size: 1.5rem; margin-bottom: 15px; }
-    #chat {
-      background: rgba(0,0,0,0.2); height: 200px; overflow-y: auto;
-      margin: 10px 0; padding: 10px; border-radius: 10px;
-      font-size: 0.9rem; text-align: left;
+    .card{
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(20px);
+      border-radius:25px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+      padding:30px 20px;
+      width:95%;max-width:400px;
+      text-align:center;
+      animation:fadeIn 1.2s ease;
     }
-    #chat p { margin: 5px 0; }
-    .me { color: #ffc107; }
-    .ai { color: #0df5e3; }
-    input, button {
-      padding: 10px; margin-top: 5px;
-      width: 100%; border-radius: 10px; border: none;
-      font-size: 1rem;
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(50px);}
+      to{opacity:1;transform:translateY(0);}
     }
-    button {
-      background: #ffc107; font-weight: bold; cursor: pointer;
+    img{width:90px;margin-bottom:15px;}
+    h1{font-size:1.5rem;margin-bottom:5px;}
+    p.sub{opacity:0.8;margin-bottom:20px;}
+    .g_id_signin{margin:10px auto;}
+    input,button{
+      width:100%;padding:12px;margin-top:10px;
+      border:none;border-radius:12px;font-size:1rem;
     }
+    input{background:#fff;color:#333;}
+    button{
+      background:#ffc107;color:#000;font-weight:bold;
+      cursor:pointer;transition:0.3s;
+    }
+    button:hover{background:#ffcd39;transform:scale(1.02);}
+    #chat{
+      margin-top:20px;text-align:left;
+      background:rgba(0,0,0,0.3);
+      padding:10px;border-radius:12px;
+      height:160px;overflow-y:auto;font-size:0.9rem;
+    }
+    #chat p{margin:6px 0;}
+    .me{color:#ffd966;}
+    .ai{color:#0df5e3;}
   </style>
 </head>
 <body>
   <div class="card">
-    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" width="80">
+    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo">
     <h1>Milli Karwaan Public School</h1>
-    <p>Login with Google to continue</p>
+    <p class="sub">Balrampur, Uttar Pradesh</p>
 
     <!-- Google Login -->
     <div id="g_id_onload"
          data-client_id="529549341206-1fnunb0pn34k7bjqe9ot5mc1vplantfj.apps.googleusercontent.com"
-         data-callback="handleLogin">
-    </div>
+         data-callback="handleLogin"></div>
     <div class="g_id_signin" data-type="standard"></div>
 
+    <!-- Backup Normal Login -->
+    <input type="text" id="studentName" placeholder="Enter your name">
+    <input type="text" id="studentClass" placeholder="Enter your class">
+    <button onclick="manualLogin()">Login</button>
+
     <!-- AI Chat Help -->
-    <h3>🤖 Login Help</h3>
-    <div id="chat"><p class="ai">AI: Ask me about login steps 👇</p></div>
+    <h3 style="margin-top:20px;">🤖 Login Help</h3>
+    <div id="chat"><p class="ai">AI: Ask me about login / account 👇</p></div>
     <input type="text" id="userInput" placeholder="Type here...">
-    <button onclick="sendMessage()">Send</button>
+    <button onclick="sendMessage()">Ask AI</button>
   </div>
 
 <script>
-// Handle Google login
-function handleLogin(response) {
-  const data = JSON.parse(atob(response.credential.split('.')[1]));
-  localStorage.setItem("mkps_student", JSON.stringify({
-    name: data.name,
-    email: data.email,
-    picture: data.picture
+// Google login
+function handleLogin(response){
+  const data=JSON.parse(atob(response.credential.split('.')[1]));
+  localStorage.setItem("mkps_student",JSON.stringify({
+    name:data.name,email:data.email,picture:data.picture
   }));
-  alert("Welcome " + data.name + " 🎉");
-  window.location.href = "dashboard.html";
+  alert("Welcome "+data.name+" 🎉");
+  window.location.href="dashboard.html";
 }
-
-// AI Chat (Gemini API)
+// Manual login
+function manualLogin(){
+  let name=document.getElementById("studentName").value.trim();
+  let cls=document.getElementById("studentClass").value.trim();
+  if(!name||!cls){alert("Enter both name & class");return;}
+  localStorage.setItem("mkps_student",JSON.stringify({name:name,class:cls}));
+  window.location.href="dashboard.html";
+}
+// AI Chat
 async function sendMessage(){
-  let input = document.getElementById("userInput");
-  let text = input.value.trim();
-  if(!text) return;
-  let chat = document.getElementById("chat");
-  chat.innerHTML += `<p class="me">👤 You: ${text}</p>`;
-  input.value = "";
-
-  try {
-    let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        contents:[{parts:[{text:`Only answer login or account related questions. Question: ${text}` }]}]
-      })
+  let input=document.getElementById("userInput");
+  let text=input.value.trim();if(!text)return;
+  let chat=document.getElementById("chat");
+  chat.innerHTML+=`<p class="me">👤 You: ${text}</p>`;
+  input.value="";
+  try{
+    let res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({contents:[{parts:[{text:`Answer only about login or account issues: ${text}`}]}]})
     });
-    let data = await res.json();
-    let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I didn't get that.";
-    chat.innerHTML += `<p class="ai">🤖 AI: ${aiText}</p>`;
-    chat.scrollTop = chat.scrollHeight;
-  } catch(err){
-    chat.innerHTML += `<p class="ai">⚠️ Error: ${err.message}</p>`;
+    let data=await res.json();
+    let reply=data.candidates?.[0]?.content?.parts?.[0]?.text||"Sorry, I didn’t get that.";
+    chat.innerHTML+=`<p class="ai">🤖 AI: ${reply}</p>`;
+    chat.scrollTop=chat.scrollHeight;
+  }catch(err){
+    chat.innerHTML+=`<p class="ai">⚠️ Error: ${err.message}</p>`;
   }
 }
 </script>
