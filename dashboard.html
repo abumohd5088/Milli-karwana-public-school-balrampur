@@ -1,2935 +1,831 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="theme-color" content="#0d6efd"/>
-    <meta name="description" content="Student Dashboard - Homework, AI Assistant, and Progress Tracking"/>
-    <title>📚 Student Dashboard | School Web #1</title>
-    <link rel="manifest" href="application/json;base64,ewogICJuYW1lIjogIlNjaG9vbCBXZWIgIzEiLAogICJzaG9ydF9uYW1lIjogIlNjaG9vbFdlYiIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBkNmVmZCIsCiAgInRoZW1lX2NvbG9yIjogIiMwZDZlZmQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFh4U0lVZ01BQUFBQUFBQUFDa1pBQUFBQUNBQVFBQUFBQUFBQUJBUUFBQUFDL2NBUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB......" 
-    <style>
-        :root {
-            --p: #0d6efd;
-            --s: #6c757d;
-            --l: #f8f9fa;
-            --d: #212529;
-            --a: #ffc107;
-            --bg: #fff;
-            --card: #f1f3f5;
-            --border: #dee2e6;
-            --success: #198754;
-            --danger: #dc3545;
-            --warning: #fd7e14;
-            --info: #0dcaf0;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --font: 'Poppins', sans-serif;
-            --transition: all 0.3s ease;
-            --shadow: 0 4px 12px rgba(0,0,0,.1);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,.15);
-            --radius: 12px;
-            --radius-sm: 8px;
-            --radius-lg: 16px;
-            --padding: 1rem;
-            --margin: 1rem;
-            --font-size-sm: 0.875rem;
-            --font-size-base: 1rem;
-            --font-size-lg: 1.25rem;
-            --font-size-xl: 1.5rem;
-            --font-size-2xl: 2rem;
-            --font-weight-light: 300;
-            --font-weight-normal: 400;
-            --font-weight-medium: 500;
-            --font-weight-bold: 700;
-            --font-weight-extrabold: 800;
-            --line-height-sm: 1.25;
-            --line-height-base: 1.5;
-            --line-height-lg: 2;
-            --z-index-navbar: 1000;
-            --z-index-dropdown: 1000;
-            --z-index-sticky: 1020;
-            --z-index-modal-backdrop: 1040;
-            --z-index-modal: 1050;
-            --z-index-popover: 1060;
-            --z-index-tooltip: 1070;
-            --z-index-fab: 1080;
-            --z-index-toast: 1090;
-        }
-
-        [data-theme="dark"] {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --border: #333;
-            --d: #e0e0e0;
-            --l: #2d2d2d;
-            --shadow: 0 4px 12px rgba(0,0,0,.3);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,.4);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: var(--font);
-            transition: background-color var(--transition), color var(--transition), border-color var(--transition);
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--d);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: var(--line-height-base);
-        }
-
-        a {
-            color: var(--p);
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: var(--p);
-            text-decoration: underline;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: var(--radius-sm);
-            background: var(--p);
-            color: white;
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .btn:hover {
-            background: #0b5ed7;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--d);
-        }
-
-        .btn-outline:hover {
-            background: var(--l);
-            border-color: var(--p);
-            color: var(--p);
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: var(--font-size-sm);
-        }
-
-        .btn-lg {
-            padding: 0.75rem 1.5rem;
-            font-size: var(--font-size-lg);
-        }
-
-        .btn-primary {
-            background: var(--p);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #0b5ed7;
-        }
-
-        .btn-secondary {
-            background: var(--s);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5c636a;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #177a48;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #c82333;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background: #e57000;
-        }
-
-        .btn-info {
-            background: var(--info);
-            color: white;
-        }
-
-        .btn-info:hover {
-            background: #0ca6f0;
-        }
-
-        .btn-dark {
-            background: var(--dark);
-            color: white;
-        }
-
-        .btn-dark:hover {
-            background: #1a1e21;
-        }
-
-        .btn-light {
-            background: var(--light);
-            color: var(--d);
-        }
-
-        .btn-light:hover {
-            background: #f0f0f0;
-        }
-
-        .btn-block {
-            display: block;
-            width: 100%;
-        }
-
-        .btn-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-        }
-
-        .btn-icon svg {
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-
-        .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: var(--padding);
-            box-shadow: var(--shadow);
-            margin-bottom: var(--margin);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
-
-        .card-header {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-body {
-            flex: 1;
-        }
-
-        .card-footer {
-            margin-top: 1rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid var(--border);
-            font-size: var(--font-size-sm);
-            color: var(--s);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--bg);
-            color: var(--d);
-            font-size: var(--font-size-base);
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--p);
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
-        }
-
-        .form-control::placeholder {
-            color: var(--s);
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: var(--font-weight-medium);
-            color: var(--d);
-        }
-
-        .form-check {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-check-input {
-            margin-right: 0.5rem;
-            accent-color: var(--p);
-        }
-
-        .form-select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--bg);
-            color: var(--d);
-            font-size: var(--font-size-base);
-            background-image: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23343a40' viewBox='0 0 16 16'%3e%3cpath d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 16px 12px;
-            transition: var(--transition);
-        }
-
-        .form-select:focus {
-            outline: none;
-            border-color: var(--p);
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1rem;
-            font-size: var(--font-size-sm);
-            display: flex;
-            align-items: center;
-        }
-
-        .alert-success {
-            background: rgba(25, 135, 84, 0.1);
-            border: 1px solid rgba(25, 135, 84, 0.2);
-            color: var(--success);
-        }
-
-        .alert-danger {
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid rgba(220, 53, 69, 0.2);
-            color: var(--danger);
-        }
-
-        .alert-warning {
-            background: rgba(253, 126, 20, 0.1);
-            border: 1px solid rgba(253, 126, 20, 0.2);
-            color: var(--warning);
-        }
-
-        .alert-info {
-            background: rgba(13, 202, 240, 0.1);
-            border: 1px solid rgba(13, 202, 240, 0.2);
-            color: var(--info);
-        }
-
-        .close-btn {
-            margin-left: auto;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            line-height: 1;
-            color: inherit;
-            cursor: pointer;
-            padding: 0 0.5rem;
-        }
-
-        .navbar {
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: var(--z-index-sticky);
-            backdrop-filter: blur(10px);
-        }
-
-        .navbar-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar-brand {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--p);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .navbar-brand svg {
-            width: 2rem;
-            height: 2rem;
-        }
-
-        .navbar-nav {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-link {
-            color: var(--d);
-            font-weight: var(--font-weight-medium);
-            padding: 0.5rem;
-            border-radius: var(--radius-sm);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover {
-            color: var(--p);
-            background: var(--l);
-        }
-
-        .nav-link.active {
-            color: var(--p);
-            font-weight: var(--font-weight-bold);
-        }
-
-        .navbar-toggler {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--d);
-            cursor: pointer;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            min-width: 12rem;
-            padding: 0.5rem 0;
-            z-index: var(--z-index-dropdown);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: var(--transition);
-        }
-
-        .dropdown:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: var(--d);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .dropdown-item:hover {
-            background: var(--l);
-            color: var(--p);
-        }
-
-        .dropdown-divider {
-            height: 1px;
-            background: var(--border);
-            margin: 0.5rem 0;
-        }
-
-        .main {
-            flex: 1;
-            padding: 2rem 0;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .grid-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .grid-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .grid-4 {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .flex {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .flex-column {
-            flex-direction: column;
-        }
-
-        .flex-align-center {
-            align-items: center;
-        }
-
-        .flex-justify-center {
-            justify-content: center;
-        }
-
-        .flex-between {
-            justify-content: space-between;
-        }
-
-        .flex-around {
-            justify-content: space-around;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .text-primary {
-            color: var(--p);
-        }
-
-        .text-secondary {
-            color: var(--s);
-        }
-
-        .text-success {
-            color: var(--success);
-        }
-
-        .text-danger {
-            color: var(--danger);
-        }
-
-        .text-warning {
-            color: var(--warning);
-        }
-
-        .text-info {
-            color: var(--info);
-        }
-
-        .text-dark {
-            color: var(--dark);
-        }
-
-        .text-light {
-            color: var(--light);
-        }
-
-        .text-muted {
-            color: var(--s);
-        }
-
-        .fw-light {
-            font-weight: var(--font-weight-light);
-        }
-
-        .fw-normal {
-            font-weight: var(--font-weight-normal);
-        }
-
-        .fw-medium {
-            font-weight: var(--font-weight-medium);
-        }
-
-        .fw-bold {
-            font-weight: var(--font-weight-bold);
-        }
-
-        .fs-sm {
-            font-size: var(--font-size-sm);
-        }
-
-        .fs-base {
-            font-size: var(--font-size-base);
-        }
-
-        .fs-lg {
-            font-size: var(--font-size-lg);
-        }
-
-        .fs-xl {
-            font-size: var(--font-size-xl);
-        }
-
-        .fs-2xl {
-            font-size: var(--font-size-2xl);
-        }
-
-        .mb-0 {
-            margin-bottom: 0;
-        }
-
-        .mb-1 {
-            margin-bottom: 0.25rem;
-        }
-
-        .mb-2 {
-            margin-bottom: 0.5rem;
-        }
-
-        .mb-3 {
-            margin-bottom: 1rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 1.5rem;
-        }
-
-        .mb-5 {
-            margin-bottom: 3rem;
-        }
-
-        .mt-0 {
-            margin-top: 0;
-        }
-
-        .mt-1 {
-            margin-top: 0.25rem;
-        }
-
-        .mt-2 {
-            margin-top: 0.5rem;
-        }
-
-        .mt-3 {
-            margin-top: 1rem;
-        }
-
-        .mt-4 {
-            margin-top: 1.5rem;
-        }
-
-        .mt-5 {
-            margin-top: 3rem;
-        }
-
-        .pt-0 {
-            padding-top: 0;
-        }
-
-        .pt-1 {
-            padding-top: 0.25rem;
-        }
-
-        .pt-2 {
-            padding-top: 0.5rem;
-        }
-
-        .pt-3 {
-            padding-top: 1rem;
-        }
-
-        .pt-4 {
-            padding-top: 1.5rem;
-        }
-
-        .pt-5 {
-            padding-top: 3rem;
-        }
-
-        .pb-0 {
-            padding-bottom: 0;
-        }
-
-        .pb-1 {
-            padding-bottom: 0.25rem;
-        }
-
-        .pb-2 {
-            padding-bottom: 0.5rem;
-        }
-
-        .pb-3 {
-            padding-bottom: 1rem;
-        }
-
-        .pb-4 {
-            padding-bottom: 1.5rem;
-        }
-
-        .pb-5 {
-            padding-bottom: 3rem;
-        }
-
-        .footer {
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            padding: 2rem 0;
-            margin-top: auto;
-        }
-
-        .footer-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .footer-link {
-            color: var(--s);
-            transition: var(--transition);
-        }
-
-        .footer-link:hover {
-            color: var(--p);
-        }
-
-        .toast {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            max-width: 300px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            padding: 1rem;
-            z-index: var(--z-index-toast);
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
-            opacity: 0;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        .toast-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .toast-title {
-            font-weight: var(--font-weight-bold);
-            margin-right: 0.5rem;
-        }
-
-        .toast-body {
-            font-size: var(--font-size-sm);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: var(--z-index-modal);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-dialog {
-            background: var(--bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .modal-header {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            line-height: 1;
-            color: var(--d);
-            cursor: pointer;
-            padding: 0 0.5rem;
-        }
-
-        .modal-body {
-            padding: 1rem;
-            flex: 1;
-        }
-
-        .modal-footer {
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: var(--z-index-modal-backdrop);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .spinner {
-            width: 2rem;
-            height: 2rem;
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--p);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            background: var(--p);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-lg);
-            cursor: pointer;
-            z-index: var(--z-index-fab);
-            opacity: 0;
-            transform: translateY(2rem);
-            transition: var(--transition);
-        }
-
-        .fab.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fab:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-        }
-
-        .fab svg {
-            width: 1.5rem;
-            height: 1.5rem;
-        }
-
-        .homework-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            margin-bottom: 0.5rem;
-            background: var(--bg);
-            transition: var(--transition);
-        }
-
-        .homework-item:hover {
-            border-color: var(--p);
-            background: var(--l);
-        }
-
-        .homework-emoji {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-        }
-
-        .homework-title {
-            flex: 1;
-            font-weight: var(--font-weight-medium);
-        }
-
-        .homework-due {
-            font-size: var(--font-size-sm);
-            color: var(--s);
-            margin-left: 1rem;
-        }
-
-        .homework-status {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            margin-left: 1rem;
-        }
-
-        .homework-status.pending {
-            background: var(--warning);
-        }
-
-        .homework-status.completed {
-            background: var(--success);
-        }
-
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 400px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .chat-header {
-            padding: 1rem;
-            background: var(--p);
-            color: white;
-            font-weight: var(--font-weight-bold);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            background: var(--l);
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 1rem;
-            border-radius: var(--radius-sm);
-            line-height: var(--line-height-base);
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: var(--p);
-            color: white;
-        }
-
-        .message.ai {
-            align-self: flex-start;
-            background: var(--bg);
-            color: var(--d);
-            border: 1px solid var(--border);
-        }
-
-        .chat-input {
-            display: flex;
-            padding: 1rem;
-            background: var(--bg);
-            border-top: 1px solid var(--border);
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            margin-right: 0.5rem;
-        }
-
-        .chat-input button {
-            padding: 0.75rem 1.5rem;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 10px;
-            background: var(--border);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--p);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-        }
-
-        .badge-primary {
-            background: rgba(13, 110, 253, 0.1);
-            color: var(--p);
-        }
-
-        .badge-secondary {
-            background: rgba(108, 117, 125, 0.1);
-            color: var(--s);
-        }
-
-        .badge-success {
-            background: rgba(25, 135, 84, 0.1);
-            color: var(--success);
-        }
-
-        .badge-danger {
-            background: rgba(220, 53, 69, 0.1);
-            color: var(--danger);
-        }
-
-        .offline-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--danger);
-            color: white;
-            text-align: center;
-            padding: 0.5rem;
-            font-size: var(--font-size-sm);
-            z-index: var(--z-index-toast);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .offline-banner.show {
-            transform: translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .navbar-nav {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: var(--bg);
-                border: 1px solid var(--border);
-                border-top: none;
-                box-shadow: var(--shadow);
-                z-index: var(--z-index-dropdown);
-            }
-
-            .navbar-nav.show {
-                display: flex;
-            }
-
-            .navbar-toggler {
-                display: block;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-links {
-                justify-content: center;
-            }
-
-            .fab {
-                bottom: 1rem;
-                right: 1rem;
-                width: 3rem;
-                height: 3rem;
-            }
-
-            .fab svg {
-                width: 1.25rem;
-                height: 1.25rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .container {
-                padding: 0 0.5rem;
-            }
-
-            .card {
-                padding: 0.75rem;
-            }
-
-            .navbar-brand {
-                font-size: var(--font-size-lg);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                transition: none !important;
-                animation: none !important;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #121212;
-                --card: #1e1e1e;
-                --border: #333;
-                --d: #e0e0e0;
-                --l: #2d2d2d;
-                --shadow: 0 4px 12px rgba(0,0,0,.3);
-                --shadow-lg: 0 8px 24px rgba(0,0,0,.4);
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MKPS — Dashboard | Milli Karwaan Public School Balrampur</title>
+  <link rel="icon" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
+  <meta name="description" content="Dashboard for Milli Karwaan Public School — class-specific homework, teachers, events, notices, timetable, gallery and AI study assistant.">
+  <style>
+    /* ========================
+       MKPS Dashboard - Styles
+       Modern, responsive, glassmorphic UI with animations
+       ======================== */
+    :root{
+      --bg-1: #071129;
+      --bg-2: #10233a;
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.06);
+      --accent: #dc3545; /* red-ish */
+      --accent-2: #ff6f61;
+      --muted: #a8b3c4;
+      --success: #28a745;
+      --danger: #e55353;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --glass-border: rgba(255,255,255,0.06);
+      --max-width: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;min-height:100vh;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color: #eef2f6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;flex-direction:column;align-items:center;
+    }
+
+    .wrap{width:100%;max-width:var(--max-width);padding:20px;}
+
+/* Header */
+    header.appbar{
+      width:100%;display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:18px 20px;border-radius:12px;
+      background:linear-gradient(90deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));
+      box-shadow: var(--shadow);backdrop-filter: blur(6px);
+      margin:12px 0;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:62px;height:62px;border-radius:10px;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+    .brand h1{font-size:1.15rem;margin:0;line-height:1;color:#fff}
+    .brand p{margin:0;font-size:0.83rem;color:var(--muted)}
+    .contact{display:flex;gap:12px;align-items:center}
+    .callbtn{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:10px 14px;border-radius:10px;color:#fff;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(220,53,69,0.2)}
+    .contact a{color:#fff;text-decoration:none;font-size:0.9rem}
+    .top-actions{display:flex;gap:8px;align-items:center}
+    .icon-btn{background:rgba(255,255,255,0.03);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);cursor:pointer;color:#fff}
+    .small{font-size:0.85rem;color:var(--muted)}
+
+/* Layout */
+    main{width:100%;display:grid;grid-template-columns: 1fr 360px;gap:20px;align-items:start}
+    @media (max-width:980px){main{grid-template-columns:1fr;}}
+    .panel{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:0 8px 30px rgba(0,0,0,0.45);border:1px solid var(--glass-border)}
+
+/* Left column */
+    .hero{display:flex;gap:18px;align-items:center}
+    .welcome{flex:1}
+    .welcome h2{margin:0;font-size:1.3rem}
+    .welcome p{margin:6px 0;color:var(--muted)}
+    .stats{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+    .stat{padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));min-width:120px}
+    .stat h3{margin:0;font-size:1rem}
+    .stat p{margin:4px 0 0 0;color:var(--muted);font-size:0.82rem}
+
+/* Homework area */
+    .homework-area{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+    .hw-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .search{flex:1;display:flex;gap:8px}
+    .search input{flex:1;padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff}
+    .filter, .btn{padding:10px;border-radius:10px;border:none;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:600}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:#fff}
+    .hw-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:10px}
+    .hw-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:transform .18s ease,box-shadow .18s ease}
+    .hw-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    .hw-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .hw-title{font-weight:700;margin:0}
+    .hw-sub{font-size:0.85rem;color:var(--muted);margin:6px 0}
+    .hw-body{color:#e6eef7;font-size:0.92rem}
+
+/* Teachers / Events / Notices */
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .teacher-card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:rgba(255,255,255,0.02)}
+    .teacher-avatar{width:62px;height:62px;border-radius:10px;overflow:hidden;flex-shrink:0;background:linear-gradient(90deg,#fff,rgba(255,255,255,0.1))}
+    .teacher-avatar img{width:100%;height:100%;object-fit:cover}
+    .teacher-info h4{margin:0;font-size:0.98rem}
+    .teacher-info p{margin:6px 0 0 0;color:var(--muted);font-size:0.85rem}
+
+/* Right column (sidebar) */
+    aside{display:flex;flex-direction:column;gap:12px}
+    .sidebar .panel{padding:12px}
+    .quick-search input{width:100%;padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff}
+    .counts{display:flex;gap:8px;flex-wrap:wrap}
+    .count{flex:1;padding:10px;border-radius:10px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))}
+    .count h4{margin:0}
+    .small-muted{font-size:0.82rem;color:var(--muted)}
+
+/* Gallery / Lightbox */
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+    .gallery-grid img{width:100%;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform .15s}
+    .gallery-grid img:hover{transform:scale(1.04)}
+
+/* Footer */
+    footer{width:100%;text-align:center;padding:18px;color:var(--muted);margin-top:18px;font-size:0.9rem}
+
+/* Responsive */
+    @media (max-width:980px){
+      .stats{justify-content:space-between}
+      .hero{flex-direction:column;align-items:flex-start}
+      .top-actions{position:static;margin-top:12px}
+    }
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:0.82rem}
+    .hidden{display:none}
+    .light-mode body{background:linear-gradient(180deg,#f7f9fb,#e9eef6);color:#111}
+  </style>
 </head>
 <body>
-    <header class="navbar">
-        <div class="container navbar-container">
-            <a href="#" class="navbar-brand">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-                <span>School Web #1</span>
-            </a>
-            <button class="navbar-toggler" id="menuToggle">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-            <nav class="navbar-nav" id="navbarNav">
-                <a href="#" class="nav-link active" id="homeLink">🏠 Home</a>
-                <a href="#" class="nav-link" id="homeworkLink">📚 Homework</a>
-                <a href="#" class="nav-link" id="aiLink">🤖 AI Assistant</a>
-                <a href="#" class="nav-link" id="progressLink">📊 Progress</a>
-                <div class="dropdown">
-                    <div class="nav-link dropdown-toggle" id="settingsToggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 1.415 3.41 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-3.41 1.415 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 1.415-3.41 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 3.41 1.415 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                        <span>Settings</span>
-                    </div>
-                    <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item" id="darkModeToggle">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                            <span>Dark Mode</span>
-                        </a>
-                        <a href="#" class="dropdown-item" id="printBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                            <span>Print</span>
-                        </a>
-                        <a href="#" class="dropdown-item" id="shareBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                            <span>Share</span>
-                        </a>
-                        <a href="#" class="dropdown-item" id="pdfBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                            <span>Download PDF</span>
-                        </a>
-                        <a href="#" class="dropdown-item" id="backupBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                            <span>Backup Data</span>
-                        </a>
-                        <a href="#" class="dropdown-item" id="restoreBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="16 17.01 12 22 8 17"></polyline><line x1="12" y1="12" x2="12" y2="22"></line></svg>
-                            <span>Restore Data</span>
-                        </a>
-                        <a href="#" class="dropdown-item" id="clearCacheBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                            <span>Clear Cache</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item" id="installBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
-                            <span>Install App</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="nav-link dropdown-toggle" id="profileToggle">
-                        <div id="profileIcon" class="btn-icon" style="background: var(--p);">👤</div>
-                        <span id="userName">Loading...</span>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item">
-                            <strong>Class:</strong> <span id="userClass">-</span>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Parent:</strong> <span id="userParent">-</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item" id="logoutBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                            <span>Logout</span>
-                        </a>
-                    </div>
-                </div>
-            </nav>
+  <div class="wrap">
+    <!-- Header -->
+    <header class="appbar panel" role="banner">
+      <div class="brand">
+        <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="MKPS logo">
+        <div>
+          <h1>Milli Karwaan Public School Balrampur</h1>
+          <p class="small">Boluha Police Chowki, Balrampur · <span class="small-muted">ज्ञान, अनुशासन और समर्पण — भविष्य की राह</span></p>
         </div>
+      </div>
+
+      <div class="contact">
+        <div class="small muted">Email: <a href="mailto:madamsir066@gmail.com">madamsir066@gmail.com</a></div>
+        <a class="callbtn" href="tel:9758919151">Call School · 9758919151</a>
+        <div class="top-actions">
+          <button class="icon-btn" id="exportBtn" title="Export data (JSON)">⤓ Export</button>
+          <button class="icon-btn" id="importBtn" title="Import data (JSON)">⤒ Import</button>
+          <button class="icon-btn" id="snapshotBtn" title="Download snapshot (print)">🖨️ Snapshot</button>
+          <button class="icon-btn" id="themeToggle" title="Toggle theme">🌓</button>
+        </div>
+      </div>
     </header>
 
-    <main class="main">
-        <div class="container">
-            <div id="homeSection">
-                <div class="card">
-                    <h2 class="card-header">👋 Welcome, <span id="greetingName">Student</span>!</h2>
-                    <div class="card-body">
-                        <p>You're in <strong>Class <span id="greetingClass">X</span></strong>. Here's what you need to know today.</p>
-                        <div class="grid">
-                            <div class="card">
-                                <div class="card-header">📚 Homework</div>
-                                <div class="card-body">
-                                    <div id="homeworkList"></div>
-                                    <div class="progress-container">
-                                        <div class="progress-bar" id="homeworkProgress"></div>
-                                    </div>
-                                    <div class="text-center">
-                                        <small id="homeworkStats">0/0 completed</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">📅 Today's Schedule</div>
-                                <div class="card-body">
-                                    <div id="scheduleList"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="card">
-                                <div class="card-header">🔔 Reminders</div>
-                                <div class="card-body">
-                                    <ul id="remindersList"></ul>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">🏆 Achievements</div>
-                                <div class="card-body">
-                                    <div id="achievementsList"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Main layout -->
+    <main>
+      <!-- Left column -->
+      <section>
+        <div class="panel hero">
+          <div class="welcome">
+            <h2 id="welcomeTitle">Welcome — Student</h2>
+            <p id="welcomeSub" class="muted">Your personalized school dashboard. Homework, teachers, notices and study help — all in one place.</p>
+            <div class="stats" id="topStats" aria-hidden="false">
+              <div class="stat"><h3 id="cntStudents">—</h3><p>Students</p></div>
+              <div class="stat"><h3 id="cntTeachers">—</h3><p>Teachers</p></div>
+              <div class="stat"><h3 id="cntNotices">—</h3><p>Notices</p></div>
+              <div class="stat"><h3 id="cntPhotos">—</h3><p>Gallery</p></div>
             </div>
-
-            <div id="homeworkSection" class="hidden">
-                <div class="card">
-                    <div class="card-header">📚 Homework Assignments</div>
-                    <div class="card-body">
-                        <div class="flex flex-between flex-align-center mb-3">
-                            <h3>Class <span id="homeworkClass">X</span></h3>
-                            <div class="btn-group">
-                                <button class="btn btn-outline" id="filterAll">All</button>
-                                <button class="btn btn-outline" id="filterPending">Pending</button>
-                                <button class="btn btn-outline" id="filterCompleted">Completed</button>
-                            </div>
-                        </div>
-                        <div id="homeworkItems"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="aiSection" class="hidden">
-                <div class="card">
-                    <div class="card-header">🤖 AI Homework Assistant</div>
-                    <div class="card-body">
-                        <p class="mb-3">Ask me anything about your homework, subjects, or school life. I'm here to help!</p>
-                        <div class="chat-container">
-                            <div class="chat-header">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                <span>School AI Assistant</span>
-                            </div>
-                            <div class="chat-messages" id="chatMessages">
-                                <div class="message ai">
-                                    Hello! I'm your AI homework assistant. How can I help you with your studies today? 📚
-                                </div>
-                            </div>
-                            <div class="chat-input">
-                                <input type="text" id="chatInput" placeholder="Ask me about homework, subjects, or school..." />
-                                <button class="btn btn-primary" id="sendBtn">Send</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="progressSection" class="hidden">
-                <div class="card">
-                    <div class="card-header">📊 Academic Progress</div>
-                    <div class="card-body">
-                        <div class="grid">
-                            <div class="card">
-                                <div class="card-header">📈 Subject Performance</div>
-                                <div class="card-body">
-                                    <canvas id="performanceChart" height="200"></canvas>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">🎯 Goals</div>
-                                <div class="card-body">
-                                    <div id="goalsList"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mt-3">
-                            <div class="card-header">📅 Attendance Record</div>
-                            <div class="card-body">
-                                <div class="progress-container">
-                                    <div class="progress-bar" id="attendanceBar"></div>
-                                </div>
-                                <p class="text-center mt-2">Attendance: <strong><span id="attendancePercent">0</span>%</strong> (<span id="attendanceDays">0</span>/<span id="totalDays">0</span> days)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <!-- Homework -->
+        <div class="panel homework-area" aria-live="polite">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h3>Class Homework</h3>
+            <div class="small-muted">Showing only homework for your selected class</div>
+          </div>
+
+          <div class="hw-controls">
+            <div class="search">
+              <input id="hwSearch" placeholder="Search homework by keyword..." aria-label="Search homework">
+            </div>
+            <select id="classFilter" class="filter" aria-label="Filter class">
+              <option value="">All classes</option>
+            </select>
+            <button class="btn btn-ghost" id="refreshBtn">Refresh</button>
+            <button class="btn btn-primary" id="printHw">Print</button>
+          </div>
+
+          <div class="hw-list" id="hwList" aria-live="polite" aria-atomic="true"></div>
+        </div>
+
+        <!-- Teachers & Events -->
+        <div class="panel grid-2" style="margin-top:12px;">
+          <div>
+            <h4>Teachers</h4>
+            <div id="teachersList"></div>
+          </div>
+          <div>
+            <h4>Upcoming Events</h4>
+            <div id="eventsList"></div>
+          </div>
+        </div>
+
+        <!-- Notices -->
+        <div class="panel" style="margin-top:12px">
+          <h4>Notice Board</h4>
+          <div id="noticesList"></div>
+        </div>
+
+      </section>
+
+      <!-- Right sidebar -->
+      <aside>
+        <div class="panel sidebar">
+          <h4>Quick Tools</h4>
+          <div class="quick-search">
+            <input id="quickSearch" placeholder="Quick search homework / teachers / notices">
+          </div>
+          <div style="margin-top:10px" class="counts">
+            <div class="count"><h4 id="c1">0</h4><p class="small-muted">Homework</p></div>
+            <div class="count"><h4 id="c2">0</h4><p class="small-muted">Teachers</p></div>
+            <div class="count"><h4 id="c3">0</h4><p class="small-muted">Events</p></div>
+          </div>
+
+          <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:10px 0">
+
+          <h5>Gallery</h5>
+          <div class="gallery-grid" id="galleryGrid"></div>
+
+          <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:10px 0">
+
+          <button class="btn btn-ghost" id="viewMessages">View Messages</button>
+          <button class="btn btn-ghost" id="contactSchool">Contact School</button>
+        </div>
+
+        <div class="panel">
+          <h4>Timetable (Sample)</h4>
+          <div id="timetable"></div>
+        </div>
+      </aside>
     </main>
 
-    <footer class="footer">
-        <div class="container footer-container">
-            <div>
-                <p>&copy; <span id="currentYear">2023</span> School Web #1. All rights reserved.</p>
-                <p class="fs-sm text-muted">Made with ❤️ for students</p>
-            </div>
-            <div class="footer-links">
-                <a href="#" class="footer-link" id="aboutLink">About</a>
-                <a href="#" class="footer-link" id="privacyLink">Privacy</a>
-                <a href="#" class="footer-link" id="termsLink">Terms</a>
-                <a href="#" class="footer-link" id="contactLink">Contact</a>
-            </div>
-        </div>
+    <footer>
+      © <span id="year"></span> Milli Karwaan Public School, Balrampur · Address: Boluha Police Chowki · Phone: 9758919151
     </footer>
+  </div>
 
-    <button class="fab" id="scrollTopBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </button>
-
-    <div class="toast" id="toast">
-        <div class="toast-header">
-            <strong class="toast-title" id="toastTitle">Notification</strong>
-            <button class="close-btn" id="toastClose">&times;</button>
-        </div>
-        <div class="toast-body" id="toastBody">This is a notification.</div>
+  <!-- Lightbox -->
+  <div id="lightbox" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:9999">
+    <div style="max-width:90%;max-height:90%;position:relative">
+      <img id="lbImg" src="" alt="gallery image" style="max-width:100%;max-height:100%;border-radius:12px;display:block">
+      <button id="lbClose" style="position:absolute;top:-12px;right:-12px;background:#fff;border-radius:999px;padding:10px;border:none;cursor:pointer">✕</button>
     </div>
+  </div>
 
-    <div class="modal" id="aboutModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">About School Web #1</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>School Web #1</strong> is a comprehensive student dashboard that helps you manage your homework, track your progress, and get AI-powered assistance with your studies.</p>
-                    <p>Features include:</p>
-                    <ul>
-                        <li>Homework tracking with emoji visualization</li>
-                        <li>AI-powered homework assistant using Google Gemini</li>
-                        <li>Progress tracking and performance analytics</li>
-                        <li>Offline support with service worker</li>
-                        <li>PWA with install capability</li>
-                        <li>Dark mode and responsive design</li>
-                        <li>Data backup and restore functionality</li>
-                    </ul>
-                    <p>This application is designed to make school life easier for students of all ages.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary modal-close">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  <!-- Modals (hidden) -->
+  <div id="modalArea" class="hidden" aria-hidden="true"></div>
 
-    <div class="modal" id="privacyModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Privacy Policy</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Last Updated:</strong> <span id="policyDate">January 1, 2023</span></p>
-                    <h6>Information We Collect</h6>
-                    <p>We collect personal information that you provide to us, such as your name, class, and parent's name when you log in to the application.</p>
-                    <h6>How We Use Your Information</h6>
-                    <p>We use the information we collect to provide and improve our services, personalize your experience, and send you important updates about your academic progress.</p>
-                    <h6>Data Storage</h6>
-                    <p>Your data is stored locally on your device using localStorage. We do not transmit your personal information to any external servers.</p>
-                    <h6>Your Rights</h6>
-                    <p>You have the right to access, correct, or delete your personal information at any time by clearing your browser's localStorage.</p>
-                    <h6>Changes to This Policy</h6>
-                    <p>We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary modal-close">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  <script>
+  /************************************************************************
+   MKPS Dashboard - Functionality (heavy inline JS)
+   - localStorage keys (shared with admin.html in future):
+       mkps_student, mkps_homework, mkps_teachers, mkps_events, mkps_notices,
+       mkps_timetable, mkps_gallery, mkps_messages, mkps_update
+   - Expose helper functions for admin.html
+   ************************************************************************/
 
-    <div class="modal" id="termsModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Terms of Service</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Effective Date:</strong> <span id="termsDate">January 1, 2023</span></p>
-                    <h6>Acceptance of Terms</h6>
-                    <p>By accessing or using School Web #1, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.</p>
-                    <h6>Accounts</h6>
-                    <p>When you create an account, you must provide information that is accurate, complete, and current. You are responsible for safeguarding your password.</p>
-                    <h6>Intellectual Property</h6>
-                    <p>The service and its original content, features, and functionality are and will remain the exclusive property of School Web #1 and its licensors.</p>
-                    <h6>Termination</h6>
-                    <p>We may terminate or suspend your account immediately, without prior notice, for any reason whatsoever.</p>
-                    <h6>Changes</h6>
-                    <p>We reserve the right to modify or replace these Terms at any time. It is your responsibility to review these Terms periodically.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary modal-close">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  // -----------------------
+  // Configuration / API keys
+  // -----------------------
+  const GEMINI_KEYS = [
+    "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs", // primary
+    "AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU"  // fallback
+  ];
+  // Which generative endpoint (Google Generative Language)
+  const GEN_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
-    <div class="modal" id="contactModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Contact Us</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>If you have any questions or feedback about School Web #1, please don't hesitate to reach out to us.</p>
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="contactName" class="form-label">Your Name</label>
-                            <input type="text" id="contactName" class="form-control" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="contactEmail" class="form-label">Email Address</label>
-                            <input type="email" id="contactEmail" class="form-control" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="contactSubject" class="form-label">Subject</label>
-                            <input type="text" id="contactSubject" class="form-control" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="contactMessage" class="form-label">Message</label>
-                            <textarea id="contactMessage" class="form-control" rows="5" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Send Message</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+  // -----------------------
+  // Utility helpers
+  // -----------------------
+  function nowIso(){ return new Date().toISOString(); }
+  function uid(len=8){ return Math.random().toString(36).slice(2,2+len) }
+  function safeParse(s, fallback){ try{return JSON.parse(s);}catch(e){return fallback} }
 
-    <div class="modal" id="backupModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Backup Data</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Your data will be exported as a JSON file. This includes your homework, progress, and settings.</p>
-                    <div class="alert alert-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                        <span>Your data is stored locally on your device. This backup is for your personal records.</span>
-                    </div>
-                    <button class="btn btn-primary btn-block" id="downloadBackup">Download Backup</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  // LocalStorage wrappers
+  const storage = {
+    get(k){ return safeParse(localStorage.getItem(k), null) },
+    set(k,v){ localStorage.setItem(k, JSON.stringify(v)); window.localStorage.setItem('mkps_update', nowIso()) },
+    raw(k){ return localStorage.getItem(k) },
+    remove(k){ localStorage.removeItem(k); window.localStorage.setItem('mkps_update', nowIso()) }
+  };
 
-    <div class="modal" id="restoreModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Restore Data</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Select a backup file to restore your data. This will overwrite your current data.</p>
-                    <div class="alert alert-warning">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                        <span>This action cannot be undone. Make sure you have a backup of your current data.</span>
-                    </div>
-                    <input type="file" id="restoreFile" accept=".json" class="form-control" />
-                    <button class="btn btn-primary btn-block mt-3" id="restoreData">Restore Data</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  // -----------------------
+  // Seed demo data (only if missing)
+  // -----------------------
+  function seedDemoData(){
+    if(!storage.get('mkps_homework')){
+      const homework = {
+        "1":[
+          {id:uid(),date:"2025-08-01",subject:"Mathematics",teacher:"Arif Khan",body:"Practice numbers 1–50. Draw shapes worksheet."},
+          {id:uid(),date:"2025-08-02",subject:"English",teacher:"Alka Sharma",body:"Learn A-F letters and practice writing."}
+        ],
+        "2":[
+          {id:uid(),date:"2025-08-01",subject:"Mathematics",teacher:"Arif Khan",body:"Tables 2 and 3. Worksheet pages 3-4."},
+          {id:uid(),date:"2025-08-02",subject:"Science",teacher:"Shruti Verma",body:"Collect leaves from 3 plants and paste them."}
+        ],
+        "3":[
+          {id:uid(),date:"2025-08-03",subject:"Mathematics",teacher:"Arif Khan",body:"Simple fractions, worksheets."}
+        ],
+        "4":[
+          {id:uid(),date:"2025-08-03",subject:"Science",teacher:"Shruti Verma",body:"Solar system reading: pages 12-15."}
+        ],
+        "5":[
+          {id:uid(),date:"2025-08-04",subject:"English",teacher:"Prakash Singh",body:"Write an essay on school safety."}
+        ],
+        "6":[
+          {id:uid(),date:"2025-08-05",subject:"Computer Science",teacher:"Riya Thomas",body:"Intro to algorithms: write a recipe as steps."}
+        ],
+        "7":[
+          {id:uid(),date:"2025-08-05",subject:"Social Studies",teacher:"Neeraj Gupta",body:"Map work: mark important rivers."}
+        ],
+        "8":[
+          {id:uid(),date:"2025-08-06",subject:"Science",teacher:"Shruti Verma",body:"Periodic table assignment: learn first 10 elements."}
+        ]
+      };
+      localStorage.setItem('mkps_homework', JSON.stringify(homework));
+    }
 
-    <div class="modal" id="adminModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Admin Access</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter the admin password to access the admin panel.</p>
-                    <div class="form-group">
-                        <label for="adminPassword" class="form-label">Password</label>
-                        <input type="password" id="adminPassword" class="form-control" />
-                    </div>
-                    <button class="btn btn-primary btn-block" id="adminLogin">Login</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    if(!storage.get('mkps_teachers')){
+      const teachers = [
+        {id:uid(),name:"Arif Khan",subject:"Mathematics",phone:"",email:"",photo:"https://placehold.co/200x200?text=Arif"},
+        {id:uid(),name:"Shruti Verma",subject:"Science",phone:"",email:"",photo:"https://placehold.co/200x200?text=Shruti"},
+        {id:uid(),name:"Prakash Singh",subject:"English",phone:"",email:"",photo:"https://placehold.co/200x200?text=Prakash"},
+        {id:uid(),name:"Riya Thomas",subject:"Computer Science",phone:"",email:"",photo:"https://placehold.co/200x200?text=Riya"},
+        {id:uid(),name:"Neeraj Gupta",subject:"Social Studies",phone:"",email:"",photo:"https://placehold.co/200x200?text=Neeraj"},
+        {id:uid(),name:"Alka Sharma",subject:"Hindi",phone:"",email:"",photo:"https://placehold.co/200x200?text=Alka"}
+      ];
+      localStorage.setItem('mkps_teachers', JSON.stringify(teachers));
+    }
 
-    <div class="modal" id="clearCacheModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Clear Cache</h5>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to clear all cached data? This will remove your homework, progress, and settings.</p>
-                    <div class="alert alert-danger">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                        <span>This action cannot be undone. Make sure you have backed up your data.</span>
-                    </div>
-                    <button class="btn btn-danger btn-block" id="confirmClearCache">Clear Cache</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    if(!storage.get('mkps_events')){
+      const events = [
+        {id:uid(),title:"Independence Day Program",date:"2025-08-15",time:"09:00",location:"School Ground",desc:"Flag hoisting and cultural program."},
+        {id:uid(),title:"Annual Sports Meet",date:"2025-09-10",time:"07:30",location:"Sports Field",desc:"Athletics and group games."}
+      ];
+      localStorage.setItem('mkps_events', JSON.stringify(events));
+    }
 
-    <div class="offline-banner" id="offlineBanner">
-        You are offline. Some features may not work.
-    </div>
+    if(!storage.get('mkps_notices')){
+      const notices = [
+        {id:uid(),title:"Covid Guidelines Update",date:"2025-07-10",priority:"high",body:"Mask recommended for all visitors."},
+        {id:uid(),title:"Library Timing",date:"2025-07-20",priority:"low",body:"Library open 8:00 AM - 2:00 PM."}
+      ];
+      localStorage.setItem('mkps_notices', JSON.stringify(notices));
+    }
 
-    <script>
-        // Mock data for homework topics by class
-        const homeworkTopics = {
-            1: [
-                { emoji: "✏️", subject: "Writing", topic: "Practice writing your name", difficulty: "Easy" },
-                { emoji: "🎨", subject: "Art", topic: "Draw your family", difficulty: "Easy" },
-                { emoji: "🧮", subject: "Math", topic: "Count objects from 1 to 10", difficulty: "Easy" },
-                { emoji: "🎵", subject: "Music", topic: "Learn a nursery rhyme", difficulty: "Easy" },
-                { emoji: "📖", subject: "Reading", topic: "Read a picture book", difficulty: "Easy" },
-                { emoji: "✂️", subject: "Craft", topic: "Make a paper airplane", difficulty: "Easy" },
-                { emoji: "🍎", subject: "Science", topic: "Identify fruits and vegetables", difficulty: "Easy" },
-                { emoji: "🏃", subject: "PE", topic: "Practice jumping", difficulty: "Easy" }
-            ],
-            2: [
-                { emoji: "📝", subject: "Writing", topic: "Write a short story about your pet", difficulty: "Easy" },
-                { emoji: "➕", subject: "Math", topic: "Addition and subtraction up to 20", difficulty: "Easy" },
-                { emoji: "🌍", subject: "Geography", topic: "Color the map of your country", difficulty: "Easy" },
-                { emoji: "🔬", subject: "Science", topic: "Observe plants in your garden", difficulty: "Medium" },
-                { emoji: "📖", subject: "Reading", topic: "Read a chapter book", difficulty: "Easy" },
-                { emoji: "🎨", subject: "Art", topic: "Create a landscape drawing", difficulty: "Easy" },
-                { emoji: "🎵", subject: "Music", topic: "Practice a simple melody", difficulty: "Easy" },
-                { emoji: "🏃", subject: "PE", topic: "Learn a new game", difficulty: "Easy" }
-            ],
-            3: [
-                { emoji: "✍️", subject: "Writing", topic: "Write a letter to a friend", difficulty: "Easy" },
-                { emoji: "✖️", subject: "Math", topic: "Multiplication tables 1-5", difficulty: "Medium" },
-                { emoji: "🗺️", subject: "Geography", topic: "Label continents on a map", difficulty: "Medium" },
-                { emoji: "🔬", subject: "Science", topic: "Experiment with magnets", difficulty: "Medium" },
-                { emoji: "📖", subject: "Reading", topic: "Summarize a book chapter", difficulty: "Medium" },
-                { emoji: "🎨", subject: "Art", topic: "Create a collage", difficulty: "Easy" },
-                { emoji: "🎵", subject: "Music", topic: "Learn musical notes", difficulty: "Medium" },
-                { emoji: "🏃", subject: "PE", topic: "Practice team sports", difficulty: "Easy" }
-            ],
-            4: [
-                { emoji: "📝", subject: "Writing", topic: "Write a report on a historical figure", difficulty: "Medium" },
-                { emoji: "➗", subject: "Math", topic: "Division problems", difficulty: "Medium" },
-                { emoji: "🌎", subject: "Geography", topic: "Research a foreign country", difficulty: "Medium" },
-                { emoji: "🔬", subject: "Science", topic: "Study the water cycle", difficulty: "Medium" },
-                { emoji: "📖", subject: "Reading", topic: "Analyze a poem", difficulty: "Medium" },
-                { emoji: "🎨", subject: "Art", topic: "Paint with watercolors", difficulty: "Medium" },
-                { emoji: "🎵", subject: "Music", topic: "Compose a simple song", difficulty: "Medium" },
-                { emoji: "🧪", subject: "Science", topic: "Create a volcano model", difficulty: "Medium" }
-            ],
-            5: [
-                { emoji: "✍️", subject: "Writing", topic: "Write a persuasive essay", difficulty: "Medium" },
-                { emoji: "🧮", subject: "Math", topic: "Fractions and decimals", difficulty: "Medium" },
-                { emoji: "🌍", subject: "Geography", topic: "Study climate zones", difficulty: "Medium" },
-                { emoji: "🔬", subject: "Science", topic: "Explore the solar system", difficulty: "Medium" },
-                { emoji: "📖", subject: "Reading", topic: "Compare two novels", difficulty: "Medium" },
-                { emoji: "🎨", subject: "Art", topic: "Create a perspective drawing", difficulty: "Medium" },
-                { emoji: "🎵", subject: "Music", topic: "Learn to read sheet music", difficulty: "Medium" },
-                { emoji: "🧪", subject: "Science", topic: "Conduct a chemistry experiment", difficulty: "Hard" }
-            ],
-            6: [
-                { emoji: "📝", subject: "Writing", topic: "Write a research paper", difficulty: "Medium" },
-                { emoji: "✖️", subject: "Math", topic: "Algebraic expressions", difficulty: "Hard" },
-                { emoji: "🗺️", subject: "Geography", topic: "Analyze population density", difficulty: "Medium" },
-                { emoji: "🔬", subject: "Science", topic: "Study human anatomy", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Analyze literary devices", difficulty: "Medium" },
-                { emoji: "🎨", subject: "Art", topic: "Create a sculpture", difficulty: "Medium" },
-                { emoji: "🎵", subject: "Music", topic: "Learn music theory", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Investigate ecosystems", difficulty: "Hard" }
-            ],
-            7: [
-                { emoji: "✍️", subject: "Writing", topic: "Write a literary analysis", difficulty: "Hard" },
-                { emoji: "➗", subject: "Math", topic: "Geometry proofs", difficulty: "Hard" },
-                { emoji: "🌎", subject: "Geography", topic: "Study global economic systems", difficulty: "Hard" },
-                { emoji: "🔬", subject: "Science", topic: "Explore genetics", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Critique a novel", difficulty: "Hard" },
-                { emoji: "🎨", subject: "Art", topic: "Study art history", difficulty: "Medium" },
-                { emoji: "🎵", subject: "Music", topic: "Compose a piece of music", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Conduct a physics experiment", difficulty: "Hard" }
-            ],
-            8: [
-                { emoji: "📝", subject: "Writing", topic: "Write a thesis statement", difficulty: "Hard" },
-                { emoji: "🧮", subject: "Math", topic: "Trigonometry problems", difficulty: "Hard" },
-                { emoji: "🌍", subject: "Geography", topic: "Analyze geopolitical conflicts", difficulty: "Hard" },
-                { emoji: "🔬", subject: "Science", topic: "Study cellular biology", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Analyze complex texts", difficulty: "Hard" },
-                { emoji: "🎨", subject: "Art", topic: "Create a portfolio", difficulty: "Hard" },
-                { emoji: "🎵", subject: "Music", topic: "Perform a recital", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Investigate chemical reactions", difficulty: "Hard" }
-            ],
-            9: [
-                { emoji: "✍️", subject: "Writing", topic: "Write a college application essay", difficulty: "Hard" },
-                { emoji: "✖️", subject: "Math", topic: "Quadratic equations", difficulty: "Hard" },
-                { emoji: "🗺️", subject: "Geography", topic: "Study urban planning", difficulty: "Hard" },
-                { emoji: "🔬", subject: "Science", topic: "Explore environmental science", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Analyze Shakespeare", difficulty: "Hard" },
-                { emoji: "🎨", subject: "Art", topic: "Develop a personal style", difficulty: "Hard" },
-                { emoji: "🎵", subject: "Music", topic: "Master an instrument", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Conduct independent research", difficulty: "Hard" }
-            ],
-            10: [
-                { emoji: "📝", subject: "Writing", topic: "Write a research proposal", difficulty: "Hard" },
-                { emoji: "➗", subject: "Math", topic: "Calculus problems", difficulty: "Hard" },
-                { emoji: "🌎", subject: "Geography", topic: "Analyze climate change", difficulty: "Hard" },
-                { emoji: "🔬", subject: "Science", topic: "Study advanced physics", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Critique philosophical texts", difficulty: "Hard" },
-                { emoji: "🎨", subject: "Art", topic: "Prepare for art school", difficulty: "Hard" },
-                { emoji: "🎵", subject: "Music", topic: "Compose a symphony", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Investigate quantum mechanics", difficulty: "Hard" }
-            ],
-            11: [
-                { emoji: "✍️", subject: "Writing", topic: "Write a scientific paper", difficulty: "Hard" },
-                { emoji: "🧮", subject: "Math", topic: "Advanced calculus", difficulty: "Hard" },
-                { emoji: "🌍", subject: "Geography", topic: "Study global development", difficulty: "Hard" },
-                { emoji: "🔬", subject: "Science", topic: "Explore astrophysics", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Analyze complex literature", difficulty: "Hard" },
-                { emoji: "🎨", subject: "Art", topic: "Create a thesis exhibition", difficulty: "Hard" },
-                { emoji: "🎵", subject: "Music", topic: "Produce a recording", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Conduct lab research", difficulty: "Hard" }
-            ],
-            12: [
-                { emoji: "📝", subject: "Writing", topic: "Write a dissertation", difficulty: "Hard" },
-                { emoji: "✖️", subject: "Math", topic: "Advanced statistics", difficulty: "Hard" },
-                { emoji: "🗺️", subject: "Geography", topic: "Analyze global migration", difficulty: "Hard" },
-                { emoji: "🔬", subject: "Science", topic: "Study molecular biology", difficulty: "Hard" },
-                { emoji: "📖", subject: "Reading", topic: "Critique academic journals", difficulty: "Hard" },
-                { emoji: "🎨", subject: "Art", topic: "Develop a professional portfolio", difficulty: "Hard" },
-                { emoji: "🎵", subject: "Music", topic: "Compose a concerto", difficulty: "Hard" },
-                { emoji: "🧪", subject: "Science", topic: "Publish research findings", difficulty: "Hard" }
-            ]
-        };
+    if(!storage.get('mkps_timetable')){
+      const tt = {
+        "1":[["Math","English","Play"],["Hindi","Arts","Math"]],
+        "2":[["Math","Science","English"],["Sports","Hindi","Math"]],
+        "3":[["Math","Science","English"],["Computer","Hindi","Arts"]],
+        "4":[["Math","Science","English"],["Computer","Hindi","Arts"]],
+        "5":[["Math","Science","English"],["Computer","Hindi","Arts"]],
+        "6":[["Math","Science","English"],["Computer","Hindi","Social"]],
+        "7":[["Math","Science","English"],["Computer","Hindi","Social"]],
+        "8":[["Math","Science","English"],["Computer","Hindi","Social"]]
+      };
+      localStorage.setItem('mkps_timetable', JSON.stringify(tt));
+    }
 
-        // Mock data for schedules
-        const schedules = {
-            1: [
-                { time: "9:00-9:30", subject: "Morning Meeting", emoji: "👋" },
-                { time: "9:30-10:15", subject: "Math", emoji: "🧮" },
-                { time: "10:15-11:00", subject: "Reading", emoji: "📖" },
-                { time: "11:00-11:30", subject: "Recess", emoji: "🍎" },
-                { time: "11:30-12:15", subject: "Writing", emoji: "✏️" },
-                { time: "12:15-1:00", subject: "Lunch", emoji: "🥪" },
-                { time: "1:00-1:45", subject: "Art", emoji: "🎨" },
-                { time: "1:45-2:30", subject: "Science", emoji: "🔬" },
-                { time: "2:30-3:00", subject: "Dismissal", emoji: "🚌" }
-            ],
-            2: [
-                { time: "8:30-9:00", subject: "Morning Work", emoji: "✍️" },
-                { time: "9:00-9:45", subject: "Math", emoji: "➕" },
-                { time: "9:45-10:30", subject: "Reading", emoji: "📖" },
-                { time: "10:30-11:00", subject: "Recess", emoji: "🏃" },
-                { time: "11:00-11:45", subject: "Writing", emoji: "📝" },
-                { time: "11:45-12:30", subject: "Lunch", emoji: "🍕" },
-                { time: "12:30-1:15", subject: "Science", emoji: "🔬" },
-                { time: "1:15-2:00", subject: "Social Studies", emoji: "🌍" },
-                { time: "2:00-2:45", subject: "Music", emoji: "🎵" },
-                { time: "2:45-3:15", subject: "Dismissal", emoji: "🚌" }
-            ],
-            3: [
-                { time: "8:00-8:30", subject: "Morning Meeting", emoji: "👋" },
-                { time: "8:30-9:15", subject: "Math", emoji: "✖️" },
-                { time: "9:15-10:00", subject: "Reading", emoji: "📖" },
-                { time: "10:00-10:30", subject: "Recess", emoji: "🍎" },
-                { time: "10:30-11:15", subject: "Writing", emoji: "✍️" },
-                { time: "11:15-12:00", subject: "Lunch", emoji: "🥪" },
-                { time: "12:00-12:45", subject: "Science", emoji: "🔬" },
-                { time: "12:45-1:30", subject: "Social Studies", emoji: "🗺️" },
-                { time: "1:30-2:15", subject: "Art", emoji: "🎨" },
-                { time: "2:15-3:00", subject: "PE", emoji: "🏃" },
-                { time: "3:00-3:30", subject: "Dismissal", emoji: "🚌" }
-            ],
-            4: [
-                { time: "7:45-8:15", subject: "Morning Work", emoji: "✍️" },
-                { time: "8:15-9:00", subject: "Math", emoji: "➗" },
-                { time: "9:00-9:45", subject: "Reading", emoji: "📖" },
-                { time: "9:45-10:15", subject: "Recess", emoji: "🍎" },
-                { time: "10:15-11:00", subject: "Writing", emoji: "📝" },
-                { time: "11:00-11:45", subject: "Science", emoji: "🔬" },
-                { time: "11:45-12:30", subject: "Lunch", emoji: "🍕" },
-                { time: "12:30-1:15", subject: "Social Studies", emoji: "🌎" },
-                { time: "1:15-2:00", subject: "Music", emoji: "🎵" },
-                { time: "2:00-2:45", subject: "Art", emoji: "🎨" },
-                { time: "2:45-3:30", subject: "Dismissal", emoji: "🚌" }
-            ],
-            5: [
-                { time: "7:30-8:00", subject: "Morning Meeting", emoji: "👋" },
-                { time: "8:00-8:45", subject: "Math", emoji: "🧮" },
-                { time: "8:45-9:30", subject: "Reading", emoji: "📖" },
-                { time: "9:30-10:00", subject: "Recess", emoji: "🍎" },
-                { time: "10:00-10:45", subject: "Writing", emoji: "✍️" },
-                { time: "10:45-11:30", subject: "Science", emoji: "🔬" },
-                { time: "11:30-12:15", subject: "Lunch", emoji: "🥪" },
-                { time: "12:15-1:00", subject: "Social Studies", emoji: "🌍" },
-                { time: "1:00-1:45", subject: "Music", emoji: "🎵" },
-                { time: "1:45-2:30", subject: "Art", emoji: "🎨" },
-                { time: "2:30-3:15", subject: "PE", emoji: "🏃" },
-                { time: "3:15-3:45", subject: "Dismissal", emoji: "🚌" }
-            ],
-            6: [
-                { time: "7:15-7:45", subject: "Homeroom", emoji: "🏫" },
-                { time: "7:45-8:30", subject: "Math", emoji: "✖️" },
-                { time: "8:30-9:15", subject: "ELA", emoji: "📖" },
-                { time: "9:15-10:00", subject: "Science", emoji: "🔬" },
-                { time: "10:00-10:30", subject: "Recess", emoji: "🍎" },
-                { time: "10:30-11:15", subject: "Social Studies", emoji: "🗺️" },
-                { time: "11:15-12:00", subject: "Lunch", emoji: "🍕" },
-                { time: "12:00-12:45", subject: "Elective", emoji: "🎨" },
-                { time: "12:45-1:30", subject: "PE", emoji: "🏃" },
-                { time: "1:30-2:15", subject: "Music", emoji: "🎵" },
-                { time: "2:15-3:00", subject: "Study Hall", emoji: "📚" },
-                { time: "3:00-3:30", subject: "Dismissal", emoji: "🚌" }
-            ],
-            7: [
-                { time: "7:00-7:30", subject: "Homeroom", emoji: "🏫" },
-                { time: "7:30-8:15", subject: "Math", emoji: "➗" },
-                { time: "8:15-9:00", subject: "ELA", emoji: "📖" },
-                { time: "9:00-9:45", subject: "Science", emoji: "🔬" },
-                { time: "9:45-10:30", subject: "Social Studies", emoji: "🌎" },
-                { time: "10:30-11:00", subject: "Break", emoji: "🍎" },
-                { time: "11:00-11:45", subject: "Elective", emoji: "🎨" },
-                { time: "11:45-12:30", subject: "Lunch", emoji: "🍕" },
-                { time: "12:30-1:15", subject: "PE", emoji: "🏃" },
-                { time: "1:15-2:00", subject: "Music", emoji: "🎵" },
-                { time: "2:00-2:45", subject: "Study Hall", emoji: "📚" },
-                { time: "2:45-3:30", subject: "Dismissal", emoji: "🚌" }
-            ],
-            8: [
-                { time: "6:45-7:15", subject: "Homeroom", emoji: "🏫" },
-                { time: "7:15-8:00", subject: "Math", emoji: "🧮" },
-                { time: "8:00-8:45", subject: "ELA", emoji: "📖" },
-                { time: "8:45-9:30", subject: "Science", emoji: "🔬" },
-                { time: "9:30-10:15", subject: "Social Studies", emoji: "🌍" },
-                { time: "10:15-10:45", subject: "Break", emoji: "🍎" },
-                { time: "10:45-11:30", subject: "Elective", emoji: "🎨" },
-                { time: "11:30-12:15", subject: "Lunch", emoji: "🍕" },
-                { time: "12:15-1:00", subject: "PE", emoji: "🏃" },
-                { time: "1:00-1:45", subject: "Music", emoji: "🎵" },
-                { time: "1:45-2:30", subject: "Study Hall", emoji: "📚" },
-                { time: "2:30-3:15", subject: "Dismissal", emoji: "🚌" }
-            ],
-            9: [
-                { time: "6:30-7:00", subject: "Homeroom", emoji: "🏫" },
-                { time: "7:00-7:45", subject: "Math", emoji: "✖️" },
-                { time: "7:45-8:30", subject: "ELA", emoji: "📖" },
-                { time: "8:30-9:15", subject: "Science", emoji: "🔬" },
-                { time: "9:15-10:00", subject: "Social Studies", emoji: "🗺️" },
-                { time: "10:00-10:30", subject: "Break", emoji: "🍎" },
-                { time: "10:30-11:15", subject: "Elective", emoji: "🎨" },
-                { time: "11:15-12:00", subject: "Lunch", emoji: "🍕" },
-                { time: "12:00-12:45", subject: "PE", emoji: "🏃" },
-                { time: "12:45-1:30", subject: "Music", emoji: "🎵" },
-                { time: "1:30-2:15", subject: "Study Hall", emoji: "📚" },
-                { time: "2:15-3:00", subject: "Dismissal", emoji: "🚌" }
-            ],
-            10: [
-                { time: "6:15-6:45", subject: "Homeroom", emoji: "🏫" },
-                { time: "6:45-7:30", subject: "Math", emoji: "➗" },
-                { time: "7:30-8:15", subject: "ELA", emoji: "📖" },
-                { time: "8:15-9:00", subject: "Science", emoji: "🔬" },
-                { time: "9:00-9:45", subject: "Social Studies", emoji: "🌎" },
-                { time: "9:45-10:15", subject: "Break", emoji: "🍎" },
-                { time: "10:15-11:00", subject: "Elective", emoji: "🎨" },
-                { time: "11:00-11:45", subject: "Lunch", emoji: "🍕" },
-                { time: "11:45-12:30", subject: "PE", emoji: "🏃" },
-                { time: "12:30-1:15", subject: "Music", emoji: "🎵" },
-                { time: "1:15-2:00", subject: "Study Hall", emoji: "📚" },
-                { time: "2:00-2:45", subject: "Dismissal", emoji: "🚌" }
-            ],
-            11: [
-                { time: "6:00-6:30", subject: "Homeroom", emoji: "🏫" },
-                { time: "6:30-7:15", subject: "Math", emoji: "🧮" },
-                { time: "7:15-8:00", subject: "ELA", emoji: "📖" },
-                { time: "8:00-8:45", subject: "Science", emoji: "🔬" },
-                { time: "8:45-9:30", subject: "Social Studies", emoji: "🌍" },
-                { time: "9:30-10:00", subject: "Break", emoji: "🍎" },
-                { time: "10:00-10:45", subject: "Elective", emoji: "🎨" },
-                { time: "10:45-11:30", subject: "Lunch", emoji: "🍕" },
-                { time: "11:30-12:15", subject: "PE", emoji: "🏃" },
-                { time: "12:15-1:00", subject: "Music", emoji: "🎵" },
-                { time: "1:00-1:45", subject: "Study Hall", emoji: "📚" },
-                { time: "1:45-2:30", subject: "Dismissal", emoji: "🚌" }
-            ],
-            12: [
-                { time: "5:45-6:15", subject: "Homeroom", emoji: "🏫" },
-                { time: "6:15-7:00", subject: "Math", emoji: "✖️" },
-                { time: "7:00-7:45", subject: "ELA", emoji: "📖" },
-                { time: "7:45-8:30", subject: "Science", emoji: "🔬" },
-                { time: "8:30-9:15", subject: "Social Studies", emoji: "🗺️" },
-                { time: "9:15-9:45", subject: "Break", emoji: "🍎" },
-                { time: "9:45-10:30", subject: "Elective", emoji: "🎨" },
-                { time: "10:30-11:15", subject: "Lunch", emoji: "🍕" },
-                { time: "11:15-12:00", subject: "PE", emoji: "🏃" },
-                { time: "12:00-12:45", subject: "Music", emoji: "🎵" },
-                { time: "12:45-1:30", subject: "Study Hall", emoji: "📚" },
-                { time: "1:30-2:15", subject: "Dismissal", emoji: "🚌" }
-            ]
-        };
+    if(!storage.get('mkps_gallery')){
+      const gallery = [
+        {id:uid(),src:"https://placehold.co/600x400?text=School+1",caption:"Campus view"},
+        {id:uid(),src:"https://placehold.co/600x400?text=School+2",caption:"Assembly"},
+        {id:uid(),src:"https://placehold.co/600x400?text=School+3",caption:"Sports Day"}
+      ];
+      localStorage.setItem('mkps_gallery', JSON.stringify(gallery));
+    }
 
-        // Mock data for reminders
-        const reminders = [
-            { text: "Don't forget your permission slip for the field trip!", emoji: "📋", type: "warning", time: "today" },
-            { text: "Library books due tomorrow", emoji: "📚", type: "info", time: "tomorrow" },
-            { text: "Math test on Friday", emoji: "✏️", type: "danger", time: "this week" },
-            { text: "Parent-teacher conference next week", emoji: "👨‍👩‍👧", type: "info", time: "next week" },
-            { text: "School play auditions this Friday", emoji: "🎭", type: "success", time: "this week" },
-            { text: "Bring gym clothes for PE", emoji: "👕", type: "info", time: "today" },
-            { text: "Science project due in two weeks", emoji: "🔬", type: "warning", time: "next week" },
-            { text: "No school on Monday - Holiday", emoji: "🎉", type: "success", time: "next week" }
-        ];
+    if(!storage.get('mkps_messages')){
+      localStorage.setItem('mkps_messages', JSON.stringify([]));
+    }
 
-        // Mock data for achievements
-        const achievements = [
-            { name: "Perfect Attendance", emoji: "⭐", description: "Attended school every day this month", unlocked: true },
-            { name: "Math Whiz", emoji: "🧠", description: "Scored 100% on three math tests", unlocked: true },
-            { name: "Reading Champion", emoji: "🏆", description: "Read 10 books this semester", unlocked: true },
-            { name: "Science Fair Winner", emoji: "🔬", description: "Won first place in science fair", unlocked: false },
-            { name: "Artistic Talent", emoji: "🎨", description: "Artwork displayed in school hallway", unlocked: true },
-            { name: "Helping Hand", emoji: "🤝", description: "Helped classmates with their work", unlocked: true },
-            { name: "Sports Star", emoji: "⚽", description: "Scored winning goal in soccer game", unlocked: false },
-            { name: "Most Improved", emoji: "📈", description: "Improved grades in all subjects", unlocked: true }
-        ];
+    // set some analytics counters (seed)
+    if(!localStorage.getItem('mkps_meta')){
+      localStorage.setItem('mkps_meta', JSON.stringify({
+        students:1245, teachers:12, notices:2, photos:3
+      }));
+    }
+  }
 
-        // Mock data for goals
-        const goals = [
-            { title: "Improve Math Grade", current: 78, target: 90, unit: "points", emoji: "📈" },
-            { title: "Read 5 More Books", current: 8, target: 13, unit: "books", emoji: "📚" },
-            { title: "Complete Homework on Time", current: 12, target: 20, unit: "assignments", emoji: "✅" },
-            { title: "Practice Piano", current: 8, target: 15, unit: "hours", emoji: "🎵" }
-        ];
+  // Run seeding at load
+  seedDemoData();
 
-        // App state
-        let userData = {
-            name: '',
-            cls: '',
-            parent: '',
-            homework: [],
-            progress: {
-                attendance: {
-                    present: 85,
-                    total: 100
-                },
-                subjects: {
-                    math: 85,
-                    science: 92,
-                    english: 78,
-                    history: 88,
-                    art: 95
-                }
-            },
-            reminders: [],
-            achievements: [],
-            settings: {
-                darkMode: false,
-                notifications: true,
-                theme: 'default'
-            }
-        };
+  // -----------------------
+  // Read current logged-in student (from index.html)
+  // -----------------------
+  const currentStudent = storage.get('mkps_student');
+  if(!currentStudent){
+    // No student — redirect back to index
+    console.warn('No mkps_student found — redirecting to index.');
+    setTimeout(()=>{ location.href = 'index.html' }, 600);
+  }
 
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set current year
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            document.getElementById('policyDate').textContent = formatDate(new Date());
-            document.getElementById('termsDate').textContent = formatDate(new Date());
+  // -----------------------
+  // Render functions
+  // -----------------------
+  function renderHeaderInfo(){
+    const name = currentStudent?.name || 'Student';
+    const cls = currentStudent?.class || '—';
+    const parent = currentStudent?.parent || currentStudent?.email || '—';
+    document.getElementById('welcomeTitle').textContent = `Welcome, ${name}`;
+    document.getElementById('welcomeSub').textContent = `Class: ${cls} · Parent: ${parent}`;
+    document.getElementById('year').textContent = new Date().getFullYear();
+  }
 
-            // Load user data from localStorage
-            loadData();
+  function renderStats(){
+    const meta = safeParse(localStorage.getItem('mkps_meta'), {students:'—',teachers:'—',notices:'—',photos:'—'});
+    document.getElementById('cntStudents').textContent = meta.students ?? '—';
+    document.getElementById('cntTeachers').textContent = meta.teachers ?? '—';
+    document.getElementById('cntNotices').textContent = meta.notices ?? '—';
+    document.getElementById('cntPhotos').textContent = meta.photos ?? '—';
+  }
 
-            // Initialize UI
-            initUI();
+  // Populate class filter (1-12 but index only 1-8 requested)
+  function populateClassFilter(){
+    const sel = document.getElementById('classFilter');
+    sel.innerHTML = '<option value="">All classes</option>';
+    for(let i=1;i<=12;i++){
+      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = `Class ${i}`;
+      if(i<=8) sel.appendChild(opt); // show 1-8 by default, but value supports up to 12
+    }
+    if(currentStudent?.class) sel.value = currentStudent.class;
+  }
 
-            // Set up event listeners
-            setupEventListeners();
+  // Render homework for selected class (or student's class)
+  function renderHomework(filterKeyword='', filterClass=''){
+    const allHw = safeParse(localStorage.getItem('mkps_homework'), {});
+    const hwContainer = document.getElementById('hwList'); hwContainer.innerHTML = '';
+    // determine which class to show by default: student's class
+    const defaultClass = String(currentStudent?.class || (filterClass || ''));
+    const activeClass = filterClass || defaultClass || '';
+    // If no activeClass, gather all classes
+    const classesToShow = activeClass ? [activeClass] : Object.keys(allHw).sort();
+    const results = [];
+    classesToShow.forEach(cls => {
+      const items = allHw[cls] || [];
+      items.forEach(item => {
+        // basic keyword filter
+        const hay = `${item.subject} ${item.teacher} ${item.body} ${item.date} ${cls}`.toLowerCase();
+        if(!filterKeyword || hay.includes(filterKeyword.toLowerCase())){
+          results.push(Object.assign({class:cls}, item));
+        }
+      });
+    });
 
-            // Check installation status
-            checkInstallability();
+    // sort by date desc
+    results.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+    if(results.length===0){
+      hwContainer.innerHTML = '<div class="muted">No homework found for the selected class / search.</div>';
+      document.getElementById('c1').textContent = 0;
+      return;
+    }
 
-            // Check online status
-            updateOnlineStatus();
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
+    document.getElementById('c1').textContent = results.length;
 
-            // Show toast notification
-            showToast('Welcome back, ' + userData.name + '!', 'success');
+    results.forEach(item=>{
+      const card = document.createElement('article'); card.className='hw-card';
+      const meta = document.createElement('div'); meta.className='hw-meta';
+      const title = document.createElement('div'); title.innerHTML = `<div class="hw-title">${item.subject} <span class="pill">Class ${item.class}</span></div>`;
+      const date = document.createElement('div'); date.innerHTML = `<div class="muted">${item.date}</div>`;
+      meta.appendChild(title); meta.appendChild(date);
+
+      const sub = document.createElement('div'); sub.className='hw-sub'; sub.textContent = `Teacher: ${item.teacher || '—'}`;
+
+      const body = document.createElement('div'); body.className='hw-body'; body.textContent = item.body || '';
+
+      card.appendChild(meta); card.appendChild(sub); card.appendChild(body);
+
+      // quick actions
+      const actions = document.createElement('div'); actions.style.marginTop='10px'; actions.style.display='flex'; actions.style.gap='8px';
+      const saveBtn = document.createElement('button'); saveBtn.className='btn btn-ghost'; saveBtn.textContent='Save PDF';
+      saveBtn.onclick = ()=> downloadHomeworkSnapshot([item]);
+      const shareBtn = document.createElement('button'); shareBtn.className='btn btn-ghost'; shareBtn.textContent='Share';
+      shareBtn.onclick = ()=> { navigator.share ? navigator.share({title:'Homework',text:`${item.subject} — ${item.body}`}) : alert('Share not available on this device') }
+      actions.appendChild(saveBtn); actions.appendChild(shareBtn);
+      card.appendChild(actions);
+
+      hwContainer.appendChild(card);
+    });
+  }
+
+  // Render teachers
+  function renderTeachers(){
+    const teachers = safeParse(localStorage.getItem('mkps_teachers'), []);
+    const container = document.getElementById('teachersList'); container.innerHTML='';
+    document.getElementById('c2').textContent = teachers.length || 0;
+    teachers.forEach(t=>{
+      const el = document.createElement('div'); el.className='teacher-card';
+      el.innerHTML = `<div class="teacher-avatar"><img alt="${t.name}" src="${t.photo || 'https://placehold.co/200x200?text=Teacher'}"></div>
+                      <div class="teacher-info"><h4>${t.name}</h4><p class="muted">${t.subject}</p></div>`;
+      container.appendChild(el);
+    });
+  }
+
+  // Render events
+  function renderEvents(){
+    const events = safeParse(localStorage.getItem('mkps_events'), []);
+    const container = document.getElementById('eventsList'); container.innerHTML='';
+    document.getElementById('c3').textContent = events.length || 0;
+    events.forEach(ev=>{
+      const el = document.createElement('div'); el.style.marginBottom='8px';
+      el.innerHTML = `<strong>${ev.title}</strong><div class="muted">${ev.date} • ${ev.time} • ${ev.location}</div><div style="margin-top:6px">${ev.desc}</div>`;
+      container.appendChild(el);
+    });
+  }
+
+  // Render notices
+  function renderNotices(){
+    const notices = safeParse(localStorage.getItem('mkps_notices'), []);
+    const container = document.getElementById('noticesList'); container.innerHTML='';
+    notices.forEach(n=>{
+      const el = document.createElement('div'); el.style.padding='10px'; el.style.marginBottom='8px'; el.style.borderRadius='10px';
+      el.style.background = n.priority==='high' ? 'linear-gradient(90deg,rgba(255,80,80,0.06),rgba(255,80,80,0.02))' : 'rgba(255,255,255,0.02)';
+      el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><strong>${n.title}</strong><span class="small-muted">${n.date}</span></div>
+                      <div class="muted" style="margin-top:6px">${n.body}</div>`;
+      container.appendChild(el);
+    });
+  }
+
+  // Render gallery
+  function renderGallery(){
+    const gallery = safeParse(localStorage.getItem('mkps_gallery'), []);
+    const grid = document.getElementById('galleryGrid'); grid.innerHTML='';
+    gallery.forEach(img=>{
+      const el = document.createElement('img'); el.src=img.src; el.alt=img.caption||'Gallery';
+      el.addEventListener('click',()=> openLightbox(img.src));
+      grid.appendChild(el);
+    });
+  }
+
+  // Render timetable (simple)
+  function renderTimetable(){
+    const tt = safeParse(localStorage.getItem('mkps_timetable'), {});
+    const cls = String(currentStudent?.class || '');
+    const container = document.getElementById('timetable'); container.innerHTML='';
+    const days = ['Mon','Tue','Wed','Thu','Fri'];
+    const table = document.createElement('div');
+    if(tt[cls]){
+      const rows = tt[cls];
+      rows.forEach((row, idx) => {
+        const r = document.createElement('div'); r.style.display='flex'; r.style.gap='8px'; r.style.marginBottom='6px';
+        row.forEach(cell=>{
+          const c = document.createElement('div'); c.style.flex='1'; c.style.padding='8px'; c.style.borderRadius='8px'; c.style.background='rgba(255,255,255,0.02)';
+          c.textContent = cell;
+          r.appendChild(c);
         });
-
-        // Load data from localStorage
-        function loadData() {
-            // Try to load user data from localStorage
-            const savedData = localStorage.getItem('studentDashboard');
-            if (savedData) {
-                try {
-                    const parsedData = JSON.parse(savedData);
-                    userData = { ...userData, ...parsedData };
-                } catch (e) {
-                    console.error('Error parsing saved ', e);
-                }
-            }
-
-            // If no saved data, try to get from login
-            if (!userData.name || !userData.cls) {
-                userData.name = localStorage.getItem('name') || 'Student';
-                userData.cls = localStorage.getItem('cls') || '1';
-                userData.parent = localStorage.getItem('parent') || 'Parent';
-                
-                // Generate initial homework if none exists
-                if (userData.cls && (!userData.homework || userData.homework.length === 0)) {
-                    generateHomework();
-                }
-            }
-
-            // Ensure reminders exist
-            if (!userData.reminders || userData.reminders.length === 0) {
-                userData.reminders = getRandomItems(reminders, 3);
-            }
-
-            // Ensure achievements exist
-            if (!userData.achievements || userData.achievements.length === 0) {
-                userData.achievements = achievements;
-            }
-        }
-
-        // Save data to localStorage
-        function saveData() {
-            try {
-                localStorage.setItem('studentDashboard', JSON.stringify(userData));
-                return true;
-            } catch (e) {
-                console.error('Error saving ', e);
-                return false;
-            }
-        }
-
-        // Initialize UI with user data
-        function initUI() {
-            // Update user info
-            document.getElementById('greetingName').textContent = userData.name;
-            document.getElementById('greetingClass').textContent = userData.cls;
-            document.getElementById('userName').textContent = userData.name;
-            document.getElementById('userClass').textContent = userData.cls;
-            document.getElementById('userParent').textContent = userData.parent;
-            document.getElementById('homeworkClass').textContent = userData.cls;
-
-            // Apply dark mode if enabled
-            if (userData.settings.darkMode) {
-                document.body.setAttribute('data-theme', 'dark');
-                document.getElementById('darkModeToggle').innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><moon class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></moon></svg>
-                    <span>Light Mode</span>
-                `;
-            }
-
-            // Render content
-            renderHomework();
-            renderSchedule();
-            renderReminders();
-            renderAchievements();
-            renderGoals();
-            renderProgressChart();
-            updateAttendance();
-        }
-
-        // Set up event listeners
-        function setupEventListeners() {
-            // Navigation
-            document.getElementById('homeLink').addEventListener('click', showSection.bind(null, 'home'));
-            document.getElementById('homeworkLink').addEventListener('click', showSection.bind(null, 'homework'));
-            document.getElementById('aiLink').addEventListener('click', showSection.bind(null, 'ai'));
-            document.getElementById('progressLink').addEventListener('click', showSection.bind(null, 'progress'));
-
-            // Settings
-            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
-            document.getElementById('printBtn').addEventListener('click', printPage);
-            document.getElementById('shareBtn').addEventListener('click', sharePage);
-            document.getElementById('pdfBtn').addEventListener('click', downloadPDF);
-            document.getElementById('backupBtn').addEventListener('click', openBackupModal);
-            document.getElementById('restoreBtn').addEventListener('click', openRestoreModal);
-            document.getElementById('clearCacheBtn').addEventListener('click', openClearCacheModal);
-            document.getElementById('installBtn').addEventListener('click', installApp);
-
-            // Homework filters
-            document.getElementById('filterAll').addEventListener('click', () => filterHomework('all'));
-            document.getElementById('filterPending').addEventListener('click', () => filterHomework('pending'));
-            document.getElementById('filterCompleted').addEventListener('click', () => filterHomework('completed'));
-
-            // AI chat
-            document.getElementById('sendBtn').addEventListener('click', sendChatMessage);
-            document.getElementById('chatInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendChatMessage();
-                }
-            });
-
-            // Modals
-            document.getElementById('aboutLink').addEventListener('click', () => showModal('aboutModal'));
-            document.getElementById('privacyLink').addEventListener('click', () => showModal('privacyModal'));
-            document.getElementById('termsLink').addEventListener('click', () => showModal('termsModal'));
-            document.getElementById('contactLink').addEventListener('click', () => showModal('contactModal'));
-            document.getElementById('contactForm').addEventListener('submit', handleContactSubmit);
-
-            // Modal close buttons
-            document.querySelectorAll('.modal-close, .modal').forEach(el => {
-                el.addEventListener('click', function(e) {
-                    if (e.target === this || e.target.classList.contains('modal-close')) {
-                        closeModal(this.id || this.closest('.modal').id);
-                    }
-                });
-            });
-
-            // Backup and restore
-            document.getElementById('downloadBackup').addEventListener('click', downloadBackup);
-            document.getElementById('restoreData').addEventListener('click', restoreData);
-            document.getElementById('confirmClearCache').addEventListener('click', clearCache);
-
-            // Logout
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-
-            // Menu toggle for mobile
-            document.getElementById('menuToggle').addEventListener('click', toggleMobileMenu);
-
-            // Scroll to top button
-            document.getElementById('scrollTopBtn').addEventListener('click', scrollToTop);
-
-            // Admin access (hidden feature)
-            document.addEventListener('keydown', checkAdminAccess);
-
-            // FAB scroll behavior
-            window.addEventListener('scroll', toggleFAB);
-        }
-
-        // Show a specific section
-        function showSection(section) {
-            // Hide all sections
-            document.getElementById('homeSection').classList.add('hidden');
-            document.getElementById('homeworkSection').classList.add('hidden');
-            document.getElementById('aiSection').classList.add('hidden');
-            document.getElementById('progressSection').classList.add('hidden');
-
-            // Show the requested section
-            document.getElementById(section + 'Section').classList.remove('hidden');
-
-            // Update active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            document.getElementById(section + 'Link').classList.add('active');
-
-            // Close mobile menu if open
-            closeMobileMenu();
-        }
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            const isDark = document.body.hasAttribute('data-theme');
-            if (isDark) {
-                document.body.removeAttribute('data-theme');
-                userData.settings.darkMode = false;
-                document.getElementById('darkModeToggle').innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    <span>Dark Mode</span>
-                `;
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-                userData.settings.darkMode = true;
-                document.getElementById('darkModeToggle').innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><moon class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></moon></svg>
-                    <span>Light Mode</span>
-                `;
-            }
-
-            // Save settings
-            saveData();
-        }
-
-        // Print the current page
-        function printPage() {
-            window.print();
-        }
-
-        // Share the page (if supported)
-        function sharePage() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'School Web #1 Dashboard',
-                    text: 'Check out my student dashboard!',
-                    url: window.location.href
-                }).catch(err => {
-                    console.error('Error sharing:', err);
-                    showToast('Sharing failed', 'danger');
-                });
-            } else {
-                // Fallback: copy URL to clipboard
-                navigator.clipboard.writeText(window.location.href)
-                    .then(() => {
-                        showToast('Link copied to clipboard!', 'success');
-                    })
-                    .catch(err => {
-                        console.error('Error copying link:', err);
-                        showToast('Failed to copy link', 'danger');
-                    });
-            }
-        }
-
-        // Download as PDF (simulated)
-        function downloadPDF() {
-            showToast('PDF generation in progress...', 'info');
-            setTimeout(() => {
-                showToast('PDF downloaded successfully!', 'success');
-            }, 2000);
-        }
-
-        // Open backup modal
-        function openBackupModal() {
-            showModal('backupModal');
-        }
-
-        // Download backup
-        function downloadBackup() {
-            const dataStr = JSON.stringify(userData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `school-web-backup-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            closeModal('backupModal');
-            showToast('Backup downloaded successfully!', 'success');
-        }
-
-        // Open restore modal
-        function openRestoreModal() {
-            showModal('restoreModal');
-        }
-
-        // Restore data from file
-        function restoreData() {
-            const fileInput = document.getElementById('restoreFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                showToast('Please select a file to restore', 'danger');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const restoredData = JSON.parse(e.target.result);
-                    userData = { ...userData, ...restoredData };
-                    saveData();
-                    initUI();
-                    closeModal('restoreModal');
-                    fileInput.value = '';
-                    showToast('Data restored successfully!', 'success');
-                } catch (err) {
-                    console.error('Error restoring ', err);
-                    showToast('Invalid backup file', 'danger');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // Open clear cache modal
-        function openClearCacheModal() {
-            showModal('clearCacheModal');
-        }
-
-        // Clear all cache/data
-        function clearCache() {
-            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
-                localStorage.removeItem('studentDashboard');
-                localStorage.removeItem('name');
-                localStorage.removeItem('cls');
-                localStorage.removeItem('parent');
-                
-                // Reset user data
-                userData = {
-                    name: 'Student',
-                    cls: '1',
-                    parent: 'Parent',
-                    homework: [],
-                    progress: {
-                        attendance: {
-                            present: 0,
-                            total: 100
-                        },
-                        subjects: {
-                            math: 50,
-                            science: 50,
-                            english: 50,
-                            history: 50,
-                            art: 50
-                        }
-                    },
-                    reminders: [],
-                    achievements: [],
-                    settings: {
-                        darkMode: false,
-                        notifications: true,
-                        theme: 'default'
-                    }
-                };
-                
-                // Regenerate data
-                generateHomework();
-                userData.reminders = getRandomItems(reminders, 3);
-                userData.achievements = achievements;
-                
-                // Save and update UI
-                saveData();
-                initUI();
-                closeModal('clearCacheModal');
-                showToast('All data cleared!', 'success');
-            }
-        }
-
-        // Install PWA (if supported)
-        function installApp() {
-            // This would normally use the beforeinstallprompt event
-            // For demo purposes, we'll just show a message
-            showToast('App installation available! Click the browser menu and select "Install"', 'info');
-        }
-
-        // Check if app can be installed
-        function checkInstallability() {
-            // In a real app, we would listen for beforeinstallprompt
-            // For now, we'll just update the button text
-            const installBtn = document.getElementById('installBtn');
-            installBtn.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><download class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></download></svg>
-                <span>Install App</span>
-            `;
-        }
-
-        // Generate initial homework based on class
-        function generateHomework() {
-            const classNum = parseInt(userData.cls);
-            const topics = homeworkTopics[classNum] || homeworkTopics[1];
-            const selectedTopics = getRandomItems(topics, 8);
-            
-            const today = new Date();
-            userData.homework = selectedTopics.map((topic, index) => ({
-                id: Date.now() + index,
-                emoji: topic.emoji,
-                subject: topic.subject,
-                topic: topic.topic,
-                difficulty: topic.difficulty,
-                dueDate: new Date(today.getTime() + (index + 1) * 2 * 24 * 60 * 60 * 1000), // Due in 2, 4, 6, etc. days
-                completed: Math.random() > 0.7, // Randomly mark some as completed
-                notes: ''
-            }));
-        }
-
-        // Get random items from an array
-        function getRandomItems(array, count) {
-            const shuffled = [...array].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
-        }
-
-        // Render homework list
-        function renderHomework() {
-            const homeworkList = document.getElementById('homeworkList');
-            const homeworkItems = document.getElementById('homeworkItems');
-            
-            // Clear existing content
-            homeworkList.innerHTML = '';
-            homeworkItems.innerHTML = '';
-            
-            if (userData.homework.length === 0) {
-                homeworkList.innerHTML = '<p>No homework assigned yet.</p>';
-                homeworkItems.innerHTML = '<p>No homework assigned yet.</p>';
-                return;
-            }
-            
-            // Sort homework by due date
-            const sortedHomework = [...userData.homework].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-            
-            // Create home view (limited items)
-            sortedHomework.slice(0, 3).forEach(hw => {
-                const item = document.createElement('div');
-                item.className = 'homework-item';
-                item.innerHTML = `
-                    <span class="homework-emoji">${hw.emoji}</span>
-                    <span class="homework-title">${hw.topic}</span>
-                    <span class="homework-due">${formatDateShort(hw.dueDate)}</span>
-                    <span class="homework-status ${hw.completed ? 'completed' : 'pending'}"></span>
-                `;
-                homeworkList.appendChild(item);
-            });
-            
-            // Create full list for homework section
-            sortedHomework.forEach(hw => {
-                const item = document.createElement('div');
-                item.className = 'homework-item';
-                item.innerHTML = `
-                    <span class="homework-emoji">${hw.emoji}</span>
-                    <div style="flex: 1;">
-                        <div class="flex flex-between">
-                            <strong>${hw.topic}</strong>
-                            <span class="badge badge-${getDifficultyClass(hw.difficulty)}">${hw.difficulty}</span>
-                        </div>
-                        <div class="flex flex-between">
-                            <small>${hw.subject}</small>
-                            <small>Due: ${formatDate(hw.dueDate)}</small>
-                        </div>
-                    </div>
-                    <button class="btn-icon ${hw.completed ? 'btn-success' : 'btn-outline'}" onclick="toggleHomeworkStatus(${hw.id})">
-                        ${hw.completed ? 
-                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><check class="lucide lucide-check"><path d="M20 6 9 17l-5-5"></path></check></svg>' :
-                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><square class="lucide lucide-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></square></svg>'
-                        }
-                    </button>
-                `;
-                homeworkItems.appendChild(item);
-            });
-            
-            // Update progress
-            updateHomeworkProgress();
-        }
-
-        // Get CSS class for difficulty
-        function getDifficultyClass(difficulty) {
-            switch (difficulty.toLowerCase()) {
-                case 'easy': return 'success';
-                case 'medium': return 'warning';
-                case 'hard': return 'danger';
-                default: return 'secondary';
-            }
-        }
-
-        // Toggle homework completion status
-        function toggleHomeworkStatus(id) {
-            const homework = userData.homework.find(h => h.id === id);
-            if (homework) {
-                homework.completed = !homework.completed;
-                saveData();
-                renderHomework();
-                showToast(`Homework ${homework.completed ? 'completed' : 'marked as pending'}!`, homework.completed ? 'success' : 'info');
-            }
-        }
-
-        // Filter homework
-        function filterHomework(filter) {
-            const homeworkItems = document.getElementById('homeworkItems');
-            homeworkItems.innerHTML = '';
-            
-            let filteredHomework = userData.homework;
-            
-            if (filter === 'pending') {
-                filteredHomework = userData.homework.filter(h => !h.completed);
-            } else if (filter === 'completed') {
-                filteredHomework = userData.homework.filter(h => h.completed);
-            }
-            
-            // Sort by due date
-            filteredHomework.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-            
-            // Apply filter buttons
-            document.querySelectorAll('#filterAll, #filterPending, #filterCompleted').forEach(btn => {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-outline');
-            });
-            
-            document.getElementById(`filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).classList.remove('btn-outline');
-            document.getElementById(`filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).classList.add('btn-primary');
-            
-            // Render filtered homework
-            filteredHomework.forEach(hw => {
-                const item = document.createElement('div');
-                item.className = 'homework-item';
-                item.innerHTML = `
-                    <span class="homework-emoji">${hw.emoji}</span>
-                    <div style="flex: 1;">
-                        <div class="flex flex-between">
-                            <strong>${hw.topic}</strong>
-                            <span class="badge badge-${getDifficultyClass(hw.difficulty)}">${hw.difficulty}</span>
-                        </div>
-                        <div class="flex flex-between">
-                            <small>${hw.subject}</small>
-                            <small>Due: ${formatDate(hw.dueDate)}</small>
-                        </div>
-                    </div>
-                    <button class="btn-icon ${hw.completed ? 'btn-success' : 'btn-outline'}" onclick="toggleHomeworkStatus(${hw.id})">
-                        ${hw.completed ? 
-                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><check class="lucide lucide-check"><path d="M20 6 9 17l-5-5"></path></check></svg>' :
-                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><square class="lucide lucide-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></square></svg>'
-                        }
-                    </button>
-                `;
-                homeworkItems.appendChild(item);
-            });
-        }
-
-        // Update homework progress
-        function updateHomeworkProgress() {
-            const total = userData.homework.length;
-            const completed = userData.homework.filter(h => h.completed).length;
-            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
-            
-            document.getElementById('homeworkProgress').style.width = `${percent}%`;
-            document.getElementById('homeworkStats').textContent = `${completed}/${total} completed`;
-        }
-
-        // Render schedule
-        function renderSchedule() {
-            const scheduleList = document.getElementById('scheduleList');
-            scheduleList.innerHTML = '';
-            
-            const classNum = parseInt(userData.cls);
-            const classSchedule = schedules[classNum] || schedules[1];
-            
-            classSchedule.forEach(item => {
-                const scheduleItem = document.createElement('div');
-                scheduleItem.className = 'homework-item';
-                scheduleItem.innerHTML = `
-                    <span class="homework-emoji">${item.emoji}</span>
-                    <span class="homework-title">${item.subject}</span>
-                    <span class="homework-due">${item.time}</span>
-                `;
-                scheduleList.appendChild(scheduleItem);
-            });
-        }
-
-        // Render reminders
-        function renderReminders() {
-            const remindersList = document.getElementById('remindersList');
-            remindersList.innerHTML = '';
-            
-            userData.reminders.forEach(reminder => {
-                const li = document.createElement('li');
-                li.className = `alert alert-${reminder.type} mb-2`;
-                li.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                    <span>${reminder.emoji} ${reminder.text}</span>
-                `;
-                remindersList.appendChild(li);
-            });
-        }
-
-        // Render achievements
-        function renderAchievements() {
-            const achievementsList = document.getElementById('achievementsList');
-            achievementsList.innerHTML = '';
-            
-            const unlocked = userData.achievements.filter(a => a.unlocked);
-            const locked = userData.achievements.filter(a => !a.unlocked);
-            
-            if (unlocked.length > 0) {
-                const unlockedDiv = document.createElement('div');
-                unlockedDiv.innerHTML = '<h4>🏆 Unlocked</h4>';
-                unlocked.forEach(achievement => {
-                    const item = document.createElement('div');
-                    item.className = 'flex flex-align-center mb-2';
-                    item.innerHTML = `
-                        <span style="font-size: 1.5rem; margin-right: 0.5rem;">${achievement.emoji}</span>
-                        <div>
-                            <strong>${achievement.name}</strong>
-                            <div class="fs-sm">${achievement.description}</div>
-                        </div>
-                    `;
-                    unlockedDiv.appendChild(item);
-                });
-                achievementsList.appendChild(unlockedDiv);
-            }
-            
-            if (locked.length > 0) {
-                const lockedDiv = document.createElement('div');
-                lockedDiv.innerHTML = '<h4 class="mt-3">🔒 Locked</h4>';
-                locked.forEach(achievement => {
-                    const item = document.createElement('div');
-                    item.className = 'flex flex-align-center mb-2 text-muted';
-                    item.innerHTML = `
-                        <span style="font-size: 1.5rem; margin-right: 0.5rem; opacity: 0.5;">${achievement.emoji}</span>
-                        <div>
-                            <strong>${achievement.name}</strong>
-                            <div class="fs-sm">${achievement.description}</div>
-                        </div>
-                    `;
-                    lockedDiv.appendChild(item);
-                });
-                achievementsList.appendChild(lockedDiv);
-            }
-        }
-
-        // Render goals
-        function renderGoals() {
-            const goalsList = document.getElementById('goalsList');
-            goalsList.innerHTML = '';
-            
-            goals.forEach(goal => {
-                const progress = Math.min(100, Math.round((goal.current / goal.target) * 100));
-                const item = document.createElement('div');
-                item.className = 'mb-3';
-                item.innerHTML = `
-                    <div class="flex flex-between mb-1">
-                        <strong>${goal.emoji} ${goal.title}</strong>
-                        <span>${goal.current}/${goal.target} ${goal.unit}</span>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: ${progress}%"></div>
-                    </div>
-                    <div class="text-right fs-sm mt-1">${progress}% complete</div>
-                `;
-                goalsList.appendChild(item);
-            });
-        }
-
-        // Render progress chart
-        function renderProgressChart() {
-            // This would normally use a charting library
-            // For demo purposes, we'll just create a simple visualization
-            const ctx = document.getElementById('performanceChart');
-            if (!ctx) return;
-            
-            // In a real app, we would use Chart.js or similar
-            // For now, we'll just show a message
-            ctx.parentElement.innerHTML = `
-                <div class="text-center p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><bar-chart-2 class="lucide lucide-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></bar-chart-2></svg>
-                    <p class="mt-2">Performance chart would appear here</p>
-                    <p class="fs-sm text-muted">Math: ${userData.progress.subjects.math}%, Science: ${userData.progress.subjects.science}%, English: ${userData.progress.subjects.english}%</p>
-                </div>
-            `;
-        }
-
-        // Update attendance display
-        function updateAttendance() {
-            const percent = Math.round((userData.progress.attendance.present / userData.progress.attendance.total) * 100);
-            document.getElementById('attendanceBar').style.width = `${percent}%`;
-            document.getElementById('attendancePercent').textContent = percent;
-            document.getElementById('attendanceDays').textContent = userData.progress.attendance.present;
-            document.getElementById('totalDays').textContent = userData.progress.attendance.total;
-        }
-
-        // Send chat message to AI
-        async function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Add user message to chat
-            addChatMessage(message, 'user');
-            input.value = '';
-            
-            // Show typing indicator
-            const typing = document.createElement('div');
-            typing.className = 'message ai';
-            typing.innerHTML = '🧠 Thinking...';
-            document.getElementById('chatMessages').appendChild(typing);
-            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
-            
-            // Simulate AI response (in a real app, this would call the Gemini API)
-            setTimeout(() => {
-                // Remove typing indicator
-                document.getElementById('chatMessages').removeChild(typing);
-                
-                // Generate AI response
-                const response = generateAIResponse(message);
-                addChatMessage(response, 'ai');
-                
-                // Save conversation (for demo purposes)
-                saveData();
-            }, 1000 + Math.random() * 2000);
-        }
-
-        // Add a message to the chat
-        function addChatMessage(text, sender) {
-            const messages = document.getElementById('chatMessages');
-            const message = document.createElement('div');
-            message.className = `message ${sender}`;
-            message.textContent = text;
-            messages.appendChild(message);
-            messages.scrollTop = messages.scrollHeight;
-        }
-
-        // Generate AI response (simulated)
-        function generateAIResponse(message) {
-            const lowerMsg = message.toLowerCase();
-            
-            // Simple response logic
-            if (lowerMsg.includes('homework') || lowerMsg.includes('assignment')) {
-                return `I can help you with your homework! 📚 Based on your class (${userData.cls}), you might have assignments in math, science, or English. Check your homework list for specific tasks. Remember to manage your time and ask for help if needed!`;
-            } else if (lowerMsg.includes('math') || lowerMsg.includes('calculate')) {
-                return `Math is important for developing problem-solving skills! 🧮 For your class (${userData.cls}), focus on understanding concepts rather than just memorizing formulas. Practice regularly and don't hesitate to ask your teacher for clarification on topics you find challenging.`;
-            } else if (lowerMsg.includes('science') || lowerMsg.includes('experiment')) {
-                return `Science is all about curiosity and discovery! 🔬 For your grade level (${userData.cls}), you're probably learning about basic scientific principles through hands-on experiments. Remember the scientific method: ask questions, form hypotheses, conduct experiments, and analyze results.`;
-            } else if (lowerMsg.includes('read') || lowerMsg.includes('book') || lowerMsg.includes('reading')) {
-                return `Reading is a gateway to knowledge and imagination! 📖 For your class (${userData.cls}), try to read a variety of materials - fiction, non-fiction, and articles. This will improve your vocabulary and comprehension skills. Set aside dedicated time for reading each day.`;
-            } else if (lowerMsg.includes('help')) {
-                return `I'm here to help with your studies! 🤓 I can provide explanations, suggest study strategies, and help you understand difficult concepts. Just let me know what subject or topic you need assistance with, and I'll do my best to support your learning.`;
-            } else if (lowerMsg.includes('thank')) {
-                return `You're very welcome! 😊 I'm glad I could help. Remember, learning is a journey, and I'm here to support you every step of the way. Keep up the great work!`;
-            } else if (lowerMsg.includes('who') && lowerMsg.includes('you')) {
-                return `I'm your AI Homework Assistant, created to help students like you succeed in school! 🤖 I can provide explanations, study tips, and encouragement. I'm specifically designed to assist with academic topics while maintaining a safe, educational environment.`;
-            } else {
-                // Default response with educational focus
-                const responses = [
-                    `That's an interesting question! 🤔 As a student in class ${userData.cls}, it's great that you're thinking deeply about your education. Keep asking questions - that's how we learn!`,
-                    `I appreciate your curiosity! 🌟 Learning is a continuous process, and every question you ask helps build your knowledge. Keep up the excellent work!`,
-                    `Great question! 🎯 As you progress through school, these types of inquiries will help you develop critical thinking skills. I'm here to support your academic journey.`,
-                    `That's a thoughtful question! 💡 Education is about more than just memorizing facts - it's about understanding concepts and applying them. Keep exploring!`,
-                    `I'm impressed by your question! 🌱 As a student, your curiosity will serve you well. Remember that every expert was once a beginner, so keep learning and growing!`
-                ];
-                
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-        }
-
-        // Show modal
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.add('show');
-        }
-
-        // Close modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-        }
-
-        // Handle contact form submission
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value;
-            
-            // In a real app, this would send to a server
-            // For demo, we'll just show a success message
-            showToast('Message sent successfully! We will contact you soon.', 'success');
-            document.getElementById('contactForm').reset();
-            closeModal('contactModal');
-        }
-
-        // Logout
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                // Clear session data
-                localStorage.removeItem('name');
-                localStorage.removeItem('cls');
-                localStorage.removeItem('parent');
-                
-                // Redirect to login
-                window.location.href = 'index.html';
-            }
-        }
-
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            document.getElementById('navbarNav').classList.toggle('show');
-        }
-
-        // Close mobile menu
-        function closeMobileMenu() {
-            document.getElementById('navbarNav').classList.remove('show');
-        }
-
-        // Toggle FAB based on scroll position
-        function toggleFAB() {
-            const fab = document.getElementById('scrollTopBtn');
-            if (window.pageYOffset > 300) {
-                fab.classList.add('show');
-            } else {
-                fab.classList.remove('show');
-            }
-        }
-
-        // Scroll to top
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        // Update online status display
-        function updateOnlineStatus() {
-            const banner = document.getElementById('offlineBanner');
-            if (navigator.onLine) {
-                banner.classList.remove('show');
-            } else {
-                banner.classList.add('show');
-            }
-        }
-
-        // Check for admin access (hidden feature)
-        function checkAdminAccess(e) {
-            // Check for specific key combination or password
-            if (e.ctrlKey && e.altKey && e.key === 'a') {
-                showModal('adminModal');
-                e.preventDefault();
-            }
-        }
-
-        // Admin login
-        function adminLogin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === 'Abutalha') {
-                closeModal('adminModal');
-                // In a real app, this would redirect to admin.html
-                // For demo, we'll just show a message
-                showToast('Admin access granted! Redirecting...', 'success');
-                setTimeout(() => {
-                    alert('Admin panel would open here in a real application.');
-                }, 1000);
-            } else {
-                showToast('Incorrect password!', 'danger');
-            }
-            document.getElementById('adminPassword').value = '';
-        }
-
-        // Format date as "Month Day, Year"
-        function formatDate(date) {
-            return new Date(date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        // Format date as "M/D" for short display
-        function formatDateShort(date) {
-            return new Date(date).toLocaleDateString('en-US', {
-                month: 'numeric',
-                day: 'numeric'
-            });
-        }
-
-        // Toast notification
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const title = document.getElementById('toastTitle');
-            const body = document.getElementById('toastBody');
-            
-            // Set content
-            title.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-            body.textContent = message;
-            
-            // Set type
-            toast.className = 'toast';
-            toast.classList.add(type);
-            
-            // Show
-            toast.classList.add('show');
-            
-            // Auto-hide after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Close toast
-        document.getElementById('toastClose').addEventListener('click', function() {
-            document.getElementById('toast').classList.remove('show');
+        table.appendChild(r);
+      });
+      container.appendChild(table);
+    } else {
+      container.innerHTML = '<div class="muted">Timetable not set for this class.</div>';
+    }
+  }
+
+  // -----------------------
+  // Export / Import / Snapshot
+  // -----------------------
+  function exportAllData(){
+    const keys = ['mkps_student','mkps_homework','mkps_teachers','mkps_events','mkps_notices','mkps_timetable','mkps_gallery','mkps_messages','mkps_meta'];
+    const out = {};
+    keys.forEach(k=> out[k] = safeParse(localStorage.getItem(k), null));
+    const blob = new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'mkps_export_'+(new Date()).toISOString().slice(0,10)+'.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  }
+
+  function importAllData(json){
+    try{
+      const parsed = typeof json === 'string' ? JSON.parse(json) : json;
+      const keys = Object.keys(parsed);
+      keys.forEach(k=>{
+        if(parsed[k] !== null) localStorage.setItem(k, JSON.stringify(parsed[k]));
+        else localStorage.removeItem(k);
+      });
+      window.localStorage.setItem('mkps_update', nowIso());
+      alert('Import successful — data loaded. Refreshing view.');
+      refreshAll();
+    }catch(e){
+      alert('Import failed: '+e.message);
+    }
+  }
+
+  function downloadHomeworkSnapshot(items){
+    // produce a simple HTML snapshot
+    const html = `<!doctype html><html><head><meta charset="utf-8"><title>Homework Snapshot</title>
+    <style>body{font-family:Arial,sans-serif;padding:20px;color:#111} .card{border:1px solid #ddd;padding:12px;margin-bottom:10px;border-radius:8px}</style>
+    </head><body><h1>Homework Snapshot — ${new Date().toLocaleDateString()}</h1>${items.map(it=>`<div class="card"><h2>${it.subject} (Class ${it.class})</h2><div><strong>Date:</strong> ${it.date}</div><div><strong>Teacher:</strong>${it.teacher}</div><p>${it.body}</p></div>`).join('')}</body></html>`;
+    const blob = new Blob([html], {type:'text/html'}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'homework_snapshot.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  }
+
+  // print current homework view
+  function printHomeworkView(){
+    const clone = document.getElementById('hwList').cloneNode(true);
+    const w = window.open('','_blank','width=900,height=700'); w.document.write('<html><head><title>Print Homework</title></head><body>');
+    w.document.write('<h1>Class Homework — '+(currentStudent?.class || '')+'</h1>');
+    w.document.write(clone.outerHTML);
+    w.document.write('</body></html>'); w.document.close(); w.print();
+  }
+
+  // -----------------------
+  // Lightbox
+  // -----------------------
+  function openLightbox(src){
+    const lb = document.getElementById('lightbox'); const img = document.getElementById('lbImg');
+    img.src = src; lb.classList.remove('hidden'); lb.style.display = 'flex';
+  }
+  document.getElementById('lbClose').addEventListener('click',()=>{ document.getElementById('lightbox').classList.add('hidden'); document.getElementById('lightbox').style.display='none'; });
+
+  // -----------------------
+  // Messages modal & contact
+  // -----------------------
+  function showMessages(){
+    const msgs = safeParse(localStorage.getItem('mkps_messages'), []);
+    const html = `<div style="max-width:600px;background:#fff;color:#111;padding:16px;border-radius:10px"><h3>Saved Messages</h3>${msgs.length?msgs.map(m=>`<div style="border-bottom:1px solid #eee;padding:8px 0"><strong>${m.name||'Anonymous'}</strong><div style="font-size:0.9rem;color:#444">${m.message}</div><div style="font-size:0.8rem;color:#666">${m.date}</div></div>`).join(''):'<div style="color:#666">No messages yet.</div>'}<div style="margin-top:12px;text-align:right"><button id="closeMsgs">Close</button></div></div>`;
+    const win = window.open('','mkps_msgs','width=600,height=600'); win.document.write(html);
+    win.document.close();
+  }
+  function contactSchool(){
+    // open mail client
+    location.href = 'mailto:madamsir066@gmail.com?subject=Contact%20MKPS%20Portal';
+  }
+
+  // -----------------------
+  // AI -> Study-only helper
+  // -----------------------
+  // This function sends study-related queries to Gemini endpoint. It includes a forced instruction to answer for study help only.
+  async function askStudyAI(promptText){
+    const key = GEMINI_KEYS[0] || '';
+    if(!key){ throw new Error('No API key configured'); }
+    const systemPrefix = `You are a helpful study assistant for school students of Milli Karwaan Public School. Answer politely and clearly, provide step-by-step explanations, examples, and small practice exercises where appropriate. Do NOT provide anything unsafe or unrelated. Answer for study/help only. Keep language simple and encouraging.`;
+    const body = {
+      // Using the simple contents structure that the public endpoint expects
+      contents: [
+        { parts: [{ text: systemPrefix + "\n\nStudent question: " + promptText }] }
+      ],
+      // optionals can be added; leaving defaults
+    };
+
+    // Try primary key; if fails, try fallback
+    for(let k of GEMINI_KEYS){
+      try{
+        const res = await fetch(`${GEN_API_BASE}?key=${k}`, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify(body)
         });
-
-        // Service Worker for offline caching
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('SW registered: ', registration);
-                }).catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
-                });
-            });
+        if(!res.ok){
+          const text = await res.text();
+          console.warn('AI non-ok', res.status, text);
+          throw new Error('AI request failed: '+res.status);
         }
+        const data = await res.json();
+        // parse candidate text safely
+        const out = (data?.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) || (data?.output?.[0]?.content?.[0]?.text) || JSON.stringify(data);
+        return String(out);
+      }catch(err){
+        console.warn('AI call failed with key', k, err);
+        // try next key
+      }
+    }
+    throw new Error('All AI keys failed or network error.');
+  }
 
-        // Create a placeholder service worker
-        const swScript = `
-            const CACHE_NAME = 'school-web-v1';
-            const urlsToCache = [
-                '/',
-                '/index.html',
-                '/dashboard.html'
-            ];
+  // Hook AI UI
+  (function attachAIHandlers(){
+    // we place a listener on the page to handle AI questions via a lightweight prompt button
+    // For compactness, we create a floating quick-AI button that opens a small prompt.
+    const floatBtn = document.createElement('button'); floatBtn.className='icon-btn'; floatBtn.title='Ask Study AI'; floatBtn.textContent='🤖 AI';
+    floatBtn.style.position='fixed'; floatBtn.style.right='18px'; floatBtn.style.bottom='18px'; floatBtn.style.zIndex=9999;
+    document.body.appendChild(floatBtn);
+    floatBtn.addEventListener('click', async ()=>{
+      const q = prompt('Ask study-related question (math/science/english/homework):');
+      if(!q) return;
+      try{
+        floatBtn.textContent = '⏳';
+        const ans = await askStudyAI(q);
+        floatBtn.textContent = '🤖 AI';
+        alert('AI Answer (copy from dialog):\n\n' + ans);
+      }catch(e){
+        floatBtn.textContent = '🤖 AI';
+        alert('AI error: ' + (e.message || e));
+      }
+    });
+  })();
 
-            self.addEventListener('install', event => {
-                event.waitUntil(
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
-                            return cache.addAll(urlsToCache);
-                        })
-                );
-            });
+  // -----------------------
+  // Storage event listener to auto-refresh when admin.html updates mkps_update
+  // -----------------------
+  window.addEventListener('storage', (e)=>{
+    if(e.key === 'mkps_update'){
+      console.log('mkps_update triggered. Refreshing data...');
+      refreshAll();
+    }
+  });
 
-            self.addEventListener('fetch', event => {
-                event.respondWith(
-                    caches.match(event.request)
-                        .then(response => {
-                            if (response) {
-                                return response;
-                            }
-                            return fetch(event.request);
-                        })
-                );
-            });
-        `;
+  // -----------------------
+  // Refresh / Initialization
+  // -----------------------
+  function refreshAll(){
+    renderHeaderInfo();
+    renderStats();
+    populateClassFilter();
+    renderTeachers();
+    renderEvents();
+    renderNotices();
+    renderGallery();
+    renderTimetable();
+    // initial render homework: show student's class only
+    const studentClass = String(currentStudent?.class || '');
+    renderHomework('', studentClass);
+    // update counters
+    document.getElementById('hwSearch').value = '';
+    document.getElementById('quickSearch').value = '';
+  }
 
-        // In a real app, this would be a separate file
-        // For demo purposes, we'll just log it
-        console.log('Service worker script:', swScript);
+  // Bind UI events
+  document.getElementById('hwSearch').addEventListener('input', (e)=>{
+    renderHomework(e.target.value, document.getElementById('classFilter').value);
+  });
+  document.getElementById('classFilter').addEventListener('change', (e)=>{
+    renderHomework(document.getElementById('hwSearch').value, e.target.value);
+  });
+  document.getElementById('refreshBtn').addEventListener('click', ()=> refreshAll());
+  document.getElementById('printHw').addEventListener('click', ()=> printHomeworkView());
+  document.getElementById('exportBtn').addEventListener('click', ()=> exportAllData());
+  document.getElementById('importBtn').addEventListener('click', ()=> {
+    const f = prompt('Paste JSON export here to import (this will replace data):');
+    if(f) importAllData(f);
+  });
+  document.getElementById('snapshotBtn').addEventListener('click', ()=>{
+    // snapshot current homework list (all visible)
+    // convert visible hw items to a simple array and download
+    const nodes = Array.from(document.querySelectorAll('#hwList .hw-card'));
+    const items = nodes.map(n => {
+      return {
+        title: n.querySelector('.hw-title')?.innerText || '',
+        meta: n.querySelector('.hw-sub')?.innerText || '',
+        body: n.querySelector('.hw-body')?.innerText || ''
+      };
+    });
+    downloadHomeworkSnapshot(items);
+  });
+  document.getElementById('themeToggle').addEventListener('click', ()=> {
+    document.body.classList.toggle('light'); // simple theme flip
+  });
+  document.getElementById('viewMessages').addEventListener('click', ()=> showMessages());
+  document.getElementById('contactSchool').addEventListener('click', ()=> contactSchool());
 
-        // Make functions available globally
-        window.toggleHomeworkStatus = toggleHomeworkStatus;
-        window.sendChatMessage = sendChatMessage;
-        window.showModal = showModal;
-        window.closeModal = closeModal;
-        window.logout = logout;
-        window.toggleMobileMenu = toggleMobileMenu;
-        window.scrollToTop = scrollToTop;
-        window.adminLogin = adminLogin;
-    </script>
+  // Quick search to look through homework/teachers/notices
+  document.getElementById('quickSearch').addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    // search homework (display results)
+    if(q.length>0){
+      renderHomework(q,'');
+    }else{
+      renderHomework('','');
+    }
+  });
+
+  // Auto-run refresh
+  refreshAll();
+
+  // -----------------------
+  // Expose admin hooks (hidden) — admin.html will use these functions
+  // -----------------------
+  window.renderHomeworkFor = function(cls){
+    document.getElementById('classFilter').value = String(cls);
+    renderHomework('', String(cls));
+  };
+  window.refreshTeachers = function(){ renderTeachers(); };
+  window.refreshEvents = function(){ renderEvents(); };
+  window.refreshNotices = function(){ renderNotices(); };
+  window.refreshTimetable = function(){ renderTimetable(); };
+  window.refreshGallery = function(){ renderGallery(); };
+  window.refreshMessages = function(){ /* admin can read mkps_messages directly */ };
+  window.exportMkpsData = function(){ exportAllData(); };
+
+  // -----------------------
+  // Hidden admin hook example (not shown in UI): call openAdminPrompt() to validate password 'Abutalha'
+  // admin.html should not be linked visibly; instead it will use localStorage keys directly.
+  // -----------------------
+  window.openAdminPrompt = function(){
+    const pass = prompt('Enter admin password: (hidden)'); 
+    if(pass === 'Abutalha'){
+      // open admin.html in new tab (admin.html not provided here until requested)
+      window.open('admin.html','_blank');
+    } else {
+      alert('Incorrect password');
+    }
+  };
+
+  // -----------------------
+  // Small UX: allow pressing Escape to close lightbox (keyboard)
+  // -----------------------
+  document.addEventListener('keydown', (e)=> {
+    if(e.key === 'Escape'){
+      const lb = document.getElementById('lightbox');
+      if(lb && !lb.classList.contains('hidden')) { lb.classList.add('hidden'); lb.style.display='none'; }
+    }
+  });
+
+  // -----------------------
+  // Accessibility: small focus indicator
+  // -----------------------
+  document.addEventListener('focusin', (e)=> e.target.style.outline = '2px solid rgba(255,255,255,0.06)');
+  document.addEventListener('focusout', (e)=> e.target.style.outline = 'none');
+
+  // -----------------------
+  // Final: ensure footer year set already (redundant safe)
+  // -----------------------
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Informational console help for admin devs
+  console.log("MKPS Dashboard loaded. Admin hooks available: window.renderHomeworkFor(), window.refreshTeachers(), window.refreshEvents(), window.openAdminPrompt() (password hidden).");
+  </script>
 </body>
 </html>
