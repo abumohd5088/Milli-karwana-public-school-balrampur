@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Student Dashboard | Milli Karwaan Public School</title>
+  <title>EduSmart AI - Premium Learning Platform</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
@@ -26,13 +26,11 @@
       --border-radius: 12px;
       --transition: all 0.3s ease;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: #f0f2f5;
@@ -42,13 +40,11 @@
       transition: var(--transition);
       padding-bottom: 70px;
     }
-
     .container {
       display: flex;
       min-height: 100vh;
       flex-direction: column;
     }
-
     /* SIDEBAR */
     .sidebar {
       width: 280px;
@@ -66,7 +62,6 @@
       top: 0;
       left: 0;
     }
-
     .sidebar-header {
       padding: 24px 24px 20px;
       background: var(--gradient);
@@ -74,27 +69,27 @@
       text-align: center;
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-
     .logo {
       font-size: 26px;
       font-weight: 700;
       letter-spacing: -0.5px;
     }
-
     .logo span {
       color: #fff8;
     }
-
-    .school-name {
-      font-size: 12px;
-      margin-top: 2px;
-      opacity: 0.9;
+    .premium-badge {
+      display: inline-block;
+      background: linear-gradient(45deg, #f72585, #b5179e);
+      color: white;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      font-weight: 600;
     }
-
     .sidebar-nav {
       padding: 16px 0;
     }
-
     .nav-item {
       padding: 14px 24px;
       display: flex;
@@ -104,45 +99,40 @@
       border-left: 4px solid transparent;
       position: relative;
     }
-
     .nav-item:hover {
       background: rgba(67, 97, 238, 0.08);
     }
-
     .nav-item.active {
       background: rgba(67, 97, 238, 0.1);
       border-left-color: var(--primary);
       color: var(--primary);
       font-weight: 500;
     }
-
     .nav-icon {
       margin-right: 12px;
       font-size: 20px;
       width: 24px;
       text-align: center;
     }
-
     .nav-text {
       font-size: 15px;
       font-weight: 500;
     }
-
-    .notification-badge {
+    .ai-badge {
       position: absolute;
-      top: 12px;
       right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
       background: var(--warning);
       color: white;
       font-size: 10px;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     /* MOBILE FOOTER NAVIGATION */
     .mobile-nav {
       display: none;
@@ -155,10 +145,7 @@
       padding: 10px 0;
       z-index: 1000;
       border-top: 1px solid #eee;
-      display: flex;
-      justify-content: space-around;
     }
-
     .mobile-nav-item {
       flex: 1;
       text-align: center;
@@ -167,36 +154,29 @@
       color: var(--gray);
       font-size: 12px;
     }
-
     .mobile-nav-item.active {
       color: var(--primary);
     }
-
     .mobile-nav-icon {
       font-size: 20px;
       margin-bottom: 4px;
       display: block;
     }
-
     @media (max-width: 992px) {
       .mobile-nav {
         display: flex;
       }
-      
       .sidebar {
         transform: translateX(-100%);
         position: fixed;
       }
-      
       .sidebar.open {
         transform: translateX(0);
       }
-      
       .main-content {
         margin-left: 0;
       }
     }
-
     /* MAIN CONTENT */
     .main-content {
       flex: 1;
@@ -204,7 +184,6 @@
       transition: var(--transition);
       min-height: 100vh;
     }
-
     .header {
       background: white;
       box-shadow: var(--shadow-sm);
@@ -217,24 +196,20 @@
       align-items: center;
       border-bottom: 1px solid #eee;
     }
-
     .welcome {
       font-size: 16px;
       font-weight: 600;
       color: var(--dark);
       max-width: 70%;
     }
-
     .welcome span {
       color: var(--primary);
     }
-
     .user-info {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     .avatar {
       width: 36px;
       height: 36px;
@@ -247,12 +222,24 @@
       font-weight: 600;
       font-size: 14px;
     }
-
+    .premium-indicator {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      background: var(--warning);
+      color: white;
+      font-size: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .dropdown {
       position: relative;
       display: inline-block;
     }
-
     .dropdown-content {
       display: none;
       position: absolute;
@@ -266,11 +253,9 @@
       z-index: 1000;
       animation: slideDown 0.3s ease;
     }
-
     .dropdown:hover .dropdown-content {
       display: block;
     }
-
     .dropdown-item {
       padding: 14px 20px;
       display: flex;
@@ -280,27 +265,22 @@
       transition: var(--transition);
       border-bottom: 1px solid #eee;
     }
-
     .dropdown-item:last-child {
       border-bottom: none;
     }
-
     .dropdown-item:hover {
       background: rgba(67, 97, 238, 0.08);
       color: var(--primary);
     }
-
     .dropdown-icon {
       font-size: 18px;
       width: 24px;
       text-align: center;
     }
-
     /* DASHBOARD */
     .dashboard {
       padding: 20px;
     }
-
     .page-title {
       font-size: 24px;
       font-weight: 600;
@@ -310,18 +290,15 @@
       align-items: center;
       gap: 10px;
     }
-
     .page-title i {
       color: var(--primary);
     }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     }
-
     .stat-card {
       background: white;
       border-radius: var(--border-radius);
@@ -331,12 +308,10 @@
       border-top: 4px solid var(--primary);
       text-align: center;
     }
-
     .stat-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow);
     }
-
     .stat-icon {
       width: 40px;
       height: 40px;
@@ -348,35 +323,31 @@
       font-size: 18px;
       color: white;
     }
-
     .stat-icon.blue {
       background: var(--primary);
     }
-
     .stat-icon.green {
       background: #2a9d8f;
     }
-
     .stat-icon.orange {
       background: #e9c46a;
     }
-
     .stat-icon.purple {
       background: #8338ec;
     }
-
+    .stat-icon.pink {
+      background: var(--warning);
+    }
     .stat-title {
       font-size: 13px;
       color: var(--gray);
       margin-bottom: 6px;
     }
-
     .stat-value {
       font-size: 20px;
       font-weight: 700;
       color: var(--dark);
     }
-
     .homework-section {
       background: white;
       border-radius: var(--border-radius);
@@ -384,20 +355,17 @@
       box-shadow: var(--shadow-sm);
       margin-bottom: 20px;
     }
-
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
     }
-
     .section-title {
       font-size: 18px;
       font-weight: 600;
       color: var(--dark);
     }
-
     .view-all {
       color: var(--primary);
       font-weight: 500;
@@ -408,32 +376,26 @@
       font-size: 14px;
       transition: var(--transition);
     }
-
     .view-all:hover {
       color: var(--primary-light);
     }
-
     .homework-list {
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
     }
-
     .homework-card {
       border: 1px solid #e9ecef;
       border-radius: var(--border-radius);
       padding: 14px;
       transition: var(--transition);
       cursor: pointer;
-      position: relative;
     }
-
     .homework-card:hover {
       border-color: var(--primary);
       transform: translateY(-2px);
       box-shadow: var(--shadow-sm);
     }
-
     .hw-subject {
       font-weight: 600;
       color: var(--dark);
@@ -443,41 +405,25 @@
       gap: 6px;
       font-size: 15px;
     }
-
     .hw-subject i {
       color: var(--primary);
     }
-
     .hw-desc {
       color: var(--gray);
       font-size: 13px;
       margin-bottom: 10px;
       line-height: 1.4;
     }
-
     .hw-meta {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
       color: var(--info);
     }
-
     .due-soon {
       color: var(--warning) !important;
       font-weight: 500;
     }
-
-    .completed-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: var(--success);
-      color: white;
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 10px;
-    }
-
     /* FILTER BAR */
     .filter-bar {
       display: flex;
@@ -486,11 +432,9 @@
       overflow-x: auto;
       scrollbar-width: none;
     }
-
     .filter-bar::-webkit-scrollbar {
       display: none;
     }
-
     .filter-btn {
       background: white;
       border: 1px solid #e9ecef;
@@ -501,13 +445,11 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .filter-btn.active {
       background: var(--primary);
       color: white;
       border-color: var(--primary);
     }
-
     /* NOTIFICATIONS */
     .notification {
       position: fixed;
@@ -524,32 +466,19 @@
       transition: all 0.4s ease;
       border-left: 4px solid var(--primary);
     }
-
     .notification.show {
       transform: translateX(0);
       opacity: 1;
     }
-
     .notification-title {
       font-weight: 600;
       margin-bottom: 4px;
       color: var(--dark);
     }
-
     .notification-message {
       font-size: 14px;
       color: var(--gray);
     }
-
-    .close-notification {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      color: var(--gray);
-    }
-
     /* AI CHATBOX */
     .ai-chatbox {
       position: fixed;
@@ -568,12 +497,10 @@
       opacity: 0;
       transition: all 0.4s ease;
     }
-
     .ai-chatbox.open {
       transform: translateY(0);
       opacity: 1;
     }
-
     .chat-header {
       background: var(--gradient);
       color: white;
@@ -583,7 +510,6 @@
       justify-content: space-between;
       cursor: move;
     }
-
     .chat-title {
       font-weight: 600;
       display: flex;
@@ -591,16 +517,13 @@
       gap: 8px;
       font-size: 15px;
     }
-
     .chat-title i {
       font-size: 18px;
     }
-
     .chat-controls {
       display: flex;
       gap: 8px;
     }
-
     .chat-btn {
       background: rgba(255,255,255,0.2);
       border: none;
@@ -613,11 +536,9 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .chat-btn:hover {
       background: rgba(255,255,255,0.3);
     }
-
     .chat-body {
       flex: 1;
       padding: 12px;
@@ -628,7 +549,6 @@
       gap: 12px;
       max-height: 300px;
     }
-
     .chat-message {
       max-width: 80%;
       padding: 10px 12px;
@@ -636,14 +556,12 @@
       font-size: 14px;
       line-height: 1.4;
     }
-
     .message-user {
       align-self: flex-end;
       background: var(--primary);
       color: white;
       border-bottom-right-radius: 4px;
     }
-
     .message-ai {
       align-self: flex-start;
       background: white;
@@ -651,7 +569,6 @@
       border-bottom-left-radius: 4px;
       box-shadow: var(--shadow-sm);
     }
-
     .chat-input {
       padding: 12px 16px 12px;
       display: flex;
@@ -659,7 +576,6 @@
       background: white;
       border-top: 1px solid #e9ecef;
     }
-
     .chat-input input {
       flex: 1;
       padding: 8px 12px;
@@ -669,12 +585,10 @@
       font-family: inherit;
       font-size: 14px;
     }
-
     .chat-input input:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     }
-
     .send-btn {
       background: var(--primary);
       color: white;
@@ -688,11 +602,9 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .send-btn:hover {
       background: var(--primary-light);
     }
-
     /* AI MODE SELECTOR */
     .ai-mode-selector {
       display: flex;
@@ -702,7 +614,6 @@
       margin-bottom: 12px;
       font-size: 13px;
     }
-
     .ai-mode-btn {
       flex: 1;
       text-align: center;
@@ -711,13 +622,11 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .ai-mode-btn.active {
       background: white;
       box-shadow: var(--shadow-sm);
       font-weight: 500;
     }
-
     /* AI TOGGLE BUTTON */
     .ai-toggle {
       position: fixed;
@@ -737,11 +646,9 @@
       transition: var(--transition);
       animation: pulse 2s infinite;
     }
-
     .ai-toggle:hover {
       transform: scale(1.1);
     }
-
     /* FOOTER */
     footer {
       text-align: center;
@@ -758,7 +665,6 @@
       z-index: 1000;
       border-top: 1px solid #eee;
     }
-
     /* ANIMATIONS */
     @keyframes slideDown {
       from {
@@ -770,7 +676,6 @@
         transform: translateY(0);
       }
     }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -781,7 +686,6 @@
         transform: translateY(0);
       }
     }
-
     @keyframes pulse {
       0% {
         box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7);
@@ -793,27 +697,21 @@
         box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
       }
     }
-
     .fade-in {
       animation: fadeIn 0.6s ease forwards;
     }
-
     .delay-1 {
       animation-delay: 0.1s;
     }
-
     .delay-2 {
       animation-delay: 0.2s;
     }
-
     .delay-3 {
       animation-delay: 0.3s;
     }
-
     .delay-4 {
       animation-delay: 0.4s;
     }
-
     /* RESPONSIVE */
     @media (max-width: 1200px) {
       .sidebar {
@@ -828,7 +726,6 @@
         right: 15px;
       }
     }
-
     @media (max-width: 768px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -842,8 +739,13 @@
       .dashboard {
         padding: 16px;
       }
+      .sidebar {
+        width: 240px;
+      }
+      .main-content {
+        margin-left: 240px;
+      }
     }
-
     @media (max-width: 576px) {
       .ai-chatbox, .ai-toggle {
         width: calc(100% - 30px);
@@ -853,8 +755,43 @@
       .chat-input input {
         font-size: 13px;
       }
+      .sidebar {
+        width: 100%;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .stat-card {
+        padding: 14px;
+      }
+      .stat-value {
+        font-size: 18px;
+      }
+      .page-title {
+        font-size: 18px;
+      }
+      .section-title {
+        font-size: 16px;
+      }
+      .welcome {
+        font-size: 14px;
+      }
+      .nav-text {
+        font-size: 14px;
+      }
+      .homework-card {
+        padding: 12px;
+      }
+      .hw-desc {
+        font-size: 12px;
+      }
+      .hw-meta {
+        font-size: 11px;
+      }
     }
-
     /* HAMBURGER */
     .hamburger {
       display: none;
@@ -862,13 +799,11 @@
       cursor: pointer;
       color: var(--dark);
     }
-
     @media (max-width: 992px) {
       .hamburger {
         display: block;
       }
     }
-
     /* LOADER */
     .loader {
       position: fixed;
@@ -883,7 +818,6 @@
       z-index: 3000;
       transition: var(--transition);
     }
-
     .spinner {
       width: 50px;
       height: 50px;
@@ -892,12 +826,10 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
     /* MODAL */
     .modal {
       display: none;
@@ -911,7 +843,6 @@
       align-items: center;
       z-index: 2000;
     }
-
     .modal-content {
       background: white;
       border-radius: var(--border-radius);
@@ -923,7 +854,6 @@
       max-height: 90vh;
       overflow-y: auto;
     }
-
     .close-modal {
       position: absolute;
       top: 12px;
@@ -933,26 +863,21 @@
       color: var(--gray);
       transition: var(--transition);
     }
-
     .close-modal:hover {
       color: var(--danger);
     }
-
     .modal-title {
       font-size: 20px;
       font-weight: 600;
       margin-bottom: 16px;
       color: var(--dark);
     }
-
     .modal-body {
       margin-bottom: 20px;
     }
-
     .form-group {
       margin-bottom: 16px;
     }
-
     .form-label {
       display: block;
       margin-bottom: 6px;
@@ -960,7 +885,6 @@
       color: var(--dark);
       font-size: 14px;
     }
-
     .form-control {
       width: 100%;
       padding: 10px 12px;
@@ -971,12 +895,10 @@
       outline: none;
       transition: var(--transition);
     }
-
     .form-control:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     }
-
     .btn {
       padding: 10px 18px;
       border: none;
@@ -987,25 +909,28 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .btn-primary {
       background: var(--primary);
       color: white;
     }
-
     .btn-primary:hover {
       background: var(--primary-light);
     }
-
     .btn-block {
       width: 100%;
     }
-
     .btn-sm {
       padding: 8px 12px;
       font-size: 13px;
     }
-
+    .btn-success {
+      background: #2a9d8f;
+      color: white;
+    }
+    .btn-warning {
+      background: #e9c46a;
+      color: #1d3557;
+    }
     /* PROFILE MODAL */
     .profile-header {
       text-align: center;
@@ -1013,7 +938,6 @@
       border-bottom: 1px solid #e9ecef;
       margin-bottom: 16px;
     }
-
     .profile-avatar {
       width: 70px;
       height: 70px;
@@ -1027,25 +951,21 @@
       font-weight: 600;
       margin-bottom: 8px;
     }
-
     .profile-name {
       font-size: 18px;
       font-weight: 600;
       color: var(--dark);
     }
-
     .profile-class {
       color: var(--info);
       font-size: 14px;
     }
-
     /* SETTINGS */
     .settings-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
     }
-
     .setting-item {
       padding: 14px;
       border: 1px solid #e9ecef;
@@ -1054,25 +974,21 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .setting-label {
       font-weight: 500;
       font-size: 14px;
     }
-
     .toggle {
       position: relative;
       display: inline-block;
       width: 44px;
       height: 22px;
     }
-
     .toggle input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-
     .slider {
       position: absolute;
       cursor: pointer;
@@ -1084,7 +1000,6 @@
       transition: .4s;
       border-radius: 22px;
     }
-
     .slider:before {
       position: absolute;
       content: "";
@@ -1096,20 +1011,16 @@
       transition: .4s;
       border-radius: 50%;
     }
-
     input:checked + .slider {
       background-color: var(--primary);
     }
-
     input:checked + .slider:before {
       transform: translateX(22px);
     }
-
     /* ADMIN HOOK */
     .admin-hook {
       display: none;
     }
-
     /* BADGE FOR NOTIFICATIONS */
     .notification-badge {
       position: absolute;
@@ -1125,941 +1036,211 @@
       align-items: center;
       justify-content: center;
     }
-
-    /* PROGRESS BAR */
-    .progress-container {
-      width: 100%;
-      height: 6px;
-      background: #e9ecef;
-      border-radius: 3px;
-      margin: 8px 0;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: var(--primary);
-      border-radius: 3px;
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    /* TIMELINE */
-    .timeline {
-      position: relative;
-      padding: 20px 0 10px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 20px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: #e9ecef;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 20px;
-      padding-left: 40px;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: 15px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--primary);
-      top: 3px;
-    }
-
-    .timeline-date {
-      font-size: 12px;
-      color: var(--info);
-      margin-bottom: 4px;
-    }
-
-    .timeline-content {
-      background: white;
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* CALENDAR */
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin: 12px 0;
-    }
-
-    .calendar-header {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin-bottom: 8px;
-    }
-
-    .calendar-day {
-      text-align: center;
-      font-weight: 600;
-      font-size: 12px;
-      color: var(--dark);
-      padding: 6px 0;
-    }
-
-    .calendar-date {
-      text-align: center;
-      padding: 8px 0;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 50%;
-      transition: var(--transition);
-    }
-
-    .calendar-date:hover {
-      background: #e9ecef;
-    }
-
-    .calendar-date.today {
-      background: var(--primary);
+    /* PREMIUM FEATURES */
+    .premium-features {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: white;
-    }
-
-    .calendar-date.other-month {
-      color: #ccc;
-    }
-
-    .calendar-date.has-event {
-      position: relative;
-    }
-
-    .calendar-date.has-event::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: var(--warning);
-      border-radius: 50%;
-    }
-
-    /* STUDY PLANNER */
-    .study-planner {
-      background: white;
       border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
+      padding: 20px;
       margin-bottom: 20px;
-    }
-
-    .planner-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .planner-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--dark);
-    }
-
-    .planner-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .planner-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .planner-btn:hover {
-      background: var(--primary-light);
-    }
-
-    .planner-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .planner-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-
-    .planner-subject {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .planner-time {
-      color: var(--info);
-      font-size: 13px;
-    }
-
-    .planner-status {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #ccc;
-    }
-
-    .planner-status.completed {
-      background: var(--success);
-    }
-
-    /* SUBJECT CARDS */
-    .subject-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .subject-card {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .subject-card:hover {
-      transform: translateY(-4px);
       box-shadow: var(--shadow);
     }
-
-    .subject-icon {
-      width: 40px;
-      height: 40px;
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 10px;
-      font-size: 18px;
-      color: white;
-    }
-
-    .subject-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .subject-progress {
-      font-size: 12px;
-      color: var(--info);
-      margin-top: 6px;
-    }
-
-    /* EXAM SCHEDULE */
-    .exam-schedule {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .exam-item {
       padding: 12px;
-      border-bottom: 1px solid #e9ecef;
+      text-align: center;
+      backdrop-filter: blur(10px);
     }
-
-    .exam-item:last-child {
-      border-bottom: none;
-    }
-
-    .exam-subject {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 6px;
-    }
-
-    .exam-date {
-      color: var(--info);
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .exam-venue {
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    /* ACHIEVEMENTS */
-    .achievements {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .achievement-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .achievement-item:last-child {
-      border-bottom: none;
-    }
-
-    .achievement-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: white;
-    }
-
-    .achievement-info {
-      flex: 1;
-    }
-
-    .achievement-title {
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 14px;
-    }
-
-    .achievement-date {
-      color: var(--info);
-      font-size: 12px;
-    }
-
-    /* TEACHER NOTES */
-    .teacher-notes {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .note-item {
-      padding: 12px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .note-item:last-child {
-      border-bottom: none;
-    }
-
-    .note-teacher {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .note-subject {
-      color: var(--info);
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .note-content {
-      color: var(--gray);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    /* DAILY SCHEDULE */
-    .daily-schedule {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .schedule-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .schedule-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--dark);
-    }
-
-    .schedule-day {
-      color: var(--info);
-      font-size: 14px;
-    }
-
-    .schedule-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .schedule-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 12px;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-
-    .schedule-time {
-      color: var(--info);
-      font-size: 13px;
-      min-width: 60px;
-    }
-
-    .schedule-class {
-      flex: 1;
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 14px;
-    }
-
-    .schedule-room {
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    /* ANNOUNCEMENTS */
-    .announcements {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .announcement-item {
-      padding: 12px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .announcement-item:last-child {
-      border-bottom: none;
-    }
-
-    .announcement-title {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-
-    .announcement-date {
-      color: var(--info);
-      font-size: 12px;
+    .feature-icon {
+      font-size: 24px;
       margin-bottom: 8px;
     }
-
-    .announcement-content {
-      color: var(--gray);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    /* LIBRARY RESOURCES */
-    .library-resources {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .resource-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .resource-item:last-child {
-      border-bottom: none;
-    }
-
-    .resource-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: white;
-    }
-
-    .resource-info {
-      flex: 1;
-    }
-
-    .resource-title {
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 14px;
-    }
-
-    .resource-type {
-      color: var(--info);
-      font-size: 12px;
-    }
-
-    .resource-action {
-      color: var(--primary);
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* PARENT COMMUNICATION */
-    .parent-communication {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .message-item {
-      padding: 12px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .message-item:last-child {
-      border-bottom: none;
-    }
-
-    .message-sender {
+    .feature-title {
       font-weight: 600;
-      color: var(--dark);
+      font-size: 14px;
       margin-bottom: 4px;
-      font-size: 14px;
     }
-
-    .message-date {
-      color: var(--info);
+    .feature-desc {
       font-size: 12px;
-      margin-bottom: 6px;
+      opacity: 0.9;
     }
-
-    .message-content {
-      color: var(--gray);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .message-status {
-      font-size: 11px;
-      color: var(--success);
-      margin-top: 4px;
-    }
-
-    /* ATTENDANCE */
-    .attendance {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .attendance-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .attendance-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--dark);
-    }
-
-    .attendance-percentage {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--success);
-    }
-
-    .attendance-chart {
-      height: 120px;
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      margin-bottom: 16px;
-    }
-
-    .attendance-bar {
-      flex: 1;
-      background: #e9ecef;
-      border-radius: 4px 4px 0 0;
-      position: relative;
-    }
-
-    .attendance-bar-fill {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: var(--primary);
-      border-radius: 4px 4px 0 0;
-      height: 0%;
-      transition: height 0.3s ease;
-    }
-
-    .attendance-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--info);
-    }
-
-    /* GRADES */
-    .grades {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .grade-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .grade-item:last-child {
-      border-bottom: none;
-    }
-
-    .grade-subject {
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .grade-score {
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    .grade-a {
-      color: var(--success);
-    }
-
-    .grade-b {
-      color: #2a9d8f;
-    }
-
-    .grade-c {
-      color: #e9c46a;
-    }
-
-    .grade-d {
-      color: var(--warning);
-    }
-
-    .grade-f {
-      color: var(--danger);
-    }
-
-    /* RECENT ACTIVITY */
-    .recent-activity {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .activity-item {
+    /* AI TUTOR */
+    .ai-tutor {
       display: flex;
       gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .activity-item:last-child {
-      border-bottom: none;
-    }
-
-    .activity-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      color: var(--primary);
-    }
-
-    .activity-info {
-      flex: 1;
-    }
-
-    .activity-title {
-      font-weight: 500;
-      color: var(--dark);
-      font-size: 14px;
-    }
-
-    .activity-time {
-      color: var(--info);
-      font-size: 12px;
-    }
-
-    /* ASSIGNMENT SUBMISSION */
-    .assignment-submission {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .submission-item {
+      margin-bottom: 16px;
       padding: 12px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .submission-item:last-child {
-      border-bottom: none;
-    }
-
-    .submission-title {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-
-    .submission-subject {
-      color: var(--info);
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .submission-status {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .status-label {
-      font-size: 13px;
-      padding: 4px 8px;
+      background: #f8f9fa;
       border-radius: 12px;
     }
-
-    .status-pending {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    .status-submitted {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .status-graded {
-      background: #cce5ff;
-      color: #004085;
-    }
-
-    .submission-actions {
+    .ai-tutor-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient);
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .submission-btn {
-      background: var(--primary);
+      align-items: center;
+      justify-content: center;
       color: white;
-      border: none;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .ai-tutor-info {
+      flex: 1;
+    }
+    .ai-tutor-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--dark);
+    }
+    .ai-tutor-status {
+      font-size: 12px;
+      color: var(--success);
+    }
+    .ai-tutor-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .ai-tutor-btn {
+      background: white;
+      border: 1px solid #e9ecef;
       padding: 6px 12px;
       border-radius: 8px;
       font-size: 13px;
       cursor: pointer;
       transition: var(--transition);
     }
-
-    .submission-btn:hover {
-      background: var(--primary-light);
+    .ai-tutor-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
     }
-
-    .submission-btn.secondary {
-      background: #e9ecef;
-      color: var(--dark);
-    }
-
-    .submission-btn.secondary:hover {
-      background: #dee2e6;
-    }
-
-    /* DASHBOARD CUSTOMIZATION */
-    .dashboard-customization {
+    /* PROGRESS TRACKING */
+    .progress-section {
       background: white;
       border-radius: var(--border-radius);
       padding: 18px;
       box-shadow: var(--shadow-sm);
       margin-bottom: 20px;
     }
-
-    .customization-title {
+    .progress-bar {
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.8s ease;
+    }
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--info);
+    }
+    /* AI PREMIUM FEATURES */
+    .ai-premium {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+    .ai-premium-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .ai-premium-title {
       font-size: 18px;
       font-weight: 600;
       color: var(--dark);
-      margin-bottom: 16px;
     }
-
-    .customization-options {
+    .ai-premium-badge {
+      background: var(--warning);
+      color: white;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .ai-premium-features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: 1fr;
       gap: 12px;
     }
-
-    .customization-option {
+    .ai-feature {
       padding: 12px;
       border: 1px solid #e9ecef;
       border-radius: 8px;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-
-    .customization-option:hover {
-      border-color: var(--primary);
-      background: rgba(67, 97, 238, 0.05);
+    .ai-feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
     }
-
-    .customization-option.selected {
-      border-color: var(--primary);
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--primary);
+    .ai-feature-info {
+      flex: 1;
     }
-
-    .option-icon {
-      font-size: 20px;
-      margin-bottom: 8px;
+    .ai-feature-title {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--dark);
     }
-
-    .option-label {
-      font-size: 13px;
+    .ai-feature-desc {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    .ai-feature-status {
+      font-size: 12px;
+      color: var(--success);
       font-weight: 500;
     }
-
-    /* RESPONSIVE MODIFICATIONS */
-    @media (max-width: 768px) {
-      .subject-grid, .customization-options {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .homework-list {
-        gap: 10px;
-      }
-      
-      .homework-card {
-        padding: 12px;
-      }
-      
-      .hw-desc {
-        font-size: 12px;
-      }
-      
-      .hw-meta {
-        font-size: 11px;
-      }
-      
-      .stats-grid {
-        gap: 12px;
-      }
-      
-      .stat-card {
-        padding: 14px;
-      }
-      
-      .stat-value {
-        font-size: 18px;
-      }
-    }
-
+    /* RESPONSIVE AI */
     @media (max-width: 576px) {
-      .subject-grid, .customization-options {
+      .ai-chatbox {
+        width: calc(100% - 30px);
+        left: 15px;
+        right: 15px;
+        height: 400px;
+      }
+      .ai-toggle {
+        width: 45px;
+        height: 45px;
+        right: 15px;
+        bottom: 90px;
+      }
+      .feature-grid {
         grid-template-columns: 1fr;
       }
-      
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
+      .ai-tutor {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      
-      .welcome {
-        font-size: 14px;
-      }
-      
-      .page-title {
-        font-size: 20px;
-      }
-      
-      .dashboard {
-        padding: 16px;
-      }
-      
-      .homework-section, .study-planner, .exam-schedule, .achievements, .teacher-notes, .daily-schedule, .announcements, .library-resources, .parent-communication, .attendance, .grades, .recent-activity, .assignment-submission, .dashboard-customization {
-        padding: 16px;
-      }
-      
-      .section-title, .planner-title, .exam-subject, .achievement-title, .note-teacher, .schedule-title, .announcement-title, .resource-title, .message-sender, .attendance-title, .grade-subject, .activity-title, .submission-title, .customization-title {
-        font-size: 16px;
-      }
-      
-      .hw-subject {
-        font-size: 14px;
-      }
-      
-      .hw-desc {
-        font-size: 12px;
-      }
-      
-      .hw-meta {
-        font-size: 11px;
+      .ai-tutor-actions {
+        margin-top: 10px;
       }
     }
   </style>
@@ -2068,13 +1249,12 @@
   <div class="loader">
     <div class="spinner"></div>
   </div>
-
   <div class="container">
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-header">
-        <div class="logo">MK<span>PS</span></div>
-        <div class="school-name">Milli Karwaan Public School</div>
+        <div class="logo">Edu<span>Smart</span> <span class="premium-badge">PREMIUM</span></div>
+        <div style="font-size: 11px; margin-top: 2px; opacity: 0.9;">AI-Powered Learning Platform</div>
       </div>
       <div class="sidebar-nav">
         <div class="nav-item active" data-page="dashboard">
@@ -2084,19 +1264,11 @@
         <div class="nav-item" data-page="homework">
           <span class="nav-icon"><i class="material-icons-round">assignment</i></span>
           <span class="nav-text">Homework</span>
-          <div class="notification-badge">3</div>
         </div>
         <div class="nav-item" data-page="ai-help">
           <span class="nav-icon"><i class="material-icons-round">smart_toy</i></span>
           <span class="nav-text">AI Assistant</span>
-        </div>
-        <div class="nav-item" data-page="schedule">
-          <span class="nav-icon"><i class="material-icons-round">schedule</i></span>
-          <span class="nav-text">Schedule</span>
-        </div>
-        <div class="nav-item" data-page="grades">
-          <span class="nav-icon"><i class="material-icons-round">grade</i></span>
-          <span class="nav-text">Grades</span>
+          <span class="ai-badge">2</span>
         </div>
         <div class="nav-item" data-page="profile">
           <span class="nav-icon"><i class="material-icons-round">person</i></span>
@@ -2106,29 +1278,59 @@
           <span class="nav-icon"><i class="material-icons-round">settings</i></span>
           <span class="nav-text">Settings</span>
         </div>
+        <div class="nav-item" data-page="premium">
+          <span class="nav-icon"><i class="material-icons-round">star</i></span>
+          <span class="nav-text">Premium Features</span>
+        </div>
         <div class="nav-item logout-btn">
           <span class="nav-icon"><i class="material-icons-round">logout</i></span>
           <span class="nav-text">Logout</span>
         </div>
       </div>
     </div>
-
     <!-- MAIN CONTENT -->
     <div class="main-content">
       <div class="header">
         <div class="hamburger">
           <i class="material-icons-round">menu</i>
         </div>
-        <div class="welcome fade-in" id="welcome-text">Welcome, <span id="student-name">Aarav Sharma</span></div>
+        <div class="welcome fade-in" id="welcome-text">Welcome, <span id="student-name">Aarav Sharma</span> <span class="premium-badge">PREMIUM</span></div>
         <div class="user-info">
           <div class="avatar" id="user-avatar">AS</div>
         </div>
       </div>
-
       <!-- DASHBOARD PAGE -->
       <div class="dashboard" id="dashboard-page">
         <h1 class="page-title fade-in"><i class="fas fa-home"></i> Dashboard</h1>
         
+        <!-- Premium Features Section -->
+        <div class="premium-features fade-in delay-1">
+          <h3 style="margin-bottom: 8px;">Premium AI Features</h3>
+          <p style="opacity: 0.9; font-size: 14px;">Unlock advanced learning with our AI-powered tools</p>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-brain"></i></div>
+              <div class="feature-title">AI Tutor</div>
+              <div class="feature-desc">Personalized learning with adaptive AI</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+              <div class="feature-title">Progress Tracking</div>
+              <div class="feature-desc">Real-time learning analytics</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-microphone"></i></div>
+              <div class="feature-title">Voice Assistant</div>
+              <div class="feature-desc">Talk to your AI tutor naturally</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+              <div class="feature-title">Exam Prep</div>
+              <div class="feature-desc">AI-generated practice tests</div>
+            </div>
+          </div>
+        </div>
+
         <div class="stats-grid">
           <div class="stat-card fade-in delay-1">
             <div class="stat-icon blue">
@@ -2142,7 +1344,7 @@
               <i class="fas fa-tasks"></i>
             </div>
             <div class="stat-title">Due</div>
-            <div class="stat-value" id="homework-due">3</div>
+            <div class="stat-value" id="homework-due">2</div>
           </div>
           <div class="stat-card fade-in delay-3">
             <div class="stat-icon orange">
@@ -2158,6 +1360,64 @@
             <div class="stat-title">Grade</div>
             <div class="stat-value">A+</div>
           </div>
+          <div class="stat-card fade-in delay-1">
+            <div class="stat-icon pink">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-title">AI Score</div>
+            <div class="stat-value">92%</div>
+          </div>
+          <div class="stat-card fade-in delay-2">
+            <div class="stat-icon blue">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <div class="stat-title">Badges</div>
+            <div class="stat-value">15</div>
+          </div>
+        </div>
+
+        <!-- AI Tutor Section -->
+        <div class="ai-tutor fade-in delay-1">
+          <div class="ai-tutor-avatar">AI</div>
+          <div class="ai-tutor-info">
+            <div class="ai-tutor-name">EduSmart AI Tutor</div>
+            <div class="ai-tutor-status"><i class="fas fa-circle" style="font-size: 8px; margin-right: 4px;"></i> Online & Ready to Help</div>
+          </div>
+          <div class="ai-tutor-actions">
+            <button class="ai-tutor-btn" id="start-ai-session">Start Session</button>
+            <button class="ai-tutor-btn" id="ai-quick-help">Quick Help</button>
+          </div>
+        </div>
+
+        <!-- Progress Tracking -->
+        <div class="progress-section fade-in delay-2">
+          <h2 class="section-title">Learning Progress</h2>
+          <div style="margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Mathematics</span>
+              <span>85%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 85%;"></div>
+            </div>
+            <div class="progress-stats">
+              <span>Mastered: 12/14 topics</span>
+              <span>Next goal: 90%</span>
+            </div>
+          </div>
+          <div style="margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Science</span>
+              <span>78%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 78%;"></div>
+            </div>
+            <div class="progress-stats">
+              <span>Mastered: 9/12 topics</span>
+              <span>Next goal: 85%</span>
+            </div>
+          </div>
         </div>
 
         <div class="homework-section fade-in delay-1">
@@ -2169,82 +1429,39 @@
             <!-- Homework items will be inserted here -->
           </div>
         </div>
-
-        <div class="study-planner fade-in delay-2">
-          <div class="planner-header">
-            <h2 class="planner-title">Study Planner</h2>
-            <div class="planner-actions">
-              <button class="planner-btn">Add Task</button>
-            </div>
-          </div>
-          <div class="planner-list">
-            <div class="planner-item">
-              <div>
-                <div class="planner-subject">Mathematics</div>
-                <div class="planner-time">Today, 4:00 PM</div>
-              </div>
-              <div class="planner-status completed"></div>
-            </div>
-            <div class="planner-item">
-              <div>
-                <div class="planner-subject">Science</div>
-                <div class="planner-time">Today, 5:30 PM</div>
-              </div>
-              <div class="planner-status"></div>
-            </div>
-            <div class="planner-item">
-              <div>
-                <div class="planner-subject">English</div>
-                <div class="planner-time">Tomorrow, 3:00 PM</div>
-              </div>
-              <div class="planner-status"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="exam-schedule fade-in delay-3">
+        <div class="homework-section fade-in delay-2">
           <div class="section-header">
-            <h2 class="section-title">Upcoming Exams</h2>
-            <div class="view-all">View All</div>
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="view-all">View Calendar</div>
           </div>
-          <div class="exam-item">
-            <div class="exam-subject">Mathematics</div>
-            <div class="exam-date"><i class="far fa-calendar"></i> Next Monday, 9:00 AM</div>
-            <div class="exam-venue"><i class="fas fa-map-marker-alt"></i> Room 101</div>
-          </div>
-          <div class="exam-item">
-            <div class="exam-subject">Science</div>
-            <div class="exam-date"><i class="far fa-calendar"></i> Next Wednesday, 10:00 AM</div>
-            <div class="exam-venue"><i class="fas fa-map-marker-alt"></i> Room 102</div>
-          </div>
-        </div>
-
-        <div class="achievements fade-in delay-4">
-          <div class="section-header">
-            <h2 class="section-title">Achievements</h2>
-            <div class="view-all">View All</div>
-          </div>
-          <div class="achievement-item">
-            <div class="achievement-icon" style="background: var(--primary);">
-              <i class="fas fa-medal"></i>
+          <div class="homework-list">
+            <div class="homework-card">
+              <div class="hw-subject"><i class="fas fa-microphone"></i> Annual Day Practice</div>
+              <div class="hw-desc">Final rehearsal for the annual day performance. All students must attend.</div>
+              <div class="hw-meta">
+                <span><i class="far fa-calendar"></i> Tomorrow</span>
+                <span><i class="far fa-clock"></i> 3:00 PM</span>
+              </div>
             </div>
-            <div class="achievement-info">
-              <div class="achievement-title">Mathematics Olympiad Winner</div>
-              <div class="achievement-date">March 2025</div>
+            <div class="homework-card">
+              <div class="hw-subject"><i class="fas fa-flask"></i> Science Fair</div>
+              <div class="hw-desc">Science exhibition for classes 6-8. Project submissions due by Friday.</div>
+              <div class="hw-meta">
+                <span><i class="far fa-calendar"></i> This Friday</span>
+                <span><i class="far fa-clock"></i> 10:00 AM</span>
+              </div>
             </div>
-          </div>
-          <div class="achievement-item">
-            <div class="achievement-icon" style="background: #2a9d8f;">
-              <i class="fas fa-trophy"></i>
-            </div>
-            <div class="achievement-info">
-              <div class="achievement-title">Best Science Project</div>
-              <div class="achievement-date">February 2025</div>
+            <div class="homework-card">
+              <div class="hw-subject"><i class="fas fa-pencil-alt"></i> Unit Test</div>
+              <div class="hw-desc">Mathematics unit test covering chapters 5-7. Prepare well.</div>
+              <div class="hw-meta">
+                <span><i class="far fa-calendar"></i> Next Monday</span>
+                <span><i class="far fa-clock"></i> 9:00 AM</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- HOMEWORK PAGE -->
       <div class="dashboard" id="homework-page" style="display: none;">
         <h1 class="page-title"><i class="fas fa-clipboard-list"></i> Homework</h1>
@@ -2262,44 +1479,68 @@
             <!-- All homework will be inserted here -->
           </div>
         </div>
-
-        <div class="assignment-submission">
-          <div class="section-header">
-            <h2 class="section-title">Assignment Submission</h2>
-          </div>
-          <div class="submission-item">
-            <div class="submission-title">Mathematics Assignment 3</div>
-            <div class="submission-subject">Due: Tomorrow</div>
-            <div class="submission-status">
-              <span class="status-label status-pending">Pending</span>
-            </div>
-            <div class="submission-actions">
-              <button class="submission-btn">Submit Assignment</button>
-              <button class="submission-btn secondary">View Details</button>
-            </div>
-          </div>
-          <div class="submission-item">
-            <div class="submission-title">Science Project</div>
-            <div class="submission-subject">Due: This Friday</div>
-            <div class="submission-status">
-              <span class="status-label status-submitted">Submitted</span>
-            </div>
-            <div class="submission-actions">
-              <button class="submission-btn secondary">View Feedback</button>
-            </div>
-          </div>
-        </div>
       </div>
-
       <!-- AI HELP PAGE -->
       <div class="dashboard" id="ai-help-page" style="display: none;">
         <h1 class="page-title"><i class="fas fa-robot"></i> AI Assistant</h1>
+        
+        <!-- AI Premium Features -->
+        <div class="ai-premium">
+          <div class="ai-premium-header">
+            <div class="ai-premium-title">Premium AI Features</div>
+            <div class="ai-premium-badge">ACTIVE</div>
+          </div>
+          <div class="ai-premium-features">
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Smart Study Planner</div>
+                <div class="ai-feature-desc">AI-generated personalized study schedule based on your learning patterns</div>
+              </div>
+              <div class="ai-feature-status">Active</div>
+            </div>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Performance Analytics</div>
+                <div class="ai-feature-desc">Detailed insights into your strengths, weaknesses, and progress</div>
+              </div>
+              <div class="ai-feature-status">Active</div>
+            </div>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-microphone"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Voice Interaction</div>
+                <div class="ai-feature-desc">Talk naturally to your AI tutor using voice commands</div>
+              </div>
+              <div class="ai-feature-status">Active</div>
+            </div>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Exam Simulator</div>
+                <div class="ai-feature-desc">Realistic exam conditions with AI-generated questions</div>
+              </div>
+              <div class="ai-feature-status">Active</div>
+            </div>
+          </div>
+        </div>
+
         <div class="homework-section">
           <div class="ai-mode-selector">
             <div class="ai-mode-btn active" data-mode="homework">Homework Help</div>
             <div class="ai-mode-btn" data-mode="general">General Knowledge</div>
+            <div class="ai-mode-btn" data-mode="exam">Exam Prep</div>
           </div>
-          <p style="margin-bottom: 12px; color: var(--gray); font-size: 14px;">Ask any question and get instant help.</p>
+          <p style="margin-bottom: 12px; color: var(--gray); font-size: 14px;">Ask any question and get instant help from our AI tutors.</p>
           <div style="background: #f8f9fa; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
             <div style="background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 12px; margin-bottom: 12px;">
               <div style="color: var(--gray); font-size: 13px; margin-bottom: 6px;">Try asking:</div>
@@ -2308,6 +1549,7 @@
                 <span style="background: #e3f2fd; color: var(--primary); padding: 4px 8px; border-radius: 12px; font-size: 12px; cursor: pointer;" class="suggestion" data-query="Solve 2x + 5 = 15">Solve equation</span>
                 <span style="background: #e3f2fd; color: var(--primary); padding: 4px 8px; border-radius: 12px; font-size: 12px; cursor: pointer;" class="suggestion" data-query="Water cycle steps">Water cycle</span>
                 <span style="background: #e3f2fd; color: var(--primary); padding: 4px 8px; border-radius: 12px; font-size: 12px; cursor: pointer;" class="suggestion" data-query="Help with essay writing">Essay help</span>
+                <span style="background: #e3f2fd; color: var(--primary); padding: 4px 8px; border-radius: 12px; font-size: 12px; cursor: pointer;" class="suggestion" data-query="Prepare me for math exam">Exam prep</span>
               </div>
             </div>
             <div style="display: flex; gap: 8px;">
@@ -2323,227 +1565,6 @@
           </div>
         </div>
       </div>
-
-      <!-- SCHEDULE PAGE -->
-      <div class="dashboard" id="schedule-page" style="display: none;">
-        <h1 class="page-title"><i class="fas fa-calendar-alt"></i> Daily Schedule</h1>
-        
-        <div class="daily-schedule">
-          <div class="schedule-header">
-            <h2 class="schedule-title">Today's Classes</h2>
-            <div class="schedule-day">Monday, April 15, 2025</div>
-          </div>
-          <div class="schedule-list">
-            <div class="schedule-item">
-              <div class="schedule-time">9:00-10:00</div>
-              <div class="schedule-class">Mathematics</div>
-              <div class="schedule-room">Room 101</div>
-            </div>
-            <div class="schedule-item">
-              <div class="schedule-time">10:15-11:15</div>
-              <div class="schedule-class">Science</div>
-              <div class="schedule-room">Room 102</div>
-            </div>
-            <div class="schedule-item">
-              <div class="schedule-time">11:30-12:30</div>
-              <div class="schedule-class">English</div>
-              <div class="schedule-room">Room 103</div>
-            </div>
-            <div class="schedule-item">
-              <div class="schedule-time">1:30-2:30</div>
-              <div class="schedule-class">Social Studies</div>
-              <div class="schedule-room">Room 104</div>
-            </div>
-            <div class="schedule-item">
-              <div class="schedule-time">2:45-3:45</div>
-              <div class="schedule-class">Computer</div>
-              <div class="schedule-room">Lab 1</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="calendar">
-          <div class="calendar-header">
-            <div class="calendar-day">Sun</div>
-            <div class="calendar-day">Mon</div>
-            <div class="calendar-day">Tue</div>
-            <div class="calendar-day">Wed</div>
-            <div class="calendar-day">Thu</div>
-            <div class="calendar-day">Fri</div>
-            <div class="calendar-day">Sat</div>
-          </div>
-          <div class="calendar-date other-month">31</div>
-          <div class="calendar-date">1</div>
-          <div class="calendar-date">2</div>
-          <div class="calendar-date">3</div>
-          <div class="calendar-date">4</div>
-          <div class="calendar-date">5</div>
-          <div class="calendar-date">6</div>
-          <div class="calendar-date">7</div>
-          <div class="calendar-date">8</div>
-          <div class="calendar-date">9</div>
-          <div class="calendar-date">10</div>
-          <div class="calendar-date">11</div>
-          <div class="calendar-date">12</div>
-          <div class="calendar-date">13</div>
-          <div class="calendar-date">14</div>
-          <div class="calendar-date today">15</div>
-          <div class="calendar-date has-event">16</div>
-          <div class="calendar-date has-event">17</div>
-          <div class="calendar-date">18</div>
-          <div class="calendar-date">19</div>
-          <div class="calendar-date">20</div>
-          <div class="calendar-date">21</div>
-          <div class="calendar-date">22</div>
-          <div class="calendar-date">23</div>
-          <div class="calendar-date">24</div>
-          <div class="calendar-date">25</div>
-          <div class="calendar-date">26</div>
-          <div class="calendar-date">27</div>
-          <div class="calendar-date">28</div>
-          <div class="calendar-date">29</div>
-          <div class="calendar-date">30</div>
-          <div class="calendar-date other-month">1</div>
-          <div class="calendar-date other-month">2</div>
-          <div class="calendar-date other-month">3</div>
-        </div>
-
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">9:00 AM</div>
-            <div class="timeline-content">
-              <div>Mathematics Class</div>
-              <div style="color: var(--info); font-size: 12px;">Room 101</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">10:15 AM</div>
-            <div class="timeline-content">
-              <div>Science Class</div>
-              <div style="color: var(--info); font-size: 12px;">Room 102</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">11:30 AM</div>
-            <div class="timeline-content">
-              <div>English Class</div>
-              <div style="color: var(--info); font-size: 12px;">Room 103</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">1:30 PM</div>
-            <div class="timeline-content">
-              <div>Social Studies</div>
-              <div style="color: var(--info); font-size: 12px;">Room 104</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">2:45 PM</div>
-            <div class="timeline-content">
-              <div>Computer Class</div>
-              <div style="color: var(--info); font-size: 12px;">Lab 1</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GRADES PAGE -->
-      <div class="dashboard" id="grades-page" style="display: none;">
-        <h1 class="page-title"><i class="fas fa-star"></i> Grades</h1>
-        
-        <div class="grades">
-          <div class="section-header">
-            <h2 class="section-title">Current Grades</h2>
-            <div class="view-all">View All</div>
-          </div>
-          <div class="grade-item">
-            <div class="grade-subject">Mathematics</div>
-            <div class="grade-score grade-a">A+</div>
-          </div>
-          <div class="grade-item">
-            <div class="grade-subject">Science</div>
-            <div class="grade-score grade-a">A</div>
-          </div>
-          <div class="grade-item">
-            <div class="grade-subject">English</div>
-            <div class="grade-score grade-b">B+</div>
-          </div>
-          <div class="grade-item">
-            <div class="grade-subject">Social Studies</div>
-            <div class="grade-score grade-b">B</div>
-          </div>
-          <div class="grade-item">
-            <div class="grade-subject">Hindi</div>
-            <div class="grade-score grade-c">C+</div>
-          </div>
-          <div class="grade-item">
-            <div class="grade-subject">Computer</div>
-            <div class="grade-score grade-a">A</div>
-          </div>
-        </div>
-
-        <div class="attendance">
-          <div class="attendance-header">
-            <h2 class="attendance-title">Attendance</h2>
-            <div class="attendance-percentage">96%</div>
-          </div>
-          <div class="attendance-chart">
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 90%;"></div></div>
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 95%;"></div></div>
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 85%;"></div></div>
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 100%;"></div></div>
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 90%;"></div></div>
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 95%;"></div></div>
-            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 100%;"></div></div>
-          </div>
-          <div class="attendance-labels">
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-            <div>Sun</div>
-          </div>
-        </div>
-
-        <div class="subject-grid">
-          <div class="subject-card">
-            <div class="subject-icon" style="background: var(--primary);">
-              <i class="fas fa-calculator"></i>
-            </div>
-            <div class="subject-name">Mathematics</div>
-            <div class="subject-progress">Progress: 85%</div>
-          </div>
-          <div class="subject-card">
-            <div class="subject-icon" style="background: #2a9d8f;">
-              <i class="fas fa-flask"></i>
-            </div>
-            <div class="subject-name">Science</div>
-            <div class="subject-progress">Progress: 92%</div>
-          </div>
-          <div class="subject-card">
-            <div class="subject-icon" style="background: #e9c46a;">
-              <i class="fas fa-book"></i>
-            </div>
-            <div class="subject-name">English</div>
-            <div class="subject-progress">Progress: 78%</div>
-          </div>
-          <div class="subject-card">
-            <div class="subject-icon" style="background: #8338ec;">
-              <i class="fas fa-globe-asia"></i>
-            </div>
-            <div class="subject-name">Social Studies</div>
-            <div class="subject-progress">Progress: 82%</div>
-          </div>
-        </div>
-      </div>
-
       <!-- PROFILE PAGE -->
       <div class="dashboard" id="profile-page" style="display: none;">
         <h1 class="page-title"><i class="fas fa-user-circle"></i> My Profile</h1>
@@ -2551,7 +1572,7 @@
           <div class="profile-header">
             <div class="profile-avatar" id="profile-avatar">AS</div>
             <div class="profile-name" id="profile-name">Aarav Sharma</div>
-            <div class="profile-class" id="profile-class">Class: 8</div>
+            <div class="profile-class" id="profile-class">Class: 8 <span class="premium-badge">PREMIUM</span></div>
           </div>
           <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
             <div style="padding: 14px; background: #f8f9fa; border-radius: 12px;">
@@ -2587,61 +1608,18 @@
                 <div><strong>Email:</strong> <span id="student-email">aarav.sharma@student.mkps.edu.in</span></div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="recent-activity">
-          <div class="section-header">
-            <h2 class="section-title">Recent Activity</h2>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">
-              <i class="fas fa-upload"></i>
+            <div style="padding: 14px; background: #f8f9fa; border-radius: 12px;">
+              <div style="font-weight: 600; margin-bottom: 8px; color: var(--dark); font-size: 15px;">Subscription</div>
+              <div style="color: var(--gray); font-size: 13px;">
+                <div style="margin-bottom: 6px;"><strong>Plan:</strong> <span style="color: var(--primary); font-weight: 600;">Premium</span></div>
+                <div style="margin-bottom: 6px;"><strong>Status:</strong> <span style="color: var(--success); font-weight: 600;">Active</span></div>
+                <div style="margin-bottom: 6px;"><strong>Renewal:</strong> <span>Dec 15, 2025</span></div>
+                <div><strong>Features:</strong> <span>AI Tutor, Voice Assistant, Exam Prep, Analytics</span></div>
+              </div>
             </div>
-            <div class="activity-info">
-              <div class="activity-title">Submitted Science Project</div>
-              <div class="activity-time">2 hours ago</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">
-              <i class="fas fa-check"></i>
-            </div>
-            <div class="activity-info">
-              <div class="activity-title">Completed Math Assignment</div>
-              <div class="activity-time">Yesterday</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">
-              <i class="fas fa-comment"></i>
-            </div>
-            <div class="activity-info">
-              <div class="activity-title">Participated in Class Discussion</div>
-              <div class="activity-time">Yesterday</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="parent-communication">
-          <div class="section-header">
-            <h2 class="section-title">Parent Communication</h2>
-          </div>
-          <div class="message-item">
-            <div class="message-sender">Principal</div>
-            <div class="message-date">April 10, 2025</div>
-            <div class="message-content">Your child has been selected for the Mathematics Olympiad. Please confirm participation by April 15.</div>
-            <div class="message-status">Read</div>
-          </div>
-          <div class="message-item">
-            <div class="message-sender">Math Teacher</div>
-            <div class="message-date">April 8, 2025</div>
-            <div class="message-content">Aarav is doing excellent in Mathematics. Keep up the good work!</div>
-            <div class="message-status">Read</div>
           </div>
         </div>
       </div>
-
       <!-- SETTINGS PAGE -->
       <div class="dashboard" id="settings-page" style="display: none;">
         <h1 class="page-title"><i class="fas fa-cog"></i> Settings</h1>
@@ -2683,14 +1661,14 @@
               </label>
             </div>
             <div class="setting-item">
-              <div class="setting-label">Show Weekends</div>
+              <div class="setting-label">Voice Assistant</div>
               <label class="toggle">
                 <input type="checkbox" checked>
                 <span class="slider"></span>
               </label>
             </div>
             <div class="setting-item">
-              <div class="setting-label">Calendar Sync</div>
+              <div class="setting-label">AI Recommendations</div>
               <label class="toggle">
                 <input type="checkbox" checked>
                 <span class="slider"></span>
@@ -2698,7 +1676,6 @@
             </div>
           </div>
         </div>
-
         <div class="homework-section" style="margin-top: 16px;">
           <h2 class="section-title">Account Security</h2>
           <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 12px;">
@@ -2717,90 +1694,86 @@
             </div>
           </div>
         </div>
-
-        <div class="dashboard-customization">
-          <h2 class="customization-title">Dashboard Customization</h2>
-          <div class="customization-options">
-            <div class="customization-option selected">
-              <div class="option-icon"><i class="fas fa-home"></i></div>
-              <div class="option-label">Dashboard</div>
-            </div>
-            <div class="customization-option">
-              <div class="option-icon"><i class="fas fa-clipboard-list"></i></div>
-              <div class="option-label">Homework</div>
-            </div>
-            <div class="customization-option">
-              <div class="option-icon"><i class="fas fa-robot"></i></div>
-              <div class="option-label">AI Assistant</div>
-            </div>
-            <div class="customization-option">
-              <div class="option-icon"><i class="fas fa-calendar-alt"></i></div>
-              <div class="option-label">Schedule</div>
-            </div>
-            <div class="customization-option">
-              <div class="option-icon"><i class="fas fa-star"></i></div>
-              <div class="option-label">Grades</div>
-            </div>
-            <div class="customization-option">
-              <div class="option-icon"><i class="fas fa-user-circle"></i></div>
-              <div class="option-label">Profile</div>
-            </div>
-          </div>
+      </div>
+      <!-- PREMIUM FEATURES PAGE -->
+      <div class="dashboard" id="premium-page" style="display: none;">
+        <h1 class="page-title"><i class="fas fa-star"></i> Premium Features</h1>
+        <div class="premium-features">
+          <h3 style="margin-bottom: 8px;">Upgrade to Premium</h3>
+          <p style="opacity: 0.9; font-size: 14px;">Unlock all AI-powered learning tools for maximum academic success</p>
         </div>
-
-        <div class="library-resources">
-          <div class="section-header">
-            <h2 class="section-title">Library Resources</h2>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon" style="background: var(--primary);">
-              <i class="fas fa-book"></i>
+        
+        <div class="homework-section">
+          <h2 class="section-title">Premium AI Features</h2>
+          <div class="ai-premium-features" style="margin-top: 12px;">
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Advanced AI Tutor</div>
+                <div class="ai-feature-desc">24/7 personalized tutoring with adaptive learning algorithms that understand your unique learning style</div>
+              </div>
+              <div class="ai-feature-status">Included</div>
             </div>
-            <div class="resource-info">
-              <div class="resource-title">Mathematics Textbook</div>
-              <div class="resource-type">Textbook</div>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-microphone-alt"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Voice Interaction</div>
+                <div class="ai-feature-desc">Talk naturally to your AI tutor using voice commands - no typing required</div>
+              </div>
+              <div class="ai-feature-status">Included</div>
             </div>
-            <div class="resource-action">View</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon" style="background: #2a9d8f;">
-              <i class="fas fa-video"></i>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Learning Analytics</div>
+                <div class="ai-feature-desc">Detailed insights into your progress, strengths, weaknesses, and personalized recommendations</div>
+              </div>
+              <div class="ai-feature-status">Included</div>
             </div>
-            <div class="resource-info">
-              <div class="resource-title">Science Experiments</div>
-              <div class="resource-type">Video</div>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Exam Simulator</div>
+                <div class="ai-feature-desc">Realistic exam conditions with AI-generated questions that adapt to your skill level</div>
+              </div>
+              <div class="ai-feature-status">Included</div>
             </div>
-            <div class="resource-action">Watch</div>
-          </div>
-          <div class="resource-item">
-            <div class="resource-icon" style="background: #e9c46a;">
-              <i class="fas fa-file-pdf"></i>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Smart Study Planner</div>
+                <div class="ai-feature-desc">AI-generated personalized study schedule that optimizes your learning time</div>
+              </div>
+              <div class="ai-feature-status">Included</div>
             </div>
-            <div class="resource-info">
-              <div class="resource-title">English Grammar Guide</div>
-              <div class="resource-type">PDF</div>
+            <div class="ai-feature">
+              <div class="ai-feature-icon">
+                <i class="fas fa-headphones"></i>
+              </div>
+              <div class="ai-feature-info">
+                <div class="ai-feature-title">Focus Mode</div>
+                <div class="ai-feature-desc">AI-powered concentration tools with ambient sounds and focus timers</div>
+              </div>
+              <div class="ai-feature-status">Included</div>
             </div>
-            <div class="resource-action">Download</div>
           </div>
-        </div>
-
-        <div class="announcements">
-          <div class="section-header">
-            <h2 class="section-title">School Announcements</h2>
-          </div>
-          <div class="announcement-item">
-            <div class="announcement-title">Annual Day Celebration</div>
-            <div class="announcement-date">Posted: April 10, 2025</div>
-            <div class="announcement-content">The annual day celebration will be held on May 15, 2025. All students are requested to participate in the rehearsals.</div>
-          </div>
-          <div class="announcement-item">
-            <div class="announcement-title">Sports Day Registration</div>
-            <div class="announcement-date">Posted: April 5, 2025</div>
-            <div class="announcement-content">Sports day will be held on June 10, 2025. Registration for events is open until April 20.</div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button style="background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+              Upgrade to Premium - ₹499/month
+            </button>
           </div>
         </div>
       </div>
-
       <!-- AI CHATBOX -->
       <div class="ai-chatbox" id="ai-chatbox">
         <div class="chat-header" id="chat-header">
@@ -2829,12 +1802,10 @@
           </button>
         </div>
       </div>
-
       <!-- AI TOGGLE BUTTON -->
       <div class="ai-toggle" id="ai-toggle">
         <i class="fas fa-robot"></i>
       </div>
-
       <!-- CHANGE PASSWORD MODAL -->
       <div class="modal" id="change-password-modal">
         <div class="modal-content">
@@ -2857,20 +1828,16 @@
           <button class="btn btn-primary btn-block" id="save-password-btn">Save Changes</button>
         </div>
       </div>
-
       <!-- NOTIFICATION -->
       <div class="notification" id="notification">
-        <span class="close-notification">&times;</span>
         <div class="notification-title">New Homework</div>
         <div class="notification-message">Mathematics assignment has been added for tomorrow.</div>
       </div>
-
       <!-- ADMIN HOOK -->
       <div class="admin-hook" id="admin-hook">
         <!-- This is a hidden admin access point. Do not remove. -->
       </div>
     </div>
-
     <!-- MOBILE NAVIGATION -->
     <div class="mobile-nav">
       <div class="mobile-nav-item active" data-page="dashboard">
@@ -2894,71 +1861,68 @@
         Settings
       </div>
     </div>
-
     <footer>
-      © 2025 Milli Karwaan Public School, Balrampur. All Rights Reserved.
+      © 2025 EduSmart AI Learning Platform. All Rights Reserved.
     </footer>
-
     <script>
       // Mock data for homework by class
       const homeworkData = {
         'Class 1': [
-          { subject: 'Mathematics', description: 'Count numbers from 1 to 100 and write them in notebook.', due: 'Tomorrow', emoji: '🔢', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Learn to write alphabets A to Z in capital and small letters.', due: 'Tomorrow', emoji: '🔤', filter: 'today', status: 'pending' },
-          { subject: 'EVS', description: 'Draw pictures of animals you see around your home.', due: 'This Friday', emoji: '🐘', filter: 'this-week', status: 'pending' },
-          { subject: 'Hindi', description: 'Practice writing vowels (स्वर) - अ, आ, इ, ई, उ, ऊ', due: 'Next Monday', emoji: '🇮🇳', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Count numbers from 1 to 100 and write them in notebook.', due: 'Tomorrow', emoji: '🔢', filter: 'today' },
+          { subject: 'English', description: 'Learn to write alphabets A to Z in capital and small letters.', due: 'Tomorrow', emoji: '🔤', filter: 'today' },
+          { subject: 'EVS', description: 'Draw pictures of animals you see around your home.', due: 'This Friday', emoji: '🐘', filter: 'this-week' },
+          { subject: 'Hindi', description: 'Practice writing vowels (स्वर) - अ, आ, इ, ई, उ, ऊ', due: 'Next Monday', emoji: '🇮🇳', filter: 'this-week' }
         ],
         'Class 2': [
-          { subject: 'Mathematics', description: 'Solve addition and subtraction problems up to 100.', due: 'Tomorrow', emoji: '➕', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Write 5 sentences about your family using simple present tense.', due: 'Tomorrow', emoji: '👨‍👩‍👧', filter: 'today', status: 'pending' },
-          { subject: 'EVS', description: 'List 10 plants and trees you see in your neighborhood.', due: 'This Friday', emoji: '🌳', filter: 'this-week', status: 'pending' },
-          { subject: 'Hindi', description: 'Write a short story (5 sentences) using words: घर, पेड़, नदी, पक्षी, फूल', due: 'Next Monday', emoji: '📖', filter: 'this-week', status: 'pending' },
-          { subject: 'Art', description: 'Create a collage using colored paper cuttings of different shapes.', due: 'Next Wednesday', emoji: '🎨', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Solve addition and subtraction problems up to 100.', due: 'Tomorrow', emoji: '➕', filter: 'today' },
+          { subject: 'English', description: 'Write 5 sentences about your family using simple present tense.', due: 'Tomorrow', emoji: '👨‍👩‍👧', filter: 'today' },
+          { subject: 'EVS', description: 'List 10 plants and trees you see in your neighborhood.', due: 'This Friday', emoji: '🌳', filter: 'this-week' },
+          { subject: 'Hindi', description: 'Write a short story (5 sentences) using words: घर, पेड़, नदी, पक्षी, फूल', due: 'Next Monday', emoji: '📖', filter: 'this-week' },
+          { subject: 'Art', description: 'Create a collage using colored paper cuttings of different shapes.', due: 'Next Wednesday', emoji: '🎨', filter: 'this-week' }
         ],
         'Class 3': [
-          { subject: 'Mathematics', description: 'Learn multiplication tables from 2 to 10. Practice 10 problems for each.', due: 'Tomorrow', emoji: '✖️', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Write a paragraph about your favorite festival (8-10 sentences).', due: 'Tomorrow', emoji: '🎉', filter: 'today', status: 'pending' },
-          { subject: 'Science', description: 'Observe the life cycle of a butterfly or frog and draw it in your notebook.', due: 'This Friday', emoji: '🦋', filter: 'this-week', status: 'pending' },
-          { subject: 'Social Studies', description: 'Draw a map of India and label all states and union territories.', due: 'Next Monday', emoji: '🗺️', filter: 'this-week', status: 'pending' },
-          { subject: 'Hindi', description: 'Translate the English paragraph about your favorite festival into Hindi.', due: 'Next Wednesday', emoji: '<translation>', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Learn multiplication tables from 2 to 10. Practice 10 problems for each.', due: 'Tomorrow', emoji: '✖️', filter: 'today' },
+          { subject: 'English', description: 'Write a paragraph about your favorite festival (8-10 sentences).', due: 'Tomorrow', emoji: '🎉', filter: 'today' },
+          { subject: 'Science', description: 'Observe the life cycle of a butterfly or frog and draw it in your notebook.', due: 'This Friday', emoji: '🦋', filter: 'this-week' },
+          { subject: 'Social Studies', description: 'Draw a map of India and label all states and union territories.', due: 'Next Monday', emoji: '🗺️', filter: 'this-week' },
+          { subject: 'Hindi', description: 'Translate the English paragraph about your favorite festival into Hindi.', due: 'Next Wednesday', emoji: '<translation>', filter: 'this-week' }
         ],
         'Class 4': [
-          { subject: 'Mathematics', description: 'Solve word problems involving addition, subtraction, multiplication, and division.', due: 'Tomorrow', emoji: '🧮', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Read a story from your textbook and write a summary in 10 sentences.', due: 'Tomorrow', emoji: '📚', filter: 'today', status: 'pending' },
-          { subject: 'Science', description: 'Collect 5 different types of leaves and paste them in your scrapbook with names.', due: 'This Friday', emoji: '🍃', filter: 'this-week', status: 'pending' },
-          { subject: 'Social Studies', description: 'Research and write about the major rivers of India (5 rivers, 5 points each).', due: 'Next Monday', emoji: '🌊', filter: 'this-week', status: 'pending' },
-          { subject: 'Computer', description: 'Practice typing 100 words on the computer without looking at the keyboard.', due: 'Next Wednesday', emoji: '⌨️', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Solve word problems involving addition, subtraction, multiplication, and division.', due: 'Tomorrow', emoji: '🧮', filter: 'today' },
+          { subject: 'English', description: 'Read a story from your textbook and write a summary in 10 sentences.', due: 'Tomorrow', emoji: '📚', filter: 'today' },
+          { subject: 'Science', description: 'Collect 5 different types of leaves and paste them in your scrapbook with names.', due: 'This Friday', emoji: '🍃', filter: 'this-week' },
+          { subject: 'Social Studies', description: 'Research and write about the major rivers of India (5 rivers, 5 points each).', due: 'Next Monday', emoji: '🌊', filter: 'this-week' },
+          { subject: 'Computer', description: 'Practice typing 100 words on the computer without looking at the keyboard.', due: 'Next Wednesday', emoji: '⌨️', filter: 'this-week' }
         ],
         'Class 5': [
-          { subject: 'Mathematics', description: 'Learn to calculate area and perimeter of rectangles and squares. Solve 10 problems.', due: 'Tomorrow', emoji: '📐', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Write a letter to your friend describing your summer vacation.', due: 'Tomorrow', emoji: '✉️', filter: 'today', status: 'pending' },
-          { subject: 'Science', description: 'Create a model of the solar system using clay or paper mache.', due: 'This Friday', emoji: '🪐', filter: 'this-week', status: 'pending' },
-          { subject: 'Social Studies', description: 'Prepare a presentation on "Famous Monuments of India" (10 slides minimum).', due: 'Next Monday', emoji: '🏛️', filter: 'this-week', status: 'pending' },
-          { subject: 'Hindi', description: 'Write a poem in Hindi about nature (12 lines minimum) with rhyming words.', due: 'Next Wednesday', emoji: '🌿', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Learn to calculate area and perimeter of rectangles and squares. Solve 10 problems.', due: 'Tomorrow', emoji: '📐', filter: 'today' },
+          { subject: 'English', description: 'Write a letter to your friend describing your summer vacation.', due: 'Tomorrow', emoji: '✉️', filter: 'today' },
+          { subject: 'Science', description: 'Create a model of the solar system using clay or paper mache.', due: 'This Friday', emoji: '🪐', filter: 'this-week' },
+          { subject: 'Social Studies', description: 'Prepare a presentation on "Famous Monuments of India" (10 slides minimum).', due: 'Next Monday', emoji: '🏛️', filter: 'this-week' },
+          { subject: 'Hindi', description: 'Write a poem in Hindi about nature (12 lines minimum) with rhyming words.', due: 'Next Wednesday', emoji: '🌿', filter: 'this-week' }
         ],
         'Class 6': [
-          { subject: 'Mathematics', description: 'Solve problems on fractions and decimals. Convert fractions to decimals and vice versa.', due: 'Tomorrow', emoji: '➗', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Analyze the character of the protagonist in the novel you are reading.', due: 'Tomorrow', emoji: '👤', filter: 'today', status: 'pending' },
-          { subject: 'Science', description: 'Conduct an experiment to show how plants absorb water. Document your observations.', due: 'This Friday', emoji: '🔬', filter: 'this-week', status: 'pending' },
-          { subject: 'Social Studies', description: 'Create a timeline of major events in Indian history from 1857 to 1947.', due: 'Next Monday', emoji: '🕰️', filter: 'this-week', status: 'pending' },
-          { subject: 'Computer', description: 'Create a PowerPoint presentation on "Importance of Computers in Education".', due: 'Next Wednesday', emoji: '💻', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Solve problems on fractions and decimals. Convert fractions to decimals and vice versa.', due: 'Tomorrow', emoji: '➗', filter: 'today' },
+          { subject: 'English', description: 'Analyze the character of the protagonist in the novel you are reading.', due: 'Tomorrow', emoji: '👤', filter: 'today' },
+          { subject: 'Science', description: 'Conduct an experiment to show how plants absorb water. Document your observations.', due: 'This Friday', emoji: '🔬', filter: 'this-week' },
+          { subject: 'Social Studies', description: 'Create a timeline of major events in Indian history from 1857 to 1947.', due: 'Next Monday', emoji: '🕰️', filter: 'this-week' },
+          { subject: 'Computer', description: 'Create a PowerPoint presentation on "Importance of Computers in Education".', due: 'Next Wednesday', emoji: '💻', filter: 'this-week' }
         ],
         'Class 7': [
-          { subject: 'Mathematics', description: 'Learn and practice algebraic expressions and simple equations.', due: 'Tomorrow', emoji: '🧩', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Write a debate speech on "Social media: Boon or Bane" (300 words).', due: 'Tomorrow', emoji: '🗣️', filter: 'today', status: 'pending' },
-          { subject: 'Science', description: 'Study the human digestive system and create a labeled diagram.', due: 'This Friday', emoji: '🔬', filter: 'this-week', status: 'pending' },
-          { subject: 'Social Studies', description: 'Research and write about the different types of government systems around the world.', due: 'Next Monday', emoji: '🌍', filter: 'this-week', status: 'pending' },
-          { subject: 'Hindi', description: 'Write a formal letter to the principal requesting a school trip to a historical site.', due: 'Next Wednesday', emoji: '📝', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Learn and practice algebraic expressions and simple equations.', due: 'Tomorrow', emoji: '🧩', filter: 'today' },
+          { subject: 'English', description: 'Write a debate speech on "Social media: Boon or Bane" (300 words).', due: 'Tomorrow', emoji: '🗣️', filter: 'today' },
+          { subject: 'Science', description: 'Study the human digestive system and create a labeled diagram.', due: 'This Friday', emoji: '🔬', filter: 'this-week' },
+          { subject: 'Social Studies', description: 'Research and write about the different types of government systems around the world.', due: 'Next Monday', emoji: '🌍', filter: 'this-week' },
+          { subject: 'Hindi', description: 'Write a formal letter to the principal requesting a school trip to a historical site.', due: 'Next Wednesday', emoji: '📝', filter: 'this-week' }
         ],
         'Class 8': [
-          { subject: 'Mathematics', description: 'Solve problems on linear equations in one variable. Create 5 word problems.', due: 'Tomorrow', emoji: '📊', filter: 'today', status: 'pending' },
-          { subject: 'English', description: 'Write a review of a movie or book you recently watched/read (400 words).', due: 'Tomorrow', emoji: '🎬', filter: 'today', status: 'pending' },
-          { subject: 'Science', description: 'Prepare a detailed project on "Renewable and Non-renewable Resources".', due: 'This Friday', emoji: '⚡', filter: 'this-week', status: 'pending' },
-          { subject: 'Social Studies', description: 'Analyze the causes and effects of the Industrial Revolution in Europe.', due: 'Next Monday', emoji: '🏭', filter: 'this-week', status: 'pending' },
-          { subject: 'Computer', description: 'Learn basic HTML and create a simple webpage about your school.', due: 'Next Wednesday', emoji: '🌐', filter: 'this-week', status: 'pending' }
+          { subject: 'Mathematics', description: 'Solve problems on linear equations in one variable. Create 5 word problems.', due: 'Tomorrow', emoji: '📊', filter: 'today' },
+          { subject: 'English', description: 'Write a review of a movie or book you recently watched/read (400 words).', due: 'Tomorrow', emoji: '🎬', filter: 'today' },
+          { subject: 'Science', description: 'Prepare a detailed project on "Renewable and Non-renewable Resources".', due: 'This Friday', emoji: '⚡', filter: 'this-week' },
+          { subject: 'Social Studies', description: 'Analyze the causes and effects of the Industrial Revolution in Europe.', due: 'Next Monday', emoji: '🏭', filter: 'this-week' },
+          { subject: 'Computer', description: 'Learn basic HTML and create a simple webpage about your school.', due: 'Next Wednesday', emoji: '🌐', filter: 'this-week' }
         ]
       };
-
       // Student data (normally from localStorage after login)
       let studentData = {
         name: 'Aarav Sharma',
@@ -2974,12 +1938,10 @@
         section: 'A',
         rollNo: '15'
       };
-
       // Current AI mode
       let aiMode = 'homework'; // 'homework' or 'general'
       let apiKey1 = 'AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU';
       let apiKey2 = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
-
       // Load student data from localStorage if available
       function loadStudentData() {
         try {
@@ -2990,24 +1952,20 @@
         } catch (e) {
           console.warn('Could not load student data from localStorage', e);
         }
-        
         // Update UI with student data
         updateStudentUI();
       }
-
       function updateStudentUI() {
         // Update welcome message
         document.getElementById('student-name').textContent = studentData.name;
-        document.getElementById('welcome-text').innerHTML = `Welcome, <span id="student-name">${studentData.name}</span>`;
-        
+        document.getElementById('welcome-text').innerHTML = `Welcome, <span id="student-name">${studentData.name}</span> <span class="premium-badge">PREMIUM</span>`;
         // Update avatar
         const initials = studentData.name.split(' ').map(n => n[0]).join('');
         document.getElementById('user-avatar').textContent = initials;
         document.getElementById('profile-avatar').textContent = initials;
-        
         // Update profile page
         document.getElementById('profile-name').textContent = studentData.name;
-        document.getElementById('profile-class').textContent = `Class: ${studentData.class}`;
+        document.getElementById('profile-class').textContent = `Class: ${studentData.class} <span class="premium-badge">PREMIUM</span>`;
         document.getElementById('profile-academic-class').textContent = studentData.class;
         document.getElementById('parent-name').textContent = studentData.parent;
         document.getElementById('parent-phone').textContent = studentData.phone;
@@ -3021,65 +1979,44 @@
         document.getElementById('profile-section').textContent = studentData.section;
         document.getElementById('profile-roll').textContent = studentData.rollNo;
         document.getElementById('profile-admission').textContent = studentData.admissionDate;
-        
         // Set homework based on class
         const classHomework = homeworkData[studentData.class] || homeworkData['Class 8'];
         displayHomework(classHomework);
-        
         // Show notification
         setTimeout(showNotification, 1500);
       }
-
       function showNotification() {
         const notification = document.getElementById('notification');
         notification.classList.add('show');
-        
-        // Close notification when click on close button
-        document.querySelector('.close-notification').addEventListener('click', () => {
-          notification.classList.remove('show');
-        });
-        
-        // Auto close after 5 seconds
         setTimeout(() => {
-          if (notification.classList.contains('show')) {
-            notification.classList.remove('show');
-          }
+          notification.classList.remove('show');
         }, 5000);
       }
-
       function displayHomework(homeworkList) {
         const homeworkListEl = document.getElementById('homework-list');
         const allHomeworkListEl = document.getElementById('all-homework-list');
-        
         homeworkListEl.innerHTML = '';
         allHomeworkListEl.innerHTML = '';
-        
         // Show first 3 for dashboard
         const dashboardHomework = homeworkList.slice(0, 3);
         const dueCount = dashboardHomework.filter(h => h.due === 'Tomorrow').length;
         document.getElementById('homework-due').textContent = dueCount;
-        
         dashboardHomework.forEach(hw => {
           const hwEl = createHomeworkElement(hw);
           homeworkListEl.appendChild(hwEl);
         });
-        
         // Show all for homework page
         homeworkList.forEach(hw => {
           const hwEl = createHomeworkElement(hw);
           allHomeworkListEl.appendChild(hwEl);
         });
-        
         // Setup filters
         setupHomeworkFilters(homeworkList);
       }
-
       function createHomeworkElement(hw) {
         const hwCard = document.createElement('div');
         hwCard.className = 'homework-card';
-        
         const dueClass = hw.due === 'Tomorrow' ? 'due-soon' : '';
-        
         hwCard.innerHTML = `
           <div class="hw-subject"><i class="fas fa-book-open"></i> ${hw.subject} ${hw.emoji}</div>
           <div class="hw-desc">${hw.description}</div>
@@ -3088,31 +2025,24 @@
             <span class="${dueClass}"><i class="far fa-clock"></i> Due</span>
           </div>
         `;
-        
         return hwCard;
       }
-
       function setupHomeworkFilters(homeworkList) {
         const filterButtons = document.querySelectorAll('#homework-filters .filter-btn');
-        
         filterButtons.forEach(button => {
           button.addEventListener('click', () => {
             // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
             // Add active class to clicked button
             button.classList.add('active');
-            
             const filter = button.getAttribute('data-filter');
-            
             // Filter homework
             const filteredHomework = filter === 'all' ? 
               homeworkList : 
               homeworkList.filter(hw => hw.filter === filter);
-            
             // Update homework list
             const allHomeworkListEl = document.getElementById('all-homework-list');
             allHomeworkListEl.innerHTML = '';
-            
             filteredHomework.forEach(hw => {
               const hwEl = createHomeworkElement(hw);
               allHomeworkListEl.appendChild(hwEl);
@@ -3120,13 +2050,11 @@
           });
         });
       }
-
       // Navigation
       function setupNavigation() {
         const navItems = document.querySelectorAll('.nav-item');
         const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
-        const pages = ['dashboard', 'homework', 'ai-help', 'schedule', 'grades', 'profile', 'settings'];
-        
+        const pages = ['dashboard', 'homework', 'ai-help', 'profile', 'settings', 'premium'];
         // Desktop navigation
         navItems.forEach(item => {
           item.addEventListener('click', () => {
@@ -3138,19 +2066,16 @@
             }
           });
         });
-        
         // Mobile navigation
         mobileNavItems.forEach(item => {
           item.addEventListener('click', () => {
             const page = item.getAttribute('data-page');
             showPage(page);
-            
             // Update active class
             mobileNavItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
           });
         });
-        
         // View all homework
         document.querySelector('.homework-view-all').addEventListener('click', () => {
           showPage('homework');
@@ -3158,13 +2083,11 @@
           document.querySelector('.mobile-nav-item[data-page="homework"]').classList.add('active');
         });
       }
-
       function showPage(page) {
-        const pages = ['dashboard', 'homework', 'ai-help', 'schedule', 'grades', 'profile', 'settings'];
+        const pages = ['dashboard', 'homework', 'ai-help', 'profile', 'settings', 'premium'];
         pages.forEach(p => {
           document.getElementById(`${p}-page`).style.display = p === page ? 'block' : 'none';
         });
-        
         // Update active nav item
         document.querySelectorAll('.nav-item').forEach(item => {
           item.classList.remove('active');
@@ -3172,8 +2095,7 @@
             item.classList.add('active');
           }
         });
-        
-        // Update mobile nav active item
+        // Update mobile nav
         document.querySelectorAll('.mobile-nav-item').forEach(item => {
           item.classList.remove('active');
           if (item.getAttribute('data-page') === page) {
@@ -3181,17 +2103,14 @@
           }
         });
       }
-
       function logout() {
         if (confirm('Are you sure you want to logout?')) {
           // Clear any session data
           localStorage.removeItem('mkps_student');
-          
           // Redirect to login page
           window.location.href = 'index.html';
         }
       }
-
       // AI Chatbox functionality
       function setupAIChatbox() {
         const chatbox = document.getElementById('ai-chatbox');
@@ -3201,7 +2120,6 @@
         const chatSend = document.getElementById('chat-send');
         const chatInput = document.getElementById('chat-input');
         const chatBody = document.getElementById('chat-body');
-        
         // Toggle chatbox
         toggleBtn.addEventListener('click', () => {
           chatbox.classList.toggle('open');
@@ -3209,7 +2127,6 @@
             toggleBtn.style.display = 'none';
           }
         });
-        
         // Close chatbox
         document.querySelector('.close-btn').addEventListener('click', () => {
           chatbox.classList.remove('open');
@@ -3217,12 +2134,10 @@
             document.getElementById('ai-toggle').style.display = 'flex';
           }, 300);
         });
-        
         // Minimize chatbox
         document.querySelector('.minimize-btn').addEventListener('click', () => {
           chatbox.style.height = chatbox.style.height === '300px' ? '400px' : '300px';
         });
-        
         // Send message
         chatSend.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => {
@@ -3230,22 +2145,18 @@
             sendMessage();
           }
         });
-        
         function sendMessage() {
           const message = chatInput.value.trim();
           if (!message) return;
-          
           // Add user message
           addMessage(message, 'user');
           chatInput.value = '';
-          
           // Simulate AI response
           setTimeout(() => {
             const response = getAIResponse(message);
             addMessage(response, 'ai');
           }, 1000);
         }
-        
         function addMessage(text, sender) {
           const messageEl = document.createElement('div');
           messageEl.className = `chat-message message-${sender}`;
@@ -3253,10 +2164,8 @@
           chatBody.appendChild(messageEl);
           chatBody.scrollTop = chatBody.scrollHeight;
         }
-        
         function getAIResponse(query) {
           const lowerQuery = query.toLowerCase();
-          
           if (aiMode === 'homework') {
             if (lowerQuery.includes('hello') || lowerQuery.includes('hi') || lowerQuery.includes('hey')) {
               return "Hello! 👋 I'm your homework assistant. I can help you with your assignments. What subject do you need help with?";
@@ -3288,7 +2197,6 @@
           }
         }
       }
-
       // AI Help Page functionality
       function setupAIHelp() {
         const aiSubmit = document.getElementById('ai-submit');
@@ -3296,7 +2204,6 @@
         const aiResponse = document.getElementById('ai-response');
         const suggestions = document.querySelectorAll('.suggestion');
         const modeButtons = document.querySelectorAll('.ai-mode-btn');
-        
         // AI mode selection
         modeButtons.forEach(button => {
           button.addEventListener('click', () => {
@@ -3305,28 +2212,23 @@
             aiMode = button.getAttribute('data-mode');
           });
         });
-        
         aiSubmit.addEventListener('click', processAIQuery);
         aiQuery.addEventListener('keypress', (e) => {
           if (e.key === 'Enter') {
             processAIQuery();
           }
         });
-        
         suggestions.forEach(suggestion => {
           suggestion.addEventListener('click', () => {
             aiQuery.value = suggestion.getAttribute('data-query');
             processAIQuery();
           });
         });
-        
         function processAIQuery() {
           const query = aiQuery.value.trim();
           if (!query) return;
-          
           // Show loading state
           aiResponse.innerHTML = '<div style="text-align: center; color: var(--info);"><i class="fas fa-spinner fa-spin"></i> Thinking...</div>';
-          
           // Simulate API call delay
           setTimeout(() => {
             const response = getAIResponse(query);
@@ -3342,19 +2244,32 @@
             `;
           }, 1500);
         }
-        
         function getAIResponse(query) {
           const lowerQuery = query.toLowerCase();
-          
           if (aiMode === 'homework') {
             if (lowerQuery.includes('photosynthesis')) {
               return "Photosynthesis is the process by which green plants make their own food using sunlight, carbon dioxide, and water. 🌿 The plant's leaves absorb sunlight and take in carbon dioxide from the air, while roots absorb water from the soil. Using the energy from sunlight, the plant converts these into glucose (a type of sugar) and releases oxygen as a byproduct. This process happens in the chloroplasts of plant cells, which contain a green pigment called chlorophyll.";
             } else if (lowerQuery.includes('quadratic') || lowerQuery.includes('equation')) {
-              return "To solve a quadratic equation in the form ax² + bx + c = 0, you can use several methods: 🧮\n\n1. **Factoring**: Find two numbers that multiply to 'a×c' and add to 'b'.\n2. **Completing the square**: Rewrite the equation in the form (x + p)² = q.\n3. **Quadratic formula**: Use x = (-b ± √(b² - 4ac)) / (2a)\n\nThe discriminant (b² - 4ac) tells you about the nature of roots:\n- If > 0: Two real and different roots\n- If = 0: One real root (repeated)\n- If < 0: Two complex roots";
+              return "To solve a quadratic equation in the form ax² + bx + c = 0, you can use several methods: 🧮
+1. **Factoring**: Find two numbers that multiply to 'a×c' and add to 'b'.
+2. **Completing the square**: Rewrite the equation in the form (x + p)² = q.
+3. **Quadratic formula**: Use x = (-b ± √(b² - 4ac)) / (2a)
+The discriminant (b² - 4ac) tells you about the nature of roots:
+- If > 0: Two real and different roots
+- If = 0: One real root (repeated)
+- If < 0: Two complex roots";
             } else if (lowerQuery.includes('water cycle')) {
-              return "The water cycle describes how water moves around our planet. 💧 It has four main stages:\n\n1. **Evaporation**: Sun heats water from oceans, lakes, and rivers, turning it into water vapor that rises into the air.\n2. **Condensation**: As water vapor rises and cools, it forms clouds (tiny water droplets).\n3. **Precipitation**: When cloud droplets combine and grow heavy, they fall as rain, snow, sleet, or hail.\n4. **Collection**: Water collects in oceans, lakes, rivers, or soaks into the ground (groundwater).";
+              return "The water cycle describes how water moves around our planet. 💧 It has four main stages:
+1. **Evaporation**: Sun heats water from oceans, lakes, and rivers, turning it into water vapor that rises into the air.
+2. **Condensation**: As water vapor rises and cools, it forms clouds (tiny water droplets).
+3. **Precipitation**: When cloud droplets combine and grow heavy, they fall as rain, snow, sleet, or hail.
+4. **Collection**: Water collects in oceans, lakes, rivers, or soaks into the ground (groundwater).";
             } else if (lowerQuery.includes('math') || lowerQuery.includes('homework')) {
-              return "I'd be happy to help with your math homework! 📐 Please tell me:\n\n1. What specific problem are you working on?\n2. What grade are you in?\n3. Have you tried solving it? Where are you stuck?\n\nI'll guide you through the solution step by step.";
+              return "I'd be happy to help with your math homework! 📐 Please tell me:
+1. What specific problem are you working on?
+2. What grade are you in?
+3. Have you tried solving it? Where are you stuck?
+I'll guide you through the solution step by step.";
             } else {
               return "I'm here to help with your homework! 📚 I can assist with Math, Science, English, and Social Studies. Please tell me which subject and what specific problem you're working on, and I'll provide a detailed explanation.";
             }
@@ -3373,7 +2288,6 @@
           }
         }
       }
-
       // Settings functionality
       function setupSettings() {
         const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -3381,7 +2295,6 @@
         const closePasswordModal = document.getElementById('close-password-modal');
         const changePasswordModal = document.getElementById('change-password-modal');
         const savePasswordBtn = document.getElementById('save-password-btn');
-        
         // Dark mode toggle
         darkModeToggle.addEventListener('change', () => {
           if (darkModeToggle.checked) {
@@ -3396,65 +2309,53 @@
             document.body.style.backgroundColor = '#f0f2f5';
           }
         });
-        
         // Change password button
         changePasswordBtn.addEventListener('click', () => {
           changePasswordModal.style.display = 'flex';
         });
-        
         // Close password modal
         closePasswordModal.addEventListener('click', () => {
           changePasswordModal.style.display = 'none';
         });
-        
         // Close modal when clicking outside
         changePasswordModal.addEventListener('click', (e) => {
           if (e.target === changePasswordModal) {
             changePasswordModal.style.display = 'none';
           }
         });
-        
         // Save password
         savePasswordBtn.addEventListener('click', () => {
           const current = document.getElementById('current-password').value;
           const newPass = document.getElementById('new-password').value;
           const confirm = document.getElementById('confirm-password').value;
-          
           if (!current || !newPass || !confirm) {
             alert('Please fill in all fields');
             return;
           }
-          
           if (newPass !== confirm) {
             alert('New passwords do not match');
             return;
           }
-          
           if (newPass.length < 6) {
             alert('Password must be at least 6 characters long');
             return;
           }
-          
           // In a real app, this would send to a server
           alert('Password changed successfully!');
           changePasswordModal.style.display = 'none';
-          
           // Clear fields
           document.getElementById('current-password').value = '';
           document.getElementById('new-password').value = '';
           document.getElementById('confirm-password').value = '';
         });
       }
-
       // Mobile menu
       function setupMobileMenu() {
         const hamburger = document.querySelector('.hamburger');
         const sidebar = document.querySelector('.sidebar');
-        
         hamburger.addEventListener('click', () => {
           sidebar.classList.toggle('open');
         });
-        
         // Close sidebar when clicking on nav items (mobile)
         document.querySelectorAll('.nav-item').forEach(item => {
           item.addEventListener('click', () => {
@@ -3464,7 +2365,6 @@
           });
         });
       }
-
       // Admin access detection
       function setupAdminHook() {
         // This is a hidden admin access point
@@ -3477,7 +2377,6 @@
           }
         });
       }
-
       // Initialize the dashboard
       function initDashboard() {
         // Simulate loading
@@ -3486,7 +2385,6 @@
           setTimeout(() => {
             document.querySelector('.loader').style.display = 'none';
           }, 300);
-          
           // Load student data and initialize
           loadStudentData();
           setupNavigation();
@@ -3495,13 +2393,20 @@
           setupSettings();
           setupMobileMenu();
           setupAdminHook();
-          
           // Show dashboard by default
           showPage('dashboard');
           
+          // Add event listeners for AI features
+          document.getElementById('start-ai-session').addEventListener('click', () => {
+            showPage('ai-help');
+          });
+          document.getElementById('ai-quick-help').addEventListener('click', () => {
+            const chatbox = document.getElementById('ai-chatbox');
+            chatbox.classList.add('open');
+            document.getElementById('ai-toggle').style.display = 'none';
+          });
         }, 1000);
       }
-
       // Initialize when page loads
       document.addEventListener('DOMContentLoaded', initDashboard);
     </script>
