@@ -1,46 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Parent Portal</title>
-  <link rel="stylesheet" href="css/ultra-pro.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MKPS Parent Portal</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body{min-height:100vh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;}
+    header{width:100%;padding:1rem 2rem;background:rgba(0,0,0,0.3);backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
+    header h1{font-size:1.5rem;}
+    header button{padding:0.5rem 1rem;border:none;border-radius:12px;background:#ff4b2b;color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+    header button:hover{opacity:0.9;transform:translateY(-2px);}
+    main{flex:1;width:95%;max-width:1000px;margin-top:2rem;}
+    .card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);padding:1.5rem;border-radius:20px;margin-bottom:1.5rem;box-shadow:0 5px 20px rgba(0,0,0,0.3);}
+    .card h2{margin-bottom:1rem;}
+    table{width:100%;border-collapse:collapse;margin-top:1rem;}
+    table th, table td{padding:0.8rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.2);}
+    table th{background:rgba(255,255,255,0.05);}
+    table tr:hover{background:rgba(255,255,255,0.1);}
+    .toggle{margin:1rem 0;text-align:center;cursor:pointer;font-size:0.9rem;}
+    @media(max-width:768px){table th, table td{font-size:0.85rem;}}
+  </style>
 </head>
-<body class="dashboard-body">
+<body>
   <header>
-    <h2>Welcome Parent</h2>
-    <p>Monitoring: <strong id="child-name"></strong> (Class <span id="child-class"></span>)</p>
-    <button id="mode-toggle">🌓</button>
+    <h1>MKPS Parent Portal</h1>
+    <button onclick="logout()">Logout</button>
   </header>
 
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="progress">📈 Progress</button>
-    <button class="tab-btn" data-tab="attendance">📋 Attendance</button>
-    <button class="tab-btn" data-tab="messages">💬 Messages</button>
-    <button class="tab-btn" data-tab="events">🗓️ Events</button>
-  </div>
+  <main>
+    <div class="card">
+      <h2>Welcome, <span id="parentNameDisplay"></span></h2>
+      <p>Viewing information for your child: <strong id="studentNameDisplay"></strong> (Class <span id="studentClassDisplay"></span>)</p>
+    </div>
 
-  <div class="tab-content">
-    <div id="progress" class="tab-pane active">
-      <h3>Academic Performance</h3>
-      <canvas id="parent-chart" height="200"></canvas>
-      <div id="parent-results"></div>
+    <div class="card">
+      <h2>Student Information</h2>
+      <table>
+        <tr><th>Student Name</th><td id="infoStudentName"></td></tr>
+        <tr><th>Class</th><td id="infoStudentClass"></td></tr>
+        <tr><th>Parent Name</th><td id="infoParentName"></td></tr>
+      </table>
     </div>
-    <div id="attendance" class="tab-pane">
-      <h3>Attendance Record</h3>
-      <div id="att-record"></div>
-    </div>
-    <div id="messages" class="tab-pane">
-      <h3>Messages from Teachers</h3>
-      <ul id="parent-msgs"></ul>
-    </div>
-    <div id="events" class="tab-pane">
-      <h3>School Events</h3>
-      <ul id="parent-events"></ul>
-    </div>
-  </div>
 
-  <script src="js/utils.js"></script>
-  <script src="js/parent.js"></script>
+    <div class="card">
+      <h2>Homework / Notices</h2>
+      <table>
+        <tr><th>Date</th><th>Subject</th><th>Homework</th></tr>
+        <tr><td>2025-08-18</td><td>Math</td><td>Practice addition & subtraction</td></tr>
+        <tr><td>2025-08-18</td><td>Science</td><td>Read chapter 2 & write summary</td></tr>
+        <tr><td>2025-08-18</td><td>English</td><td>Write a short paragraph about your hobby</td></tr>
+      </table>
+    </div>
+
+    <div class="toggle" onclick="toggleTheme()">🌗 Toggle Dark/Light</div>
+  </main>
+
+  <script>
+    // Lock page if no parent login
+    const parentData = JSON.parse(localStorage.getItem("mkps_parent"));
+    const studentData = JSON.parse(localStorage.getItem("mkps_student"));
+    if(!parentData || !studentData || parentData.studentName!==studentData.name){
+      alert("Access denied! Please login first.");
+      window.location.href="index.html";
+    }
+
+    // Display parent & student info
+    document.getElementById("parentNameDisplay").innerText = parentData.parentName;
+    document.getElementById("studentNameDisplay").innerText = parentData.studentName;
+    document.getElementById("studentClassDisplay").innerText = parentData.class;
+
+    document.getElementById("infoStudentName").innerText = studentData.name;
+    document.getElementById("infoStudentClass").innerText = studentData.class;
+    document.getElementById("infoParentName").innerText = parentData.parentName;
+
+    // Logout
+    function logout(){
+      localStorage.removeItem("mkps_parent");
+      window.location.href="index.html";
+    }
+
+    // Theme toggle
+    function toggleTheme(){
+      document.body.classList.toggle("light");
+      if(document.body.classList.contains("light")){
+        document.body.style.background="linear-gradient(135deg,#f5f7fa,#c3cfe2)";
+        document.body.style.color="#000";
+      }else{
+        document.body.style.background="linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
+        document.body.style.color="#fff";
+      }
+    }
+  </script>
 </body>
 </html>
