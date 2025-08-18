@@ -4,121 +4,136 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Milli Karwaan Public School | Login</title>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="icon" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
   <style>
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial;}
-    body{
-      min-height:100vh;
-      display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,#007bff,#6610f2,#6f42c1);
-      background-size:300% 300%;animation:bgmove 15s infinite alternate;
-      color:#fff;
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg,#0d6efd,#6610f2,#6f42c1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
     }
-    @keyframes bgmove{
-      from{background-position:0 0;}
-      to{background-position:100% 100%;}
+    .login-box {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 2rem;
+      width: 92%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.5);
+      animation: fadeIn 1.2s ease;
     }
-    .card{
-      background:rgba(255,255,255,0.1);
-      backdrop-filter:blur(20px);
-      border-radius:25px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.3);
-      padding:30px 20px;
-      width:95%;max-width:400px;
-      text-align:center;
-      animation:fadeIn 1.2s ease;
+    .login-box img {
+      width: 85px;
+      margin-bottom: 10px;
     }
-    @keyframes fadeIn{
-      from{opacity:0;transform:translateY(50px);}
-      to{opacity:1;transform:translateY(0);}
+    h2 {
+      margin-bottom: 15px;
+      font-weight: 600;
     }
-    img{width:90px;margin-bottom:15px;}
-    h1{font-size:1.5rem;margin-bottom:5px;}
-    p.sub{opacity:0.8;margin-bottom:20px;}
-    .g_id_signin{margin:10px auto;}
-    input,button{
-      width:100%;padding:12px;margin-top:10px;
-      border:none;border-radius:12px;font-size:1rem;
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      font-size: 16px;
     }
-    input{background:#fff;color:#333;}
-    button{
-      background:#ffc107;color:#000;font-weight:bold;
-      cursor:pointer;transition:0.3s;
+    .btn {
+      margin-top: 15px;
+      display: inline-block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: #ffc107;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 16px;
     }
-    button:hover{background:#ffcd39;transform:scale(1.02);}
-    #chat{
-      margin-top:20px;text-align:left;
-      background:rgba(0,0,0,0.3);
-      padding:10px;border-radius:12px;
-      height:160px;overflow-y:auto;font-size:0.9rem;
+    .btn:hover { background: #ffdd57; }
+    .divider {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      text-align: center;
     }
-    #chat p{margin:6px 0;}
-    .me{color:#ffd966;}
-    .ai{color:#0df5e3;}
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255,255,255,0.4);
+    }
+    .divider:not(:empty)::before { margin-right: .75em; }
+    .divider:not(:empty)::after { margin-left: .75em; }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(40px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
   </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <div class="card">
-    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo">
-    <h1>Milli Karwaan Public School</h1>
-    <p class="sub">Balrampur, Uttar Pradesh</p>
+  <div class="login-box">
+    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo">
+    <h2>Milli Karwaan Public School</h2>
+
+    <!-- Manual Login -->
+    <input type="text" id="studentName" placeholder="👦 Student Name" required>
+    <select id="studentClass" required>
+      <option value="">📚 Select Class</option>
+      <option>Class 1</option><option>Class 2</option>
+      <option>Class 3</option><option>Class 4</option>
+      <option>Class 5</option><option>Class 6</option>
+      <option>Class 7</option><option>Class 8</option>
+    </select>
+    <input type="text" id="parentName" placeholder="👨‍👩‍👧 Parent Name" required>
+    <button class="btn" onclick="manualLogin()">Login 🚀</button>
+
+    <div class="divider">OR</div>
 
     <!-- Google Login -->
     <div id="g_id_onload"
-         data-client_id="529549341206-1fnunb0pn34k7bjqe9ot5mc1vplantfj.apps.googleusercontent.com"
-         data-callback="handleLogin"></div>
-    <div class="g_id_signin" data-type="standard"></div>
-
-    <!-- Backup Normal Login -->
-    <input type="text" id="studentName" placeholder="Enter your name">
-    <input type="text" id="studentClass" placeholder="Enter your class">
-    <button onclick="manualLogin()">Login</button>
-
-    <!-- AI Chat Help -->
-    <h3 style="margin-top:20px;">🤖 Login Help</h3>
-    <div id="chat"><p class="ai">AI: Ask me about login / account 👇</p></div>
-    <input type="text" id="userInput" placeholder="Type here...">
-    <button onclick="sendMessage()">Ask AI</button>
+         data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="redirect"
+         data-login_uri="https://abumohd5088.github.io/Milli-karwana-public-school-balrampur/dashboard.html"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="pill"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="center">
+    </div>
   </div>
 
-<script>
-// Google login
-function handleLogin(response){
-  const data=JSON.parse(atob(response.credential.split('.')[1]));
-  localStorage.setItem("mkps_student",JSON.stringify({
-    name:data.name,email:data.email,picture:data.picture
-  }));
-  alert("Welcome "+data.name+" 🎉");
-  window.location.href="dashboard.html";
-}
-// Manual login
-function manualLogin(){
-  let name=document.getElementById("studentName").value.trim();
-  let cls=document.getElementById("studentClass").value.trim();
-  if(!name||!cls){alert("Enter both name & class");return;}
-  localStorage.setItem("mkps_student",JSON.stringify({name:name,class:cls}));
-  window.location.href="dashboard.html";
-}
-// AI Chat
-async function sendMessage(){
-  let input=document.getElementById("userInput");
-  let text=input.value.trim();if(!text)return;
-  let chat=document.getElementById("chat");
-  chat.innerHTML+=`<p class="me">👤 You: ${text}</p>`;
-  input.value="";
-  try{
-    let res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({contents:[{parts:[{text:`Answer only about login or account issues: ${text}`}]}]})
-    });
-    let data=await res.json();
-    let reply=data.candidates?.[0]?.content?.parts?.[0]?.text||"Sorry, I didn’t get that.";
-    chat.innerHTML+=`<p class="ai">🤖 AI: ${reply}</p>`;
-    chat.scrollTop=chat.scrollHeight;
-  }catch(err){
-    chat.innerHTML+=`<p class="ai">⚠️ Error: ${err.message}</p>`;
-  }
-}
-</script>
+  <script>
+    // Manual login
+    function manualLogin(){
+      let name = document.getElementById("studentName").value.trim();
+      let cls = document.getElementById("studentClass").value;
+      let parent = document.getElementById("parentName").value.trim();
+
+      if(!name || !cls || !parent){
+        alert("❌ Please fill all details");
+        return;
+      }
+      localStorage.setItem("mkps_student", JSON.stringify({
+        name: name,
+        class: cls,
+        parent: parent
+      }));
+      window.location.href = "dashboard.html";
+    }
+  </script>
 </body>
 </html>
