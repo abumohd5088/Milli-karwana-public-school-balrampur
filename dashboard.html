@@ -40,7 +40,7 @@
       line-height: 1.6;
       overflow-x: hidden;
       transition: var(--transition);
-      padding-bottom: 70px; /* Space for mobile footer */
+      padding-bottom: 70px;
     }
 
     .container {
@@ -85,6 +85,12 @@
       color: #fff8;
     }
 
+    .school-name {
+      font-size: 12px;
+      margin-top: 2px;
+      opacity: 0.9;
+    }
+
     .sidebar-nav {
       padding: 16px 0;
     }
@@ -122,6 +128,21 @@
       font-weight: 500;
     }
 
+    .notification-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--warning);
+      color: white;
+      font-size: 10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* MOBILE FOOTER NAVIGATION */
     .mobile-nav {
       display: none;
@@ -134,6 +155,8 @@
       padding: 10px 0;
       z-index: 1000;
       border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-around;
     }
 
     .mobile-nav-item {
@@ -402,6 +425,7 @@
       padding: 14px;
       transition: var(--transition);
       cursor: pointer;
+      position: relative;
     }
 
     .homework-card:hover {
@@ -441,6 +465,17 @@
     .due-soon {
       color: var(--warning) !important;
       font-weight: 500;
+    }
+
+    .completed-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--success);
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
     }
 
     /* FILTER BAR */
@@ -503,6 +538,15 @@
 
     .notification-message {
       font-size: 14px;
+      color: var(--gray);
+    }
+
+    .close-notification {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 16px;
+      cursor: pointer;
       color: var(--gray);
     }
 
@@ -1081,6 +1125,943 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* PROGRESS BAR */
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 3px;
+      margin: 8px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* TIMELINE */
+    .timeline {
+      position: relative;
+      padding: 20px 0 10px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #e9ecef;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 20px;
+      padding-left: 40px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 15px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      top: 3px;
+    }
+
+    .timeline-date {
+      font-size: 12px;
+      color: var(--info);
+      margin-bottom: 4px;
+    }
+
+    .timeline-content {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* CALENDAR */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin: 12px 0;
+    }
+
+    .calendar-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .calendar-day {
+      text-align: center;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--dark);
+      padding: 6px 0;
+    }
+
+    .calendar-date {
+      text-align: center;
+      padding: 8px 0;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .calendar-date:hover {
+      background: #e9ecef;
+    }
+
+    .calendar-date.today {
+      background: var(--primary);
+      color: white;
+    }
+
+    .calendar-date.other-month {
+      color: #ccc;
+    }
+
+    .calendar-date.has-event {
+      position: relative;
+    }
+
+    .calendar-date.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--warning);
+      border-radius: 50%;
+    }
+
+    /* STUDY PLANNER */
+    .study-planner {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .planner-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .planner-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .planner-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .planner-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .planner-btn:hover {
+      background: var(--primary-light);
+    }
+
+    .planner-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .planner-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .planner-subject {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .planner-time {
+      color: var(--info);
+      font-size: 13px;
+    }
+
+    .planner-status {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+    }
+
+    .planner-status.completed {
+      background: var(--success);
+    }
+
+    /* SUBJECT CARDS */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .subject-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .subject-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .subject-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 18px;
+      color: white;
+    }
+
+    .subject-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .subject-progress {
+      font-size: 12px;
+      color: var(--info);
+      margin-top: 6px;
+    }
+
+    /* EXAM SCHEDULE */
+    .exam-schedule {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .exam-item {
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .exam-item:last-child {
+      border-bottom: none;
+    }
+
+    .exam-subject {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+
+    .exam-date {
+      color: var(--info);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .exam-venue {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    /* ACHIEVEMENTS */
+    .achievements {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .achievement-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .achievement-item:last-child {
+      border-bottom: none;
+    }
+
+    .achievement-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+    }
+
+    .achievement-info {
+      flex: 1;
+    }
+
+    .achievement-title {
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .achievement-date {
+      color: var(--info);
+      font-size: 12px;
+    }
+
+    /* TEACHER NOTES */
+    .teacher-notes {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .note-item {
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .note-item:last-child {
+      border-bottom: none;
+    }
+
+    .note-teacher {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .note-subject {
+      color: var(--info);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .note-content {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* DAILY SCHEDULE */
+    .daily-schedule {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .schedule-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .schedule-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .schedule-day {
+      color: var(--info);
+      font-size: 14px;
+    }
+
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .schedule-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .schedule-time {
+      color: var(--info);
+      font-size: 13px;
+      min-width: 60px;
+    }
+
+    .schedule-class {
+      flex: 1;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .schedule-room {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    /* ANNOUNCEMENTS */
+    .announcements {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .announcement-item {
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .announcement-item:last-child {
+      border-bottom: none;
+    }
+
+    .announcement-title {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .announcement-date {
+      color: var(--info);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .announcement-content {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* LIBRARY RESOURCES */
+    .library-resources {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .resource-item:last-child {
+      border-bottom: none;
+    }
+
+    .resource-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+    }
+
+    .resource-info {
+      flex: 1;
+    }
+
+    .resource-title {
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .resource-type {
+      color: var(--info);
+      font-size: 12px;
+    }
+
+    .resource-action {
+      color: var(--primary);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* PARENT COMMUNICATION */
+    .parent-communication {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .message-item {
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .message-item:last-child {
+      border-bottom: none;
+    }
+
+    .message-sender {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .message-date {
+      color: var(--info);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .message-content {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .message-status {
+      font-size: 11px;
+      color: var(--success);
+      margin-top: 4px;
+    }
+
+    /* ATTENDANCE */
+    .attendance {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .attendance-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .attendance-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .attendance-percentage {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .attendance-chart {
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .attendance-bar {
+      flex: 1;
+      background: #e9ecef;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+    }
+
+    .attendance-bar-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--primary);
+      border-radius: 4px 4px 0 0;
+      height: 0%;
+      transition: height 0.3s ease;
+    }
+
+    .attendance-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--info);
+    }
+
+    /* GRADES */
+    .grades {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .grade-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .grade-item:last-child {
+      border-bottom: none;
+    }
+
+    .grade-subject {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .grade-score {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .grade-a {
+      color: var(--success);
+    }
+
+    .grade-b {
+      color: #2a9d8f;
+    }
+
+    .grade-c {
+      color: #e9c46a;
+    }
+
+    .grade-d {
+      color: var(--warning);
+    }
+
+    .grade-f {
+      color: var(--danger);
+    }
+
+    /* RECENT ACTIVITY */
+    .recent-activity {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--primary);
+    }
+
+    .activity-info {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .activity-time {
+      color: var(--info);
+      font-size: 12px;
+    }
+
+    /* ASSIGNMENT SUBMISSION */
+    .assignment-submission {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .submission-item {
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .submission-item:last-child {
+      border-bottom: none;
+    }
+
+    .submission-title {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .submission-subject {
+      color: var(--info);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .submission-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-label {
+      font-size: 13px;
+      padding: 4px 8px;
+      border-radius: 12px;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-submitted {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-graded {
+      background: #cce5ff;
+      color: #004085;
+    }
+
+    .submission-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .submission-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .submission-btn:hover {
+      background: var(--primary-light);
+    }
+
+    .submission-btn.secondary {
+      background: #e9ecef;
+      color: var(--dark);
+    }
+
+    .submission-btn.secondary:hover {
+      background: #dee2e6;
+    }
+
+    /* DASHBOARD CUSTOMIZATION */
+    .dashboard-customization {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .customization-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .customization-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .customization-option {
+      padding: 12px;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .customization-option:hover {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.05);
+    }
+
+    .customization-option.selected {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+
+    .option-icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .option-label {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* RESPONSIVE MODIFICATIONS */
+    @media (max-width: 768px) {
+      .subject-grid, .customization-options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .homework-list {
+        gap: 10px;
+      }
+      
+      .homework-card {
+        padding: 12px;
+      }
+      
+      .hw-desc {
+        font-size: 12px;
+      }
+      
+      .hw-meta {
+        font-size: 11px;
+      }
+      
+      .stats-grid {
+        gap: 12px;
+      }
+      
+      .stat-card {
+        padding: 14px;
+      }
+      
+      .stat-value {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .subject-grid, .customization-options {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .welcome {
+        font-size: 14px;
+      }
+      
+      .page-title {
+        font-size: 20px;
+      }
+      
+      .dashboard {
+        padding: 16px;
+      }
+      
+      .homework-section, .study-planner, .exam-schedule, .achievements, .teacher-notes, .daily-schedule, .announcements, .library-resources, .parent-communication, .attendance, .grades, .recent-activity, .assignment-submission, .dashboard-customization {
+        padding: 16px;
+      }
+      
+      .section-title, .planner-title, .exam-subject, .achievement-title, .note-teacher, .schedule-title, .announcement-title, .resource-title, .message-sender, .attendance-title, .grade-subject, .activity-title, .submission-title, .customization-title {
+        font-size: 16px;
+      }
+      
+      .hw-subject {
+        font-size: 14px;
+      }
+      
+      .hw-desc {
+        font-size: 12px;
+      }
+      
+      .hw-meta {
+        font-size: 11px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1093,7 +2074,7 @@
     <div class="sidebar">
       <div class="sidebar-header">
         <div class="logo">MK<span>PS</span></div>
-        <div style="font-size: 11px; margin-top: 2px; opacity: 0.9;">Milli Karwaan Public School</div>
+        <div class="school-name">Milli Karwaan Public School</div>
       </div>
       <div class="sidebar-nav">
         <div class="nav-item active" data-page="dashboard">
@@ -1103,10 +2084,19 @@
         <div class="nav-item" data-page="homework">
           <span class="nav-icon"><i class="material-icons-round">assignment</i></span>
           <span class="nav-text">Homework</span>
+          <div class="notification-badge">3</div>
         </div>
         <div class="nav-item" data-page="ai-help">
           <span class="nav-icon"><i class="material-icons-round">smart_toy</i></span>
           <span class="nav-text">AI Assistant</span>
+        </div>
+        <div class="nav-item" data-page="schedule">
+          <span class="nav-icon"><i class="material-icons-round">schedule</i></span>
+          <span class="nav-text">Schedule</span>
+        </div>
+        <div class="nav-item" data-page="grades">
+          <span class="nav-icon"><i class="material-icons-round">grade</i></span>
+          <span class="nav-text">Grades</span>
         </div>
         <div class="nav-item" data-page="profile">
           <span class="nav-icon"><i class="material-icons-round">person</i></span>
@@ -1152,7 +2142,7 @@
               <i class="fas fa-tasks"></i>
             </div>
             <div class="stat-title">Due</div>
-            <div class="stat-value" id="homework-due">2</div>
+            <div class="stat-value" id="homework-due">3</div>
           </div>
           <div class="stat-card fade-in delay-3">
             <div class="stat-icon orange">
@@ -1180,35 +2170,76 @@
           </div>
         </div>
 
-        <div class="homework-section fade-in delay-2">
-          <div class="section-header">
-            <h2 class="section-title">Upcoming Events</h2>
-            <div class="view-all">View Calendar</div>
+        <div class="study-planner fade-in delay-2">
+          <div class="planner-header">
+            <h2 class="planner-title">Study Planner</h2>
+            <div class="planner-actions">
+              <button class="planner-btn">Add Task</button>
+            </div>
           </div>
-          <div class="homework-list">
-            <div class="homework-card">
-              <div class="hw-subject"><i class="fas fa-microphone"></i> Annual Day Practice</div>
-              <div class="hw-desc">Final rehearsal for the annual day performance. All students must attend.</div>
-              <div class="hw-meta">
-                <span><i class="far fa-calendar"></i> Tomorrow</span>
-                <span><i class="far fa-clock"></i> 3:00 PM</span>
+          <div class="planner-list">
+            <div class="planner-item">
+              <div>
+                <div class="planner-subject">Mathematics</div>
+                <div class="planner-time">Today, 4:00 PM</div>
               </div>
+              <div class="planner-status completed"></div>
             </div>
-            <div class="homework-card">
-              <div class="hw-subject"><i class="fas fa-flask"></i> Science Fair</div>
-              <div class="hw-desc">Science exhibition for classes 6-8. Project submissions due by Friday.</div>
-              <div class="hw-meta">
-                <span><i class="far fa-calendar"></i> This Friday</span>
-                <span><i class="far fa-clock"></i> 10:00 AM</span>
+            <div class="planner-item">
+              <div>
+                <div class="planner-subject">Science</div>
+                <div class="planner-time">Today, 5:30 PM</div>
               </div>
+              <div class="planner-status"></div>
             </div>
-            <div class="homework-card">
-              <div class="hw-subject"><i class="fas fa-pencil-alt"></i> Unit Test</div>
-              <div class="hw-desc">Mathematics unit test covering chapters 5-7. Prepare well.</div>
-              <div class="hw-meta">
-                <span><i class="far fa-calendar"></i> Next Monday</span>
-                <span><i class="far fa-clock"></i> 9:00 AM</span>
+            <div class="planner-item">
+              <div>
+                <div class="planner-subject">English</div>
+                <div class="planner-time">Tomorrow, 3:00 PM</div>
               </div>
+              <div class="planner-status"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="exam-schedule fade-in delay-3">
+          <div class="section-header">
+            <h2 class="section-title">Upcoming Exams</h2>
+            <div class="view-all">View All</div>
+          </div>
+          <div class="exam-item">
+            <div class="exam-subject">Mathematics</div>
+            <div class="exam-date"><i class="far fa-calendar"></i> Next Monday, 9:00 AM</div>
+            <div class="exam-venue"><i class="fas fa-map-marker-alt"></i> Room 101</div>
+          </div>
+          <div class="exam-item">
+            <div class="exam-subject">Science</div>
+            <div class="exam-date"><i class="far fa-calendar"></i> Next Wednesday, 10:00 AM</div>
+            <div class="exam-venue"><i class="fas fa-map-marker-alt"></i> Room 102</div>
+          </div>
+        </div>
+
+        <div class="achievements fade-in delay-4">
+          <div class="section-header">
+            <h2 class="section-title">Achievements</h2>
+            <div class="view-all">View All</div>
+          </div>
+          <div class="achievement-item">
+            <div class="achievement-icon" style="background: var(--primary);">
+              <i class="fas fa-medal"></i>
+            </div>
+            <div class="achievement-info">
+              <div class="achievement-title">Mathematics Olympiad Winner</div>
+              <div class="achievement-date">March 2025</div>
+            </div>
+          </div>
+          <div class="achievement-item">
+            <div class="achievement-icon" style="background: #2a9d8f;">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="achievement-info">
+              <div class="achievement-title">Best Science Project</div>
+              <div class="achievement-date">February 2025</div>
             </div>
           </div>
         </div>
@@ -1229,6 +2260,33 @@
           </div>
           <div class="homework-list" id="all-homework-list">
             <!-- All homework will be inserted here -->
+          </div>
+        </div>
+
+        <div class="assignment-submission">
+          <div class="section-header">
+            <h2 class="section-title">Assignment Submission</h2>
+          </div>
+          <div class="submission-item">
+            <div class="submission-title">Mathematics Assignment 3</div>
+            <div class="submission-subject">Due: Tomorrow</div>
+            <div class="submission-status">
+              <span class="status-label status-pending">Pending</span>
+            </div>
+            <div class="submission-actions">
+              <button class="submission-btn">Submit Assignment</button>
+              <button class="submission-btn secondary">View Details</button>
+            </div>
+          </div>
+          <div class="submission-item">
+            <div class="submission-title">Science Project</div>
+            <div class="submission-subject">Due: This Friday</div>
+            <div class="submission-status">
+              <span class="status-label status-submitted">Submitted</span>
+            </div>
+            <div class="submission-actions">
+              <button class="submission-btn secondary">View Feedback</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1262,6 +2320,226 @@
               <i class="fas fa-comments" style="font-size: 36px; margin-bottom: 12px; opacity: 0.3;"></i>
               <div>Ask a question to get started</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHEDULE PAGE -->
+      <div class="dashboard" id="schedule-page" style="display: none;">
+        <h1 class="page-title"><i class="fas fa-calendar-alt"></i> Daily Schedule</h1>
+        
+        <div class="daily-schedule">
+          <div class="schedule-header">
+            <h2 class="schedule-title">Today's Classes</h2>
+            <div class="schedule-day">Monday, April 15, 2025</div>
+          </div>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <div class="schedule-time">9:00-10:00</div>
+              <div class="schedule-class">Mathematics</div>
+              <div class="schedule-room">Room 101</div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">10:15-11:15</div>
+              <div class="schedule-class">Science</div>
+              <div class="schedule-room">Room 102</div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">11:30-12:30</div>
+              <div class="schedule-class">English</div>
+              <div class="schedule-room">Room 103</div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">1:30-2:30</div>
+              <div class="schedule-class">Social Studies</div>
+              <div class="schedule-room">Room 104</div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">2:45-3:45</div>
+              <div class="schedule-class">Computer</div>
+              <div class="schedule-room">Lab 1</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calendar">
+          <div class="calendar-header">
+            <div class="calendar-day">Sun</div>
+            <div class="calendar-day">Mon</div>
+            <div class="calendar-day">Tue</div>
+            <div class="calendar-day">Wed</div>
+            <div class="calendar-day">Thu</div>
+            <div class="calendar-day">Fri</div>
+            <div class="calendar-day">Sat</div>
+          </div>
+          <div class="calendar-date other-month">31</div>
+          <div class="calendar-date">1</div>
+          <div class="calendar-date">2</div>
+          <div class="calendar-date">3</div>
+          <div class="calendar-date">4</div>
+          <div class="calendar-date">5</div>
+          <div class="calendar-date">6</div>
+          <div class="calendar-date">7</div>
+          <div class="calendar-date">8</div>
+          <div class="calendar-date">9</div>
+          <div class="calendar-date">10</div>
+          <div class="calendar-date">11</div>
+          <div class="calendar-date">12</div>
+          <div class="calendar-date">13</div>
+          <div class="calendar-date">14</div>
+          <div class="calendar-date today">15</div>
+          <div class="calendar-date has-event">16</div>
+          <div class="calendar-date has-event">17</div>
+          <div class="calendar-date">18</div>
+          <div class="calendar-date">19</div>
+          <div class="calendar-date">20</div>
+          <div class="calendar-date">21</div>
+          <div class="calendar-date">22</div>
+          <div class="calendar-date">23</div>
+          <div class="calendar-date">24</div>
+          <div class="calendar-date">25</div>
+          <div class="calendar-date">26</div>
+          <div class="calendar-date">27</div>
+          <div class="calendar-date">28</div>
+          <div class="calendar-date">29</div>
+          <div class="calendar-date">30</div>
+          <div class="calendar-date other-month">1</div>
+          <div class="calendar-date other-month">2</div>
+          <div class="calendar-date other-month">3</div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">9:00 AM</div>
+            <div class="timeline-content">
+              <div>Mathematics Class</div>
+              <div style="color: var(--info); font-size: 12px;">Room 101</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">10:15 AM</div>
+            <div class="timeline-content">
+              <div>Science Class</div>
+              <div style="color: var(--info); font-size: 12px;">Room 102</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">11:30 AM</div>
+            <div class="timeline-content">
+              <div>English Class</div>
+              <div style="color: var(--info); font-size: 12px;">Room 103</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">1:30 PM</div>
+            <div class="timeline-content">
+              <div>Social Studies</div>
+              <div style="color: var(--info); font-size: 12px;">Room 104</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">2:45 PM</div>
+            <div class="timeline-content">
+              <div>Computer Class</div>
+              <div style="color: var(--info); font-size: 12px;">Lab 1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRADES PAGE -->
+      <div class="dashboard" id="grades-page" style="display: none;">
+        <h1 class="page-title"><i class="fas fa-star"></i> Grades</h1>
+        
+        <div class="grades">
+          <div class="section-header">
+            <h2 class="section-title">Current Grades</h2>
+            <div class="view-all">View All</div>
+          </div>
+          <div class="grade-item">
+            <div class="grade-subject">Mathematics</div>
+            <div class="grade-score grade-a">A+</div>
+          </div>
+          <div class="grade-item">
+            <div class="grade-subject">Science</div>
+            <div class="grade-score grade-a">A</div>
+          </div>
+          <div class="grade-item">
+            <div class="grade-subject">English</div>
+            <div class="grade-score grade-b">B+</div>
+          </div>
+          <div class="grade-item">
+            <div class="grade-subject">Social Studies</div>
+            <div class="grade-score grade-b">B</div>
+          </div>
+          <div class="grade-item">
+            <div class="grade-subject">Hindi</div>
+            <div class="grade-score grade-c">C+</div>
+          </div>
+          <div class="grade-item">
+            <div class="grade-subject">Computer</div>
+            <div class="grade-score grade-a">A</div>
+          </div>
+        </div>
+
+        <div class="attendance">
+          <div class="attendance-header">
+            <h2 class="attendance-title">Attendance</h2>
+            <div class="attendance-percentage">96%</div>
+          </div>
+          <div class="attendance-chart">
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 90%;"></div></div>
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 95%;"></div></div>
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 85%;"></div></div>
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 100%;"></div></div>
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 90%;"></div></div>
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 95%;"></div></div>
+            <div class="attendance-bar"><div class="attendance-bar-fill" style="height: 100%;"></div></div>
+          </div>
+          <div class="attendance-labels">
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+            <div>Sun</div>
+          </div>
+        </div>
+
+        <div class="subject-grid">
+          <div class="subject-card">
+            <div class="subject-icon" style="background: var(--primary);">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <div class="subject-name">Mathematics</div>
+            <div class="subject-progress">Progress: 85%</div>
+          </div>
+          <div class="subject-card">
+            <div class="subject-icon" style="background: #2a9d8f;">
+              <i class="fas fa-flask"></i>
+            </div>
+            <div class="subject-name">Science</div>
+            <div class="subject-progress">Progress: 92%</div>
+          </div>
+          <div class="subject-card">
+            <div class="subject-icon" style="background: #e9c46a;">
+              <i class="fas fa-book"></i>
+            </div>
+            <div class="subject-name">English</div>
+            <div class="subject-progress">Progress: 78%</div>
+          </div>
+          <div class="subject-card">
+            <div class="subject-icon" style="background: #8338ec;">
+              <i class="fas fa-globe-asia"></i>
+            </div>
+            <div class="subject-name">Social Studies</div>
+            <div class="subject-progress">Progress: 82%</div>
           </div>
         </div>
       </div>
@@ -1311,6 +2589,57 @@
             </div>
           </div>
         </div>
+
+        <div class="recent-activity">
+          <div class="section-header">
+            <h2 class="section-title">Recent Activity</h2>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-upload"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">Submitted Science Project</div>
+              <div class="activity-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">Completed Math Assignment</div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="fas fa-comment"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">Participated in Class Discussion</div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="parent-communication">
+          <div class="section-header">
+            <h2 class="section-title">Parent Communication</h2>
+          </div>
+          <div class="message-item">
+            <div class="message-sender">Principal</div>
+            <div class="message-date">April 10, 2025</div>
+            <div class="message-content">Your child has been selected for the Mathematics Olympiad. Please confirm participation by April 15.</div>
+            <div class="message-status">Read</div>
+          </div>
+          <div class="message-item">
+            <div class="message-sender">Math Teacher</div>
+            <div class="message-date">April 8, 2025</div>
+            <div class="message-content">Aarav is doing excellent in Mathematics. Keep up the good work!</div>
+            <div class="message-status">Read</div>
+          </div>
+        </div>
       </div>
 
       <!-- SETTINGS PAGE -->
@@ -1353,6 +2682,20 @@
                 <span class="slider"></span>
               </label>
             </div>
+            <div class="setting-item">
+              <div class="setting-label">Show Weekends</div>
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-label">Calendar Sync</div>
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -1372,6 +2715,88 @@
                 <span class="slider"></span>
               </label>
             </div>
+          </div>
+        </div>
+
+        <div class="dashboard-customization">
+          <h2 class="customization-title">Dashboard Customization</h2>
+          <div class="customization-options">
+            <div class="customization-option selected">
+              <div class="option-icon"><i class="fas fa-home"></i></div>
+              <div class="option-label">Dashboard</div>
+            </div>
+            <div class="customization-option">
+              <div class="option-icon"><i class="fas fa-clipboard-list"></i></div>
+              <div class="option-label">Homework</div>
+            </div>
+            <div class="customization-option">
+              <div class="option-icon"><i class="fas fa-robot"></i></div>
+              <div class="option-label">AI Assistant</div>
+            </div>
+            <div class="customization-option">
+              <div class="option-icon"><i class="fas fa-calendar-alt"></i></div>
+              <div class="option-label">Schedule</div>
+            </div>
+            <div class="customization-option">
+              <div class="option-icon"><i class="fas fa-star"></i></div>
+              <div class="option-label">Grades</div>
+            </div>
+            <div class="customization-option">
+              <div class="option-icon"><i class="fas fa-user-circle"></i></div>
+              <div class="option-label">Profile</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="library-resources">
+          <div class="section-header">
+            <h2 class="section-title">Library Resources</h2>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon" style="background: var(--primary);">
+              <i class="fas fa-book"></i>
+            </div>
+            <div class="resource-info">
+              <div class="resource-title">Mathematics Textbook</div>
+              <div class="resource-type">Textbook</div>
+            </div>
+            <div class="resource-action">View</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon" style="background: #2a9d8f;">
+              <i class="fas fa-video"></i>
+            </div>
+            <div class="resource-info">
+              <div class="resource-title">Science Experiments</div>
+              <div class="resource-type">Video</div>
+            </div>
+            <div class="resource-action">Watch</div>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon" style="background: #e9c46a;">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="resource-info">
+              <div class="resource-title">English Grammar Guide</div>
+              <div class="resource-type">PDF</div>
+            </div>
+            <div class="resource-action">Download</div>
+          </div>
+        </div>
+
+        <div class="announcements">
+          <div class="section-header">
+            <h2 class="section-title">School Announcements</h2>
+          </div>
+          <div class="announcement-item">
+            <div class="announcement-title">Annual Day Celebration</div>
+            <div class="announcement-date">Posted: April 10, 2025</div>
+            <div class="announcement-content">The annual day celebration will be held on May 15, 2025. All students are requested to participate in the rehearsals.</div>
+          </div>
+          <div class="announcement-item">
+            <div class="announcement-title">Sports Day Registration</div>
+            <div class="announcement-date">Posted: April 5, 2025</div>
+            <div class="announcement-content">Sports day will be held on June 10, 2025. Registration for events is open until April 20.</div>
           </div>
         </div>
       </div>
@@ -1435,6 +2860,7 @@
 
       <!-- NOTIFICATION -->
       <div class="notification" id="notification">
+        <span class="close-notification">&times;</span>
         <div class="notification-title">New Homework</div>
         <div class="notification-message">Mathematics assignment has been added for tomorrow.</div>
       </div>
@@ -1477,59 +2903,59 @@
       // Mock data for homework by class
       const homeworkData = {
         'Class 1': [
-          { subject: 'Mathematics', description: 'Count numbers from 1 to 100 and write them in notebook.', due: 'Tomorrow', emoji: '🔢', filter: 'today' },
-          { subject: 'English', description: 'Learn to write alphabets A to Z in capital and small letters.', due: 'Tomorrow', emoji: '🔤', filter: 'today' },
-          { subject: 'EVS', description: 'Draw pictures of animals you see around your home.', due: 'This Friday', emoji: '🐘', filter: 'this-week' },
-          { subject: 'Hindi', description: 'Practice writing vowels (स्वर) - अ, आ, इ, ई, उ, ऊ', due: 'Next Monday', emoji: '🇮🇳', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Count numbers from 1 to 100 and write them in notebook.', due: 'Tomorrow', emoji: '🔢', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Learn to write alphabets A to Z in capital and small letters.', due: 'Tomorrow', emoji: '🔤', filter: 'today', status: 'pending' },
+          { subject: 'EVS', description: 'Draw pictures of animals you see around your home.', due: 'This Friday', emoji: '🐘', filter: 'this-week', status: 'pending' },
+          { subject: 'Hindi', description: 'Practice writing vowels (स्वर) - अ, आ, इ, ई, उ, ऊ', due: 'Next Monday', emoji: '🇮🇳', filter: 'this-week', status: 'pending' }
         ],
         'Class 2': [
-          { subject: 'Mathematics', description: 'Solve addition and subtraction problems up to 100.', due: 'Tomorrow', emoji: '➕', filter: 'today' },
-          { subject: 'English', description: 'Write 5 sentences about your family using simple present tense.', due: 'Tomorrow', emoji: '👨‍👩‍👧', filter: 'today' },
-          { subject: 'EVS', description: 'List 10 plants and trees you see in your neighborhood.', due: 'This Friday', emoji: '🌳', filter: 'this-week' },
-          { subject: 'Hindi', description: 'Write a short story (5 sentences) using words: घर, पेड़, नदी, पक्षी, फूल', due: 'Next Monday', emoji: '📖', filter: 'this-week' },
-          { subject: 'Art', description: 'Create a collage using colored paper cuttings of different shapes.', due: 'Next Wednesday', emoji: '🎨', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Solve addition and subtraction problems up to 100.', due: 'Tomorrow', emoji: '➕', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Write 5 sentences about your family using simple present tense.', due: 'Tomorrow', emoji: '👨‍👩‍👧', filter: 'today', status: 'pending' },
+          { subject: 'EVS', description: 'List 10 plants and trees you see in your neighborhood.', due: 'This Friday', emoji: '🌳', filter: 'this-week', status: 'pending' },
+          { subject: 'Hindi', description: 'Write a short story (5 sentences) using words: घर, पेड़, नदी, पक्षी, फूल', due: 'Next Monday', emoji: '📖', filter: 'this-week', status: 'pending' },
+          { subject: 'Art', description: 'Create a collage using colored paper cuttings of different shapes.', due: 'Next Wednesday', emoji: '🎨', filter: 'this-week', status: 'pending' }
         ],
         'Class 3': [
-          { subject: 'Mathematics', description: 'Learn multiplication tables from 2 to 10. Practice 10 problems for each.', due: 'Tomorrow', emoji: '✖️', filter: 'today' },
-          { subject: 'English', description: 'Write a paragraph about your favorite festival (8-10 sentences).', due: 'Tomorrow', emoji: '🎉', filter: 'today' },
-          { subject: 'Science', description: 'Observe the life cycle of a butterfly or frog and draw it in your notebook.', due: 'This Friday', emoji: '🦋', filter: 'this-week' },
-          { subject: 'Social Studies', description: 'Draw a map of India and label all states and union territories.', due: 'Next Monday', emoji: '🗺️', filter: 'this-week' },
-          { subject: 'Hindi', description: 'Translate the English paragraph about your favorite festival into Hindi.', due: 'Next Wednesday', emoji: '<translation>', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Learn multiplication tables from 2 to 10. Practice 10 problems for each.', due: 'Tomorrow', emoji: '✖️', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Write a paragraph about your favorite festival (8-10 sentences).', due: 'Tomorrow', emoji: '🎉', filter: 'today', status: 'pending' },
+          { subject: 'Science', description: 'Observe the life cycle of a butterfly or frog and draw it in your notebook.', due: 'This Friday', emoji: '🦋', filter: 'this-week', status: 'pending' },
+          { subject: 'Social Studies', description: 'Draw a map of India and label all states and union territories.', due: 'Next Monday', emoji: '🗺️', filter: 'this-week', status: 'pending' },
+          { subject: 'Hindi', description: 'Translate the English paragraph about your favorite festival into Hindi.', due: 'Next Wednesday', emoji: '<translation>', filter: 'this-week', status: 'pending' }
         ],
         'Class 4': [
-          { subject: 'Mathematics', description: 'Solve word problems involving addition, subtraction, multiplication, and division.', due: 'Tomorrow', emoji: '🧮', filter: 'today' },
-          { subject: 'English', description: 'Read a story from your textbook and write a summary in 10 sentences.', due: 'Tomorrow', emoji: '📚', filter: 'today' },
-          { subject: 'Science', description: 'Collect 5 different types of leaves and paste them in your scrapbook with names.', due: 'This Friday', emoji: '🍃', filter: 'this-week' },
-          { subject: 'Social Studies', description: 'Research and write about the major rivers of India (5 rivers, 5 points each).', due: 'Next Monday', emoji: '🌊', filter: 'this-week' },
-          { subject: 'Computer', description: 'Practice typing 100 words on the computer without looking at the keyboard.', due: 'Next Wednesday', emoji: '⌨️', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Solve word problems involving addition, subtraction, multiplication, and division.', due: 'Tomorrow', emoji: '🧮', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Read a story from your textbook and write a summary in 10 sentences.', due: 'Tomorrow', emoji: '📚', filter: 'today', status: 'pending' },
+          { subject: 'Science', description: 'Collect 5 different types of leaves and paste them in your scrapbook with names.', due: 'This Friday', emoji: '🍃', filter: 'this-week', status: 'pending' },
+          { subject: 'Social Studies', description: 'Research and write about the major rivers of India (5 rivers, 5 points each).', due: 'Next Monday', emoji: '🌊', filter: 'this-week', status: 'pending' },
+          { subject: 'Computer', description: 'Practice typing 100 words on the computer without looking at the keyboard.', due: 'Next Wednesday', emoji: '⌨️', filter: 'this-week', status: 'pending' }
         ],
         'Class 5': [
-          { subject: 'Mathematics', description: 'Learn to calculate area and perimeter of rectangles and squares. Solve 10 problems.', due: 'Tomorrow', emoji: '📐', filter: 'today' },
-          { subject: 'English', description: 'Write a letter to your friend describing your summer vacation.', due: 'Tomorrow', emoji: '✉️', filter: 'today' },
-          { subject: 'Science', description: 'Create a model of the solar system using clay or paper mache.', due: 'This Friday', emoji: '🪐', filter: 'this-week' },
-          { subject: 'Social Studies', description: 'Prepare a presentation on "Famous Monuments of India" (10 slides minimum).', due: 'Next Monday', emoji: '🏛️', filter: 'this-week' },
-          { subject: 'Hindi', description: 'Write a poem in Hindi about nature (12 lines minimum) with rhyming words.', due: 'Next Wednesday', emoji: '🌿', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Learn to calculate area and perimeter of rectangles and squares. Solve 10 problems.', due: 'Tomorrow', emoji: '📐', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Write a letter to your friend describing your summer vacation.', due: 'Tomorrow', emoji: '✉️', filter: 'today', status: 'pending' },
+          { subject: 'Science', description: 'Create a model of the solar system using clay or paper mache.', due: 'This Friday', emoji: '🪐', filter: 'this-week', status: 'pending' },
+          { subject: 'Social Studies', description: 'Prepare a presentation on "Famous Monuments of India" (10 slides minimum).', due: 'Next Monday', emoji: '🏛️', filter: 'this-week', status: 'pending' },
+          { subject: 'Hindi', description: 'Write a poem in Hindi about nature (12 lines minimum) with rhyming words.', due: 'Next Wednesday', emoji: '🌿', filter: 'this-week', status: 'pending' }
         ],
         'Class 6': [
-          { subject: 'Mathematics', description: 'Solve problems on fractions and decimals. Convert fractions to decimals and vice versa.', due: 'Tomorrow', emoji: '➗', filter: 'today' },
-          { subject: 'English', description: 'Analyze the character of the protagonist in the novel you are reading.', due: 'Tomorrow', emoji: '👤', filter: 'today' },
-          { subject: 'Science', description: 'Conduct an experiment to show how plants absorb water. Document your observations.', due: 'This Friday', emoji: '🔬', filter: 'this-week' },
-          { subject: 'Social Studies', description: 'Create a timeline of major events in Indian history from 1857 to 1947.', due: 'Next Monday', emoji: '🕰️', filter: 'this-week' },
-          { subject: 'Computer', description: 'Create a PowerPoint presentation on "Importance of Computers in Education".', due: 'Next Wednesday', emoji: '💻', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Solve problems on fractions and decimals. Convert fractions to decimals and vice versa.', due: 'Tomorrow', emoji: '➗', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Analyze the character of the protagonist in the novel you are reading.', due: 'Tomorrow', emoji: '👤', filter: 'today', status: 'pending' },
+          { subject: 'Science', description: 'Conduct an experiment to show how plants absorb water. Document your observations.', due: 'This Friday', emoji: '🔬', filter: 'this-week', status: 'pending' },
+          { subject: 'Social Studies', description: 'Create a timeline of major events in Indian history from 1857 to 1947.', due: 'Next Monday', emoji: '🕰️', filter: 'this-week', status: 'pending' },
+          { subject: 'Computer', description: 'Create a PowerPoint presentation on "Importance of Computers in Education".', due: 'Next Wednesday', emoji: '💻', filter: 'this-week', status: 'pending' }
         ],
         'Class 7': [
-          { subject: 'Mathematics', description: 'Learn and practice algebraic expressions and simple equations.', due: 'Tomorrow', emoji: '🧩', filter: 'today' },
-          { subject: 'English', description: 'Write a debate speech on "Social media: Boon or Bane" (300 words).', due: 'Tomorrow', emoji: '🗣️', filter: 'today' },
-          { subject: 'Science', description: 'Study the human digestive system and create a labeled diagram.', due: 'This Friday', emoji: '🔬', filter: 'this-week' },
-          { subject: 'Social Studies', description: 'Research and write about the different types of government systems around the world.', due: 'Next Monday', emoji: '🌍', filter: 'this-week' },
-          { subject: 'Hindi', description: 'Write a formal letter to the principal requesting a school trip to a historical site.', due: 'Next Wednesday', emoji: '📝', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Learn and practice algebraic expressions and simple equations.', due: 'Tomorrow', emoji: '🧩', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Write a debate speech on "Social media: Boon or Bane" (300 words).', due: 'Tomorrow', emoji: '🗣️', filter: 'today', status: 'pending' },
+          { subject: 'Science', description: 'Study the human digestive system and create a labeled diagram.', due: 'This Friday', emoji: '🔬', filter: 'this-week', status: 'pending' },
+          { subject: 'Social Studies', description: 'Research and write about the different types of government systems around the world.', due: 'Next Monday', emoji: '🌍', filter: 'this-week', status: 'pending' },
+          { subject: 'Hindi', description: 'Write a formal letter to the principal requesting a school trip to a historical site.', due: 'Next Wednesday', emoji: '📝', filter: 'this-week', status: 'pending' }
         ],
         'Class 8': [
-          { subject: 'Mathematics', description: 'Solve problems on linear equations in one variable. Create 5 word problems.', due: 'Tomorrow', emoji: '📊', filter: 'today' },
-          { subject: 'English', description: 'Write a review of a movie or book you recently watched/read (400 words).', due: 'Tomorrow', emoji: '🎬', filter: 'today' },
-          { subject: 'Science', description: 'Prepare a detailed project on "Renewable and Non-renewable Resources".', due: 'This Friday', emoji: '⚡', filter: 'this-week' },
-          { subject: 'Social Studies', description: 'Analyze the causes and effects of the Industrial Revolution in Europe.', due: 'Next Monday', emoji: '🏭', filter: 'this-week' },
-          { subject: 'Computer', description: 'Learn basic HTML and create a simple webpage about your school.', due: 'Next Wednesday', emoji: '🌐', filter: 'this-week' }
+          { subject: 'Mathematics', description: 'Solve problems on linear equations in one variable. Create 5 word problems.', due: 'Tomorrow', emoji: '📊', filter: 'today', status: 'pending' },
+          { subject: 'English', description: 'Write a review of a movie or book you recently watched/read (400 words).', due: 'Tomorrow', emoji: '🎬', filter: 'today', status: 'pending' },
+          { subject: 'Science', description: 'Prepare a detailed project on "Renewable and Non-renewable Resources".', due: 'This Friday', emoji: '⚡', filter: 'this-week', status: 'pending' },
+          { subject: 'Social Studies', description: 'Analyze the causes and effects of the Industrial Revolution in Europe.', due: 'Next Monday', emoji: '🏭', filter: 'this-week', status: 'pending' },
+          { subject: 'Computer', description: 'Learn basic HTML and create a simple webpage about your school.', due: 'Next Wednesday', emoji: '🌐', filter: 'this-week', status: 'pending' }
         ]
       };
 
@@ -1608,8 +3034,16 @@
         const notification = document.getElementById('notification');
         notification.classList.add('show');
         
-        setTimeout(() => {
+        // Close notification when click on close button
+        document.querySelector('.close-notification').addEventListener('click', () => {
           notification.classList.remove('show');
+        });
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+          if (notification.classList.contains('show')) {
+            notification.classList.remove('show');
+          }
         }, 5000);
       }
 
@@ -1691,7 +3125,7 @@
       function setupNavigation() {
         const navItems = document.querySelectorAll('.nav-item');
         const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
-        const pages = ['dashboard', 'homework', 'ai-help', 'profile', 'settings'];
+        const pages = ['dashboard', 'homework', 'ai-help', 'schedule', 'grades', 'profile', 'settings'];
         
         // Desktop navigation
         navItems.forEach(item => {
@@ -1726,13 +3160,21 @@
       }
 
       function showPage(page) {
-        const pages = ['dashboard', 'homework', 'ai-help', 'profile', 'settings'];
+        const pages = ['dashboard', 'homework', 'ai-help', 'schedule', 'grades', 'profile', 'settings'];
         pages.forEach(p => {
           document.getElementById(`${p}-page`).style.display = p === page ? 'block' : 'none';
         });
         
         // Update active nav item
         document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('active');
+          if (item.getAttribute('data-page') === page) {
+            item.classList.add('active');
+          }
+        });
+        
+        // Update mobile nav active item
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
           item.classList.remove('active');
           if (item.getAttribute('data-page') === page) {
             item.classList.add('active');
