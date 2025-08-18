@@ -1,3 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI Tools - 50 Features</title><style>body{font-family:-apple-system; background:linear-gradient(135deg,#667eea,#764ba2);padding:1rem}.ai-container{display:grid;grid-template-columns:1fr;gap:1rem}.ai-card{background:white;padding:1rem;border-radius:12px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}</style></head><body><h1>AI Tools - 50 Features</h1><div class="ai-container">${[...Array(50)].map((_,i)=>`<div class="ai-card"><h3>AI Tool ${i+1}</h3><button onclick="aiTool(${i+1})">Use AI</button></div>`).join('')}</div><script>function aiTool(num){alert(`AI Tool ${num} activated`)}</script></body></html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Assistant | School Web</title>
+<style>
+:root{--p:#0d6efd;--s:#6c757d;--l:#f8f9fa;--d:#212529;--a:#ffc107;--bg:#fff;--card:#f1f3f5;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:var(--bg);color:var(--d);display:flex;flex-direction:column;min-height:100vh;}
+header{position:sticky;top:0;background:var(--p);color:#fff;padding:12px;text-align:center;font-size:1.2em;font-weight:bold;}
+main{flex:1;padding:15px;display:grid;gap:15px;}
+.card{background:var(--card);border-radius:12px;padding:15px;box-shadow:0 4px 12px rgba(0,0,0,.1);}
+h2{margin-bottom:10px}
+.chatBox{height:300px;overflow-y:auto;padding:10px;border:1px solid #ccc;border-radius:8px;background:#fff;}
+.msg{margin:5px 0;padding:8px;border-radius:8px;max-width:80%;}
+.user{background:var(--p);color:#fff;margin-left:auto;}
+.ai{background:#e7f3ff;border:1px solid var(--p);}
+input,select,textarea,button{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #ccc;}
+button{background:var(--p);color:#fff;border:none;font-weight:bold;cursor:pointer;}
+footer{position:sticky;bottom:0;background:var(--s);color:#fff;text-align:center;padding:10px;}
+#fab{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:var(--a);color:#000;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+.dark{--bg:#121212;--d:#f1f1f1;--card:#1e1e1e;}
+.offline{display:none;background:#ff4444;color:#fff;text-align:center;padding:5px;}
+</style>
+</head>
+<body>
+<header>🤖 School AI Assistant</header>
+<div class="offline" id="offline">⚠️ You are offline</div>
+<main>
+<div class="card">
+<h2>👤 Student Info</h2>
+<p><b>Name:</b> <span id="stName"></span></p>
+<p><b>Class:</b> <span id="stClass"></span></p>
+</div>
+
+<div class="card">
+<h2>📚 Homework (Your Class)</h2>
+<ul id="hwList"></ul>
+</div>
+
+<div class="card">
+<h2>🤖 AI Chat</h2>
+<select id="mode">
+<option value="school">School Mode (Homework)</option>
+<option value="free">Free Mode (General)</option>
+</select>
+<div class="chatBox" id="chat"></div>
+<textarea id="q" placeholder="Type your question..."></textarea>
+<button onclick="askAI()">Ask AI</button>
+</div>
+
+<div class="card">
+<h2>⚙️ Tools</h2>
+<button onclick="toggleDark()">🌙 Toggle Dark Mode</button>
+<button onclick="printPage()">🖨️ Print</button>
+<button onclick="downloadPDF()">📄 Save PDF</button>
+<button onclick="sharePage()">🔗 Share</button>
+<button onclick="backup()">💾 Backup Data</button>
+<button onclick="restore()">📂 Restore Data</button>
+<button onclick="adminHook()">🔑 Admin</button>
+</div>
+</main>
+<footer>© 2025 School AI Portal</footer>
+<div id="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️</div>
+
+<script>
+const keySchool="AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
+const keyFree="AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU";
+
+const name=localStorage.getItem('name')||"Unknown";
+const cls=localStorage.getItem('cls')||"0";
+document.getElementById('stName').innerText=name;
+document.getElementById('stClass').innerText="Class "+cls;
+
+const homeworkData={
+1:["🍎 Draw an apple","✏️ Write A to Z","🎶 Learn a poem"],
+2:["📖 Read story book","📝 Write 10 lines on myself","🔢 Practice tables 2-5"],
+3:["🌍 Draw India map","🧮 Math sums","🎨 Make a chart"],
+4:["📘 Science chapter 1","✍️ Essay on school","🎵 Practice song"],
+5:["⚗️ Do experiment","📊 Math fractions","📚 History notes"],
+6:["🔬 Science project","🗺️ Geography rivers","📝 English summary"],
+7:["📓 Algebra sums","🌱 Plant growth record","📖 Hindi grammar"],
+8:["💡 Physics laws","🎨 Art poster","📑 Civics lesson"],
+9:["🧪 Chemistry practical","📈 Trigonometry","📖 Literature Q/A"],
+10:["🧬 Biology diagrams","📝 Essay practice","📊 Statistics"],
+11:["📘 Economics notes","🧪 Organic chem","🧮 Calculus ex"],
+12:["📖 Revision all","📝 Mock test","💡 Physics derivations"]
+};
+let done={};
+function loadHW(){
+let list=document.getElementById('hwList');
+list.innerHTML="";
+(homeworkData[cls]||["✅ No Homework"]).forEach(hw=>{
+if(!done[hw]){let li=document.createElement('li');li.textContent=hw;list.appendChild(li);done[hw]=1;}
+});
+}
+loadHW();
+
+async function askAI(){
+let q=document.getElementById('q').value.trim();if(!q)return;
+let mode=document.getElementById('mode').value;
+let api=mode=="school"?keySchool:keyFree;
+let chat=document.getElementById('chat');
+let user=document.createElement('div');user.className="msg user";user.textContent=q;chat.appendChild(user);
+document.getElementById('q').value="";
+chat.scrollTop=chat.scrollHeight;
+let res=document.createElement('div');res.className="msg ai";res.textContent="Thinking...";chat.appendChild(res);
+chat.scrollTop=chat.scrollHeight;
+try{
+let r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+api,
+{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({contents:[{parts:[{text:q}]}]})});
+let d=await r.json();
+let text=d.candidates?.[0]?.content?.parts?.[0]?.text||"No response";
+res.textContent=text;
+}catch(e){res.textContent="Error: "+e;}
+chat.scrollTop=chat.scrollHeight;
+}
+
+function toggleDark(){document.body.classList.toggle('dark');}
+function printPage(){window.print();}
+function sharePage(){if(navigator.share){navigator.share({title:"AI Assistant",url:location.href});}else{alert("Not supported");}}
+function downloadPDF(){let blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download="ai.html";a.click();}
+function backup(){let data={name,cls,done,chat:document.getElementById('chat').innerHTML};let a=document.createElement('a');a.href="data:text/json,"+encodeURIComponent(JSON.stringify(data));a.download="backup.json";a.click();}
+function restore(){let inp=document.createElement('input');inp.type="file";inp.onchange=e=>{let f=e.target.files[0];let r=new FileReader();r.onload=x=>{let d=JSON.parse(x.target.result);localStorage.setItem('name',d.name);localStorage.setItem('cls',d.cls);done=d.done||{};document.getElementById('chat').innerHTML=d.chat||"";loadHW();location.reload();};r.readAsText(f);};inp.click();}
+function adminHook(){let p=prompt("Enter Password");if(p==="Abutalha"){location.href="admin.html";}else{alert("Wrong Password");}}
+window.addEventListener('online',()=>document.getElementById('offline').style.display="none");
+window.addEventListener('offline',()=>document.getElementById('offline').style.display="block");
+</script>
+</body>
+</html>
