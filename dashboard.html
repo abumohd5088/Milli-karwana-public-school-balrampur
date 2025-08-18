@@ -937,7 +937,7 @@
         </div>
         <div class="nav-item" data-page="ai-help">
           <span class="nav-icon"><i class="material-icons-round">smart_toy</i></span>
-          <span class="nav-text">AI Help</span>
+          <span class="nav-text">AI Study Assistant</span>
         </div>
         <div class="nav-item" data-page="profile">
           <span class="nav-icon"><i class="material-icons-round">person</i></span>
@@ -960,11 +960,11 @@
         <div class="hamburger">
           <i class="material-icons-round">menu</i>
         </div>
-        <div class="welcome fade-in">Welcome, <span id="student-name">Student</span></div>
+        <div class="welcome fade-in">Welcome, <span id="student-name">Aarav Sharma</span></div>
         <div class="user-info">
-          <div class="avatar" id="user-avatar">S</div>
+          <div class="avatar" id="user-avatar">AS</div>
           <div class="dropdown">
-            <div id="user-greeting">Hi, Student</div>
+            <div id="user-greeting">Hi, Aarav</div>
             <div class="dropdown-content">
               <div class="dropdown-item profile-btn">
                 <span class="dropdown-icon"><i class="material-icons-round">person</i></span>
@@ -1000,7 +1000,7 @@
               <i class="fas fa-tasks"></i>
             </div>
             <div class="stat-title">Homework Due</div>
-            <div class="stat-value" id="homework-due">3</div>
+            <div class="stat-value" id="homework-due">2</div>
           </div>
           <div class="stat-card fade-in delay-3">
             <div class="stat-icon orange">
@@ -1078,7 +1078,7 @@
 
       <!-- AI HELP PAGE -->
       <div class="dashboard" id="ai-help-page" style="display: none;">
-        <h1 class="page-title"><i class="fas fa-robot"></i> AI Study Helper</h1>
+        <h1 class="page-title"><i class="fas fa-robot"></i> AI Study Assistant</h1>
         <div class="homework-section">
           <p style="margin-bottom: 20px; color: var(--gray);">Ask any study-related question and get instant help from our AI tutor.</p>
           <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
@@ -1119,9 +1119,9 @@
         <h1 class="page-title"><i class="fas fa-user-circle"></i> My Profile</h1>
         <div class="homework-section">
           <div class="profile-header">
-            <div class="profile-avatar" id="profile-avatar">S</div>
-            <div class="profile-name" id="profile-name">Student Name</div>
-            <div class="profile-class" id="profile-class">Class: X</div>
+            <div class="profile-avatar" id="profile-avatar">AS</div>
+            <div class="profile-name" id="profile-name">Aarav Sharma</div>
+            <div class="profile-class" id="profile-class">Class: 8</div>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
             <div style="padding: 16px; background: #f8f9fa; border-radius: 12px;">
@@ -1136,7 +1136,7 @@
             <div style="padding: 16px; background: #f8f9fa; border-radius: 12px;">
               <div style="font-weight: 600; margin-bottom: 8px; color: var(--dark);">Parent/Guardian</div>
               <div style="color: var(--gray); font-size: 14px;">
-                <div style="margin-bottom: 8px;"><strong>Name:</strong> <span id="parent-name">Parent Name</span></div>
+                <div style="margin-bottom: 8px;"><strong>Name:</strong> <span id="parent-name">Rajesh Sharma</span></div>
                 <div style="margin-bottom: 8px;"><strong>Phone:</strong> <span id="parent-phone">+91 XXXXXXXXXX</span></div>
                 <div><strong>Email:</strong> <span id="parent-email">parent@example.com</span></div>
               </div>
@@ -1154,7 +1154,7 @@
               <div style="font-weight: 600; margin-bottom: 8px; color: var(--dark);">Contact Information</div>
               <div style="color: var(--gray); font-size: 14px;">
                 <div style="margin-bottom: 8px;"><strong>Phone:</strong> <span id="student-phone">+91 XXXXXXXXXX</span></div>
-                <div><strong>Email:</strong> <span id="student-email">student@example.com</span></div>
+                <div><strong>Email:</strong> <span id="student-email">aarav.sharma@student.mkps.edu.in</span></div>
               </div>
             </div>
           </div>
@@ -1370,7 +1370,7 @@
       // Load student data from localStorage if available
       function loadStudentData() {
         try {
-          const savedData = localStorage.getItem('studentData');
+          const savedData = localStorage.getItem('mkps_student');
           if (savedData) {
             studentData = JSON.parse(savedData);
           }
@@ -1505,7 +1505,7 @@
       function logout() {
         if (confirm('Are you sure you want to logout?')) {
           // Clear any session data
-          localStorage.removeItem('studentData');
+          localStorage.removeItem('mkps_student');
           
           // Redirect to login page
           window.location.href = 'index.html';
