@@ -1,1268 +1,967 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>School Dashboard | LearnSmart</title>
-    <meta name="theme-color" content="#1d4ed8" />
-    <meta name="description" content="Student dashboard for homework, AI help, and school resources" />
-    <link rel="manifest" href="application/json;base64,eyJuYW1lIjoiU2Nob29sIERhc2hib2FyZCIsInNob3J0X25hbWUiOiJTY2hvb2wiLCJzdGFydF91cmwiOiJkYXNoYm9hcmQuaHRtbCIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxZDRlZDgiLCJ0aGVtZV9jb2xvciI6IiMxZDRlZDgifQ==" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lucide-webfont@latest/dist/css/lucide.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --primary: #1d4ed8;
-            --primary-light: #3b82f6;
-            --secondary: #7c3aed;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --radius: 12px;
-            --transition: all 0.3s ease;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --font-mono: 'Courier New', monospace;
-        }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-light: #60a5fa;
-            --dark: #f8fafc;
-            --light: #1e293b;
-            --gray: #94a3b8;
-            --border: #334155;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: var(--font-main);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
-            background-color: var(--light);
-            color: var(--dark);
-            min-height: 100vh;
-            position: relative;
+            font-family: 'Inter', sans-serif;
         }
-
-        /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .user-info {
-            font-size: 0.9rem;
-            text-align: right;
-        }
-
-        .user-name {
-            font-weight: 600;
-        }
-
-        .class-info {
-            opacity: 0.9;
-            font-size: 0.85rem;
-        }
-
-        /* Main content */
-        main {
-            padding: 1.5rem 0;
-        }
-
-        .grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
-
-        /* Cards */
-        .card {
-            background-color: var(--light);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Homework list */
-        .homework-list {
-            list-style: none;
-        }
-
-        .homework-item {
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            background-color: rgba(59, 130, 246, 0.05);
-            border-radius: var(--radius);
-            border-left: 4px solid var(--primary);
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-        }
-
-        .hw-emoji {
-            font-size: 1.5rem;
-            min-width: 24px;
-        }
-
-        .hw-content {
-            flex: 1;
-        }
-
-        .hw-subject {
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-        }
-
-        .hw-desc {
-            color: var(--gray);
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .hw-due {
-            font-size: 0.8rem;
-            color: var(--warning);
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        /* AI Chat */
-        .ai-chat {
-            height: 400px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding-right: 0.5rem;
-        }
-
-        .ai-message, .user-message {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 18px;
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background-color: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            align-items: flex-start;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--primary);
-            color: white;
-            border: 1px solid var(--primary-light);
-        }
-
-        .message-time {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            margin-top: 0.25rem;
-        }
-
-        /* Input area */
-        .chat-input-area {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            background-color: var(--light);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            outline: none;
-            background-color: var(--light);
-            color: var(--dark);
-        }
-
-        .chat-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        .send-btn {
-            padding: 0.75rem 1rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-        }
-
-        .send-btn:hover {
-            background-color: var(--primary-light);
-        }
-
-        /* Menu */
-        .menu-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: white;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 1rem;
-            background-color: var(--light);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            width: 220px;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-menu.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .menu-item {
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border);
-            color: var(--dark);
-            transition: background-color 0.2s ease;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item:hover {
-            background-color: rgba(59, 130, 246, 0.05);
-        }
-
-        .menu-icon {
-            color: var(--primary);
-            font-size: 1.2rem;
-            min-width: 24px;
-            text-align: center;
-        }
-
-        /* FAB */
-        .fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 56px;
-            height: 56px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            z-index: 99;
-            opacity: 0;
-            transform: translateY(20px);
+        .sidebar {
             transition: all 0.3s ease;
         }
-
-        .fab.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .main-content {
+            transition: all 0.3s ease;
         }
-
-        .fab:hover {
-            background-color: var(--primary-light);
-            transform: translateY(-2px);
+        .card-hover {
+            transition: all 0.3s ease;
         }
-
-        /* Offline banner */
-        .offline-banner {
-            position: fixed;
-            top: -60px;
-            left: 0;
-            right: 0;
-            background-color: var(--danger);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-weight: 600;
-            z-index: 1000;
-            transition: top 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-
-        .offline-banner.show {
-            top: 0;
-        }
-
-        /* Toast notifications */
-        .toast {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background-color: var(--success);
-            color: white;
-            padding: 1rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast.danger {
-            background-color: var(--danger);
-        }
-
-        /* PDF button */
-        .pdf-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: #dc2626;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            margin-top: 1rem;
-            transition: background-color 0.2s ease;
-        }
-
-        .pdf-btn:hover {
-            background-color: #b91c1c;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--gray);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .footer-link {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .footer-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 767px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .homework-item {
-                flex-direction: column;
-            }
-
-            .hw-emoji {
-                margin-bottom: 0.5rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        /* Loading */
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 2rem;
-            color: var(--gray);
-        }
-
-        .loading-dots {
-            display: flex;
-            gap: 0.25rem;
-        }
-
-        .loading-dots span {
-            width: 8px;
-            height: 8px;
-            background-color: var(--gray);
+        .progress-circle {
+            --value: 0;
+            --size: 80px;
+            --thickness: 6px;
+            position: relative;
+            width: var(--size);
+            height: var(--size);
             border-radius: 50%;
-            animation: loading 1.4s infinite ease-in-out both;
+            background: conic-gradient(from 0deg, #3b82f6 var(--percentage), #e5e7eb var(--percentage));
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness) - 1px), red calc(100% - var(--thickness)));
+            mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness) - 1px), red calc(100% - var(--thickness)));
         }
-
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes loading {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
+        .progress-circle::before {
+            content: attr(data-value);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(var(--size) - var(--thickness) * 2);
+            height: calc(var(--size) - var(--thickness) * 2);
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
         }
-
-        /* Print styles */
-        @media print {
-            header, .chat-input-area, .fab, .dropdown-menu, .offline-banner, footer, .menu-btn {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            .container {
-                padding: 0;
-            }
-            .card {
-                box-shadow: none !important;
-                border: 1px solid #ccc !important;
-            }
-            .homework-item {
-                border-left: 4px solid #1d4ed8 !important;
-            }
+        .ai-assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        .ai-assistant-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .ai-assistant-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .ai-chat {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            display: none;
+            z-index: 998;
+        }
+        .ai-chat.active {
+            display: block;
+        }
+        .ai-header {
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .ai-messages {
+            height: calc(100% - 120px);
+            overflow-y: auto;
+            padding: 16px;
+            background: #f9fafb;
+        }
+        .message {
+            margin-bottom: 12px;
+            max-width: 80%;
+        }
+        .message.self {
+            margin-left: auto;
+        }
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+        }
+        .message.ai .message-content {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-top-left-radius: 4px;
+        }
+        .message.self .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .ai-input {
+            padding: 16px;
+            background: white;
+            display: flex;
+            border-top: 1px solid #e5e7eb;
+        }
+        .ai-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 24px;
+            outline: none;
+        }
+        .ai-input button {
+            margin-left: 8px;
+            padding: 0 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
-<body>
-    <!-- Offline Banner -->
-    <div class="offline-banner" id="offlineBanner">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-        You are offline. Some features may not work.
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <span id="toastMessage">Notification</span>
-    </div>
-
-    <!-- Header -->
-    <header id="header">
-        <div class="logo">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-            LearnSmart
+<body class="bg-gray-50 min-h-screen">
+    <!-- AI Assistant Chat -->
+    <div class="ai-assistant">
+        <div class="ai-assistant-button" id="aiButton">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
         </div>
-        <div>
-            <button class="menu-btn" id="menuBtn">⋮</button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <div class="menu-item" id="printItem">
-                    <span class="menu-icon">🖨️</span>
-                    <span>Print Dashboard</span>
+        <div class="ai-chat" id="aiChat">
+            <div class="ai-header">
+                <div class="flex items-center">
+                    <i data-lucide="sparkles" class="w-5 h-5 mr-2"></i>
+                    <span>AI Assistant</span>
                 </div>
-                <div class="menu-item" id="shareItem">
-                    <span class="menu-icon">📤</span>
-                    <span>Share</span>
-                </div>
-                <div class="menu-item" id="darkModeItem">
-                    <span class="menu-icon">🌙</span>
-                    <span>Dark Mode</span>
-                </div>
-                <div class="menu-item" id="installItem">
-                    <span class="menu-icon">📲</span>
-                    <span>Install App</span>
-                </div>
-                <div class="menu-item" id="clearCacheItem">
-                    <span class="menu-icon">🗑️</span>
-                    <span>Clear Cache</span>
-                </div>
-                <div class="menu-item" id="adminItem">
-                    <span class="menu-icon">🔑</span>
-                    <span>Admin Panel</span>
-                </div>
-                <div class="menu-item" id="logoutItem">
-                    <span class="menu-icon">🚪</span>
-                    <span>Logout</span>
+                <button id="closeChat">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="ai-messages" id="aiMessages">
+                <div class="message ai">
+                    <div class="message-content">Hello! I'm your AI assistant. How can I help you with your studies today?</div>
                 </div>
             </div>
+            <div class="ai-input">
+                <input type="text" placeholder="Ask me anything about your studies..." id="aiInput">
+                <button id="aiSend">Send</button>
+            </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <main class="main-content">
-            <div class="grid">
-                <!-- Homework Section -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            Today's Homework
-                        </h2>
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl sidebar" id="sidebar">
+        <div class="flex flex-col h-full">
+            <!-- Logo -->
+            <div class="flex items-center justify-center h-20 px-6 bg-gradient-to-r from-blue-600 to-indigo-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-white rounded-lg">
+                        <i data-lucide="graduation-cap" class="w-8 h-8 text-blue-600"></i>
                     </div>
-                    <ul class="homework-list" id="homeworkList">
-                        <!-- Homework items will be added here -->
-                    </ul>
-                    <button class="pdf-btn" id="downloadPdf">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        Download as PDF
+                    <span class="ml-3 text-xl font-bold text-white">EduSphere</span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex-1 px-4 py-6 overflow-y-auto">
+                <nav class="space-y-2">
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-700 bg-blue-50 rounded-lg group">
+                        <i data-lucide="layout-grid" class="w-5 h-5 mr-3 text-blue-600"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="book-open" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Subjects</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="calendar" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Schedule</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Progress</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="users" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Teachers</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="message-circle" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Messages</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="library" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Resources</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="calendar-check" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="award" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Achievements</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                        <i data-lucide="settings" class="w-5 h-5 mr-3 text-gray-500 group-hover:text-blue-600"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- User Profile -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <img src="https://placehold.co/40x40/3b82f6/white?text=JS" alt="Profile" class="w-10 h-10 rounded-full">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-700">John Smith</p>
+                        <p class="text-xs text-gray-500">Grade 10</p>
+                    </div>
+                    <button class="p-1 ml-auto text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-600">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- AI Chat Section -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            AI Homework Helper
-                        </h2>
+    <!-- Main Content -->
+    <div class="flex-1 ml-64 main-content" id="mainContent">
+        <!-- Header -->
+        <header class="flex items-center justify-between h-20 px-8 bg-white border-b border-gray-200">
+            <div class="flex items-center">
+                <button id="sidebarToggle" class="p-2 mr-4 text-gray-500 rounded-lg hover:bg-gray-100">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <!-- Search -->
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <i data-lucide="search" class="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2"></i>
+                </div>
+                
+                <!-- Notifications -->
+                <button class="relative p-2 text-gray-500 rounded-lg hover:bg-gray-100">
+                    <i data-lucide="bell" class="w-6 h-6"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <!-- Messages -->
+                <button class="relative p-2 text-gray-500 rounded-lg hover:bg-gray-100">
+                    <i data-lucide="mail" class="w-6 h-6"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="p-8">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Welcome back, John!</h2>
+                        <p class="text-gray-600">Here's what's happening today</p>
                     </div>
-                    <div class="ai-chat" id="aiChat">
-                        <div class="ai-message">
-                            <div>Hello! I'm your school AI assistant. 🤖 How can I help you with your homework today?</div>
-                            <div class="message-time">Just now</div>
-                        </div>
-                    </div>
-                    <div class="chat-input-area">
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask about homework..." />
-                        <button class="send-btn" id="sendBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                        </button>
+                    <div class="flex items-center px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
+                        <i data-lucide="sun" class="w-4 h-4 mr-2"></i>
+                        <span>Monday, March 15, 2024</span>
                     </div>
                 </div>
             </div>
 
-            <!-- User Info -->
-            <div class="card" style="margin-top: 1.5rem;">
-                <div class="user-info">
-                    <div class="user-name" id="userName">Student Name</div>
-                    <div class="class-info" id="userClass">Class</div>
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
+                <!-- Upcoming Assignments -->
+                <div class="p-6 bg-white rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-blue-100 rounded-lg">
+                            <i data-lucide="clipboard-list" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Upcoming</p>
+                            <p class="text-2xl font-bold text-gray-800">5</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-blue-500 rounded-full" style="width: 60%"></div>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-500">60% completed</p>
+                    </div>
+                </div>
+
+                <!-- Attendance -->
+                <div class="p-6 bg-white rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-green-100 rounded-lg">
+                            <i data-lucide="calendar-check" class="w-6 h-6 text-green-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Attendance</p>
+                            <p class="text-2xl font-bold text-gray-800">98%</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-green-500 rounded-full" style="width: 98%"></div>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-500">Excellent attendance</p>
+                    </div>
+                </div>
+
+                <!-- Average Grade -->
+                <div class="p-6 bg-white rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-purple-100 rounded-lg">
+                            <i data-lucide="award" class="w-6 h-6 text-purple-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Average Grade</p>
+                            <p class="text-2xl font-bold text-gray-800">A-</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-purple-500 rounded-full" style="width: 85%"></div>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-500">Top 15% of class</p>
+                    </div>
+                </div>
+
+                <!-- Study Time -->
+                <div class="p-6 bg-white rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-orange-100 rounded-lg">
+                            <i data-lucide="clock" class="w-6 h-6 text-orange-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Study Time</p>
+                            <p class="text-2xl font-bold text-gray-800">12h</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-orange-500 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-500">This week</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                <!-- Left Column - Assignments & Schedule -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Upcoming Assignments -->
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800">Upcoming Assignments</h3>
+                            <button class="flex items-center px-3 py-1 text-sm text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
+                                <i data-lucide="plus" class="w-4 h-4 mr-1"></i>
+                                Add New
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <!-- Assignment 1 -->
+                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="w-2 h-10 bg-blue-500 rounded-full"></div>
+                                    <div class="flex-1 ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-gray-800">Mathematics: Algebra Problems</h4>
+                                            <span class="px-2 py-1 text-xs text-blue-700 bg-blue-100 rounded-full">High Priority</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">Chapter 5 exercises, problems 1-20</p>
+                                        <div class="flex items-center mt-2 text-sm text-gray-500">
+                                            <i data-lucide="book" class="w-4 h-4 mr-1"></i>
+                                            <span>Math 10</span>
+                                            <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>Due Mar 18</span>
+                                        </div>
+                                    </div>
+                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Assignment 2 -->
+                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="w-2 h-10 bg-green-500 rounded-full"></div>
+                                    <div class="flex-1 ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-gray-800">English: Essay on Shakespeare</h4>
+                                            <span class="px-2 py-1 text-xs text-green-700 bg-green-100 rounded-full">Medium Priority</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">500-700 words, MLA format</p>
+                                        <div class="flex items-center mt-2 text-sm text-gray-500">
+                                            <i data-lucide="book" class="w-4 h-4 mr-1"></i>
+                                            <span>English 10</span>
+                                            <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>Due Mar 20</span>
+                                        </div>
+                                    </div>
+                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Assignment 3 -->
+                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="w-2 h-10 bg-purple-500 rounded-full"></div>
+                                    <div class="flex-1 ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-gray-800">Science: Lab Report</h4>
+                                            <span class="px-2 py-1 text-xs text-purple-700 bg-purple-100 rounded-full">High Priority</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">Photosynthesis experiment analysis</p>
+                                        <div class="flex items-center mt-2 text-sm text-gray-500">
+                                            <i data-lucide="book" class="w-4 h-4 mr-1"></i>
+                                            <span>Science 10</span>
+                                            <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>Due Mar 22</span>
+                                        </div>
+                                    </div>
+                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Assignment 4 -->
+                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="w-2 h-10 bg-yellow-500 rounded-full"></div>
+                                    <div class="flex-1 ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-gray-800">History: Presentation</h4>
+                                            <span class="px-2 py-1 text-xs text-yellow-700 bg-yellow-100 rounded-full">Low Priority</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">World War II timeline and impact</p>
+                                        <div class="flex items-center mt-2 text-sm text-gray-500">
+                                            <i data-lucide="book" class="w-4 h-4 mr-1"></i>
+                                            <span>History 10</span>
+                                            <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>Due Mar 25</span>
+                                        </div>
+                                    </div>
+                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Schedule -->
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800">Today's Schedule</h3>
+                            <div class="flex items-center px-3 py-1 text-sm text-blue-600 bg-blue-50 rounded-lg">
+                                <i data-lucide="calendar" class="w-4 h-4 mr-1"></i>
+                                <span>Monday</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <!-- Class 1 -->
+                                <div class="flex items-center p-4 bg-blue-50 rounded-lg">
+                                    <div class="p-3 bg-blue-100 rounded-lg">
+                                        <i data-lucide="book-open" class="w-5 h-5 text-blue-600"></i>
+                                    </div>
+                                    <div class="flex-1 ml-4">
+                                        <h4 class="font-medium text-blue-800">Mathematics</h4>
+                                        <p class="text-sm text-blue-600">Algebra - Quadratic Equations</p>
+                                        <p class="mt-1 text-sm text-blue-700">Period 1 • 8:00 - 8:45 AM</p>
+                                    </div>
+                                    <button class="p-2 text-blue-600 bg-blue-100 rounded-lg hover:bg-blue-200">
+                                        <i data-lucide="video" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Class 2 -->
+                                <div class="flex items-center p-4 bg-green-50 rounded-lg">
+                                    <div class="p-3 bg-green-100 rounded-lg">
+                                        <i data-lucide="book-open" class="w-5 h-5 text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1 ml-4">
+                                        <h4 class="font-medium text-green-800">English</h4>
+                                        <p class="text-sm text-green-600">Literature - Shakespeare</p>
+                                        <p class="mt-1 text-sm text-green-700">Period 2 • 8:50 - 9:35 AM</p>
+                                    </div>
+                                    <button class="p-2 text-green-600 bg-green-100 rounded-lg hover:bg-green-200">
+                                        <i data-lucide="video" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Class 3 -->
+                                <div class="flex items-center p-4 bg-purple-50 rounded-lg">
+                                    <div class="p-3 bg-purple-100 rounded-lg">
+                                        <i data-lucide="book-open" class="w-5 h-5 text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1 ml-4">
+                                        <h4 class="font-medium text-purple-800">Science</h4>
+                                        <p class="text-sm text-purple-600">Biology - Cell Structure</p>
+                                        <p class="mt-1 text-sm text-purple-700">Period 3 • 9:40 - 10:25 AM</p>
+                                    </div>
+                                    <button class="p-2 text-purple-600 bg-purple-100 rounded-lg hover:bg-purple-200">
+                                        <i data-lucide="video" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Break -->
+                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="p-3 bg-gray-100 rounded-lg">
+                                        <i data-lucide="coffee" class="w-5 h-5 text-gray-600"></i>
+                                    </div>
+                                    <div class="flex-1 ml-4">
+                                        <h4 class="font-medium text-gray-800">Break</h4>
+                                        <p class="text-sm text-gray-600">Morning Break</p>
+                                        <p class="mt-1 text-sm text-gray-700">10:25 - 10:40 AM</p>
+                                    </div>
+                                </div>
+
+                                <!-- Class 4 -->
+                                <div class="flex items-center p-4 bg-orange-50 rounded-lg">
+                                    <div class="p-3 bg-orange-100 rounded-lg">
+                                        <i data-lucide="book-open" class="w-5 h-5 text-orange-600"></i>
+                                    </div>
+                                    <div class="flex-1 ml-4">
+                                        <h4 class="font-medium text-orange-800">History</h4>
+                                        <p class="text-sm text-orange-600">World War II Timeline</p>
+                                        <p class="mt-1 text-sm text-orange-700">Period 4 • 10:40 - 11:25 AM</p>
+                                    </div>
+                                    <button class="p-2 text-orange-600 bg-orange-100 rounded-lg hover:bg-orange-200">
+                                        <i data-lucide="video" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Progress & Resources -->
+                <div class="space-y-8">
+                    <!-- Academic Progress -->
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800">Academic Progress</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-6">
+                                <!-- Subject Progress -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-sm font-medium text-gray-700">Mathematics</h4>
+                                        <span class="text-sm font-medium text-blue-600">85%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="h-2 bg-blue-500 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-sm font-medium text-gray-700">English</h4>
+                                        <span class="text-sm font-medium text-green-600">92%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="h-2 bg-green-500 rounded-full" style="width: 92%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-sm font-medium text-gray-700">Science</h4>
+                                        <span class="text-sm font-medium text-purple-600">78%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="h-2 bg-purple-500 rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-sm font-medium text-gray-700">History</h4>
+                                        <span class="text-sm font-medium text-orange-600">88%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="h-2 bg-orange-500 rounded-full" style="width: 88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Study Resources -->
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800">Study Resources</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="p-2 bg-blue-100 rounded-lg">
+                                        <i data-lucide="book" class="w-5 h-5 text-blue-600"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-gray-800">Math Textbook</h4>
+                                        <p class="text-xs text-gray-500">Chapter 5 Solutions</p>
+                                    </div>
+                                    <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
+                                </div>
+
+                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="p-2 bg-green-100 rounded-lg">
+                                        <i data-lucide="file-text" class="w-5 h-5 text-green-600"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-gray-800">English Essay Guide</h4>
+                                        <p class="text-xs text-gray-500">MLA Format Tips</p>
+                                    </div>
+                                    <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
+                                </div>
+
+                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="p-2 bg-purple-100 rounded-lg">
+                                        <i data-lucide="video" class="w-5 h-5 text-purple-600"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-gray-800">Science Lab Videos</h4>
+                                        <p class="text-xs text-gray-500">Photosynthesis Experiment</p>
+                                    </div>
+                                    <i data-lucide="play-circle" class="w-4 h-4 ml-auto text-gray-400"></i>
+                                </div>
+
+                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="p-2 bg-orange-100 rounded-lg">
+                                        <i data-lucide="file-plus" class="w-5 h-5 text-orange-600"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-gray-800">History Timeline</h4>
+                                        <p class="text-xs text-gray-500">WWII Interactive Chart</p>
+                                    </div>
+                                    <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800">Quick Actions</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="flex flex-col items-center p-4 text-center bg-blue-50 rounded-lg hover:bg-blue-100">
+                                    <i data-lucide="message-circle" class="w-6 h-6 mb-2 text-blue-600"></i>
+                                    <span class="text-sm font-medium text-blue-800">Message Teacher</span>
+                                </button>
+                                <button class="flex flex-col items-center p-4 text-center bg-green-50 rounded-lg hover:bg-green-100">
+                                    <i data-lucide="book-open" class="w-6 h-6 mb-2 text-green-600"></i>
+                                    <span class="text-sm font-medium text-green-800">View Notes</span>
+                                </button>
+                                <button class="flex flex-col items-center p-4 text-center bg-purple-50 rounded-lg hover:bg-purple-100">
+                                    <i data-lucide="clipboard" class="w-6 h-6 mb-2 text-purple-600"></i>
+                                    <span class="text-sm font-medium text-purple-800">Submit Work</span>
+                                </button>
+                                <button class="flex flex-col items-center p-4 text-center bg-orange-50 rounded-lg hover:bg-orange-100">
+                                    <i data-lucide="calendar" class="w-6 h-6 mb-2 text-orange-600"></i>
+                                    <span class="text-sm font-medium text-orange-800">Schedule Meeting</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mt-8 bg-white rounded-xl shadow-sm">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="p-2 bg-green-100 rounded-lg">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-800">Submitted Mathematics Assignment</p>
+                                <p class="mt-1 text-sm text-gray-600">Algebra problems from Chapter 5</p>
+                                <p class="mt-2 text-xs text-gray-500">2 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="p-2 bg-blue-100 rounded-lg">
+                                <i data-lucide="message-square" class="w-5 h-5 text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-800">Received feedback from Ms. Johnson</p>
+                                <p class="mt-1 text-sm text-gray-600">English essay on Shakespeare</p>
+                                <p class="mt-2 text-xs text-gray-500">4 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="p-2 bg-purple-100 rounded-lg">
+                                <i data-lucide="star" class="w-5 h-5 text-purple-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-800">Achievement Unlocked: Perfect Attendance</p>
+                                <p class="mt-1 text-sm text-gray-600">Congratulations on 30 consecutive days!</p>
+                                <p class="mt-2 text-xs text-gray-500">1 day ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="p-2 bg-orange-100 rounded-lg">
+                                <i data-lucide="download" class="w-5 h-5 text-orange-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-800">Downloaded Science Lab Guide</p>
+                                <p class="mt-1 text-sm text-gray-600">Photosynthesis experiment procedures</p>
+                                <p class="mt-2 text-xs text-gray-500">1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Floating Action Button -->
-    <button class="fab" id="scrollToTop">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </button>
-
-    <!-- Footer -->
-    <footer>
-        <div>© 2025 LearnSmart School Platform. All rights reserved.</div>
-        <div class="footer-links">
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
-            <a href="admin.html" class="footer-link">Admin</a>
-        </div>
-    </footer>
-
-    <script>
-        // App state
-        const state = {
-            userName: '',
-            userClass: '',
-            userParent: '',
-            isDarkMode: false,
-            installPrompt: null,
-            aiResponses: [
-                "📚 Great question! For your math homework, remember to show all your steps when solving equations. Don't forget to check your answers by plugging them back in! 🧮",
-                "📝 Your English assignment on persuasive writing is due tomorrow! Focus on strong arguments and use rhetorical questions to engage your reader. 🖋️",
-                "🔬 Science project tip: Make sure your hypothesis is testable and your variables are clearly defined. Document everything in your lab notebook! 🧪",
-                "🎨 Art class reminder: Bring your sketchbook tomorrow! We're starting our perspective drawing unit. Practice drawing basic shapes in 3D. 🖼️",
-                "🎵 Music theory homework: Practice identifying time signatures. Listen to different songs and count the beats per measure. 🎶",
-                "🌍 History project: When researching ancient civilizations, focus on their social structures and technological advancements. Use primary sources when possible! 🏛️",
-                "💪 PE assignment: Complete 20 minutes of physical activity and journal about how it made you feel. Try something new like yoga or dance! 🏃",
-                "📊 Math tip: When graphing linear equations, always label your axes and include a title. Use a ruler for straight lines! 📈",
-                "📖 Reading log: Don't forget to record 20 minutes of reading tonight. Try to identify the theme and main conflict in your book. 📚",
-                "🧮 Algebra reminder: Remember the order of operations (PEMDAS)! Practice simplifying expressions with parentheses first. ➗",
-                "🧪 Science lab: Safety first! Always wear goggles and follow the procedure step by step. Record your observations carefully. ⚠️",
-                "✍️ Essay writing: Start with a strong thesis statement that answers the prompt directly. Support each point with evidence from the text. 📝",
-                "📅 Project planning: Break large assignments into smaller tasks with deadlines. Use a calendar to track your progress! 🗓️",
-                "🔍 Research skills: Evaluate your sources for credibility. Look for author credentials and publication dates. 📚",
-                "🧠 Study tip: Use active recall instead of passive reading. Test yourself with flashcards or practice problems. 🧠",
-                "⏰ Time management: Use the Pomodoro technique - 25 minutes focused work, then a 5-minute break. It boosts productivity! ⏳",
-                "🤝 Group work: Assign roles clearly and communicate regularly. Respect everyone's ideas and contributions. 👥",
-                "💡 Creative project: Think outside the box! Use unconventional materials or approaches to make your work stand out. 🎨",
-                "📈 Data analysis: When interpreting graphs, look for trends, outliers, and patterns. What story does the data tell? 📊",
-                "🗣️ Presentation skills: Practice speaking slowly and clearly. Make eye contact with your audience. 🎤",
-                "🧩 Problem solving: Break complex problems into smaller parts. Solve one piece at a time. 🧱",
-                "🎯 Goal setting: Make your goals SMART - Specific, Measurable, Achievable, Relevant, Time-bound. ✅",
-                "📖 Vocabulary building: Use new words in sentences and find synonyms. Flashcards are great for memorization! 🃏",
-                "✍️ Creative writing: Show, don't tell! Use sensory details to bring your scenes to life. 🖋️",
-                "🧮 Math games: Practice multiplication tables with timed quizzes. Turn learning into a game! 🎲",
-                "🔬 Experiment design: Make sure you have a control group and only change one variable at a time. 🧪",
-                "📚 Literature analysis: Look for symbolism and figurative language. How do they enhance the theme? 📖",
-                "🎨 Visual learning: Create mind maps or diagrams to organize information. Colors can help with memory! 🖍️",
-                "🎧 Listening skills: Take notes on key points and questions. Summarize what you heard in your own words. 📝",
-                "🗣️ Public speaking: Start with a strong opening and end with a memorable conclusion. Practice in front of a mirror! 🪞",
-                "🧩 Puzzle solving: Look for patterns and eliminate impossible options. Sometimes stepping away helps! 🧠",
-                "📅 Calendar management: Color-code different types of assignments. Set reminders for important deadlines! 🔔",
-                "🤝 Collaboration: Use 'I' statements when discussing ideas. Be open to feedback and compromise. 🤝",
-                "💡 Innovation: Combine existing ideas in new ways. What if you mixed science with art? 🎨",
-                "📈 Progress tracking: Keep a journal of your learning journey. Celebrate small victories! 🏆",
-                "🎯 Focus techniques: Eliminate distractions and create a dedicated study space. Silence your phone! 📵",
-                "📖 Reading comprehension: Summarize each paragraph in one sentence. What's the main idea? 🧠",
-                "✍️ Editing checklist: Check for spelling, grammar, punctuation, and clarity. Read your work aloud! 🔊",
-                "🧮 Mental math: Practice estimating answers before calculating. It helps catch mistakes! 🧠",
-                "🔬 Scientific method: Question, research, hypothesis, experiment, analyze, conclude. Follow the steps! 📋",
-                "📚 Source evaluation: Who wrote it? When? Why? What evidence do they provide? 🔍",
-                "🎨 Design principles: Consider balance, contrast, alignment, and repetition in your work. 🖼️",
-                "🎧 Audio projects: Script first, then record. Edit for clarity and remove background noise. 🎙️",
-                "🗣️ Debate prep: Research both sides of the argument. Anticipate counter-arguments. 🤔",
-                "🧩 Critical thinking: Question assumptions and look for evidence. Don't accept claims at face value! 🧠",
-                "📅 Long-term planning: Work backward from the deadline. Set milestones for each phase. 🗓️",
-                "🤝 Peer review: Give constructive feedback using the 'sandwich method' - positive, improvement, positive. 🥪",
-                "💡 Creative block: Take a walk, listen to music, or try free writing. Inspiration will come! 🌿",
-                "📈 Data visualization: Choose the right chart type for your data. Keep it simple and clear. 📊",
-                "🎯 Productivity: Prioritize tasks by importance and urgency. Focus on high-impact activities first! ⏫",
-                "📖 Active reading: Annotate texts with questions, connections, and predictions. Engage with the material! 📝",
-                "✍️ Writing process: Draft freely first, then revise for structure and clarity. Don't edit while creating! ✍️",
-                "🧮 Problem decomposition: Break complex problems into smaller, manageable parts. Solve step by step. ➗",
-                "🔬 Variables: Independent (what you change), dependent (what you measure), controlled (what you keep the same). 📋",
-                "📚 Text features: Use headings, captions, and indexes to navigate nonfiction texts efficiently. 🔍",
-                "🎨 Color theory: Complementary colors create contrast, analogous colors create harmony. 🎨",
-                "🎧 Sound design: Consider volume, pitch, and timing. How does sound enhance your message? 🎵",
-                "🗣️ Audience awareness: Tailor your language and examples to your listeners. Who are they? 🎯",
-                "🧩 Pattern recognition: Look for similarities and differences. What rules govern this system? 🔍",
-                "📅 Task management: Use checklists and break large tasks into 15-30 minute chunks. ✅",
-                "🤝 Conflict resolution: Listen actively, acknowledge feelings, and seek win-win solutions. 🤝",
-                "💡 Brainstorming: Defer judgment and encourage wild ideas. Quantity leads to quality! 💡",
-                "📈 Trend analysis: Look at data over time. What factors might explain changes? 📈",
-                "🎯 Self-assessment: Compare your work to the rubric. What strengths can you build on? 🧐",
-                "📖 Text structure: Identify cause-effect, problem-solution, compare-contrast patterns. 🧱",
-                "✍️ Voice and tone: Match your writing style to the purpose and audience. Be authentic! 🗣️",
-                "🧮 Estimation: Round numbers to make mental calculations easier. Check if your answer is reasonable. 🧠",
-                "🔬 Evidence: Qualitative (descriptive) and quantitative (numerical). Both are important! 📊",
-                "📚 Inference: Read between the lines. What can you conclude from the information given? 🔍",
-                "🎨 Composition: Use the rule of thirds and leading lines to create engaging visuals. 🖼️",
-                "🎧 Multimedia: Combine text, images, and audio for maximum impact. But don't overload! ⚖️",
-                "🗣️ Persuasion: Use ethos (credibility), pathos (emotion), and logos (logic) in your arguments. 🎯",
-                "🧩 Systems thinking: How do the parts relate to the whole? What feedback loops exist? 🔁",
-                "📅 Procrastination: Start with the easiest part. Momentum will carry you forward! 🚀",
-                "🤝 Feedback: Be specific, timely, and actionable. Focus on the work, not the person. 🎯",
-                "💡 Mind mapping: Start with a central idea and branch out with related concepts. 🌳",
-                "📈 Benchmarking: Compare your progress to standards or previous work. How have you improved? 📊",
-                "🎯 Reflection: What worked well? What would you do differently next time? Keep a journal! 📓"
-            ],
-            usedResponses: new Set(),
-            currentResponseIndex: 0
-        };
-
-        // DOM Elements
-        const elements = {
-            header: document.getElementById('header'),
-            userName: document.getElementById('userName'),
-            userClass: document.getElementById('userClass'),
-            homeworkList: document.getElementById('homeworkList'),
-            aiChat: document.getElementById('aiChat'),
-            chatInput: document.getElementById('chatInput'),
-            sendBtn: document.getElementById('sendBtn'),
-            menuBtn: document.getElementById('menuBtn'),
-            dropdownMenu: document.getElementById('dropdownMenu'),
-            printItem: document.getElementById('printItem'),
-            shareItem: document.getElementById('shareItem'),
-            darkModeItem: document.getElementById('darkModeItem'),
-            installItem: document.getElementById('installItem'),
-            clearCacheItem: document.getElementById('clearCacheItem'),
-            adminItem: document.getElementById('adminItem'),
-            logoutItem: document.getElementById('logoutItem'),
-            scrollToTop: document.getElementById('scrollToTop'),
-            offlineBanner: document.getElementById('offlineBanner'),
-            toast: document.getElementById('toast'),
-            toastMessage: document.getElementById('toastMessage'),
-            downloadPdf: document.getElementById('downloadPdf')
-        };
-
-        // Homework data by class
-        const homeworkData = {
-            '1': [
-                { subject: 'Math', description: 'Count numbers 1-20 and write them in your notebook', due: 'Tomorrow', emoji: '🔢' },
-                { subject: 'English', description: 'Practice writing your name and 5 simple words', due: 'Tomorrow', emoji: '🔤' },
-                { subject: 'Art', description: 'Draw a picture of your family using crayons', due: 'Tomorrow', emoji: '🎨' }
-            ],
-            '2': [
-                { subject: 'Math', description: 'Complete addition problems 1-10 on page 25', due: 'Tomorrow', emoji: '➕' },
-                { subject: 'English', description: 'Read "The Cat in the Hat" and draw your favorite scene', due: 'Tomorrow', emoji: '📖' },
-                { subject: 'Science', description: 'Observe plants in your garden and list 3 things you notice', due: 'Tomorrow', emoji: '🌱' }
-            ],
-            '3': [
-                { subject: 'Math', description: 'Multiplication tables 1-5, practice 10 minutes', due: 'Tomorrow', emoji: '✖️' },
-                { subject: 'English', description: 'Write a 5-sentence story about your weekend', due: 'Tomorrow', emoji: '✍️' },
-                { subject: 'Science', description: 'Collect 5 different types of leaves and label them', due: 'Tomorrow', emoji: '🍃' }
-            ],
-            '4': [
-                { subject: 'Math', description: 'Solve word problems on fractions (worksheet)', due: 'Tomorrow', emoji: '🧮' },
-                { subject: 'English', description: 'Vocabulary: Learn 10 new words, use each in a sentence', due: 'Tomorrow', emoji: '📚' },
-                { subject: 'History', description: 'Research ancient Egypt and list 5 facts', due: 'Tomorrow', emoji: '🏺' }
-            ],
-            '5': [
-                { subject: 'Math', description: 'Geometry: Identify different types of angles and triangles', due: 'Tomorrow', emoji: '📐' },
-                { subject: 'English', description: 'Write a persuasive paragraph on "Why recess should be longer"', due: 'Tomorrow', emoji: '🗣️' },
-                { subject: 'Science', description: 'Design an experiment to test plant growth with different liquids', due: 'Tomorrow', emoji: '🔬' }
-            ],
-            '6': [
-                { subject: 'Math', description: 'Algebra: Solve one-step equations (problems 1-20)', due: 'Tomorrow', emoji: '➗' },
-                { subject: 'English', description: 'Analyze the theme of "The Giver" in a 1-page response', due: 'Tomorrow', emoji: '📖' },
-                { subject: 'Geography', description: 'Label all continents and oceans on a blank map', due: 'Tomorrow', emoji: '🌍' }
-            ],
-            '7': [
-                { subject: 'Math', description: 'Proportions and ratios word problems (worksheet)', due: 'Tomorrow', emoji: '📊' },
-                { subject: 'English', description: 'Draft the first section of your research paper on renewable energy', due: 'Tomorrow', emoji: '✍️' },
-                { subject: 'Science', description: 'Complete lab report on chemical reactions experiment', due: 'Tomorrow', emoji: '🧪' }
-            ],
-            '8': [
-                { subject: 'Math', description: 'Pythagorean theorem applications (problems 1-15)', due: 'Tomorrow', emoji: '📐' },
-                { subject: 'English', description: 'Revise your narrative essay with peer feedback', due: 'Tomorrow', emoji: '📝' },
-                { subject: 'History', description: 'Create a timeline of World War II major events', due: 'Tomorrow', emoji: '🕰️' }
-            ],
-            '9': [
-                { subject: 'Math', description: 'Quadratic equations: Solve by factoring (problems 1-20)', due: 'Tomorrow', emoji: '📈' },
-                { subject: 'English', description: 'Analyze Shakespeare\'s use of imagery in Macbeth Act 1', due: 'Tomorrow', emoji: '🎭' },
-                { subject: 'Biology', description: 'Diagram and label the parts of a cell', due: 'Tomorrow', emoji: '🧫' }
-            ],
-            '10': [
-                { subject: 'Math', description: 'Trigonometry: Solve right triangle problems using sine, cosine, tangent', due: 'Tomorrow', emoji: '🔺' },
-                { subject: 'English', description: 'Write a literary analysis of symbolism in "The Great Gatsby"', due: 'Tomorrow', emoji: '📚' },
-                { subject: 'Chemistry', description: 'Balance chemical equations (worksheet problems 1-15)', due: 'Tomorrow', emoji: '🧪' }
-            ],
-            '11': [
-                { subject: 'Math', description: 'Calculus: Find derivatives of polynomial functions (problems 1-25)', due: 'Tomorrow', emoji: '➗' },
-                { subject: 'English', description: 'Develop thesis and outline for your research paper on social issues', due: 'Tomorrow', emoji: '📝' },
-                { subject: 'Physics', description: 'Solve kinematics problems involving acceleration and velocity', due: 'Tomorrow', emoji: '⚡' }
-            ],
-            '12': [
-                { subject: 'Math', description: 'AP Calculus: Integration techniques practice problems', due: 'Tomorrow', emoji: '📈' },
-                { subject: 'English', description: 'Revise college application essay with teacher feedback', due: 'Tomorrow', emoji: '🎓' },
-                { subject: 'Science', description: 'Complete senior research project proposal and bibliography', due: 'Tomorrow', emoji: '🔬' }
-            ]
-        };
-
-        // Initialize the app
-        function init() {
-            // Load user data from localStorage
-            loadData();
+    <!-- Admin Hook - Hidden -->
+    <script type="text/javascript">
+        // AI Configuration
+        const AI_API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
+        
+        // Admin Hook for adding homework, images, notes, etc.
+        const AdminHook = {
+            addHomework: function(subject, title, description, dueDate, priority, attachments = []) {
+                console.log('Adding homework:', {subject, title, description, dueDate, priority, attachments});
+                // This would connect to backend in real implementation
+                return {
+                    success: true,
+                    message: 'Homework added successfully',
+                    id: Date.now()
+                };
+            },
             
-            // Set up event listeners
-            setupEventListeners();
+            addNote: function(subject, title, content, category = 'general', attachments = []) {
+                console.log('Adding note:', {subject, title, content, category, attachments});
+                return {
+                    success: true,
+                    message: 'Note added successfully',
+                    id: Date.now()
+                };
+            },
             
-            // Display homework
-            displayHomework();
+            addResource: function(title, description, category, fileUrl, tags = []) {
+                console.log('Adding resource:', {title, description, category, fileUrl, tags});
+                return {
+                    success: true,
+                    message: 'Resource added successfully',
+                    id: Date.now()
+                };
+            },
             
-            // Check PWA installability
-            checkInstallability();
+            updateStudentProgress: function(studentId, subject, progress, grade) {
+                console.log('Updating student progress:', {studentId, subject, progress, grade});
+                return {
+                    success: true,
+                    message: 'Progress updated successfully'
+                };
+            },
             
-            // Check network status
-            updateNetworkStatus();
+            sendNotification: function(userId, title, message, type = 'info') {
+                console.log('Sending notification:', {userId, title, message, type});
+                return {
+                    success: true,
+                    message: 'Notification sent successfully'
+                };
+            },
             
-            // Load dark mode preference
-            loadDarkMode();
-            
-            // Show welcome message
-            setTimeout(() => {
-                addAIMessage(`Welcome back, ${state.userName}! I'm your school AI assistant. How can I help you with your homework today? 👋`);
-            }, 500);
-        }
-
-        // Load user data from localStorage
-        function loadData() {
-            state.userName = localStorage.getItem('name') || 'Student';
-            state.userClass = localStorage.getItem('cls') || '1';
-            state.userParent = localStorage.getItem('parent') || '';
-            
-            // Update UI
-            elements.userName.textContent = state.userName;
-            elements.userClass.textContent = `Class ${state.userClass}`;
-        }
-
-        // Display homework for current class
-        function displayHomework() {
-            const classHomework = homeworkData[state.userClass] || homeworkData['1'];
-            elements.homeworkList.innerHTML = '';
-            
-            classHomework.forEach(hw => {
-                const li = document.createElement('li');
-                li.className = 'homework-item fade-in';
-                li.innerHTML = `
-                    <span class="hw-emoji">${hw.emoji}</span>
-                    <div class="hw-content">
-                        <div class="hw-subject">${hw.subject}</div>
-                        <div class="hw-desc">${hw.description}</div>
-                        <div class="hw-due">📅 Due: ${hw.due}</div>
-                    </div>
-                `;
-                elements.homeworkList.appendChild(li);
-            });
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Menu button
-            elements.menuBtn.addEventListener('click', toggleDropdown);
-            
-            // Menu items
-            elements.printItem.addEventListener('click', handlePrint);
-            elements.shareItem.addEventListener('click', handleShare);
-            elements.darkModeItem.addEventListener('click', toggleDarkMode);
-            elements.installItem.addEventListener('click', handleInstall);
-            elements.clearCacheItem.addEventListener('click', clearCache);
-            elements.adminItem.addEventListener('click', handleAdmin);
-            elements.logoutItem.addEventListener('click', handleLogout);
-            
-            // Chat functionality
-            elements.sendBtn.addEventListener('click', handleSendMessage);
-            elements.chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleSendMessage();
-                }
-            });
-            
-            // Scroll to top
-            elements.scrollToTop.addEventListener('click', scrollToTop);
-            window.addEventListener('scroll', toggleScrollButton);
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!elements.dropdownMenu.contains(e.target) && e.target !== elements.menuBtn) {
-                    elements.dropdownMenu.classList.remove('show');
-                }
-            });
-            
-            // Network status
-            window.addEventListener('online', updateNetworkStatus);
-            window.addEventListener('offline', updateNetworkStatus);
-            
-            // PWA install prompt
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                state.installPrompt = e;
-                showToast('App ready to install! Tap "Install App" in the menu.', 'success');
-            });
-            
-            // PDF download
-            elements.downloadPdf.addEventListener('click', generatePDF);
-        }
-
-        // Toggle dropdown menu
-        function toggleDropdown() {
-            elements.dropdownMenu.classList.toggle('show');
-        }
-
-        // Handle print
-        function handlePrint() {
-            elements.dropdownMenu.classList.remove('show');
-            window.print();
-            showToast('Printing dashboard...', 'success');
-        }
-
-        // Handle share
-        function handleShare() {
-            elements.dropdownMenu.classList.remove('show');
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'My School Dashboard',
-                    text: `Check out my homework for today!`,
-                    url: window.location.href
-                }).then(() => {
-                    showToast('Shared successfully!', 'success');
-                }).catch(() => {
-                    showToast('Share cancelled', 'danger');
-                });
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                navigator.clipboard.writeText(window.location.href)
-                    .then(() => {
-                        showToast('Link copied to clipboard!', 'success');
-                    })
-                    .catch(() => {
-                        showToast('Failed to copy link', 'danger');
-                    });
-            }
-        }
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            elements.dropdownMenu.classList.remove('show');
-            state.isDarkMode = !state.isDarkMode;
-            document.body.setAttribute('data-theme', state.isDarkMode ? 'dark' : 'light');
-            localStorage.setItem('darkMode', state.isDarkMode);
-            showToast(`Dark mode ${state.isDarkMode ? 'enabled' : 'disabled'}`, 'success');
-            elements.darkModeItem.innerHTML = `
-                <span class="menu-icon">${state.isDarkMode ? '☀️' : '🌙'}</span>
-                <span>${state.isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
-            `;
-        }
-
-        // Load dark mode preference
-        function loadDarkMode() {
-            state.isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (state.isDarkMode) {
-                document.body.setAttribute('data-theme', 'dark');
-                elements.darkModeItem.innerHTML = `
-                    <span class="menu-icon">☀️</span>
-                    <span>Light Mode</span>
-                `;
-            }
-        }
-
-        // Check PWA installability
-        function checkInstallability() {
-            // The beforeinstallprompt event will set state.installPrompt
-            // We'll show a toast when it's available
-        }
-
-        // Handle PWA install
-        function handleInstall() {
-            elements.dropdownMenu.classList.remove('show');
-            
-            if (state.installPrompt) {
-                state.installPrompt.prompt();
-                state.installPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showToast('App installed successfully!', 'success');
+            generateAIContent: async function(prompt, context = {}) {
+                try {
+                    console.log('Generating AI content with prompt:', prompt);
+                    // This would make API calls in real implementation
+                    const mockResponses = {
+                        'math': 'To solve quadratic equations, remember the quadratic formula: x = (-b ± √(b²-4ac)) / (2a). For your assignment, identify a, b, and c coefficients first.',
+                        'english': 'When writing your Shakespeare essay, focus on the themes of power and ambition in Macbeth. Use quotes from Act 1 Scene 7 to support your analysis.',
+                        'science': 'For the photosynthesis lab, ensure your control variables are consistent. Remember that light intensity affects the rate of photosynthesis.',
+                        'history': 'In your WWII presentation, consider the impact of the D-Day invasion on the European theater. Include maps to show troop movements.',
+                        'default': 'I can help you with that. Could you provide more details about what you need assistance with?'
+                    };
+                    
+                    // Simple keyword matching for demo
+                    const lowerPrompt = prompt.toLowerCase();
+                    let response = mockResponses.default;
+                    
+                    if (lowerPrompt.includes('math') || lowerPrompt.includes('algebra') || lowerPrompt.includes('equation')) {
+                        response = mockResponses.math;
+                    } else if (lowerPrompt.includes('english') || lowerPrompt.includes('essay') || lowerPrompt.includes('shakespeare')) {
+                        response = mockResponses.english;
+                    } else if (lowerPrompt.includes('science') || lowerPrompt.includes('lab') || lowerPrompt.includes('photosynthesis')) {
+                        response = mockResponses.science;
+                    } else if (lowerPrompt.includes('history') || lowerPrompt.includes('wwii') || lowerPrompt.includes('presentation')) {
+                        response = mockResponses.history;
                     }
-                    state.installPrompt = null;
-                });
-            } else {
-                showToast('App is already installed or cannot be installed', 'danger');
+                    
+                    return {
+                        success: true,
+                        response: response,
+                        sources: ['Textbook Chapter 5', 'Class Notes', 'Teacher Guidelines'],
+                        tips: ['Start early', 'Show your work', 'Review examples']
+                    };
+                } catch (error) {
+                    console.error('AI generation error:', error);
+                    return {
+                        success: false,
+                        response: 'I apologize, but I encountered an error processing your request. Please try again.',
+                        error: error.message
+                    };
+                }
             }
-        }
+        };
 
-        // Clear cache
-        function clearCache() {
-            elements.dropdownMenu.classList.remove('show');
-            
-            // Clear localStorage
-            localStorage.clear();
-            
-            // Reset app state
-            state.usedResponses.clear();
-            state.currentResponseIndex = 0;
-            
-            showToast('Cache cleared! Please log in again.', 'success');
-            
-            // Redirect to login after a delay
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
-        }
+        // Initialize AI Assistant
+        document.addEventListener('DOMContentLoaded', function() {
+            const aiButton = document.getElementById('aiButton');
+            const aiChat = document.getElementById('aiChat');
+            const closeChat = document.getElementById('closeChat');
+            const aiInput = document.getElementById('aiInput');
+            const aiSend = document.getElementById('aiSend');
+            const aiMessages = document.getElementById('aiMessages');
 
-        // Handle admin access
-        function handleAdmin() {
-            elements.dropdownMenu.classList.remove('show');
-            const password = prompt('Enter admin password:');
-            if (password === 'Abutalha') {
-                showToast('Redirecting to admin panel...', 'success');
-                setTimeout(() => {
-                    window.location.href = 'admin.html';
-                }, 1000);
-            } else if (password !== null) {
-                showToast('Incorrect password!', 'danger');
-            }
-        }
-
-        // Handle logout
-        function handleLogout() {
-            elements.dropdownMenu.classList.remove('show');
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('name');
-                localStorage.removeItem('cls');
-                localStorage.removeItem('parent');
-                showToast('Logged out successfully!', 'success');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-            }
-        }
-
-        // Handle sending chat message
-        function handleSendMessage() {
-            const message = elements.chatInput.value.trim();
-            if (!message) return;
-            
-            // Add user message
-            addUserMessage(message);
-            
-            // Clear input
-            elements.chatInput.value = '';
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            // Process message and respond after a delay
-            setTimeout(() => {
-                removeTypingIndicator();
-                const response = generateAIResponse(message);
-                addAIMessage(response);
-            }, 1000 + Math.random() * 1000);
-        }
-
-        // Add user message to chat
-        function addUserMessage(message) {
-            const div = document.createElement('div');
-            div.className = 'user-message';
-            div.innerHTML = `
-                ${message}
-                <div class="message-time">${getCurrentTime()}</div>
-            `;
-            elements.aiChat.appendChild(div);
-            scrollToChatBottom();
-        }
-
-        // Add AI message to chat
-        function addAIMessage(message) {
-            const div = document.createElement('div');
-            div.className = 'ai-message';
-            div.innerHTML = `
-                ${message}
-                <div class="message-time">${getCurrentTime()}</div>
-            `;
-            elements.aiChat.appendChild(div);
-            scrollToChatBottom();
-        }
-
-        // Show typing indicator
-        function showTypingIndicator() {
-            const div = document.createElement('div');
-            div.className = 'ai-message';
-            div.id = 'typingIndicator';
-            div.innerHTML = `
-                <div class="loading-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="message-time">${getCurrentTime()}</div>
-            `;
-            elements.aiChat.appendChild(div);
-            scrollToChatBottom();
-        }
-
-        // Remove typing indicator
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) {
-                indicator.remove();
-            }
-        }
-
-        // Generate AI response based on message
-        function generateAIResponse(message) {
-            // Normalize message for analysis
-            const lowerMessage = message.toLowerCase();
-            
-            // Check for homework-related keywords
-            const homeworkKeywords = ['homework', 'assignment', 'task', 'project', 'due', 'deadline', 'work'];
-            const subjectKeywords = ['math', 'english', 'science', 'history', 'art', 'music', 'pe', 'gym', 'physics', 'chemistry', 'biology'];
-            const helpKeywords = ['help', 'assist', 'explain', 'how', 'why', 'what', 'solve', 'do'];
-            
-            let hasHomework = homeworkKeywords.some(keyword => lowerMessage.includes(keyword));
-            let hasSubject = subjectKeywords.some(keyword => lowerMessage.includes(keyword));
-            let needsHelp = helpKeywords.some(keyword => lowerMessage.includes(keyword));
-            
-            // Get a unique response
-            let response = getUniqueAIResponse();
-            
-            // Personalize with student name
-            response = response.replace('your', `${state.userName}'s`);
-            
-            return response;
-        }
-
-        // Get a unique AI response (never repeats)
-        function getUniqueAIResponse() {
-            // If we've used all responses, reset the set
-            if (state.usedResponses.size >= state.aiResponses.length - 1) {
-                state.usedResponses.clear();
-            }
-            
-            // Find an unused response
-            let candidateIndex;
-            let attempts = 0;
-            const maxAttempts = state.aiResponses.length;
-            
-            do {
-                // Use a deterministic but varied selection method
-                candidateIndex = (state.currentResponseIndex + 1) % state.aiResponses.length;
-                state.currentResponseIndex = candidateIndex;
-                attempts++;
-            } while (state.usedResponses.has(candidateIndex) && attempts < maxAttempts);
-            
-            // If all responses are used, pick any
-            if (attempts >= maxAttempts) {
-                candidateIndex = Math.floor(Math.random() * state.aiResponses.length);
-            }
-            
-            // Mark as used and return
-            state.usedResponses.add(candidateIndex);
-            return state.aiResponses[candidateIndex];
-        }
-
-        // Get current time for messages
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        }
-
-        // Scroll chat to bottom
-        function scrollToChatBottom() {
-            elements.aiChat.scrollTop = elements.aiChat.scrollHeight;
-        }
-
-        // Toggle scroll to top button
-        function toggleScrollButton() {
-            if (window.pageYOffset > 300) {
-                elements.scrollToTop.classList.add('visible');
-            } else {
-                elements.scrollToTop.classList.remove('visible');
-            }
-        }
-
-        // Scroll to top
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            // Toggle AI chat
+            aiButton.addEventListener('click', function() {
+                aiChat.classList.toggle('active');
             });
-        }
 
-        // Update network status
-        function updateNetworkStatus() {
-            if (navigator.onLine) {
-                elements.offlineBanner.classList.remove('show');
-            } else {
-                elements.offlineBanner.classList.add('show');
+            closeChat.addEventListener('click', function() {
+                aiChat.classList.remove('active');
+            });
+
+            // Send message
+            aiSend.addEventListener('click', sendMessage);
+            aiInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const message = aiInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                addMessage(message, 'self');
+                aiInput.value = '';
+
+                // Show typing indicator
+                const typing = document.createElement('div');
+                typing.className = 'message ai';
+                typing.innerHTML = '<div class="message-content">AI is thinking...</div>';
+                aiMessages.appendChild(typing);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                // Simulate AI response
+                setTimeout(async () => {
+                    aiMessages.removeChild(typing);
+                    
+                    // Use AdminHook to generate AI response
+                    const result = await AdminHook.generateAIContent(message);
+                    
+                    if (result.success) {
+                        addMessage(result.response, 'ai');
+                        
+                        // Add sources and tips if available
+                        if (result.sources) {
+                            addMessage(`📚 Sources: ${result.sources.join(', ')}`, 'ai');
+                        }
+                        if (result.tips) {
+                            addMessage(`💡 Tips: ${result.tips.join(', ')}`, 'ai');
+                        }
+                    } else {
+                        addMessage(result.response, 'ai');
+                    }
+                }, 1000);
             }
-        }
 
-        // Show toast notification
-        function showToast(message, type = 'success') {
-            elements.toastMessage.textContent = message;
-            elements.toast.className = 'toast';
-            if (type === 'danger') {
-                elements.toast.classList.add('danger');
+            function addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
+                aiMessages.appendChild(messageDiv);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
             }
-            setTimeout(() => {
-                elements.toast.classList.add('show');
-            }, 100);
-            setTimeout(() => {
-                elements.toast.classList.remove('show');
-            }, 3000);
-        }
 
-        // Generate PDF (simulated)
-        function generatePDF() {
-            showToast('Generating PDF... This would create a printable version of your homework.', 'success');
+            // Initialize Lucide icons
+            lucide.createIcons();
+        });
+
+        // Sidebar toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
             
-            // In a real app, you would use a library like jsPDF
-            // For this demo, we'll just trigger the browser's print dialog
-            setTimeout(() => {
-                window.print();
-            }, 1000);
-        }
-
-        // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+            sidebar.classList.toggle('-translate-x-full');
+            mainContent.classList.toggle('ml-0');
+            mainContent.classList.toggle('ml-64');
+        });
     </script>
 </body>
 </html>
+```
