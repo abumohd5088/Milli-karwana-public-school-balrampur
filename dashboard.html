@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +11,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         .sidebar {
             transition: all 0.3s ease;
@@ -165,6 +166,396 @@
             align-items: center;
             justify-content: center;
         }
+        .subject-card {
+            transition: all 0.3s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .homework-item {
+            transition: all 0.2s ease;
+        }
+        .homework-item:hover {
+            background: #f8fafc;
+        }
+        .resource-item {
+            transition: all 0.2s ease;
+        }
+        .resource-item:hover {
+            transform: scale(1.02);
+        }
+        .attendance-chart {
+            height: 200px;
+        }
+        .grade-chart {
+            height: 200px;
+        }
+        .assignment-chart {
+            height: 200px;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -280px;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .lg\:col-span-2 {
+                grid-column: span 1;
+            }
+            .mobile-menu-button {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+        }
+        .mobile-menu-button {
+            display: none;
+            padding: 8px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+        }
+        .mobile-menu-button.active {
+            background: #e2e8f0;
+        }
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 49;
+            display: none;
+        }
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 1000;
+            display: none;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #334155;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .file-upload {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .file-upload:hover {
+            border-color: #667eea;
+            background: #f8fafc;
+        }
+        .file-upload i {
+            font-size: 24px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        .file-upload p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        .attachment-list {
+            margin-top: 12px;
+        }
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .attachment-item i {
+            margin-right: 8px;
+            color: #64748b;
+        }
+        .attachment-item span {
+            flex: 1;
+            font-size: 14px;
+            color: #334155;
+        }
+        .attachment-item button {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .priority-high {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+        .priority-medium {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+        }
+        .priority-low {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+        .status-completed {
+            background: #d1fae5;
+            color: #047857;
+        }
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-overdue {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .tab.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-top: 16px;
+        }
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .calendar-header div {
+            text-align: center;
+            font-weight: 600;
+            color: #64748b;
+            font-size: 12px;
+            padding: 8px 0;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .calendar-day.today {
+            background: #667eea;
+            color: white;
+        }
+        .calendar-day.other-month {
+            color: #cbd5e1;
+        }
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 6px;
+            height: 6px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+        .event-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+        .event-math {
+            background: #3b82f6;
+        }
+        .event-english {
+            background: #10b981;
+        }
+        .event-science {
+            background: #8b5cf6;
+        }
+        .event-history {
+            background: #f59e0b;
+        }
+        .notification-item {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+        .notification-item.unread {
+            background: #f1f5f9;
+            font-weight: 500;
+        }
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        .notification-math {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+        .notification-english {
+            background: #ecfdf5;
+            color: #059669;
+        }
+        .notification-science {
+            background: #f3f4f6;
+            color: #4f46e5;
+        }
+        .notification-history {
+            background: #fffbeb;
+            color: #d97706;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .avatar-group {
+            display: flex;
+            margin-left: -8px;
+        }
+        .avatar-group .avatar {
+            margin-left: -12px;
+            border: 2px solid white;
+        }
+        .ai-suggestion {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        .ai-suggestion h4 {
+            font-size: 15px;
+            margin: 0 0 8px 0;
+            color: #0369a1;
+        }
+        .ai-suggestion ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        .ai-suggestion li {
+            margin-bottom: 4px;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -177,7 +568,7 @@
             <div class="ai-header">
                 <div class="flex items-center">
                     <i data-lucide="sparkles" class="w-5 h-5 mr-2"></i>
-                    <span>AI Assistant</span>
+                    <span>AI Study Assistant</span>
                 </div>
                 <button id="closeChat">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -185,13 +576,176 @@
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="message ai">
-                    <div class="message-content">Hello! I'm your AI assistant. How can I help you with your studies today?</div>
+                    <div class="message-content">Hello! I'm your AI study assistant. How can I help you with your schoolwork today?</div>
                 </div>
             </div>
             <div class="ai-input">
-                <input type="text" placeholder="Ask me anything about your studies..." id="aiInput">
+                <input type="text" placeholder="Ask about homework, classes, or need study tips?" id="aiInput">
                 <button id="aiSend">Send</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Backdrop -->
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- Add Homework Modal -->
+    <div class="modal" id="addHomeworkModal">
+        <div class="modal-header">
+            <h3 class="text-lg font-semibold">Add New Homework</h3>
+            <button id="closeHomeworkModal">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="homeworkSubject">Subject</label>
+                <select id="homeworkSubject" class="form-control">
+                    <option value="">Select Subject</option>
+                    <option value="math">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="science">Science</option>
+                    <option value="history">History</option>
+                    <option value="geography">Geography</option>
+                    <option value="art">Art</option>
+                    <option value="music">Music</option>
+                    <option value="physical-education">Physical Education</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="homeworkTitle">Title</label>
+                <input type="text" id="homeworkTitle" class="form-control" placeholder="Enter homework title">
+            </div>
+            <div class="form-group">
+                <label for="homeworkDescription">Description</label>
+                <textarea id="homeworkDescription" class="form-control" rows="3" placeholder="Enter homework details"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="homeworkDueDate">Due Date</label>
+                <input type="date" id="homeworkDueDate" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="homeworkPriority">Priority</label>
+                <select id="homeworkPriority" class="form-control">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Attachments</label>
+                <div class="file-upload" id="homeworkFileUpload">
+                    <i data-lucide="upload-cloud"></i>
+                    <p>Click to upload files or drag and drop</p>
+                    <input type="file" id="homeworkFiles" multiple class="hidden">
+                </div>
+                <div class="attachment-list" id="homeworkAttachmentList"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelHomework">Cancel</button>
+            <button class="btn btn-primary" id="saveHomework">Save Homework</button>
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div class="modal" id="addNoteModal">
+        <div class="modal-header">
+            <h3 class="text-lg font-semibold">Add New Note</h3>
+            <button id="closeNoteModal">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="noteSubject">Subject</label>
+                <select id="noteSubject" class="form-control">
+                    <option value="">Select Subject</option>
+                    <option value="math">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="science">Science</option>
+                    <option value="history">History</option>
+                    <option value="geography">Geography</option>
+                    <option value="art">Art</option>
+                    <option value="music">Music</option>
+                    <option value="physical-education">Physical Education</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="noteTitle">Title</label>
+                <input type="text" id="noteTitle" class="form-control" placeholder="Enter note title">
+            </div>
+            <div class="form-group">
+                <label for="noteContent">Content</label>
+                <textarea id="noteContent" class="form-control" rows="6" placeholder="Enter your notes here..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="noteCategory">Category</label>
+                <select id="noteCategory" class="form-control">
+                    <option value="lecture">Lecture Notes</option>
+                    <option value="summary">Summary</option>
+                    <option value="formula">Formulas</option>
+                    <option value="example">Examples</option>
+                    <option value="important">Important Points</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Attachments</label>
+                <div class="file-upload" id="noteFileUpload">
+                    <i data-lucide="upload-cloud"></i>
+                    <p>Click to upload files or drag and drop</p>
+                    <input type="file" id="noteFiles" multiple class="hidden">
+                </div>
+                <div class="attachment-list" id="noteAttachmentList"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelNote">Cancel</button>
+            <button class="btn btn-primary" id="saveNote">Save Note</button>
+        </div>
+    </div>
+
+    <!-- Add Resource Modal -->
+    <div class="modal" id="addResourceModal">
+        <div class="modal-header">
+            <h3 class="text-lg font-semibold">Add New Resource</h3>
+            <button id="closeResourceModal">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="resourceTitle">Title</label>
+                <input type="text" id="resourceTitle" class="form-control" placeholder="Enter resource title">
+            </div>
+            <div class="form-group">
+                <label for="resourceDescription">Description</label>
+                <textarea id="resourceDescription" class="form-control" rows="3" placeholder="Enter resource description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="resourceCategory">Category</label>
+                <select id="resourceCategory" class="form-control">
+                    <option value="study-guide">Study Guide</option>
+                    <option value="worksheet">Worksheet</option>
+                    <option value="video">Video Tutorial</option>
+                    <option value="presentation">Presentation</option>
+                    <option value="article">Article</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="resourceUrl">Resource URL</label>
+                <input type="url" id="resourceUrl" class="form-control" placeholder="Enter URL or upload file">
+            </div>
+            <div class="form-group">
+                <label>Tags</label>
+                <input type="text" id="resourceTags" class="form-control" placeholder="math, algebra, grade10 (comma separated)">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelResource">Cancel</button>
+            <button class="btn btn-primary" id="saveResource">Save Resource</button>
         </div>
     </div>
 
@@ -258,13 +812,27 @@
                 </nav>
             </div>
 
+            <!-- Quick Actions -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="space-y-2">
+                    <button class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors" id="quickAddHomework">
+                        <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
+                        Add Homework
+                    </button>
+                    <button class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors" id="quickAddNote">
+                        <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
+                        Add Note
+                    </button>
+                </div>
+            </div>
+
             <!-- User Profile -->
             <div class="p-4 border-t border-gray-200">
                 <div class="flex items-center">
                     <img src="https://placehold.co/40x40/3b82f6/white?text=JS" alt="Profile" class="w-10 h-10 rounded-full">
                     <div class="ml-3">
                         <p class="text-sm font-medium text-gray-700">John Smith</p>
-                        <p class="text-xs text-gray-500">Grade 10</p>
+                        <p class="text-xs text-gray-500">Grade 10 • Science Stream</p>
                     </div>
                     <button class="p-1 ml-auto text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-600">
                         <i data-lucide="log-out" class="w-5 h-5"></i>
@@ -279,7 +847,7 @@
         <!-- Header -->
         <header class="flex items-center justify-between h-20 px-8 bg-white border-b border-gray-200">
             <div class="flex items-center">
-                <button id="sidebarToggle" class="p-2 mr-4 text-gray-500 rounded-lg hover:bg-gray-100">
+                <button id="sidebarToggle" class="p-2 mr-4 text-gray-500 rounded-lg hover:bg-gray-100 mobile-menu-button">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
                 <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
@@ -288,20 +856,95 @@
             <div class="flex items-center space-x-4">
                 <!-- Search -->
                 <div class="relative">
-                    <input type="text" placeholder="Search..." class="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="text" placeholder="Search assignments, notes, resources..." class="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <i data-lucide="search" class="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2"></i>
                 </div>
                 
                 <!-- Notifications -->
-                <button class="relative p-2 text-gray-500 rounded-lg hover:bg-gray-100">
-                    <i data-lucide="bell" class="w-6 h-6"></i>
-                    <span class="notification-badge">3</span>
-                </button>
+                <div class="relative">
+                    <button id="notificationsButton" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100">
+                        <i data-lucide="bell" class="w-6 h-6"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    <div id="notificationsPanel" class="absolute right-0 z-50 w-80 mt-2 bg-white rounded-lg shadow-lg hidden">
+                        <div class="p-4 border-b border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-semibold">Notifications</h3>
+                                <button class="text-xs text-blue-600 hover:text-blue-800">Mark all as read</button>
+                            </div>
+                        </div>
+                        <div class="max-h-96 overflow-y-auto">
+                            <div class="notification-item unread">
+                                <div class="flex items-center">
+                                    <div class="notification-icon notification-math">
+                                        <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">New Math Assignment</p>
+                                        <p class="text-xs text-gray-500">Algebra problems due tomorrow</p>
+                                        <p class="text-xs text-gray-400">2 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="flex items-center">
+                                    <div class="notification-icon notification-english">
+                                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Feedback on Essay</p>
+                                        <p class="text-xs text-gray-500">Ms. Johnson provided comments</p>
+                                        <p class="text-xs text-gray-400">4 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="flex items-center">
+                                    <div class="notification-icon notification-science">
+                                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Science Lab Tomorrow</p>
+                                        <p class="text-xs text-gray-500">Photosynthesis experiment</p>
+                                        <p class="text-xs text-gray-400">1 day ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="flex items-center">
+                                    <div class="notification-icon notification-history">
+                                        <i data-lucide="award" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Perfect Attendance Reward</p>
+                                        <p class="text-xs text-gray-500">You've earned a badge!</p>
+                                        <p class="text-xs text-gray-400">2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="flex items-center">
+                                    <div class="notification-icon notification-math">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">New Study Resource</p>
+                                        <p class="text-xs text-gray-500">Algebra practice worksheet</p>
+                                        <p class="text-xs text-gray-400">3 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2 border-t border-gray-200">
+                            <button class="w-full text-xs text-center text-blue-600 hover:text-blue-800">View all notifications</button>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Messages -->
                 <button class="relative p-2 text-gray-500 rounded-lg hover:bg-gray-100">
                     <i data-lucide="mail" class="w-6 h-6"></i>
-                    <span class="notification-badge">2</span>
+                    <span class="notification-badge">3</span>
                 </button>
             </div>
         </header>
@@ -313,11 +956,11 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h2 class="text-3xl font-bold text-gray-800">Welcome back, John!</h2>
-                        <p class="text-gray-600">Here's what's happening today</p>
+                        <p class="text-gray-600">Here's what's happening in your classes today</p>
                     </div>
                     <div class="flex items-center px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
                         <i data-lucide="sun" class="w-4 h-4 mr-2"></i>
-                        <span>Monday, March 15, 2024</span>
+                        <span id="currentDate">Monday, March 15, 2024</span>
                     </div>
                 </div>
             </div>
@@ -331,15 +974,15 @@
                             <i data-lucide="clipboard-list" class="w-6 h-6 text-blue-600"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Upcoming</p>
-                            <p class="text-2xl font-bold text-gray-800">5</p>
+                            <p class="text-sm font-medium text-gray-600">Upcoming Assignments</p>
+                            <p class="text-2xl font-bold text-gray-800">7</p>
                         </div>
                     </div>
                     <div class="mt-4">
                         <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-blue-500 rounded-full" style="width: 60%"></div>
+                            <div class="h-2 bg-blue-500 rounded-full" style="width: 58%"></div>
                         </div>
-                        <p class="mt-2 text-xs text-gray-500">60% completed</p>
+                        <p class="mt-2 text-xs text-gray-500">4 completed, 3 pending</p>
                     </div>
                 </div>
 
@@ -358,7 +1001,7 @@
                         <div class="w-full h-2 bg-gray-200 rounded-full">
                             <div class="h-2 bg-green-500 rounded-full" style="width: 98%"></div>
                         </div>
-                        <p class="mt-2 text-xs text-gray-500">Excellent attendance</p>
+                        <p class="mt-2 text-xs text-gray-500">Excellent attendance record</p>
                     </div>
                 </div>
 
@@ -388,15 +1031,15 @@
                             <i data-lucide="clock" class="w-6 h-6 text-orange-600"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Study Time</p>
-                            <p class="text-2xl font-bold text-gray-800">12h</p>
+                            <p class="text-sm font-medium text-gray-600">Study Time This Week</p>
+                            <p class="text-2xl font-bold text-gray-800">14.5h</p>
                         </div>
                     </div>
                     <div class="mt-4">
                         <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-orange-500 rounded-full" style="width: 75%"></div>
+                            <div class="h-2 bg-orange-500 rounded-full" style="width: 73%"></div>
                         </div>
-                        <p class="mt-2 text-xs text-gray-500">This week</p>
+                        <p class="mt-2 text-xs text-gray-500">1.5h more than last week</p>
                     </div>
                 </div>
             </div>
@@ -409,62 +1052,93 @@
                     <div class="bg-white rounded-xl shadow-sm">
                         <div class="flex items-center justify-between p-6 border-b border-gray-200">
                             <h3 class="text-lg font-semibold text-gray-800">Upcoming Assignments</h3>
-                            <button class="flex items-center px-3 py-1 text-sm text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
-                                <i data-lucide="plus" class="w-4 h-4 mr-1"></i>
-                                Add New
-                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="flex items-center px-3 py-1 text-sm text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100" id="addNewHomework">
+                                    <i data-lucide="plus" class="w-4 h-4 mr-1"></i>
+                                    Add Assignment
+                                </button>
+                                <div class="relative">
+                                    <button id="assignmentFilter" class="flex items-center px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                        <i data-lucide="filter" class="w-4 h-4 mr-1"></i>
+                                        All Subjects
+                                    </button>
+                                    <div id="filterDropdown" class="absolute right-0 z-50 w-48 mt-2 bg-white rounded-lg shadow-lg hidden">
+                                        <div class="p-2">
+                                            <button class="block w-full px-4 py-2 text-left text-gray-700 rounded hover:bg-gray-100">All Subjects</button>
+                                            <button class="block w-full px-4 py-2 text-left text-gray-700 rounded hover:bg-gray-100">Mathematics</button>
+                                            <button class="block w-full px-4 py-2 text-left text-gray-700 rounded hover:bg-gray-100">English</button>
+                                            <button class="block w-full px-4 py-2 text-left text-gray-700 rounded hover:bg-gray-100">Science</button>
+                                            <button class="block w-full px-4 py-2 text-left text-gray-700 rounded hover:bg-gray-100">History</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="p-6">
                             <div class="space-y-4">
                                 <!-- Assignment 1 -->
-                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                                    <div class="w-2 h-10 bg-blue-500 rounded-full"></div>
+                                <div class="homework-item flex items-center p-4 bg-gray-50 rounded-lg priority-high">
+                                    <div class="w-2 h-10 bg-red-500 rounded-full"></div>
                                     <div class="flex-1 ml-4">
                                         <div class="flex items-center justify-between">
-                                            <h4 class="font-medium text-gray-800">Mathematics: Algebra Problems</h4>
-                                            <span class="px-2 py-1 text-xs text-blue-700 bg-blue-100 rounded-full">High Priority</span>
+                                            <h4 class="font-medium text-gray-800">Mathematics: Quadratic Equations</h4>
+                                            <span class="px-2 py-1 text-xs text-red-700 bg-red-100 rounded-full">High Priority</span>
                                         </div>
-                                        <p class="mt-1 text-sm text-gray-600">Chapter 5 exercises, problems 1-20</p>
+                                        <p class="mt-1 text-sm text-gray-600">Complete exercises 1-20 from Chapter 5</p>
                                         <div class="flex items-center mt-2 text-sm text-gray-500">
                                             <i data-lucide="book" class="w-4 h-4 mr-1"></i>
                                             <span>Math 10</span>
                                             <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
-                                            <span>Due Mar 18</span>
+                                            <span>Due Tomorrow</span>
+                                            <i data-lucide="paperclip" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>2 attachments</span>
                                         </div>
                                     </div>
-                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
-                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
-                                    </button>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="download" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <!-- Assignment 2 -->
-                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                                    <div class="w-2 h-10 bg-green-500 rounded-full"></div>
+                                <div class="homework-item flex items-center p-4 bg-gray-50 rounded-lg priority-medium">
+                                    <div class="w-2 h-10 bg-yellow-500 rounded-full"></div>
                                     <div class="flex-1 ml-4">
                                         <div class="flex items-center justify-between">
-                                            <h4 class="font-medium text-gray-800">English: Essay on Shakespeare</h4>
-                                            <span class="px-2 py-1 text-xs text-green-700 bg-green-100 rounded-full">Medium Priority</span>
+                                            <h4 class="font-medium text-gray-800">English: Shakespeare Essay</h4>
+                                            <span class="px-2 py-1 text-xs text-yellow-700 bg-yellow-100 rounded-full">Medium Priority</span>
                                         </div>
-                                        <p class="mt-1 text-sm text-gray-600">500-700 words, MLA format</p>
+                                        <p class="mt-1 text-sm text-gray-600">500-700 words on Macbeth's character</p>
                                         <div class="flex items-center mt-2 text-sm text-gray-500">
                                             <i data-lucide="book" class="w-4 h-4 mr-1"></i>
                                             <span>English 10</span>
                                             <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
                                             <span>Due Mar 20</span>
+                                            <i data-lucide="paperclip" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>1 attachment</span>
                                         </div>
                                     </div>
-                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
-                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
-                                    </button>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="download" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <!-- Assignment 3 -->
-                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                                    <div class="w-2 h-10 bg-purple-500 rounded-full"></div>
+                                <div class="homework-item flex items-center p-4 bg-gray-50 rounded-lg priority-high">
+                                    <div class="w-2 h-10 bg-red-500 rounded-full"></div>
                                     <div class="flex-1 ml-4">
                                         <div class="flex items-center justify-between">
                                             <h4 class="font-medium text-gray-800">Science: Lab Report</h4>
-                                            <span class="px-2 py-1 text-xs text-purple-700 bg-purple-100 rounded-full">High Priority</span>
+                                            <span class="px-2 py-1 text-xs text-red-700 bg-red-100 rounded-full">High Priority</span>
                                         </div>
                                         <p class="mt-1 text-sm text-gray-600">Photosynthesis experiment analysis</p>
                                         <div class="flex items-center mt-2 text-sm text-gray-500">
@@ -474,20 +1148,25 @@
                                             <span>Due Mar 22</span>
                                         </div>
                                     </div>
-                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
-                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
-                                    </button>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="download" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <!-- Assignment 4 -->
-                                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                                    <div class="w-2 h-10 bg-yellow-500 rounded-full"></div>
+                                <div class="homework-item flex items-center p-4 bg-gray-50 rounded-lg priority-low">
+                                    <div class="w-2 h-10 bg-green-500 rounded-full"></div>
                                     <div class="flex-1 ml-4">
                                         <div class="flex items-center justify-between">
-                                            <h4 class="font-medium text-gray-800">History: Presentation</h4>
-                                            <span class="px-2 py-1 text-xs text-yellow-700 bg-yellow-100 rounded-full">Low Priority</span>
+                                            <h4 class="font-medium text-gray-800">History: WWII Presentation</h4>
+                                            <span class="px-2 py-1 text-xs text-green-700 bg-green-100 rounded-full">Low Priority</span>
                                         </div>
-                                        <p class="mt-1 text-sm text-gray-600">World War II timeline and impact</p>
+                                        <p class="mt-1 text-sm text-gray-600">Create 10-slide presentation with timeline</p>
                                         <div class="flex items-center mt-2 text-sm text-gray-500">
                                             <i data-lucide="book" class="w-4 h-4 mr-1"></i>
                                             <span>History 10</span>
@@ -495,9 +1174,40 @@
                                             <span>Due Mar 25</span>
                                         </div>
                                     </div>
-                                    <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
-                                        <i data-lucide="more-vertical" class="w-5 h-5"></i>
-                                    </button>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="download" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Assignment 5 -->
+                                <div class="homework-item flex items-center p-4 bg-gray-50 rounded-lg priority-medium">
+                                    <div class="w-2 h-10 bg-yellow-500 rounded-full"></div>
+                                    <div class="flex-1 ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-gray-800">Geography: Map Project</h4>
+                                            <span class="px-2 py-1 text-xs text-yellow-700 bg-yellow-100 rounded-full">Medium Priority</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">Create detailed map of Europe</p>
+                                        <div class="flex items-center mt-2 text-sm text-gray-500">
+                                            <i data-lucide="book" class="w-4 h-4 mr-1"></i>
+                                            <span>Geography 10</span>
+                                            <i data-lucide="calendar" class="w-4 h-4 ml-4 mr-1"></i>
+                                            <span>Due Mar 28</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="download" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="p-2 text-gray-400 rounded-lg hover:bg-gray-200 hover:text-gray-600">
+                                            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -585,6 +1295,21 @@
                                         <i data-lucide="video" class="w-5 h-5"></i>
                                     </button>
                                 </div>
+
+                                <!-- Class 5 -->
+                                <div class="flex items-center p-4 bg-indigo-50 rounded-lg">
+                                    <div class="p-3 bg-indigo-100 rounded-lg">
+                                        <i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>
+                                    </div>
+                                    <div class="flex-1 ml-4">
+                                        <h4 class="font-medium text-indigo-800">Geography</h4>
+                                        <p class="text-sm text-indigo-600">European Countries</p>
+                                        <p class="mt-1 text-sm text-indigo-700">Period 5 • 11:30 - 12:15 PM</p>
+                                    </div>
+                                    <button class="p-2 text-indigo-600 bg-indigo-100 rounded-lg hover:bg-indigo-200">
+                                        <i data-lucide="video" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -639,6 +1364,16 @@
                                         <div class="h-2 bg-orange-500 rounded-full" style="width: 88%"></div>
                                     </div>
                                 </div>
+
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-sm font-medium text-gray-700">Geography</h4>
+                                        <span class="text-sm font-medium text-indigo-600">81%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="h-2 bg-indigo-500 rounded-full" style="width: 81%"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -650,29 +1385,29 @@
                         </div>
                         <div class="p-6">
                             <div class="space-y-4">
-                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                <div class="resource-item flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                                     <div class="p-2 bg-blue-100 rounded-lg">
                                         <i data-lucide="book" class="w-5 h-5 text-blue-600"></i>
                                     </div>
                                     <div class="ml-3">
-                                        <h4 class="text-sm font-medium text-gray-800">Math Textbook</h4>
-                                        <p class="text-xs text-gray-500">Chapter 5 Solutions</p>
+                                        <h4 class="text-sm font-medium text-gray-800">Math Textbook Solutions</h4>
+                                        <p class="text-xs text-gray-500">Chapter 5: Algebra</p>
                                     </div>
                                     <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
                                 </div>
 
-                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                <div class="resource-item flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                                     <div class="p-2 bg-green-100 rounded-lg">
                                         <i data-lucide="file-text" class="w-5 h-5 text-green-600"></i>
                                     </div>
                                     <div class="ml-3">
                                         <h4 class="text-sm font-medium text-gray-800">English Essay Guide</h4>
-                                        <p class="text-xs text-gray-500">MLA Format Tips</p>
+                                        <p class="text-xs text-gray-500">MLA Format & Structure</p>
                                     </div>
                                     <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
                                 </div>
 
-                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                <div class="resource-item flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                                     <div class="p-2 bg-purple-100 rounded-lg">
                                         <i data-lucide="video" class="w-5 h-5 text-purple-600"></i>
                                     </div>
@@ -683,7 +1418,7 @@
                                     <i data-lucide="play-circle" class="w-4 h-4 ml-auto text-gray-400"></i>
                                 </div>
 
-                                <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                <div class="resource-item flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                                     <div class="p-2 bg-orange-100 rounded-lg">
                                         <i data-lucide="file-plus" class="w-5 h-5 text-orange-600"></i>
                                     </div>
@@ -693,7 +1428,21 @@
                                     </div>
                                     <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
                                 </div>
+
+                                <div class="resource-item flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                                    <div class="p-2 bg-indigo-100 rounded-lg">
+                                        <i data-lucide="map" class="w-5 h-5 text-indigo-600"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-gray-800">Geography Maps</h4>
+                                        <p class="text-xs text-gray-500">European Countries & Capitals</p>
+                                    </div>
+                                    <i data-lucide="download" class="w-4 h-4 ml-auto text-gray-400"></i>
+                                </div>
                             </div>
+                            <button class="w-full mt-4 text-sm text-blue-600 hover:text-blue-800" id="addNewResource">
+                                + Add New Resource
+                            </button>
                         </div>
                     </div>
 
@@ -704,19 +1453,19 @@
                         </div>
                         <div class="p-6">
                             <div class="grid grid-cols-2 gap-4">
-                                <button class="flex flex-col items-center p-4 text-center bg-blue-50 rounded-lg hover:bg-blue-100">
+                                <button class="flex flex-col items-center p-4 text-center bg-blue-50 rounded-lg hover:bg-blue-100" id="quickMessage">
                                     <i data-lucide="message-circle" class="w-6 h-6 mb-2 text-blue-600"></i>
                                     <span class="text-sm font-medium text-blue-800">Message Teacher</span>
                                 </button>
-                                <button class="flex flex-col items-center p-4 text-center bg-green-50 rounded-lg hover:bg-green-100">
+                                <button class="flex flex-col items-center p-4 text-center bg-green-50 rounded-lg hover:bg-green-100" id="quickNotes">
                                     <i data-lucide="book-open" class="w-6 h-6 mb-2 text-green-600"></i>
                                     <span class="text-sm font-medium text-green-800">View Notes</span>
                                 </button>
-                                <button class="flex flex-col items-center p-4 text-center bg-purple-50 rounded-lg hover:bg-purple-100">
+                                <button class="flex flex-col items-center p-4 text-center bg-purple-50 rounded-lg hover:bg-purple-100" id="quickSubmit">
                                     <i data-lucide="clipboard" class="w-6 h-6 mb-2 text-purple-600"></i>
                                     <span class="text-sm font-medium text-purple-800">Submit Work</span>
                                 </button>
-                                <button class="flex flex-col items-center p-4 text-center bg-orange-50 rounded-lg hover:bg-orange-100">
+                                <button class="flex flex-col items-center p-4 text-center bg-orange-50 rounded-lg hover:bg-orange-100" id="quickSchedule">
                                     <i data-lucide="calendar" class="w-6 h-6 mb-2 text-orange-600"></i>
                                     <span class="text-sm font-medium text-orange-800">Schedule Meeting</span>
                                 </button>
@@ -776,6 +1525,17 @@
                                 <p class="mt-2 text-xs text-gray-500">1 day ago</p>
                             </div>
                         </div>
+
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="p-2 bg-blue-100 rounded-lg">
+                                <i data-lucide="book-open" class="w-5 h-5 text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-800">Viewed Math Lecture Notes</p>
+                                <p class="mt-1 text-sm text-gray-600">Quadratic equations and solutions</p>
+                                <p class="mt-2 text-xs text-gray-500">2 days ago</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -795,7 +1555,8 @@
                 return {
                     success: true,
                     message: 'Homework added successfully',
-                    id: Date.now()
+                    id: Date.now(),
+                    data: {subject, title, description, dueDate, priority, attachments}
                 };
             },
             
@@ -804,7 +1565,8 @@
                 return {
                     success: true,
                     message: 'Note added successfully',
-                    id: Date.now()
+                    id: Date.now(),
+                    data: {subject, title, content, category, attachments}
                 };
             },
             
@@ -813,7 +1575,8 @@
                 return {
                     success: true,
                     message: 'Resource added successfully',
-                    id: Date.now()
+                    id: Date.now(),
+                    data: {title, description, category, fileUrl, tags}
                 };
             },
             
@@ -836,48 +1599,119 @@
             generateAIContent: async function(prompt, context = {}) {
                 try {
                     console.log('Generating AI content with prompt:', prompt);
-                    // This would make API calls in real implementation
-                    const mockResponses = {
-                        'math': 'To solve quadratic equations, remember the quadratic formula: x = (-b ± √(b²-4ac)) / (2a). For your assignment, identify a, b, and c coefficients first.',
-                        'english': 'When writing your Shakespeare essay, focus on the themes of power and ambition in Macbeth. Use quotes from Act 1 Scene 7 to support your analysis.',
-                        'science': 'For the photosynthesis lab, ensure your control variables are consistent. Remember that light intensity affects the rate of photosynthesis.',
-                        'history': 'In your WWII presentation, consider the impact of the D-Day invasion on the European theater. Include maps to show troop movements.',
-                        'default': 'I can help you with that. Could you provide more details about what you need assistance with?'
-                    };
                     
-                    // Simple keyword matching for demo
+                    // Extract student information from context or localStorage
+                    const studentName = context.name || 'Student';
+                    const studentClass = context.class || 'your class';
+                    
+                    // Prepare response based on prompt content
                     const lowerPrompt = prompt.toLowerCase();
-                    let response = mockResponses.default;
+                    let response = '';
+                    let sources = [];
+                    let tips = [];
                     
-                    if (lowerPrompt.includes('math') || lowerPrompt.includes('algebra') || lowerPrompt.includes('equation')) {
-                        response = mockResponses.math;
-                    } else if (lowerPrompt.includes('english') || lowerPrompt.includes('essay') || lowerPrompt.includes('shakespeare')) {
-                        response = mockResponses.english;
-                    } else if (lowerPrompt.includes('science') || lowerPrompt.includes('lab') || lowerPrompt.includes('photosynthesis')) {
-                        response = mockResponses.science;
-                    } else if (lowerPrompt.includes('history') || lowerPrompt.includes('wwii') || lowerPrompt.includes('presentation')) {
-                        response = mockResponses.history;
+                    // Check for homework-related queries
+                    if (lowerPrompt.includes('homework') || lowerPrompt.includes('assignment') || lowerPrompt.includes('task')) {
+                        if (lowerPrompt.includes('math') || lowerPrompt.includes('algebra') || lowerPrompt.includes('equation')) {
+                            response = `Hi ${studentName}! I see you need help with your math homework. For algebra problems, remember to identify the variables and constants first. Try to isolate the variable on one side of the equation. Would you like me to walk you through a specific problem?`;
+                            sources = ['Math Textbook Chapter 5', 'Algebra Basics Guide', 'Teacher\'s Worksheet'];
+                            tips = ['Show all your steps clearly', 'Check your answers by substituting back', 'Practice similar problems'];
+                        }
+                        else if (lowerPrompt.includes('english') || lowerPrompt.includes('essay') || lowerPrompt.includes('writing')) {
+                            response = `Hello ${studentName}! For your English assignment, focus on creating a strong thesis statement in your introduction. Make sure each paragraph supports your main argument with evidence from the text. Remember to cite your sources properly in MLA format. Need help with outlining your essay?`;
+                            sources = ['English Writing Guide', 'MLA Format Handbook', 'Sample Essays'];
+                            tips = ['Create an outline first', 'Use transition words between paragraphs', 'Proofread for grammar errors'];
+                        }
+                        else if (lowerPrompt.includes('science') || lowerPrompt.includes('lab') || lowerPrompt.includes('experiment')) {
+                            response = `Hi ${studentName}! For your science lab report, make sure to include all the standard sections: Introduction, Methods, Results, and Conclusion. When writing about the photosynthesis experiment, focus on the variables you controlled and the results you observed. Would you like a template for your report?`;
+                            sources = ['Science Lab Manual', 'Biology Textbook', 'Previous Lab Reports'];
+                            tips = ['Include your hypothesis', 'Present data in tables or graphs', 'Discuss possible sources of error'];
+                        }
+                        else if (lowerPrompt.includes('history') || lowerPrompt.includes('presentation') || lowerPrompt.includes('project')) {
+                            response = `Hello ${studentName}! For your history presentation on WWII, consider organizing it chronologically with key turning points. Include maps to show troop movements and timelines for major events. Make sure to cite your sources and practice your delivery. Need help with creating slides?`;
+                            sources = ['History Textbook', 'Documentary Resources', 'Archival Photos'];
+                            tips = ['Focus on cause and effect', 'Include primary sources', 'Practice timing your presentation'];
+                        }
+                        else {
+                            response = `Hi ${studentName}! I can help you with your homework. Could you tell me which subject you need help with? We can work through math problems, improve your writing, analyze science experiments, or research history topics together.`;
+                            sources = ['Subject Textbooks', 'Class Notes', 'Online Resources'];
+                            tips = ['Start with what you know', 'Break large tasks into smaller steps', 'Ask your teacher for clarification if needed'];
+                        }
+                    }
+                    
+                    // Check for class-related queries
+                    else if (lowerPrompt.includes('class') || lowerPrompt.includes('lesson') || lowerPrompt.includes('topic')) {
+                        if (lowerPrompt.includes('math') || lowerPrompt.includes('algebra')) {
+                            response = `Hi ${studentName}! In your ${studentClass} math class, you're currently studying algebra. Key concepts include solving linear equations, working with variables, and understanding functions. The quadratic formula is x = (-b ± √(b²-4ac)) / (2a). Would you like practice problems or explanations on any specific topic?`;
+                            sources = ['Chapter 5: Algebra', 'Class Lecture Notes', 'Practice Worksheets'];
+                            tips = ['Practice daily', 'Review mistakes', 'Ask questions in class'];
+                        }
+                        else if (lowerPrompt.includes('english') || lowerPrompt.includes('literature')) {
+                            response = `Hello ${studentName}! In your ${studentClass} English class, you're studying Shakespeare's works. Focus on understanding the themes, characters, and literary devices. For Macbeth, consider the themes of ambition and power. Try to connect the text to modern situations. Need help analyzing a specific passage?`;
+                            sources = ['Macbeth Text', 'Literary Analysis Guide', 'Class Discussions'];
+                            tips = ['Read aloud', 'Look up unfamiliar words', 'Discuss with classmates'];
+                        }
+                        else if (lowerPrompt.includes('science') || lowerPrompt.includes('biology')) {
+                            response = `Hi ${studentName}! In your ${studentClass} science class, you're learning about cell biology and photosynthesis. Remember that photosynthesis converts light energy to chemical energy: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂. The chloroplast is where this happens in plant cells. Want to review the process step by step?`;
+                            sources = ['Biology Textbook Chapter 4', 'Cell Structure Diagrams', 'Lab Observations'];
+                            tips = ['Draw the processes', 'Use flashcards for terminology', 'Relate concepts to real life'];
+                        }
+                        else if (lowerPrompt.includes('history') || lowerPrompt.includes('wwii')) {
+                            response = `Hello ${studentName}! In your ${studentClass} history class, you're studying World War II. Key events include the invasion of Poland, Battle of Britain, D-Day invasion, and the atomic bombings. Consider the causes, major battles, and aftermath. Would you like a timeline or key figures overview?`;
+                            sources = ['History Textbook Chapter 12', 'Primary Source Documents', 'Documentary Clips'];
+                            tips = ['Create timelines', 'Understand multiple perspectives', 'Connect events to today'];
+                        }
+                        else {
+                            response = `Hi ${studentName}! I'd love to help you with your classwork. Could you let me know which subject you're asking about? We can review concepts, prepare for tests, or work on assignments together.`;
+                            sources = ['Class Syllabus', 'Textbook Chapters', 'Teacher Notes'];
+                            tips = ['Review regularly', 'Form study groups', 'Ask questions'];
+                        }
+                    }
+                    
+                    // Check for general study help
+                    else if (lowerPrompt.includes('help') || lowerPrompt.includes('study') || lowerPrompt.includes('learn')) {
+                        response = `Hi ${studentName}! I'm here to help you with your studies. Whether you need help understanding a concept, completing an assignment, or preparing for a test, I can guide you through the process. What specific topic or subject would you like to work on?`;
+                        sources = ['All Subject Materials', 'Study Guides', 'Practice Resources'];
+                        tips = ['Set specific goals', 'Use active recall', 'Take breaks'];
+                    }
+                    
+                    // Default response for unrecognized queries
+                    else {
+                        response = `Hi ${studentName}! I'm your AI study assistant. I can help you with homework, explain class concepts, provide study tips, and answer questions about your assignments. What would you like to work on today?`;
+                        sources = ['General Study Resources', 'Learning Strategies', 'Subject Overviews'];
+                        tips = ['Be specific in your questions', 'Show your work', 'Practice regularly'];
                     }
                     
                     return {
                         success: true,
                         response: response,
-                        sources: ['Textbook Chapter 5', 'Class Notes', 'Teacher Guidelines'],
-                        tips: ['Start early', 'Show your work', 'Review examples']
+                        sources: sources,
+                        tips: tips,
+                        student: studentName,
+                        class: studentClass
                     };
                 } catch (error) {
                     console.error('AI generation error:', error);
                     return {
                         success: false,
-                        response: 'I apologize, but I encountered an error processing your request. Please try again.',
+                        response: `I apologize, ${studentName}, but I encountered an error while processing your request. Please try rephrasing your question, and I'll do my best to help you with your ${studentClass} studies.`,
                         error: error.message
                     };
                 }
             }
         };
 
-        // Initialize AI Assistant
+        // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString(undefined, options);
+
+            // Initialize Lucide icons
+            lucide.createIcons();
+
+            // AI Assistant functionality
             const aiButton = document.getElementById('aiButton');
             const aiChat = document.getElementById('aiChat');
             const closeChat = document.getElementById('closeChat');
@@ -902,7 +1736,7 @@
                 }
             });
 
-            function sendMessage() {
+            async function sendMessage() {
                 const message = aiInput.value.trim();
                 if (!message) return;
 
@@ -917,22 +1751,31 @@
                 aiMessages.appendChild(typing);
                 aiMessages.scrollTop = aiMessages.scrollHeight;
 
-                // Simulate AI response
+                // Get student info from localStorage (simulating login)
+                const studentName = localStorage.getItem('name') || 'Student';
+                const studentClass = localStorage.getItem('cls') || 'your class';
+
+                // Simulate AI response with student context
                 setTimeout(async () => {
                     aiMessages.removeChild(typing);
                     
-                    // Use AdminHook to generate AI response
-                    const result = await AdminHook.generateAIContent(message);
+                    // Use AdminHook to generate AI response with student context
+                    const result = await AdminHook.generateAIContent(message, {
+                        name: studentName,
+                        class: `Class ${studentClass}`
+                    });
                     
                     if (result.success) {
                         addMessage(result.response, 'ai');
                         
-                        // Add sources and tips if available
-                        if (result.sources) {
-                            addMessage(`📚 Sources: ${result.sources.join(', ')}`, 'ai');
+                        // Add sources if available
+                        if (result.sources && result.sources.length > 0) {
+                            addMessage(`📚 <b>Sources:</b> ${result.sources.join(', ')}`, 'ai');
                         }
-                        if (result.tips) {
-                            addMessage(`💡 Tips: ${result.tips.join(', ')}`, 'ai');
+                        
+                        // Add tips if available
+                        if (result.tips && result.tips.length > 0) {
+                            addMessage(`💡 <b>Tips:</b> ${result.tips.join(', ')}`, 'ai');
                         }
                     } else {
                         addMessage(result.response, 'ai');
@@ -948,20 +1791,241 @@
                 aiMessages.scrollTop = aiMessages.scrollHeight;
             }
 
-            // Initialize Lucide icons
-            lucide.createIcons();
-        });
-
-        // Sidebar toggle
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
-            
-            sidebar.classList.toggle('-translate-x-full');
-            mainContent.classList.toggle('ml-0');
-            mainContent.classList.toggle('ml-64');
+            const backdrop = document.getElementById('backdrop');
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                backdrop.classList.toggle('active');
+                document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : 'auto';
+            });
+
+            backdrop.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                backdrop.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Notifications dropdown
+            const notificationsButton = document.getElementById('notificationsButton');
+            const notificationsPanel = document.getElementById('notificationsPanel');
+
+            notificationsButton.addEventListener('click', function() {
+                notificationsPanel.classList.toggle('hidden');
+            });
+
+            // Close notifications when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!notificationsButton.contains(e.target) && !notificationsPanel.contains(e.target)) {
+                    notificationsPanel.classList.add('hidden');
+                }
+            });
+
+            // Assignment filter dropdown
+            const assignmentFilter = document.getElementById('assignmentFilter');
+            const filterDropdown = document.getElementById('filterDropdown');
+
+            assignmentFilter.addEventListener('click', function() {
+                filterDropdown.classList.toggle('hidden');
+            });
+
+            // Close filter dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!assignmentFilter.contains(e.target) && !filterDropdown.contains(e.target)) {
+                    filterDropdown.classList.add('hidden');
+                }
+            });
+
+            // Modal functionality
+            const modals = [
+                { trigger: 'addNewHomework', modal: 'addHomeworkModal', close: 'closeHomeworkModal', cancel: 'cancelHomework' },
+                { trigger: 'quickAddHomework', modal: 'addHomeworkModal', close: 'closeHomeworkModal', cancel: 'cancelHomework' },
+                { trigger: 'quickAddNote', modal: 'addNoteModal', close: 'closeNoteModal', cancel: 'cancelNote' },
+                { trigger: 'addNewResource', modal: 'addResourceModal', close: 'closeResourceModal', cancel: 'cancelResource' }
+            ];
+
+            modals.forEach(config => {
+                const trigger = document.getElementById(config.trigger);
+                const modal = document.getElementById(config.modal);
+                const close = document.getElementById(config.close);
+                const cancel = document.getElementById(config.cancel);
+
+                if (trigger) {
+                    trigger.addEventListener('click', function() {
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    });
+                }
+
+                if (close) {
+                    close.addEventListener('click', function() {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+
+                if (cancel) {
+                    cancel.addEventListener('click', function() {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+            });
+
+            // Close modals when clicking outside
+            document.addEventListener('click', function(e) {
+                const modals = document.querySelectorAll('.modal.active');
+                modals.forEach(modal => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+
+            // File upload functionality
+            const fileUploads = [
+                { trigger: 'homeworkFileUpload', input: 'homeworkFiles', list: 'homeworkAttachmentList' },
+                { trigger: 'noteFileUpload', input: 'noteFiles', list: 'noteAttachmentList' }
+            ];
+
+            fileUploads.forEach(config => {
+                const trigger = document.getElementById(config.trigger);
+                const input = document.getElementById(config.input);
+                const list = document.getElementById(config.list);
+
+                trigger.addEventListener('click', function() {
+                    input.click();
+                });
+
+                input.addEventListener('change', function() {
+                    list.innerHTML = '';
+                    Array.from(this.files).forEach(file => {
+                        const item = document.createElement('div');
+                        item.className = 'attachment-item';
+                        item.innerHTML = `
+                            <i data-lucide="file"></i>
+                            <span>${file.name}</span>
+                            <button type="button" onclick="this.parentElement.remove()">
+                                <i data-lucide="x"></i>
+                            </button>
+                        `;
+                        list.appendChild(item);
+                    });
+                    lucide.createIcons();
+                });
+            });
+
+            // Save homework
+            document.getElementById('saveHomework').addEventListener('click', function() {
+                const subject = document.getElementById('homeworkSubject').value;
+                const title = document.getElementById('homeworkTitle').value;
+                const description = document.getElementById('homeworkDescription').value;
+                const dueDate = document.getElementById('homeworkDueDate').value;
+                const priority = document.getElementById('homeworkPriority').value;
+                
+                if (!subject || !title || !dueDate) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Use AdminHook to save homework
+                const result = AdminHook.addHomework(subject, title, description, dueDate, priority);
+                
+                if (result.success) {
+                    alert(result.message);
+                    document.getElementById('addHomeworkModal').classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    
+                    // Reset form
+                    document.getElementById('homeworkSubject').value = '';
+                    document.getElementById('homeworkTitle').value = '';
+                    document.getElementById('homeworkDescription').value = '';
+                    document.getElementById('homeworkDueDate').value = '';
+                    document.getElementById('homeworkPriority').value = 'medium';
+                    document.getElementById('homeworkAttachmentList').innerHTML = '';
+                }
+            });
+
+            // Save note
+            document.getElementById('saveNote').addEventListener('click', function() {
+                const subject = document.getElementById('noteSubject').value;
+                const title = document.getElementById('noteTitle').value;
+                const content = document.getElementById('noteContent').value;
+                const category = document.getElementById('noteCategory').value;
+                
+                if (!subject || !title || !content) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Use AdminHook to save note
+                const result = AdminHook.addNote(subject, title, content, category);
+                
+                if (result.success) {
+                    alert(result.message);
+                    document.getElementById('addNoteModal').classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    
+                    // Reset form
+                    document.getElementById('noteSubject').value = '';
+                    document.getElementById('noteTitle').value = '';
+                    document.getElementById('noteContent').value = '';
+                    document.getElementById('noteCategory').value = 'lecture';
+                    document.getElementById('noteAttachmentList').innerHTML = '';
+                }
+            });
+
+            // Save resource
+            document.getElementById('saveResource').addEventListener('click', function() {
+                const title = document.getElementById('resourceTitle').value;
+                const description = document.getElementById('resourceDescription').value;
+                const category = document.getElementById('resourceCategory').value;
+                const url = document.getElementById('resourceUrl').value;
+                const tags = document.getElementById('resourceTags').value;
+                
+                if (!title || !category) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Use AdminHook to save resource
+                const result = AdminHook.addResource(title, description, category, url, tags.split(',').map(tag => tag.trim()));
+                
+                if (result.success) {
+                    alert(result.message);
+                    document.getElementById('addResourceModal').classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    
+                    // Reset form
+                    document.getElementById('resourceTitle').value = '';
+                    document.getElementById('resourceDescription').value = '';
+                    document.getElementById('resourceCategory').value = 'study-guide';
+                    document.getElementById('resourceUrl').value = '';
+                    document.getElementById('resourceTags').value = '';
+                }
+            });
+
+            // Quick action buttons
+            document.getElementById('quickMessage').addEventListener('click', function() {
+                alert('Opening message to teacher...');
+            });
+
+            document.getElementById('quickNotes').addEventListener('click', function() {
+                alert('Opening your notes...');
+            });
+
+            document.getElementById('quickSubmit').addEventListener('click', function() {
+                alert('Opening assignment submission...');
+            });
+
+            document.getElementById('quickSchedule').addEventListener('click', function() {
+                alert('Opening meeting scheduler...');
+            });
         });
     </script>
 </body>
 </html>
-```
