@@ -98,6 +98,22 @@
       background: rgba(255, 255, 255, 0.3);
     }
     
+    .btn-warning {
+      background: rgba(254, 202, 87, 0.2);
+      color: #feca57;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-warning:hover {
+      background: rgba(254, 202, 87, 0.3);
+      opacity: 0.85;
+    }
+    
     .nav-item {
       display: flex;
       align-items: center;
@@ -182,30 +198,43 @@
     }
     
     .homework-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      margin-bottom: 0.75rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
       border-left: 4px solid #00c6ff;
       transition: all 0.3s ease;
     }
     
     .homework-item:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
       transform: translateX(5px);
     }
     
-    .homework-item.completed {
-      border-left-color: #4ecdc4;
-      opacity: 0.8;
+    .assignment-item {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #ff6b6b;
+    }
+    
+    .announcement-item {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #4ecdc4;
     }
     
     .subject-tag {
-      padding: 4px 8px;
+      padding: 4px 10px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      color: white;
     }
     
     .badge {
@@ -556,6 +585,43 @@
       align-items: center;
       gap: 1rem;
     }
+    
+    .chat-container {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    
+    .chat-message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    
+    .chat-message.user {
+      background: #00c6ff;
+      color: white;
+      align-self: flex-end;
+      margin-left: 20%;
+    }
+    
+    .chat-message.admin {
+      background: #f1f5f9;
+      color: #333;
+      align-self: flex-start;
+      margin-right: 20%;
+    }
+    
+    .border-gray-700 {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .text-gray-400 {
+      color: rgba(255, 255, 255, 0.7);
+    }
   </style>
 </head>
 <body>
@@ -873,6 +939,23 @@
           </div>
         </div>
       </div>
+      <div class="card mt-8">
+        <h3 class="text-xl font-semibold mb-4">Messages</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="messages-list">
+            <!-- Messages will be populated here -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -1059,12 +1142,10 @@
     ];
 
     const performanceData = [
-      { month: 'Jan', math: 75, science: 80, english: 70, social: 85 },
-      { month: 'Feb', math: 78, science: 82, english: 75, social: 88 },
-      { month: 'Mar', math: 82, science: 85, english: 78, social: 90 },
-      { month: 'Apr', math: 80, science: 88, english: 82, social: 87 },
-      { month: 'May', math: 85, science: 90, english: 85, social: 92 },
-      { month: 'Jun', math: 88, science: 92, english: 88, social: 95 }
+      { term: 'Q1', math: 75, science: 80, english: 70, social: 85 },
+      { term: 'Q2', math: 78, science: 82, english: 75, social: 88 },
+      { term: 'Q3', math: 82, science: 85, english: 78, social: 90 },
+      { term: 'Q4', math: 85, science: 90, english: 82, social: 92 }
     ];
 
     const gradesData = [
@@ -1081,11 +1162,11 @@
     ];
 
     const userData = [
-      { name: 'Ali Ahmed', role: 'Student', class: 'Class 8', status: 'Active' },
-      { name: 'Sara Khan', role: 'Student', class: 'Class 8', status: 'Active' },
-      { name: 'Mohammed Ali', role: 'Teacher', class: 'Mathematics', status: 'Active' },
-      { name: 'Fatima Ahmed', role: 'Teacher', class: 'Science', status: 'Active' },
-      { name: 'John Smith', role: 'Principal', class: 'Administration', status: 'Active' }
+      { id: 1, name: 'Ali Ahmed', role: 'Student', class: 'Class 8', status: 'Active' },
+      { id: 2, name: 'Sara Khan', role: 'Student', class: 'Class 8', status: 'Active' },
+      { id: 3, name: 'Mohammed Ali', role: 'Teacher', class: 'Mathematics', status: 'Active' },
+      { id: 4, name: 'Fatima Ahmed', role: 'Teacher', class: 'Science', status: 'Active' },
+      { id: 5, name: 'John Smith', role: 'Principal', class: 'Administration', status: 'Active' }
     ];
 
     const messagesData = [
@@ -1295,6 +1376,36 @@
         });
       }
       
+      // Messages in admin panel
+      const messagesList = document.getElementById('messages-list');
+      if (messagesList) {
+        messagesList.innerHTML = '';
+        messagesData.forEach(msg => {
+          if (msg.to === 'admin' || msg.to === 'all') {
+            const msgRow = document.createElement('tr');
+            msgRow.className = 'border-b border-gray-700';
+            msgRow.innerHTML = `<td class="py-3 px-2">${msg.from}</td>
+                                <td class="py-3 px-2">${msg.subject}</td>
+                                <td class="py-3 px-2">${formatDate(msg.date)}</td>
+                                <td class="py-3 px-2">
+                                  <span class="badge ${msg.read ? 'completed' : 'pending'}">${msg.read ? 'Replied' : 'New'}</span>
+                                </td>
+                                <td class="py-3 px-2">
+                                  <button class="btn-secondary text-xs reply-btn" data-id="${msg.id}">Reply</button>
+                                </td>`;
+            messagesList.appendChild(msgRow);
+          }
+        });
+        
+        // Add event listeners to reply buttons
+        document.querySelectorAll('.reply-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const msgId = this.getAttribute('data-id');
+            replyToMessage(msgId);
+          });
+        });
+      }
+      
       // Setup charts
       setupCharts();
     }
@@ -1305,12 +1416,12 @@
       const performanceCtx = document.getElementById('performanceChart').getContext('2d');
       new Chart(performanceCtx, {
         type: 'line',
-         {
-          labels: performanceData.map(d => d.month),
+        data: {
+          labels: performanceData.map(d => d.term),
           datasets: [
             {
               label: 'Mathematics',
-              data: performanceData.map(d => d.math),
+               performanceData.map(d => d.math),
               borderColor: '#00c6ff',
               backgroundColor: 'rgba(0, 198, 255, 0.1)',
               tension: 0.4,
@@ -1318,7 +1429,7 @@
             },
             {
               label: 'Science',
-              data: performanceData.map(d => d.science),
+               performanceData.map(d => d.science),
               borderColor: '#4ecdc4',
               backgroundColor: 'rgba(78, 205, 196, 0.1)',
               tension: 0.4,
@@ -1378,7 +1489,7 @@
       const subjectCtx = document.getElementById('subjectChart').getContext('2d');
       new Chart(subjectCtx, {
         type: 'doughnut',
-        data: {
+         {
           labels: gradesData.map(g => g.subject),
           datasets: [{
              gradesData.map(g => g.percentage),
@@ -1408,11 +1519,11 @@
       const gradeCtx = document.getElementById('gradeChart').getContext('2d');
       new Chart(gradeCtx, {
         type: 'bar',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+         {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
           datasets: [{
             label: 'Your Grades',
-            data: [75, 78, 82, 80, 85, 88],
+            data: [75, 78, 82, 85],
             backgroundColor: 'rgba(0, 198, 255, 0.6)',
             borderColor: '#00c6ff',
             borderWidth: 1
@@ -1627,6 +1738,101 @@
       }
     }
 
+    // Reply to message
+    function replyToMessage(msgId) {
+      const message = messagesData.find(m => m.id == msgId);
+      if (message) {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `<div class="modal-content" style="max-width: 500px;">
+                            <div class="flex justify-between items-center mb-4">
+                              <h3 class="text-xl font-semibold">Reply to Message</h3>
+                              <i class="fas fa-times cursor-pointer close-modal"></i>
+                            </div>
+                            <div class="mb-4">
+                              <p><strong>From:</strong> ${message.from}</p>
+                              <p><strong>Subject:</strong> ${message.subject}</p>
+                              <p><strong>Date:</strong> ${formatDate(message.date)}</p>
+                            </div>
+                            <div class="mb-4 p-3 bg-white bg-opacity-10 rounded">
+                              <p>${message.content}</p>
+                            </div>
+                            <div class="mb-4">
+                              <label class="block mb-2 font-medium">Your Reply</label>
+                              <textarea class="form-control w-full h-32" id="reply-content"></textarea>
+                            </div>
+                            <div class="flex justify-end">
+                              <button class="btn-secondary mr-3" id="cancel-reply">Cancel</button>
+                              <button class="btn-primary" id="send-reply">Send Reply</button>
+                            </div>
+                          </div>`;
+        
+        document.body.appendChild(modal);
+        
+        // Close modal
+        modal.querySelector('.close-modal').addEventListener('click', () => {
+          document.body.removeChild(modal);
+        });
+        
+        document.getElementById('cancel-reply').addEventListener('click', () => {
+          document.body.removeChild(modal);
+        });
+        
+        document.getElementById('send-reply').addEventListener('click', () => {
+          const replyContent = document.getElementById('reply-content').value.trim();
+          if (replyContent) {
+            // Create reply message
+            const reply = {
+              id: Date.now(),
+              from: 'Admin',
+              to: message.from,
+              subject: `Re: ${message.subject}`,
+              content: replyContent,
+              date: new Date().toISOString().split('T')[0],
+              read: false,
+              type: 'reply'
+            };
+            
+            // Add to messages data
+            messagesData.unshift(reply);
+            
+            // Mark original message as replied
+            message.read = true;
+            
+            // Save to localStorage
+            localStorage.setItem('mkps_messages', JSON.stringify(messagesData));
+            
+            // Add notification for sender
+            const notification = {
+              id: Date.now(),
+              type: 'message',
+              title: 'New Reply Received',
+              content: `You have received a reply to your message about "${message.subject}".`,
+              date: new Date().toISOString().split('T')[0],
+              read: false
+            };
+            
+            notificationsData.unshift(notification);
+            localStorage.setItem('mkps_notifications', JSON.stringify(notificationsData));
+            updateNotificationCount();
+            
+            // Show success message
+            alert('Reply sent successfully!');
+            
+            // Close modal
+            document.body.removeChild(modal);
+            
+            // Reload messages if in admin panel
+            if (document.getElementById('admin-panel-page').classList.contains('hidden')) {
+              loadPageContent();
+            }
+          } else {
+            alert('Please enter your reply.');
+          }
+        });
+      }
+    }
+
     // Check if current user has admin access
     function checkAdminAccess() {
       const studentData = JSON.parse(localStorage.getItem('mkps_student'));
@@ -1635,17 +1841,11 @@
       const isAdmin = adminUsers.includes((studentData?.name || '').toLowerCase());
       
       const adminPanel = document.getElementById('admin-panel');
-      const adminPanelPage = document.getElementById('admin-panel-page');
       
       if (isAdmin) {
-        adminPanel.style.display = 'block';
+        adminPanel.style.display = 'flex';
       } else {
         adminPanel.style.display = 'none';
-        // If someone tries to access admin panel directly, redirect
-        if (window.location.hash === '#admin') {
-          window.location.hash = '#dashboard';
-          loadPage('dashboard');
-        }
       }
     }
 
@@ -1769,12 +1969,12 @@
           const newMessage = {
             id: Date.now(),
             from: studentData.name,
-            to: 'Admin',
+            to: 'admin',
             subject: subject,
             content: message,
             date: new Date().toISOString().split('T')[0],
             read: false,
-            type: 'message'
+            type: 'help'
           };
           
           // Add to messages data
@@ -1783,17 +1983,17 @@
           // Save to localStorage
           localStorage.setItem('mkps_messages', JSON.stringify(messagesData));
           
-          // Add notification
-          const notification = {
+          // Add notification for admin
+          const newNotification = {
             id: Date.now(),
             type: 'message',
-            title: 'New Message Sent',
-            content: `Your message about "${subject}" has been sent to the admin.`,
+            title: 'New Help Request',
+            content: `${studentData.name} has sent a help request.`,
             date: new Date().toISOString().split('T')[0],
             read: false
           };
           
-          notificationsData.unshift(notification);
+          notificationsData.unshift(newNotification);
           localStorage.setItem('mkps_notifications', JSON.stringify(notificationsData));
           updateNotificationCount();
           
@@ -1831,19 +2031,17 @@
       // Tab filters
       document.querySelectorAll('.tabs .tab').forEach(tab => {
         tab.addEventListener('click', () => {
-          // Remove active class from all tabs
+          // Update active tab
           document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-          // Add active class to clicked tab
           tab.classList.add('active');
           
-          // Get current page
+          // Filter content
+          const filter = tab.getAttribute('data-filter');
           const currentPage = Array.from(document.querySelectorAll('.page-content')).find(page => !page.classList.contains('hidden')).id;
-          
-          // Filter based on page
           if (currentPage === 'homework-page') {
-            filterHomework(tab.getAttribute('data-filter'));
+            filterHomework(filter);
           } else if (currentPage === 'assignments-page') {
-            filterAssignments(tab.getAttribute('data-filter'));
+            filterAssignments(filter);
           }
         });
       });
@@ -1880,6 +2078,9 @@
                                 </div>`).join('')
                               }
                             </div>
+                            <div class="flex justify-end mt-4">
+                              <button class="btn-primary mark-all-read">Mark All as Read</button>
+                            </div>
                           </div>`;
         
         document.body.appendChild(modal);
@@ -1890,9 +2091,12 @@
         });
         
         // Mark all as read
-        notificationsData.forEach(n => n.read = true);
-        localStorage.setItem('mkps_notifications', JSON.stringify(notificationsData));
-        updateNotificationCount();
+        modal.querySelector('.mark-all-read').addEventListener('click', () => {
+          notificationsData.forEach(n => n.read = true);
+          localStorage.setItem('mkps_notifications', JSON.stringify(notificationsData));
+          updateNotificationCount();
+          document.body.removeChild(modal);
+        });
       });
       
       // Post announcement
