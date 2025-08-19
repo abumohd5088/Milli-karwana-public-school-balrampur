@@ -76,6 +76,27 @@
     }
 
     @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+    /* Modal for Google Extra Form */
+    .modal{
+      display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,0.6);backdrop-filter:blur(5px);
+      display:flex;align-items:center;justify-content:center;z-index:9999;
+    }
+    .modal-content{
+      background:#fff;color:#000;padding:2rem;border-radius:20px;
+      width:90%;max-width:400px;animation:fadeIn 0.5s;
+    }
+    .modal-content h3{margin-bottom:1rem;}
+    .modal-content input,.modal-content select{
+      width:100%;padding:0.7rem;margin:0.5rem 0;border-radius:10px;
+      border:1px solid #ccc;
+    }
+    .modal-content button{
+      background:linear-gradient(135deg,#00c6ff,#0072ff);
+      color:#fff;width:100%;padding:0.8rem;border:none;border-radius:12px;
+      font-weight:600;margin-top:1rem;cursor:pointer;
+    }
   </style>
 
   <!-- Google Identity Services -->
@@ -127,6 +148,32 @@
     <div class="toggle" onclick="toggleTheme()">🌗 Toggle Dark/Light</div>
   </div>
 
+  <!-- Modal for Google Login Extra Details -->
+  <div id="googleModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3>Complete Your Profile</h3>
+      <form id="googleExtraForm">
+        <label>Student Name</label>
+        <input type="text" id="gStudentName" required>
+        <label>Class</label>
+        <select id="gStudentClass" required>
+          <option value="">Select Class</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8">Class 8</option>
+        </select>
+        <label>Parent Name</label>
+        <input type="text" id="gParentName" required>
+        <button type="submit">Save & Continue</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     // Theme toggle
     function toggleTheme(){
@@ -154,20 +201,30 @@
     });
 
     // Google login response
+    let googleUserData={};
     function handleGoogleResponse(response){
       try{
         const data=jwt_decode(response.credential);
-        let student={
-          name:data.name,
-          email:data.email,
-          class:"",parent:"GoogleLogin"
-        };
-        localStorage.setItem("mkps_student",JSON.stringify(student));
-        window.location.href="dashboard.html";
+        googleUserData={email:data.email};
+        // Show modal to complete profile
+        document.getElementById("googleModal").style.display="flex";
       }catch(err){
         alert("Google login failed: "+err.message);
       }
     }
+
+    // Save extra Google info
+    document.getElementById("googleExtraForm").addEventListener("submit",function(e){
+      e.preventDefault();
+      let student={
+        name:document.getElementById("gStudentName").value.trim(),
+        class:document.getElementById("gStudentClass").value,
+        parent:document.getElementById("gParentName").value.trim(),
+        email:googleUserData.email || ""
+      };
+      localStorage.setItem("mkps_student",JSON.stringify(student));
+      window.location.href="dashboard.html";
+    });
 
     // JWT decode
     function jwt_decode(token){
@@ -185,4 +242,4 @@
     }
   </script>
 </body>
- </html>
+</html>
