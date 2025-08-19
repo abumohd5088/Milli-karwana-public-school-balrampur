@@ -490,6 +490,9 @@
   <div class="overlay"></div>
   
   <!-- Sidebar -->
+  <div class="topbar">
+  <h2>Dashboard</h2>
+  <div class="dots" onclick="toggleMenu()">⋮</div>
   <div class="sidebar">
     <div class="profile">
       <div class="profile-img">
@@ -542,6 +545,30 @@
       <span>Admin Panel</span>
     </div>
   </div>
+
+  <script>
+  // 3 dots menu toggle
+  const dots = document.querySelector(".dots");
+  const dropdown = document.querySelector(".dropdown");
+
+  dots.addEventListener("click", () => {
+    dropdown.classList.toggle("show");
+  });
+
+  // Auto hide dropdown when option is clicked
+  document.querySelectorAll(".dropdown a").forEach(item => {
+    item.addEventListener("click", () => {
+      dropdown.classList.remove("show");
+    });
+  });
+
+  // Optional: hide if clicked outside
+  document.addEventListener("click", (e) => {
+    if (!dots.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.remove("show");
+    }
+  });
+</script>
   
   <!-- Main Content -->
   <div class="main-content text-white">
