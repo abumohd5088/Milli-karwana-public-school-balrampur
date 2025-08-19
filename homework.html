@@ -1,72 +1,2154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homework - <span id="studentNameDisplay">Student</span> - Class <span id="classDisplay">1</span></title>
-    <link rel="stylesheet" href="css/ultra.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milli Karwaan Public School | Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .light-theme {
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      color: #333;
+    }
+    .light-theme .card {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+    .light-theme .sidebar {
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+    }
+    .light-theme .btn-primary {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+    .light-theme .btn-secondary {
+      background: #e2e8f0;
+      color: #333;
+    }
+    .light-theme .border-gray-700 {
+      border-color: #cbd5e0;
+    }
+    .light-theme .text-gray-400 {
+      color: #64748b;
+    }
+    .light-theme .text-white {
+      color: #333 !important;
+    }
+    .sidebar {
+      width: 280px;
+      min-height: 100vh;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 1.5rem;
+      position: fixed;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .main-content {
+      margin-left: 280px;
+      min-height: 100vh;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+    .logo img {
+      width: 50px;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
+    .logo h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.25);
+      font-weight: 600;
+    }
+    .nav-item i {
+      width: 20px;
+      text-align: center;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      opacity: 0.85;
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .btn-success {
+      background: linear-gradient(135deg, #4cd964, #34c759);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-success:hover {
+      opacity: 0.85;
+    }
+    .btn-warning {
+      background: linear-gradient(135deg, #ffcc00, #ff9500);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-warning:hover {
+      opacity: 0.85;
+    }
+    .border-gray-700 {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .text-gray-400 {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .profile-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    .tab {
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    .tab.active {
+      background: rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+    }
+    .homework-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #00c6ff;
+    }
+    .assignment-item {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #ff6b6b;
+    }
+    .announcement-item {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #4ecdc4;
+    }
+    .subject-tag {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    .ai-assistant {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 198, 255, 0.4);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .ai-assistant:hover {
+      transform: scale(1.1);
+    }
+    .ai-chat {
+      position: fixed;
+      bottom: 80px;
+      right: 2rem;
+      width: 350px;
+      max-height: 500px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      z-index: 999;
+      display: none;
+      color: #333;
+    }
+    .ai-chat-header {
+      padding: 1rem;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ai-chat-body {
+      height: 300px;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .ai-chat-footer {
+      padding: 1rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 10px;
+    }
+    .ai-chat-footer input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      outline: none;
+    }
+    .message {
+      margin-bottom: 1rem;
+      max-width: 80%;
+    }
+    .message.user {
+      align-self: flex-end;
+      background: #00c6ff;
+      color: white;
+      padding: 0.8rem;
+      border-radius: 15px 15px 0 15px;
+    }
+    .message.assistant {
+      align-self: flex-start;
+      background: #f1f5f9;
+      color: #333;
+      padding: 0.8rem;
+      border-radius: 15px 15px 15px 0;
+    }
+    .completed {
+      opacity: 0.6;
+      border-left-color: #4cd964 !important;
+    }
+    .completed .btn-primary {
+      background: linear-gradient(135deg, #4cd964, #34c759);
+    }
+    .badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+    }
+    .badge.pending {
+      background: rgba(255, 107, 107, 0.2);
+      color: #ff6b6b;
+    }
+    .badge.completed {
+      background: rgba(76, 217, 100, 0.2);
+      color: #4cd964;
+    }
+    .notification-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ff3b30;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+    .attendance-progress {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: conic-gradient(#00c6ff 0%, #00c6ff 75%, #333 75%, #333 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      min-width: 200px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      z-index: 1000;
+      margin-top: 8px;
+    }
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    .dropdown-content a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 80px;
+        padding: 1.5rem 0.5rem;
+      }
+      .sidebar .logo h2,
+      .sidebar .nav-item span {
+        display: none;
+      }
+      .sidebar .nav-item {
+        justify-content: center;
+        padding: 12px;
+      }
+      .main-content {
+        margin-left: 80px;
+      }
+    }
+    @media (max-width: 640px) {
+      .main-content {
+        padding: 1rem;
+        margin-left: 0;
+      }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        height: 100vh;
+        z-index: 1000;
+      }
+      .sidebar.open {
+        left: 0;
+      }
+      .mobile-menu-btn {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background: rgba(255, 255, 255, 0.2);
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(15px);
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+      }
+      .overlay.active {
+        display: block;
+      }
+    }
+  </style>
 </head>
-<body>
-    <header class="app-header">
-        <button class="nav-btn" onclick="goToHome()">
-            <i class="fas fa-home"></i>
-        </button>
-        <div class="header-info">
-            <h1>Homework</h1>
-            <p><span id="studentNameDisplay">Student</span> • Class <span id="classDisplay">1</span></p>
+<body class="transition-all duration-300">
+  <!-- Mobile Menu Button -->
+  <div class="mobile-menu-btn text-white lg:hidden">
+    <i class="fas fa-bars text-xl"></i>
+  </div>
+  <!-- Overlay for mobile menu -->
+  <div class="overlay"></div>
+  <!-- Sidebar -->
+  <div class="sidebar text-white">
+    <div class="logo">
+      <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo">
+      <h2>MKPS</h2>
+    </div>
+    <div class="nav-menu mt-8">
+      <div class="nav-item active" data-page="dashboard">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-page="homework">
+        <i class="fas fa-book"></i>
+        <span>Homework</span>
+      </div>
+      <div class="nav-item" data-page="assignments">
+        <i class="fas fa-tasks"></i>
+        <span>Assignments</span>
+      </div>
+      <div class="nav-item" data-page="timetable">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Timetable</span>
+      </div>
+      <div class="nav-item" data-page="grades">
+        <i class="fas fa-chart-line"></i>
+        <span>Grades</span>
+      </div>
+      <div class="nav-item" data-page="announcements">
+        <i class="fas fa-bullhorn"></i>
+        <span>Announcements</span>
+      </div>
+      <div class="nav-item" data-page="resources">
+        <i class="fas fa-folder-open"></i>
+        <span>Resources</span>
+      </div>
+      <div class="nav-item" data-page="ai-assistant">
+        <i class="fas fa-robot"></i>
+        <span>AI Assistant</span>
+      </div>
+      <div class="nav-item" data-page="profile">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </div>
+      <div class="nav-item mt-8" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+        <span>Dark Mode</span>
+      </div>
+      <div class="nav-item" id="logout-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </div>
+      <div class="nav-item" id="admin-panel">
+        <i class="fas fa-cog"></i>
+        <span>Admin Panel</span>
+      </div>
+    </div>
+  </div>
+  <!-- Main Content -->
+  <div class="main-content text-white">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <i class="fas fa-bell text-xl cursor-pointer"></i>
+          <span class="notification-badge">3</span>
         </div>
-        <button class="nav-btn" onclick="goBack()">
-            <i class="fas fa-times"></i>
-        </button>
-    </header>
-
-    <div class="app-toolbar">
-        <div class="toolbar-section">
-            <label>📅 Date:</label>
-            <input type="date" id="dateFilter" class="date-input">
+        <div class="dropdown">
+          <div class="profile-header cursor-pointer">
+            <img src="https://i.pravatar.cc/150?img=62" alt="Profile" class="profile-img">
+            <div>
+              <h3 class="font-semibold" id="student-name">Loading...</h3>
+              <p class="text-sm text-gray-400" id="student-class">Class</p>
+            </div>
+            <i class="fas fa-ellipsis-v ml-2"></i>
+          </div>
+          <div class="dropdown-content">
+            <a href="#" id="profile-link"><i class="fas fa-user mr-2"></i> My Profile</a>
+            <a href="#" id="settings-link"><i class="fas fa-cog mr-2"></i> Settings</a>
+            <a href="#" id="help-link"><i class="fas fa-question-circle mr-2"></i> Help</a>
+            <a href="#" id="logout-link"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+          </div>
         </div>
-        <div class="toolbar-section">
-            <label>📚 Subject:</label>
-            <select id="subjectFilter" class="subject-select">
-                <option value="all">All</option>
-                <option value="Math">Math</option>
-                <option value="English">English</option>
-                <option value="Science">Science</option>
-                <option value="Hindi">Hindi</option>
-                <option value="EVS">EVS</option>
-                <option value="Social">Social</option>
+      </div>
+    </div>
+    <!-- Dashboard Content -->
+    <div id="dashboard-page" class="page-content">
+      <!-- Stats Row -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-400 text-sm">Pending Homework</p>
+              <h2 class="text-3xl font-bold mt-1" id="pending-hw">0</h2>
+            </div>
+            <div class="bg-blue-500 bg-opacity-20 p-3 rounded-full">
+              <i class="fas fa-book text-blue-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-4 text-sm text-gray-400">Due this week</div>
+        </div>
+        <div class="card">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-400 text-sm">Upcoming Tests</p>
+              <h2 class="text-3xl font-bold mt-1" id="upcoming-tests">0</h2>
+            </div>
+            <div class="bg-green-500 bg-opacity-20 p-3 rounded-full">
+              <i class="fas fa-clipboard-check text-green-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-4 text-sm text-gray-400">Next 7 days</div>
+        </div>
+        <div class="card">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-400 text-sm">Average Grade</p>
+              <h2 class="text-3xl font-bold mt-1" id="avg-grade">N/A</h2>
+            </div>
+            <div class="bg-purple-500 bg-opacity-20 p-3 rounded-full">
+              <i class="fas fa-star text-purple-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-4 text-sm text-gray-400">This term</div>
+        </div>
+        <div class="card">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-gray-400 text-sm">Attendance</p>
+              <div class="attendance-progress" id="attendance">75%</div>
+            </div>
+            <div class="bg-orange-500 bg-opacity-20 p-3 rounded-full">
+              <i class="fas fa-calendar-check text-orange-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-4 text-sm text-gray-400">Current term</div>
+        </div>
+      </div>
+      <!-- Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Performance Trend</h3>
+          <canvas id="performanceChart" height="200"></canvas>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Subject Distribution</h3>
+          <canvas id="subjectChart" height="200"></canvas>
+        </div>
+      </div>
+      <!-- Recent Activity -->
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+        <div class="space-y-4" id="recent-activity">
+          <div class="flex items-center gap-3">
+            <div class="bg-blue-500 bg-opacity-20 p-2 rounded-full">
+              <i class="fas fa-book text-blue-400"></i>
+            </div>
+            <div class="flex-1">
+              <p class="font-medium">Mathematics homework submitted</p>
+              <p class="text-sm text-gray-400">Today, 10:30 AM</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-green-500 bg-opacity-20 p-2 rounded-full">
+              <i class="fas fa-clipboard-check text-green-400"></i>
+            </div>
+            <div class="flex-1">
+              <p class="font-medium">Science test completed</p>
+              <p class="text-sm text-gray-400">Yesterday, 2:15 PM</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-purple-500 bg-opacity-20 p-2 rounded-full">
+              <i class="fas fa-star text-purple-400"></i>
+            </div>
+            <div class="flex-1">
+              <p class="font-medium">English assignment graded</p>
+              <p class="text-sm text-gray-400">2 days ago</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-orange-500 bg-opacity-20 p-2 rounded-full">
+              <i class="fas fa-calendar-alt text-orange-400"></i>
+            </div>
+            <div class="flex-1">
+              <p class="font-medium">New timetable available</p>
+              <p class="text-sm text-gray-400">3 days ago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Homework Page -->
+    <div id="homework-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Homework</h2>
+      <div class="tabs mb-6">
+        <div class="tab active" data-filter="all">All</div>
+        <div class="tab" data-filter="pending">Pending</div>
+        <div class="tab" data-filter="completed">Completed</div>
+        <div class="tab" data-filter="math">Mathematics</div>
+        <div class="tab" data-filter="science">Science</div>
+        <div class="tab" data-filter="english">English</div>
+        <div class="tab" data-filter="social">Social Studies</div>
+      </div>
+      <div id="homework-list">
+        <!-- Homework items will be dynamically added here -->
+      </div>
+    </div>
+    <!-- Assignments Page -->
+    <div id="assignments-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Assignments</h2>
+      <div class="tabs mb-6">
+        <div class="tab active" data-filter="all">All</div>
+        <div class="tab" data-filter="pending">Pending</div>
+        <div class="tab" data-filter="submitted">Submitted</div>
+        <div class="tab" data-filter="graded">Graded</div>
+      </div>
+      <div id="assignments-list">
+        <!-- Assignment items will be dynamically added here -->
+      </div>
+    </div>
+    <!-- Timetable Page -->
+    <div id="timetable-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Timetable</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Weekly Schedule</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-gray-700">
+                  <th class="text-left py-3 px-2">Time</th>
+                  <th class="text-left py-3 px-2">Mon</th>
+                  <th class="text-left py-3 px-2">Tue</th>
+                  <th class="text-left py-3 px-2">Wed</th>
+                  <th class="text-left py-3 px-2">Thu</th>
+                  <th class="text-left py-3 px-2">Fri</th>
+                </tr>
+              </thead>
+              <tbody id="timetable-body">
+                <!-- Timetable data will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Upcoming Events</h3>
+          <div id="upcoming-events">
+            <!-- Events will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Grades Page -->
+    <div id="grades-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Grades</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Current Term</h3>
+          <div class="text-center">
+            <div class="text-4xl font-bold mb-2" id="current-term-grade">A</div>
+            <div class="text-gray-400">Overall Performance</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Subject Grades</h3>
+          <div class="space-y-3" id="subject-grades">
+            <!-- Subject grades will be populated here -->
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Progress</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span>Term Average</span>
+                <span id="term-average">85%</span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span>Class Average</span>
+                <span id="class-average">78%</span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 78%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-4">Grade History</h3>
+        <canvas id="gradeChart" height="100"></canvas>
+      </div>
+    </div>
+    <!-- Announcements Page -->
+    <div id="announcements-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Announcements</h2>
+      <div class="space-y-6" id="announcements-list">
+        <!-- Announcements will be populated here -->
+      </div>
+    </div>
+    <!-- Resources Page -->
+    <div id="resources-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Learning Resources</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Study Materials</h3>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg">
+              <span>Math Formula Sheet</span>
+              <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fas fa-download"></i></a>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg">
+              <span>Science Diagrams</span>
+              <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fas fa-download"></i></a>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg">
+              <span>English Vocabulary</span>
+              <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fas fa-download"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Video Tutorials</h3>
+          <div class="space-y-3">
+            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
+              <h4 class="font-medium">Algebra Basics</h4>
+              <p class="text-sm text-gray-400 mt-1">15 min video lesson</p>
+              <button class="mt-2 btn-secondary text-xs">Watch Now</button>
+            </div>
+            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
+              <h4 class="font-medium">Photosynthesis</h4>
+              <p class="text-sm text-gray-400 mt-1">22 min video lesson</p>
+              <button class="mt-2 btn-secondary text-xs">Watch Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Practice Tests</h3>
+          <div class="space-y-3">
+            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
+              <h4 class="font-medium">Math Quiz - Chapter 3</h4>
+              <div class="flex justify-between items-center mt-2">
+                <span class="text-sm text-gray-400">10 questions</span>
+                <button class="btn-primary text-xs">Start</button>
+              </div>
+            </div>
+            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
+              <h4 class="font-medium">Science Test - Unit 2</h4>
+              <div class="flex justify-between items-center mt-2">
+                <span class="text-sm text-gray-400">15 questions</span>
+                <button class="btn-primary text-xs">Start</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-8">
+        <h3 class="text-xl font-semibold mb-4">Recommended Reading</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex gap-4">
+            <img src="https://placehold.co/80x100" alt="Book" class="rounded">
+            <div>
+              <h4 class="font-semibold">The Science of Learning</h4>
+              <p class="text-sm text-gray-400">Dr. John Smith</p>
+              <p class="text-sm mt-1">A comprehensive guide to effective study techniques</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <img src="https://placehold.co/80x100" alt="Book" class="rounded">
+            <div>
+              <h4 class="font-semibold">Mathematics Made Easy</h4>
+              <p class="text-sm text-gray-400">Prof. Sarah Johnson</p>
+              <p class="text-sm mt-1">Simple explanations for complex mathematical concepts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- AI Assistant Page -->
+    <div id="ai-assistant-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">AI Study Assistant</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Ask Anything</h3>
+          <p class="text-gray-400 mb-4">Get instant help with your studies from our AI assistant.</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-white bg-opacity-10 rounded-lg">
+              <h4 class="font-medium mb-2">Popular Questions</h4>
+              <div class="space-y-2">
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-20 rounded text-sm">How to solve quadratic equations?</button>
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-20 rounded text-sm">Explain the water cycle</button>
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-20 rounded text-sm">What are the parts of speech?</button>
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-20 rounded text-sm">How to write a good essay?</button>
+              </div>
+            </div>
+            <div class="p-4 bg-white bg-opacity-10 rounded-lg">
+              <h4 class="font-medium mb-2">Study Tips</h4>
+              <div class="space-y-2 text-sm">
+                <p><i class="fas fa-lightbulb text-yellow-400 mr-2"></i> Break large tasks into smaller ones</p>
+                <p><i class="fas fa-lightbulb text-yellow-400 mr-2"></i> Use flashcards for memorization</p>
+                <p><i class="fas fa-lightbulb text-yellow-400 mr-2"></i> Teach concepts to someone else</p>
+                <p><i class="fas fa-lightbulb text-yellow-400 mr-2"></i> Take regular study breaks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">AI Response</h3>
+          <div class="bg-white bg-opacity-10 rounded-lg p-4 h-80 overflow-y-auto mb-4" id="ai-response">
+            <p class="text-gray-400">Ask a question to get started...</p>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" placeholder="Type your question..." class="flex-1 p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" id="ai-question">
+            <button class="btn-primary px-6" id="ai-submit">Ask</button>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-8">
+        <h3 class="text-xl font-semibold mb-4">AI Features</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="bg-blue-500 bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-book-open text-blue-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Homework Help</h4>
+            <p class="text-sm text-gray-400">Get step-by-step solutions for math problems and explanations for science concepts.</p>
+          </div>
+          <div class="text-center">
+            <div class="bg-green-500 bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-graduation-cap text-green-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Concept Explanations</h4>
+            <p class="text-sm text-gray-400">Receive clear, easy-to-understand explanations of complex topics.</p>
+          </div>
+          <div class="text-center">
+            <div class="bg-purple-500 bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-brain text-purple-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Study Strategies</h4>
+            <p class="text-sm text-gray-400">Get personalized study tips and effective learning techniques.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Profile Page -->
+    <div id="profile-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">My Profile</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-6">Personal Information</h3>
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium mb-2">Full Name</label>
+                  <input type="text" id="profile-name" class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" readonly>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2">Class</label>
+                  <input type="text" id="profile-class" class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" readonly>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Parent/Guardian</label>
+                <input type="text" id="profile-parent" class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" readonly>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Student ID</label>
+                <input type="text" id="profile-id" class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" readonly>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Email</label>
+                <input type="email" id="profile-email" class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" readonly>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Phone</label>
+                <input type="tel" id="profile-phone" class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 focus:outline-none" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card text-center">
+            <img src="https://i.pravatar.cc/150?img=62" alt="Profile" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-500 border-opacity-50">
+            <h3 class="text-xl font-semibold" id="profile-display-name">Student Name</h3>
+            <p class="text-gray-400" id="profile-display-class">Class</p>
+            <div class="mt-6 pt-6 border-t border-gray-700">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <div class="text-2xl font-bold" id="profile-hw-count">12</div>
+                  <div class="text-sm text-gray-400">Homework</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold" id="profile-grade">A</div>
+                  <div class="text-sm text-gray-400">Current Grade</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-8">
+        <h3 class="text-xl font-semibold mb-6">Academic Progress</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-400 mb-2" id="profile-attendance">75%</div>
+            <div class="text-sm">Attendance</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-green-400 mb-2" id="profile-completion">88%</div>
+            <div class="text-sm">Assignment Completion</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-purple-400 mb-2" id="profile-average">85%</div>
+            <div class="text-sm">Average Grade</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Admin Panel -->
+    <div id="admin-panel-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Admin Panel</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">System Overview</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between">
+              <span>Active Users</span>
+              <span class="font-semibold" id="active-users">245</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Total Students</span>
+              <span class="font-semibold" id="total-students">230</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Total Teachers</span>
+              <span class="font-semibold" id="total-teachers">15</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Storage Used</span>
+              <span class="font-semibold" id="storage-used">12.4 GB</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+          <div class="space-y-3" id="admin-activity">
+            <div class="p-3 bg-white bg-opacity-10 rounded">
+              <p class="font-medium">New student registered</p>
+              <p class="text-sm text-gray-400">Today, 10:30 AM</p>
+            </div>
+            <div class="p-3 bg-white bg-opacity-10 rounded">
+              <p class="font-medium">Grade updated for Class 8</p>
+              <p class="text-sm text-gray-400">Today, 9:15 AM</p>
+            </div>
+            <div class="p-3 bg-white bg-opacity-10 rounded">
+              <p class="font-medium">New announcement posted</p>
+              <p class="text-sm text-gray-400">Yesterday, 4:20 PM</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+          <div class="space-y-3">
+            <button class="w-full btn-primary py-2" id="add-announcement">Add Announcement</button>
+            <button class="w-full btn-secondary py-2" id="manage-users">Manage Users</button>
+            <button class="w-full btn-warning py-2" id="system-settings">System Settings</button>
+            <button class="w-full btn-success py-2" id="backup-data">Backup Data</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-4">User Management</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th class="text-left py-3 px-2">Name</th>
+                <th class="text-left py-3 px-2">Role</th>
+                <th class="text-left py-3 px-2">Class</th>
+                <th class="text-left py-3 px-2">Status</th>
+                <th class="text-left py-3 px-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="user-management">
+              <!-- User data will be populated here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card mt-8">
+        <h3 class="text-xl font-semibold mb-4">Announcement Center</h3>
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" placeholder="Announcement Title" class="p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700" id="announcement-title">
+            <select class="p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700" id="announcement-type">
+              <option value="info">Information</option>
+              <option value="event">Event</option>
+              <option value="warning">Warning</option>
+              <option value="urgent">Urgent</option>
             </select>
+          </div>
+          <textarea placeholder="Announcement content..." class="w-full p-3 rounded-lg bg-white bg-opacity-20 border border-gray-700 h-32" id="announcement-content"></textarea>
+          <div class="flex justify-end">
+            <button class="btn-primary px-6" id="post-announcement">Post Announcement</button>
+          </div>
         </div>
+      </div>
     </div>
-
-    <main class="content-area">
-        <div id="homeworkList" class="content-grid">
-            <!-- Dynamic content -->
-        </div>
-    </main>
-
-    <!-- Hidden Admin FAB -->
-    <button id="adminFab" class="fab hidden" onclick="toggleAdminForm()">
-        <i class="fas fa-plus"></i>
-    </button>
-
-    <!-- Hidden Admin Form -->
-    <div id="adminForm" class="admin-form hidden">
-        <div class="form-container">
-            <div class="form-header">
-                <h3>Add Homework</h3>
-                <button onclick="closeAdminForm()" class="close-btn">×</button>
-            </div>
-            <input type="text" id="hwSubject" placeholder="Subject" required>
-            <textarea id="hwDescription" placeholder="Description" required></textarea>
-            <input type="date" id="hwDueDate" required>
-            <div class="form-actions">
-                <button onclick="saveHomework()" class="btn btn-primary">Save</button>
-                <button onclick="closeAdminForm()" class="btn btn-secondary">Cancel</button>
-            </div>
-        </div>
+  </div>
+  <!-- AI Assistant Floating Button -->
+  <div class="ai-assistant" id="ai-button">
+    <i class="fas fa-robot"></i>
+  </div>
+  <!-- AI Chat Box -->
+  <div class="ai-chat" id="ai-chat">
+    <div class="ai-chat-header">
+      <span>AI Study Assistant</span>
+      <i class="fas fa-times cursor-pointer" id="close-ai-chat"></i>
     </div>
-
-    <script src="js/ultra.js"></script>
+    <div class="ai-chat-body" id="ai-chat-body">
+      <div class="message assistant">
+        Hello! I'm your AI study assistant. How can I help you with your studies today?
+      </div>
+    </div>
+    <div class="ai-chat-footer">
+      <input type="text" placeholder="Ask a question..." id="ai-chat-input">
+      <button id="ai-chat-send" class="btn-primary"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+  <!-- Add Announcement Modal -->
+  <div id="announcement-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white bg-opacity-95 backdrop-filter backdrop-blur-15 rounded-2xl p-6 w-full max-w-md mx-4">
+      <h3 class="text-xl font-semibold mb-4">Add New Announcement</h3>
+      <div class="space-y-4">
+        <input type="text" placeholder="Title" class="w-full p-3 rounded-lg border border-gray-300" id="modal-title">
+        <select class="w-full p-3 rounded-lg border border-gray-300" id="modal-type">
+          <option value="info">Information</option>
+          <option value="event">Event</option>
+          <option value="warning">Warning</option>
+          <option value="urgent">Urgent</option>
+        </select>
+        <textarea placeholder="Content" class="w-full p-3 rounded-lg border border-gray-300 h-32" id="modal-content"></textarea>
+        <div class="flex justify-end gap-3">
+          <button class="px-4 py-2 border border-gray-300 rounded-lg" id="cancel-announcement">Cancel</button>
+          <button class="px-4 py-2 bg-blue-500 text-white rounded-lg" id="save-announcement">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-400 text-sm mt-12">
+    <p>&copy; 2023 Milli Karwaan Public School. All rights reserved.</p>
+  </footer>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs",
+      authDomain: "mkps-school.firebaseapp.com",
+      projectId: "mkps-school",
+      storageBucket: "mkps-school.appspot.com",
+      messagingSenderId: "529549341206",
+      appId: "1:529549341206:web:8a3e2d9d7c1b8e7d9e8f1a"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    // Mock data
+    let homeworkData = [];
+    let assignmentsData = [];
+    let timetableData = [];
+    let announcementsData = [];
+    let gradesData = [];
+    let performanceData = [];
+    let userData = [];
+    // Load data from localStorage or use defaults
+    function loadData() {
+      const savedHomework = localStorage.getItem('mkps_homework');
+      const savedAssignments = localStorage.getItem('mkps_assignments');
+      const savedTimetable = localStorage.getItem('mkps_timetable');
+      const savedAnnouncements = localStorage.getItem('mkps_announcements');
+      const savedGrades = localStorage.getItem('mkps_grades');
+      const savedPerformance = localStorage.getItem('mkps_performance');
+      const savedUsers = localStorage.getItem('mkps_users');
+      
+      homeworkData = savedHomework ? JSON.parse(savedHomework) : [
+        { id: 1, subject: 'math', title: 'Algebra Problems', dueDate: '2023-07-15', status: 'pending', description: 'Complete problems 1-20 on page 45', completed: false },
+        { id: 2, subject: 'science', title: 'Lab Report', dueDate: '2023-07-16', status: 'pending', description: 'Write up the experiment on plant growth', completed: false },
+        { id: 3, subject: 'english', title: 'Essay on Summer Vacation', dueDate: '2023-07-18', status: 'pending', description: '500 words about your summer vacation', completed: false },
+        { id: 4, subject: 'math', title: 'Geometry Assignment', dueDate: '2023-07-12', status: 'completed', description: 'Complete exercises on triangles and angles', completed: true },
+        { id: 5, subject: 'social', title: 'History Project', dueDate: '2023-07-20', status: 'pending', description: 'Research and present on ancient civilizations', completed: false },
+        { id: 6, subject: 'science', title: 'Science Quiz Prep', dueDate: '2023-07-14', status: 'completed', description: 'Review chapters 3 and 4 for the quiz', completed: true }
+      ];
+      
+      assignmentsData = savedAssignments ? JSON.parse(savedAssignments) : [
+        { id: 1, subject: 'math', title: 'Midterm Exam', dueDate: '2023-07-25', status: 'pending', points: 100, submitted: false, completed: false },
+        { id: 2, subject: 'english', title: 'Poetry Analysis', dueDate: '2023-07-22', status: 'pending', points: 50, submitted: false, completed: false },
+        { id: 3, subject: 'science', title: 'Research Paper', dueDate: '2023-08-05', status: 'pending', points: 200, submitted: false, completed: false },
+        { id: 4, subject: 'math', title: 'Final Project', dueDate: '2023-08-10', status: 'graded', points: 150, submitted: true, grade: 'A', feedback: 'Excellent work! Clear explanations and correct solutions.', completed: true },
+        { id: 5, subject: 'english', title: 'Book Report', dueDate: '2023-07-30', status: 'submitted', points: 75, submitted: true, grade: 'B+', feedback: 'Good analysis, could use more examples from the text.', completed: true }
+      ];
+      
+      timetableData = savedTimetable ? JSON.parse(savedTimetable) : [
+        { time: '8:00-8:45', mon: 'Math', tue: 'English', wed: 'Science', thu: 'Math', fri: 'Social' },
+        { time: '8:45-9:30', mon: 'English', tue: 'Science', wed: 'Math', thu: 'English', fri: 'Science' },
+        { time: '9:30-10:15', mon: 'Science', tue: 'Math', wed: 'English', thu: 'Science', fri: 'Math' },
+        { time: '10:15-11:00', mon: 'Break', tue: 'Break', wed: 'Break', thu: 'Break', fri: 'Break' },
+        { time: '11:00-11:45', mon: 'Social', tue: 'Hindi', wed: 'Social', thu: 'Hindi', fri: 'English' },
+        { time: '11:45-12:30', mon: 'Hindi', tue: 'Social', wed: 'Hindi', thu: 'Social', fri: 'Hindi' },
+        { time: '12:30-1:15', mon: 'Lunch', tue: 'Lunch', wed: 'Lunch', thu: 'Lunch', fri: 'Lunch' },
+        { time: '1:15-2:00', mon: 'Art', tue: 'Music', wed: 'PE', thu: 'Art', fri: 'Music' },
+        { time: '2:00-2:45', mon: 'Music', tue: 'Art', wed: 'Music', thu: 'PE', fri: 'Art' },
+        { time: '2:45-3:30', mon: 'PE', tue: 'PE', wed: 'Art', thu: 'Music', fri: 'PE' }
+      ];
+      
+      announcementsData = savedAnnouncements ? JSON.parse(savedAnnouncements) : [
+        { id: 1, title: 'Summer Vacation Schedule', date: '2023-07-10', type: 'info', content: 'Summer vacation will begin on July 15th and end on September 4th. School will resume on September 5th.' },
+        { id: 2, title: 'Parent-Teacher Meeting', date: '2023-07-12', type: 'event', content: 'Parent-teacher meetings have been scheduled for July 20th. Please sign up for a time slot with your child\'s teacher.' },
+        { id: 3, title: 'Science Fair Reminder', date: '2023-07-14', type: 'warning', content: 'Don\'t forget to submit your science fair project by July 25th. Projects should be displayed in the science lab by 9:00 AM on the day of the fair.' },
+        { id: 4, title: 'New Library Books', date: '2023-07-08', type: 'info', content: 'We\'ve added over 100 new books to our library collection, including many popular series and educational titles. Come check them out!' }
+      ];
+      
+      gradesData = savedGrades ? JSON.parse(savedGrades) : [
+        { subject: 'Mathematics', grade: 'A', percentage: 92, teacher: 'Mr. Sharma' },
+        { subject: 'Science', grade: 'A-', percentage: 88, teacher: 'Ms. Patel' },
+        { subject: 'English', grade: 'B+', percentage: 85, teacher: 'Mrs. Gupta' },
+        { subject: 'Social Studies', grade: 'A-', percentage: 87, teacher: 'Mr. Singh' },
+        { subject: 'Hindi', grade: 'B', percentage: 82, teacher: 'Ms. Desai' }
+      ];
+      
+      performanceData = savedPerformance ? JSON.parse(savedPerformance) : [
+        { term: 'Q1', math: 85, science: 82, english: 78, social: 84 },
+        { term: 'Q2', math: 88, science: 86, english: 82, social: 87 },
+        { term: 'Q3', math: 90, science: 89, english: 85, social: 88 },
+        { term: 'Q4', math: 92, science: 88, english: 87, social: 90 }
+      ];
+      
+      userData = savedUsers ? JSON.parse(savedUsers) : [
+        { id: 1, name: 'John Doe', role: 'Student', class: '8', status: 'active', email: 'john@mkps.edu' },
+        { id: 2, name: 'Jane Smith', role: 'Teacher', class: 'Mathematics', status: 'active', email: 'jane@mkps.edu' },
+        { id: 3, name: 'Bob Johnson', role: 'Student', class: '7', status: 'active', email: 'bob@mkps.edu' },
+        { id: 4, name: 'Alice Brown', role: 'Teacher', class: 'Science', status: 'active', email: 'alice@mkps.edu' },
+        { id: 5, name: 'Charlie Wilson', role: 'Student', class: '8', status: 'inactive', email: 'charlie@mkps.edu' }
+      ];
+    }
+    // DOM Elements
+    const studentNameEl = document.getElementById('student-name');
+    const studentClassEl = document.getElementById('student-class');
+    const pendingHwEl = document.getElementById('pending-hw');
+    const upcomingTestsEl = document.getElementById('upcoming-tests');
+    const avgGradeEl = document.getElementById('avg-grade');
+    const attendanceEl = document.getElementById('attendance');
+    const navItems = document.querySelectorAll('.nav-item');
+    const themeToggle = document.getElementById('theme-toggle');
+    const logoutBtn = document.getElementById('logout-btn');
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const overlay = document.querySelector('.overlay');
+    const sidebar = document.querySelector('.sidebar');
+    const aiButton = document.getElementById('ai-button');
+    const aiChat = document.getElementById('ai-chat');
+    const closeAiChat = document.getElementById('close-ai-chat');
+    const aiChatInput = document.getElementById('ai-chat-input');
+    const aiChatSend = document.getElementById('ai-chat-send');
+    const aiQuestion = document.getElementById('ai-question');
+    const aiSubmit = document.getElementById('ai-submit');
+    const aiResponse = document.getElementById('ai-response');
+    const profileLink = document.getElementById('profile-link');
+    const settingsLink = document.getElementById('settings-link');
+    const helpLink = document.getElementById('help-link');
+    const logoutLink = document.getElementById('logout-link');
+    const adminPanelBtn = document.getElementById('admin-panel');
+    const announcementModal = document.getElementById('announcement-modal');
+    const cancelAnnouncement = document.getElementById('cancel-announcement');
+    const saveAnnouncement = document.getElementById('save-announcement');
+    const modalTitle = document.getElementById('modal-title');
+    const modalType = document.getElementById('modal-type');
+    const modalContent = document.getElementById('modal-content');
+    const addAnnouncementBtn = document.getElementById('add-announcement');
+    const postAnnouncementBtn = document.getElementById('post-announcement');
+    const announcementTitle = document.getElementById('announcement-title');
+    const announcementType = document.getElementById('announcement-type');
+    const announcementContent = document.getElementById('announcement-content');
+    
+    // Profile elements
+    const profileName = document.getElementById('profile-name');
+    const profileClass = document.getElementById('profile-class');
+    const profileParent = document.getElementById('profile-parent');
+    const profileId = document.getElementById('profile-id');
+    const profileEmail = document.getElementById('profile-email');
+    const profilePhone = document.getElementById('profile-phone');
+    const profileDisplayName = document.getElementById('profile-display-name');
+    const profileDisplayClass = document.getElementById('profile-display-class');
+    const profileHwCount = document.getElementById('profile-hw-count');
+    const profileGrade = document.getElementById('profile-grade');
+    const profileAttendance = document.getElementById('profile-attendance');
+    const profileCompletion = document.getElementById('profile-completion');
+    const profileAverage = document.getElementById('profile-average');
+    
+    // Initialize the app
+    function initApp() {
+      // Check if user is logged in
+      const studentData = localStorage.getItem('mkps_student');
+      if (!studentData) {
+        window.location.href = 'login.html';
+        return;
+      }
+      const student = JSON.parse(studentData);
+      studentNameEl.textContent = student.name;
+      studentClassEl.textContent = `Class ${student.class || 'N/A'}`;
+      
+      // Set profile data
+      profileName.value = student.name;
+      profileClass.value = `Class ${student.class || 'N/A'}`;
+      profileParent.value = student.parent || 'Not specified';
+      profileId.value = `MKPS${String(student.class).padStart(2, '0')}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+      profileEmail.value = student.email || `${student.name.toLowerCase().replace(' ', '.')}@mkps.edu`;
+      profilePhone.value = student.phone || 'Not specified';
+      profileDisplayName.textContent = student.name;
+      profileDisplayClass.textContent = `Class ${student.class || 'N/A'}`;
+      
+      // Load data
+      loadData();
+      
+      // Set up event listeners
+      setupEventListeners();
+      
+      // Load dashboard data
+      loadDashboardData();
+      
+      // Create charts
+      createCharts();
+      
+      // Load page content
+      loadPageContent();
+      
+      // Check theme preference
+      const savedTheme = localStorage.getItem('mkps_theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+      }
+      
+      // Check if user is admin
+      checkAdminAccess();
+    }
+    
+    // Check if current user has admin access
+    function checkAdminAccess() {
+      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
+      // For demo purposes, make all users admin
+      // In a real app, this would check a role property
+      adminPanelBtn.style.display = 'flex';
+    }
+    
+    // Set up event listeners
+    function setupEventListeners() {
+      // Navigation
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const page = item.getAttribute('data-page');
+          if (page) {
+            // Update active nav item
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+            
+            // Show selected page
+            document.querySelectorAll('.page-content').forEach(content => {
+              content.classList.add('hidden');
+            });
+            
+            if (page === 'admin-panel') {
+              // Check if user has admin access
+              const studentData = JSON.parse(localStorage.getItem('mkps_student'));
+              if (studentData.name === 'Admin' || studentData.class === 'Admin') {
+                document.getElementById(`${page}-page`).classList.remove('hidden');
+              } else {
+                alert('You do not have permission to access the admin panel.');
+                item.classList.remove('active');
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('dashboard-page').classList.remove('hidden');
+              }
+            } else {
+              document.getElementById(`${page}-page`).classList.remove('hidden');
+            }
+            
+            // Close mobile menu
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+          }
+        });
+      });
+      
+      // Theme toggle
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        if (document.body.classList.contains('light-theme')) {
+          localStorage.setItem('mkps_theme', 'light');
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+        } else {
+          localStorage.setItem('mkps_theme', 'dark');
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+        }
+      });
+      
+      // Logout
+      logoutBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to logout?')) {
+          localStorage.removeItem('mkps_student');
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Mobile menu
+      mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+      });
+      
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+      });
+      
+      // AI Assistant
+      aiButton.addEventListener('click', () => {
+        aiChat.style.display = 'block';
+      });
+      
+      closeAiChat.addEventListener('click', () => {
+        aiChat.style.display = 'none';
+      });
+      
+      aiChatSend.addEventListener('click', sendAiMessage);
+      aiChatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          sendAiMessage();
+        }
+      });
+      
+      aiSubmit.addEventListener('click', getAiResponse);
+      aiQuestion.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          getAiResponse();
+        }
+      });
+      
+      // Dropdown links
+      profileLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('profile');
+      });
+      
+      settingsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Settings page coming soon!');
+      });
+      
+      helpLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Help center coming soon!');
+      });
+      
+      logoutLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+          localStorage.removeItem('mkps_student');
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Admin panel buttons
+      addAnnouncementBtn?.addEventListener('click', () => {
+        announcementModal.classList.remove('hidden');
+      });
+      
+      cancelAnnouncement?.addEventListener('click', () => {
+        announcementModal.classList.add('hidden');
+        modalTitle.value = '';
+        modalContent.value = '';
+      });
+      
+      saveAnnouncement?.addEventListener('click', () => {
+        if (modalTitle.value.trim() && modalContent.value.trim()) {
+          const newAnnouncement = {
+            id: Date.now(),
+            title: modalTitle.value,
+            type: modalType.value,
+            content: modalContent.value,
+            date: new Date().toISOString().split('T')[0]
+          };
+          
+          announcementsData.unshift(newAnnouncement);
+          localStorage.setItem('mkps_announcements', JSON.stringify(announcementsData));
+          
+          // Update UI
+          loadPageContent();
+          loadDashboardData();
+          
+          // Close modal
+          announcementModal.classList.add('hidden');
+          modalTitle.value = '';
+          modalContent.value = '';
+          
+          alert('Announcement added successfully!');
+        } else {
+          alert('Please fill in all fields');
+        }
+      });
+      
+      postAnnouncementBtn?.addEventListener('click', () => {
+        if (announcementTitle.value.trim() && announcementContent.value.trim()) {
+          const newAnnouncement = {
+            id: Date.now(),
+            title: announcementTitle.value,
+            type: announcementType.value,
+            content: announcementContent.value,
+            date: new Date().toISOString().split('T')[0]
+          };
+          
+          announcementsData.unshift(newAnnouncement);
+          localStorage.setItem('mkps_announcements', JSON.stringify(announcementsData));
+          
+          // Update UI
+          loadPageContent();
+          loadDashboardData();
+          
+          // Clear form
+          announcementTitle.value = '';
+          announcementContent.value = '';
+          
+          alert('Announcement posted successfully!');
+        } else {
+          alert('Please fill in all fields');
+        }
+      });
+      
+      // Homework filters
+      document.querySelectorAll('.tabs .tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Update active tab
+          document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          // Filter content
+          const filter = tab.getAttribute('data-filter');
+          const currentPage = Array.from(document.querySelectorAll('.page-content')).find(page => !page.classList.contains('hidden')).id;
+          
+          if (currentPage === 'homework-page') {
+            filterHomework(filter);
+          } else if (currentPage === 'assignments-page') {
+            filterAssignments(filter);
+          }
+        });
+      });
+    }
+    
+    // Filter homework
+    function filterHomework(filter) {
+      const homeworkList = document.getElementById('homework-list');
+      homeworkList.innerHTML = '';
+      
+      let filteredHomework = homeworkData;
+      
+      if (filter !== 'all') {
+        if (filter === 'pending') {
+          filteredHomework = homeworkData.filter(hw => !hw.completed);
+        } else if (filter === 'completed') {
+          filteredHomework = homeworkData.filter(hw => hw.completed);
+        } else {
+          filteredHomework = homeworkData.filter(hw => hw.subject === filter);
+        }
+      }
+      
+      if (filteredHomework.length === 0) {
+        homeworkList.innerHTML = '<div class="text-center py-8 text-gray-400">No homework found for this category</div>';
+        return;
+      }
+      
+      filteredHomework.forEach(hw => {
+        const hwEl = document.createElement('div');
+        hwEl.className = `homework-item ${hw.completed ? 'completed' : ''}`;
+        hwEl.innerHTML = `
+          <div>
+            <h4 class="font-semibold">${hw.title}</h4>
+            <p class="text-sm text-gray-400">${hw.description}</p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="subject-tag" style="background: ${getSubjectColor(hw.subject)}">${getSubjectName(hw.subject)}</span>
+              <span class="text-sm">Due: ${formatDate(hw.dueDate)}</span>
+              <span class="badge ${hw.completed ? 'completed' : 'pending'}">${hw.completed ? 'Completed' : 'Pending'}</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn-secondary text-xs">Details</button>
+            <button class="btn-primary text-xs complete-btn" data-id="${hw.id}">${hw.completed ? 'View' : 'Complete'}</button>
+          </div>
+        `;
+        homeworkList.appendChild(hwEl);
+      });
+      
+      // Add event listeners to complete buttons
+      document.querySelectorAll('.complete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const hwId = this.getAttribute('data-id');
+          toggleHomeworkStatus(hwId);
+        });
+      });
+    }
+    
+    // Filter assignments
+    function filterAssignments(filter) {
+      const assignmentsList = document.getElementById('assignments-list');
+      assignmentsList.innerHTML = '';
+      
+      let filteredAssignments = assignmentsData;
+      
+      if (filter !== 'all') {
+        if (filter === 'pending') {
+          filteredAssignments = assignmentsData.filter(ass => !ass.submitted);
+        } else if (filter === 'submitted') {
+          filteredAssignments = assignmentsData.filter(ass => ass.submitted && !ass.completed);
+        } else if (filter === 'graded') {
+          filteredAssignments = assignmentsData.filter(ass => ass.completed);
+        }
+      }
+      
+      if (filteredAssignments.length === 0) {
+        assignmentsList.innerHTML = '<div class="text-center py-8 text-gray-400">No assignments found for this category</div>';
+        return;
+      }
+      
+      filteredAssignments.forEach(ass => {
+        const assEl = document.createElement('div');
+        assEl.className = 'assignment-item';
+        assEl.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-semibold">${ass.title}</h4>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="subject-tag" style="background: ${getSubjectColor(ass.subject)}">${getSubjectName(ass.subject)}</span>
+                <span class="text-sm">Points: ${ass.points}</span>
+                <span class="text-sm">Due: ${formatDate(ass.dueDate)}</span>
+              </div>
+            </div>
+            <span class="px-2 py-1 rounded-full text-xs font-medium ${
+              ass.status === 'pending' ? 'bg-yellow-500 bg-opacity-20 text-yellow-400' :
+              ass.status === 'submitted' ? 'bg-blue-500 bg-opacity-20 text-blue-400' :
+              'bg-green-500 bg-opacity-20 text-green-400'
+            }">
+              ${ass.status.charAt(0).toUpperCase() + ass.status.slice(1)}
+            </span>
+          </div>
+          ${ass.status === 'graded' ? 
+            `<div class="mt-3 p-3 bg-white bg-opacity-10 rounded-lg">
+              <div class="flex justify-between">
+                <span>Grade:</span>
+                <span class="font-semibold">${ass.grade}</span>
+              </div>
+              <p class="text-sm mt-2">${ass.feedback}</p>
+            </div>` : ''}
+          <div class="flex justify-end mt-3 gap-2">
+            <button class="btn-secondary text-xs">Details</button>
+            <button class="btn-primary text-xs submit-btn" data-id="${ass.id}">${ass.submitted ? 'View' : 'Submit'}</button>
+          </div>
+        `;
+        assignmentsList.appendChild(assEl);
+      });
+      
+      // Add event listeners to submit buttons
+      document.querySelectorAll('.submit-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const assId = this.getAttribute('data-id');
+          submitAssignment(assId);
+        });
+      });
+    }
+    
+    // Toggle homework status
+    function toggleHomeworkStatus(hwId) {
+      const homework = homeworkData.find(hw => hw.id == hwId);
+      if (homework) {
+        homework.completed = !homework.completed;
+        homework.status = homework.completed ? 'completed' : 'pending';
+        
+        // Save to localStorage
+        localStorage.setItem('mkps_homework', JSON.stringify(homeworkData));
+        
+        // Update UI
+        loadDashboardData();
+        filterHomework(document.querySelector('#homework-page .tabs .tab.active').getAttribute('data-filter'));
+        
+        // Add to recent activity
+        const activity = document.getElementById('recent-activity');
+        const item = document.createElement('div');
+        item.className = 'flex items-center gap-3';
+        item.innerHTML = `
+          <div class="bg-blue-500 bg-opacity-20 p-2 rounded-full">
+            <i class="fas fa-book text-blue-400"></i>
+          </div>
+          <div class="flex-1">
+            <p class="font-medium">${homework.completed ? 'Homework completed' : 'Homework marked as pending'}: ${homework.title}</p>
+            <p class="text-sm text-gray-400">${new Date().toLocaleString()}</p>
+          </div>
+        `;
+        activity.prepend(item);
+      }
+    }
+    
+    // Submit assignment
+    function submitAssignment(assId) {
+      const assignment = assignmentsData.find(ass => ass.id == assId);
+      if (assignment && !assignment.submitted) {
+        assignment.submitted = true;
+        assignment.status = 'submitted';
+        
+        // Save to localStorage
+        localStorage.setItem('mkps_assignments', JSON.stringify(assignmentsData));
+        
+        // Update UI
+        loadDashboardData();
+        filterAssignments(document.querySelector('#assignments-page .tabs .tab.active').getAttribute('data-filter'));
+        
+        // Add to recent activity
+        const activity = document.getElementById('recent-activity');
+        const item = document.createElement('div');
+        item.className = 'flex items-center gap-3';
+        item.innerHTML = `
+          <div class="bg-green-500 bg-opacity-20 p-2 rounded-full">
+            <i class="fas fa-clipboard-check text-green-400"></i>
+          </div>
+          <div class="flex-1">
+            <p class="font-medium">Assignment submitted: ${assignment.title}</p>
+            <p class="text-sm text-gray-400">${new Date().toLocaleString()}</p>
+          </div>
+        `;
+        activity.prepend(item);
+      }
+    }
+    
+    // Load dashboard data
+    function loadDashboardData() {
+      // Calculate pending homework
+      const pendingHw = homeworkData.filter(hw => !hw.completed).length;
+      pendingHwEl.textContent = pendingHw;
+      
+      // Upcoming tests (mock data)
+      upcomingTestsEl.textContent = '3';
+      
+      // Average grade
+      const total = gradesData.reduce((sum, grade) => sum + grade.percentage, 0);
+      const avg = Math.round(total / gradesData.length);
+      avgGradeEl.textContent = `${avg}%`;
+      
+      // Attendance
+      const attendance = 75 + Math.floor(Math.random() * 20); // Random between 75-95
+      attendanceEl.textContent = `${attendance}%`;
+      
+      // Update profile data
+      profileHwCount.textContent = homeworkData.length;
+      profileGrade.textContent = gradesData[0]?.grade || 'B';
+      profileAverage.textContent = `${avg}%`;
+      profileAttendance.textContent = `${attendance}%`;
+      profileCompletion.textContent = `${Math.round((homeworkData.filter(hw => hw.completed).length / homeworkData.length) * 100)}%`;
+      
+      // Update notification badge
+      const notificationBadge = document.querySelector('.notification-badge');
+      notificationBadge.textContent = pendingHw > 0 ? pendingHw : '0';
+    }
+    
+    // Create charts
+    function createCharts() {
+      // Performance Chart
+      const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+      new Chart(performanceCtx, {
+        type: 'line',
+        data: {
+          labels: performanceData.map(d => d.term),
+          datasets: [
+            {
+              label: 'Mathematics',
+              data: performanceData.map(d => d.math),
+              borderColor: '#00c6ff',
+              backgroundColor: 'rgba(0, 198, 255, 0.1)',
+              tension: 0.4,
+              fill: true
+            },
+            {
+              label: 'Science',
+              data: performanceData.map(d => d.science),
+              borderColor: '#4ecdc4',
+              backgroundColor: 'rgba(78, 205, 196, 0.1)',
+              tension: 0.4,
+              fill: true
+            },
+            {
+              label: 'English',
+              data: performanceData.map(d => d.english),
+              borderColor: '#ff6b6b',
+              backgroundColor: 'rgba(255, 107, 107, 0.1)',
+              tension: 0.4,
+              fill: true
+            },
+            {
+              label: 'Social Studies',
+              data: performanceData.map(d => d.social),
+              borderColor: '#feca57',
+              backgroundColor: 'rgba(254, 202, 87, 0.1)',
+              tension: 0.4,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            },
+            x: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            }
+          }
+        }
+      });
+      
+      // Subject Chart
+      const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+      new Chart(subjectCtx, {
+        type: 'doughnut',
+        data: {
+          labels: gradesData.map(g => g.subject),
+          datasets: [{
+            data: gradesData.map(g => g.percentage),
+            backgroundColor: [
+              '#00c6ff',
+              '#4ecdc4',
+              '#ff6b6b',
+              '#feca57',
+              '#ff9ff3'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            }
+          }
+        }
+      });
+      
+      // Grade Chart
+      const gradeCtx = document.getElementById('gradeChart').getContext('2d');
+      new Chart(gradeCtx, {
+        type: 'bar',
+        data: {
+          labels: gradesData.map(g => g.subject),
+          datasets: [{
+            label: 'Grade Percentage',
+            data: gradesData.map(g => g.percentage),
+            backgroundColor: '#00c6ff',
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Load page content
+    function loadPageContent() {
+      // Homework page
+      filterHomework('all');
+      
+      // Assignments page
+      filterAssignments('all');
+      
+      // Timetable page
+      const timetableBody = document.getElementById('timetable-body');
+      timetableBody.innerHTML = '';
+      timetableData.forEach(period => {
+        const row = document.createElement('tr');
+        row.className = 'border-b border-gray-700';
+        row.innerHTML = `
+          <td class="py-3 px-2 font-medium">${period.time}</td>
+          <td class="py-3 px-2">${period.mon}</td>
+          <td class="py-3 px-2">${period.tue}</td>
+          <td class="py-3 px-2">${period.wed}</td>
+          <td class="py-3 px-2">${period.thu}</td>
+          <td class="py-3 px-2">${period.fri}</td>
+        `;
+        timetableBody.appendChild(row);
+      });
+      
+      // Upcoming events
+      const upcomingEvents = document.getElementById('upcoming-events');
+      upcomingEvents.innerHTML = '';
+      const events = [
+        { date: '2023-07-20', title: 'Parent-Teacher Meeting', type: 'event' },
+        { date: '2023-07-25', title: 'Science Fair', type: 'event' },
+        { date: '2023-08-01', title: 'Midterm Exams Begin', type: 'warning' }
+      ];
+      events.forEach(event => {
+        const eventEl = document.createElement('div');
+        eventEl.className = 'p-3 mb-3 rounded-lg bg-white bg-opacity-10';
+        eventEl.innerHTML = `
+          <div class="flex items-center gap-2 mb-1">
+            <i class="fas fa-calendar-alt text-blue-400"></i>
+            <span class="font-medium">${formatDate(event.date)}</span>
+          </div>
+          <h4 class="font-semibold">${event.title}</h4>
+        `;
+        upcomingEvents.appendChild(eventEl);
+      });
+      
+      // Grades page
+      const subjectGrades = document.getElementById('subject-grades');
+      subjectGrades.innerHTML = '';
+      gradesData.forEach(grade => {
+        const gradeEl = document.createElement('div');
+        gradeEl.className = 'flex justify-between items-center p-2 bg-white bg-opacity-10 rounded';
+        gradeEl.innerHTML = `
+          <span>${grade.subject}</span>
+          <div class="flex items-center gap-3">
+            <span class="font-semibold">${grade.grade}</span>
+            <div class="w-20 bg-white bg-opacity-20 rounded-full h-2">
+              <div class="bg-blue-500 h-2 rounded-full" style="width: ${grade.percentage}%"></div>
+            </div>
+            <span class="text-sm">${grade.percentage}%</span>
+          </div>
+        `;
+        subjectGrades.appendChild(gradeEl);
+      });
+      
+      // Announcements page
+      const announcementsList = document.getElementById('announcements-list');
+      announcementsList.innerHTML = '';
+      announcementsData.forEach(ann => {
+        const annEl = document.createElement('div');
+        annEl.className = 'announcement-item';
+        annEl.innerHTML = `
+          <div class="flex justify-between items-start mb-2">
+            <h4 class="font-semibold">${ann.title}</h4>
+            <span class="text-sm text-gray-400">${formatDate(ann.date)}</span>
+          </div>
+          <p>${ann.content}</p>
+          <div class="flex justify-end mt-3">
+            <button class="btn-secondary text-xs">Read More</button>
+          </div>
+        `;
+        announcementsList.appendChild(annEl);
+      });
+      
+      // Admin panel
+      const userManagement = document.getElementById('user-management');
+      if (userManagement) {
+        userManagement.innerHTML = '';
+        userData.forEach(user => {
+          const userRow = document.createElement('tr');
+          userRow.className = 'border-b border-gray-700';
+          userRow.innerHTML = `
+            <td class="py-3 px-2">${user.name}</td>
+            <td class="py-3 px-2">${user.role}</td>
+            <td class="py-3 px-2">${user.class}</td>
+            <td class="py-3 px-2">
+              <span class="px-2 py-1 rounded-full text-xs ${
+                user.status === 'active' ? 'bg-green-500 bg-opacity-20 text-green-400' : 'bg-red-500 bg-opacity-20 text-red-400'
+              }">
+                ${user.status}
+              </span>
+            </td>
+            <td class="py-3 px-2">
+              <button class="btn-secondary text-xs mr-2">Edit</button>
+              <button class="btn-warning text-xs">Delete</button>
+            </td>
+          `;
+          userManagement.appendChild(userRow);
+        });
+      }
+      
+      // Admin activity
+      const adminActivity = document.getElementById('admin-activity');
+      if (adminActivity) {
+        adminActivity.innerHTML = '';
+        const activities = [
+          { action: 'New student registered', time: 'Today, 10:30 AM' },
+          { action: 'Grade updated for Class 8', time: 'Today, 9:15 AM' },
+          { action: 'New announcement posted', time: 'Yesterday, 4:20 PM' }
+        ];
+        activities.forEach(act => {
+          const actEl = document.createElement('div');
+          actEl.className = 'p-3 bg-white bg-opacity-10 rounded';
+          actEl.innerHTML = `
+            <p class="font-medium">${act.action}</p>
+            <p class="text-sm text-gray-400">${act.time}</p>
+          `;
+          adminActivity.appendChild(actEl);
+        });
+      }
+    }
+    
+    // Helper functions
+    function getSubjectColor(subject) {
+      switch(subject) {
+        case 'math': return '#00c6ff';
+        case 'science': return '#4ecdc4';
+        case 'english': return '#ff6b6b';
+        case 'social': return '#feca57';
+        case 'hindi': return '#ff9ff3';
+        default: return '#ccc';
+      }
+    }
+    
+    function getSubjectName(subject) {
+      switch(subject) {
+        case 'math': return 'Math';
+        case 'science': return 'Science';
+        case 'english': return 'English';
+        case 'social': return 'Social';
+        case 'hindi': return 'Hindi';
+        default: return subject;
+      }
+    }
+    
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+    
+    // AI Assistant functions
+    function sendAiMessage() {
+      const message = aiChatInput.value.trim();
+      if (!message) return;
+      
+      // Add user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.textContent = message;
+      document.getElementById('ai-chat-body').appendChild(userMsg);
+      
+      // Clear input
+      aiChatInput.value = '';
+      
+      // Scroll to bottom
+      const chatBody = document.getElementById('ai-chat-body');
+      chatBody.scrollTop = chatBody.scrollHeight;
+      
+      // Simulate AI response
+      setTimeout(() => {
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'message assistant';
+        aiMsg.textContent = getAiResponseText(message);
+        document.getElementById('ai-chat-body').appendChild(aiMsg);
+        
+        // Scroll to bottom
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 1000);
+    }
+    
+    function getAiResponse() {
+      const question = aiQuestion.value.trim();
+      if (!question) return;
+      
+      // Show loading
+      aiResponse.innerHTML = '<p>Thinking...</p>';
+      
+      // Simulate AI response
+      setTimeout(() => {
+        aiResponse.innerHTML = `<p><strong>AI Assistant:</strong></p><p>${getAiResponseText(question)}</p>`;
+      }, 1500);
+    }
+    
+    function getAiResponseText(question) {
+      // Simple responses based on keywords
+      const lowerQ = question.toLowerCase();
+      if (lowerQ.includes('hello') || lowerQ.includes('hi') || lowerQ.includes('hey')) {
+        return "Hello! I'm your AI study assistant. How can I help you with your studies today?";
+      } else if (lowerQ.includes('homework') || lowerQ.includes('assignment')) {
+        return "I can help you with your homework! Please tell me which subject you need help with and what specific question you're working on.";
+      } else if (lowerQ.includes('math') || lowerQ.includes('algebra') || lowerQ.includes('geometry')) {
+        return "Mathematics is all about understanding concepts and practicing problems. For algebra, remember to keep the equation balanced by doing the same operation to both sides. For geometry, make sure to draw diagrams to visualize the problem.";
+      } else if (lowerQ.includes('science') || lowerQ.includes('biology') || lowerQ.includes('chemistry')) {
+        return "Science is about understanding how the natural world works. For biology, focus on understanding processes like photosynthesis or cellular respiration. For chemistry, remember the periodic table trends and practice balancing chemical equations.";
+      } else if (lowerQ.includes('english') || lowerQ.includes('essay') || lowerQ.includes('writing')) {
+        return "For English assignments, remember the basic structure: introduction with a thesis statement, body paragraphs with supporting evidence, and a conclusion that summarizes your main points. Always proofread your work for grammar and spelling errors.";
+      } else if (lowerQ.includes('study') || lowerQ.includes('learn') || lowerQ.includes('tips')) {
+        return "Here are some effective study tips: 1) Break large tasks into smaller ones, 2) Use active recall by testing yourself, 3) Teach the material to someone else, 4) Use spaced repetition, and 5) Take regular breaks using the Pomodoro technique (25 minutes of work, 5 minutes of break).";
+      } else if (lowerQ.includes('grade') || lowerQ.includes('improve')) {
+        return "To improve your grades, focus on understanding rather than memorizing. Review your mistakes on previous assignments, ask your teachers for feedback, and don't hesitate to ask for help when you don't understand something. Consistent effort is key!";
+      } else {
+        return "I'm here to help you with your studies! I can provide explanations for concepts in math, science, English, and other subjects, offer study tips, and help you understand your assignments. What would you like to know?";
+      }
+    }
+    
+    // Show specific page
+    function showPage(page) {
+      // Hide all pages
+      document.querySelectorAll('.page-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+      
+      // Show selected page
+      document.getElementById(`${page}-page`).classList.remove('hidden');
+      
+      // Update active nav item
+      navItems.forEach(nav => nav.classList.remove('active'));
+      document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+    }
+    
+    // Initialize the app when the page loads
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
 </body>
 </html>
