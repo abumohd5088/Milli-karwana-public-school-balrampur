@@ -1,2089 +1,619 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Milli Karwaan Public School - Student Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <style>
-    :root {
-      --primary: #6366f1;
-      --secondary: #8b5cf6;
-      --dark: #111827;
-      --light: #f9fafb;
-      --gray: #6b7280;
-      --success: #10b981;
-      --danger: #ef4444;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1e3a8a, #312e81);
-      color: white;
-      min-height: 100vh;
-      transition: all 0.3s ease;
-    }
-    body.light-theme {
-      background: #f0f2f5;
-      color: #111827;
-    }
-    body.light-theme .card {
-      background: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    body.light-theme .sidebar {
-      background: white;
-      color: #111827;
-    }
-    body.light-theme .nav-item:hover, body.light-theme .nav-item.active {
-      background: #f3f4f6;
-      color: #111827;
-    }
-    body.light-theme .tabs .tab.active {
-      background: #6366f1;
-      color: white;
-    }
-    body.light-theme .homework-item, body.light-theme .assignment-item {
-      background: white;
-      color: #111827;
-      border: 1px solid #e5e7eb;
-    }
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
-    /* Sidebar */
-    .sidebar {
-      width: 280px;
-      background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
-      padding: 2rem 1rem;
-      position: fixed;
-      height: 100%;
-      z-index: 1000;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      overflow-y: auto;
-    }
-    .sidebar.open {
-      transform: translateX(0);
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 2rem;
-    }
-    .logo img {
-      width: 40px;
-      height: 40px;
-    }
-    .logo h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-    .nav-menu {
-      margin-top: 2rem;
-    }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 0.5rem;
-      margin-bottom: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .nav-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .nav-item.active {
-      background: rgba(255, 255, 255, 0.2);
-      font-weight: 500;
-    }
-    .nav-item i {
-      width: 20px;
-      text-align: center;
-    }
-    /* Main Content */
-    .main-content {
-      flex: 1;
-      margin-left: 0;
-      padding: 2rem;
-      transition: all 0.3s ease;
-    }
-    @media (min-width: 1024px) {
-      .main-content {
-        margin-left: 280px;
-      }
-      .sidebar {
-        transform: translateX(0);
-      }
-    }
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    .mobile-menu-btn {
-      display: block;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    @media (min-width: 1024px) {
-      .mobile-menu-btn {
-        display: none;
-      }
-    }
-    /* Cards */
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 1rem;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-    .tab {
-      padding: 8px 16px;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 0.875rem;
-      white-space: nowrap;
-      background: rgba(255, 255, 255, 0.1);
-      transition: all 0.2s;
-    }
-    .tab.active {
-      background: var(--primary);
-      color: white;
-    }
-    .tab:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-    /* Homework & Assignment Items */
-    .homework-item, .assignment-item {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.2s;
-    }
-    .homework-item:hover, .assignment-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .completed {
-      opacity: 0.7;
-      background: rgba(16, 185, 129, 0.2);
-    }
-    .homework-item.completed .btn-primary {
-      background: linear-gradient(135deg, #4cd964, #34c759);
-    }
-    .subject-tag {
-      padding: 4px 8px;
-      border-radius: 0.375rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: white;
-    }
-    .badge {
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 10px;
-      margin-left: 8px;
-    }
-    .badge.pending {
-      background: rgba(255, 107, 107, 0.2);
-      color: #ff6b6b;
-    }
-    .badge.completed {
-      background: rgba(76, 217, 100, 0.2);
-      color: #4cd964;
-    }
-    .btn {
-      padding: 8px 16px;
-      border-radius: 0.5rem;
-      border: none;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: white;
-    }
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    /* Profile Section */
-    .profile-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-    .profile-info {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      padding: 1.5rem;
-    }
-    .profile-info h3 {
-      font-size: 1.125rem;
-      margin-bottom: 1rem;
-      color: #a5b4fc;
-    }
-    .profile-field {
-      margin-bottom: 1rem;
-    }
-    .profile-field label {
-      display: block;
-      font-size: 0.875rem;
-      color: #d1d5db;
-      margin-bottom: 0.25rem;
-    }
-    .profile-field span {
-      font-size: 1rem;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .stat-item {
-      text-align: center;
-    }
-    .stat-item .value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-    .stat-item .label {
-      font-size: 0.875rem;
-      color: #d1d5db;
-    }
-    /* Timetable */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 12px;
-      text-align: left;
-    }
-    th {
-      color: #a5b4fc;
-      font-weight: 500;
-    }
-    tr.border-b {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    /* Modals */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal-content {
-      background: #111827;
-      width: 90%;
-      max-width: 600px;
-      border-radius: 1rem;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .modal-header h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    .modal-body {
-      padding: 1.5rem;
-    }
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    .form-control {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-family: 'Poppins', sans-serif;
-    }
-    .form-control::placeholder {
-      color: #9ca3af;
-    }
-    .form-control:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-    .btn-group {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-    }
-    /* AI Chat */
-    .ai-chat {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 350px;
-      height: 500px;
-      background: #111827;
-      border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .ai-chat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .ai-chat-title {
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .ai-chat-body {
-      flex: 1;
-      padding: 1rem;
-      overflow-y: auto;
-    }
-    .message {
-      margin-bottom: 1rem;
-      padding: 0.75rem;
-      border-radius: 0.75rem;
-      max-width: 80%;
-    }
-    .user {
-      background: var(--primary);
-      color: white;
-      align-self: flex-end;
-      border-bottom-right-radius: 0;
-    }
-    .assistant {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      align-self: flex-start;
-      border-bottom-left-radius: 0;
-    }
-    .ai-chat-footer {
-      padding: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .ai-chat-input {
-      display: flex;
-      gap: 0.5rem;
-    }
-    .ai-chat-input input {
-      flex: 1;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-    .ai-chat-input button {
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    /* Overlay */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    /* Notifications */
-    .notification-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background: #ff3b30;
-      color: white;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-    }
-    .attendance-progress {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: conic-gradient(var(--primary) 0%, var(--primary) 85%, rgba(255, 255, 255, 0.1) 85%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .attendance-percent {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #111827;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
-    /* Responsive */
-    @media (max-width: 768px) {
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .hidden {
-      display: none;
-    }
-    .page-content {
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .btn-xs {
-      padding: 4px 8px;
-      font-size: 0.75rem;
-    }
-    .flex-1 {
-      flex: 1;
-    }
-    .gap-2 {
-      gap: 0.5rem;
-    }
-    .gap-3 {
-      gap: 0.75rem;
-    }
-    .items-center {
-      align-items: center;
-    }
-    .justify-between {
-      justify-content: space-between;
-    }
-    .text-sm {
-      font-size: 0.875rem;
-    }
-    .font-medium {
-      font-weight: 500;
-    }
-    .text-gray-400 {
-      color: #9ca3af;
-    }
-    .recent-activity {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mili Karwaan Public School Balrampur - Student Login</title>
+    <meta name="description" content="Official login portal for Mili Karwaan Public School Balrampur students">
+    <meta name="keywords" content="Mili Karwaan Public School, Balrampur, student login, education">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <meta name="google-signin-client_id" content="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 60px 50px;
+            width: 100%;
+            max-width: 450px;
+            animation: slideIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .school-logo {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .school-logo i {
+            font-size: 60px;
+            color: #667eea;
+            margin-bottom: 15px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .school-logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .school-logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .google-signin {
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .google-signin .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .google-signin .divider::before,
+        .google-signin .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 0 10px;
+        }
+        
+        .g-signin2 {
+            display: inline-block;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeaa7;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-info i {
+            margin-right: 5px;
+            color: #667eea;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 30px;
+                margin: 10px;
+            }
+            
+            .school-logo h1 {
+                font-size: 24px;
+            }
+            
+            .school-logo i {
+                font-size: 50px;
+            }
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            background: #764ba2;
+            border-radius: 30%;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            top: 40%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .password-strength.weak {
+            background: #ff6b6b;
+            width: 33%;
+        }
+        
+        .password-strength.medium {
+            background: #feca57;
+            width: 66%;
+        }
+        
+        .password-strength.strong {
+            background: #48dbfb;
+            width: 100%;
+        }
+        
+        .form-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .form-message.success {
+            background: #2ed573;
+        }
+        
+        .form-message.error {
+            background: #ff4757;
+        }
+        
+        .form-message.show {
+            transform: translateX(0);
+        }
+    </style>
 </head>
 <body>
-  <!-- Overlay for mobile menu -->
-  <div class="overlay"></div>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo">
-      <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo">
-      <h2>MKPS</h2>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
-    <div class="nav-menu mt-8">
-      <div class="nav-item active" data-page="dashboard">
-        <i class="fas fa-home"></i>
-        <span>Dashboard</span>
-      </div>
-      <div class="nav-item" data-page="homework">
-        <i class="fas fa-book"></i>
-        <span>Homework</span>
-      </div>
-      <div class="nav-item" data-page="assignments">
-        <i class="fas fa-tasks"></i>
-        <span>Assignments</span>
-      </div>
-      <div class="nav-item" data-page="timetable">
-        <i class="fas fa-calendar-alt"></i>
-        <span>Timetable</span>
-      </div>
-      <div class="nav-item" data-page="resources">
-        <i class="fas fa-book-open"></i>
-        <span>Resources</span>
-      </div>
-      <div class="nav-item" data-page="profile">
-        <i class="fas fa-user"></i>
-        <span>Profile</span>
-      </div>
-      <div class="nav-item mt-8" id="theme-toggle">
-        <i class="fas fa-moon"></i>
-        <span>Dark Mode</span>
-      </div>
-      <div class="nav-item" id="logout-btn">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </div>
-      <div class="nav-item" id="admin-panel">
-        <i class="fas fa-cog"></i>
-        <span>Admin Panel</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold">Dashboard</h1>
-      <div class="flex items-center gap-4">
-        <div class="relative">
-          <button id="notification-btn" class="relative text-2xl">
-            <i class="fas fa-bell"></i>
-            <span class="notification-badge" id="notification-count">3</span>
-          </button>
+    
+    <div class="login-container">
+        <div class="school-logo">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>Mili Karwaan Public School</h1>
+            <p>Balrampur - Excellence in Education</p>
         </div>
-        <button id="ai-button" class="text-2xl">
-          <i class="fas fa-robot"></i>
-        </button>
-        <div class="relative">
-          <button id="profile-dropdown" class="text-2xl">
-            <i class="fas fa-ellipsis-v"></i>
-          </button>
-          <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white bg-opacity-10 backdrop-filter backdrop-blur-md rounded-lg shadow-lg hidden">
-            <div class="py-1">
-              <a href="#" class="block px-4 py-2 text-sm hover:bg-white hover:bg-opacity-20" id="logout-link">Logout</a>
+        
+        <div class="warning" id="warningBox">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="warningText">Please fill in all fields</span>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" name="studentName" required maxlength="50"
+                       placeholder="Enter your full name"
+                       autocomplete="name">
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dashboard Page -->
-    <div id="dashboard-page" class="page-content">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="card">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-gray-300 text-sm">Pending Homework</p>
-              <p class="text-3xl font-bold mt-1" id="pending-hw">3</p>
+            
+            <div class="form-group">
+                <label for="studentClass">Class</label>
+                <select id="studentClass" name="studentClass" required>
+                    <option value="">Select your class</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                </select>
             </div>
-            <div class="text-4xl text-blue-400">
-              <i class="fas fa-book"></i>
+            
+            <div class="form-group">
+                <label for="parentName">Parent/Guardian Name</label>
+                <input type="text" id="parentName" name="parentName" required maxlength="50"
+                       placeholder="Enter parent/guardian name"
+                       autocomplete="on">
             </div>
-          </div>
+            
+            <button type="submit" class="btn">
+                <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+            </button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Logging you in...</p>
         </div>
-        <div class="card">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-gray-300 text-sm">Upcoming Tests</p>
-              <p class="text-3xl font-bold mt-1" id="upcoming-tests">3</p>
-            </div>
-            <div class="text-4xl text-green-400">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-          </div>
+        
+        <div class="google-signin">
+            <div class="divider">or</div>
+            <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
         </div>
-        <div class="card">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-gray-300 text-sm">Average Grade</p>
-              <p class="text-3xl font-bold mt-1" id="avg-grade">85%</p>
-            </div>
-            <div class="text-4xl text-purple-400">
-              <i class="fas fa-chart-line"></i>
-            </div>
-          </div>
+        
+        <div class="contact-info">
+            <p><i class="fas fa-map-marker-alt"></i> Boluha Police Chowki, Balrampur</p>
+            <p><i class="fas fa-phone"></i> 9758919151</p>
+            <p><i class="fas fa-envelope"></i> madamsir066@gmail.com</p>
         </div>
-        <div class="card">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-gray-300 text-sm">Attendance</p>
-              <p class="text-3xl font-bold mt-1">92%</p>
-            </div>
-            <div class="attendance-progress">
-              <div class="attendance-percent">92%</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="card lg:col-span-2">
-          <div class="card-header">
-            <h3 class="card-title">Performance Overview</h3>
-          </div>
-          <canvas id="performanceChart" height="200"></canvas>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Recent Activity</h3>
-          </div>
-          <div class="recent-activity" id="recent-activity">
-            <!-- Activity items will be added here dynamically -->
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Upcoming Events</h3>
-          </div>
-          <div id="upcoming-events">
-            <!-- Events will be added here dynamically -->
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Announcements</h3>
-          </div>
-          <div id="announcements">
-            <!-- Announcements will be added here dynamically -->
-          </div>
-        </div>
-      </div>
     </div>
-
-    <!-- Homework Page -->
-    <div id="homework-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Homework</h2>
-      <div class="tabs mb-6">
-        <div class="tab active" data-filter="all">All</div>
-        <div class="tab" data-filter="pending">Pending</div>
-        <div class="tab" data-filter="completed">Completed</div>
-        <div class="tab" data-filter="math">Mathematics</div>
-        <div class="tab" data-filter="science">Science</div>
-        <div class="tab" data-filter="english">English</div>
-        <div class="tab" data-filter="social">Social Studies</div>
-      </div>
-      <div id="homework-list">
-        <!-- Homework items will be dynamically added here -->
-      </div>
-    </div>
-
-    <!-- Assignments Page -->
-    <div id="assignments-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Assignments</h2>
-      <div class="tabs mb-6">
-        <div class="tab active" data-filter="all">All</div>
-        <div class="tab" data-filter="pending">Pending</div>
-        <div class="tab" data-filter="submitted">Submitted</div>
-        <div class="tab" data-filter="graded">Graded</div>
-      </div>
-      <div id="assignments-list">
-        <!-- Assignment items will be dynamically added here -->
-      </div>
-    </div>
-
-    <!-- Timetable Page -->
-    <div id="timetable-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Timetable</h2>
-      <div class="card">
-        <table>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Monday</th>
-              <th>Tuesday</th>
-              <th>Wednesday</th>
-              <th>Thursday</th>
-              <th>Friday</th>
-            </tr>
-          </thead>
-          <tbody id="timetable-body">
-            <!-- Timetable data will be added here dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Resources Page -->
-    <div id="resources-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Learning Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-3">Mathematics</h3>
-          <p class="text-gray-300 mb-4">Access textbooks, practice problems, and video tutorials for mathematics.</p>
-          <button class="btn btn-primary">Explore Resources</button>
-        </div>
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-3">Science</h3>
-          <p class="text-gray-300 mb-4">Interactive simulations, lab manuals, and science project ideas.</p>
-          <button class="btn btn-primary">Explore Resources</button>
-        </div>
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-3">English</h3>
-          <p class="text-gray-300 mb-4">Reading materials, grammar guides, and writing prompts.</p>
-          <button class="btn btn-primary">Explore Resources</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Profile Page -->
-    <div id="profile-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Profile</h2>
-      <div class="profile-grid">
-        <div class="profile-info">
-          <h3>Personal Information</h3>
-          <div class="profile-field">
-            <label>Name</label>
-            <span id="profile-name">John Doe</span>
-          </div>
-          <div class="profile-field">
-            <label>Class</label>
-            <span id="profile-class">Class 8</span>
-          </div>
-          <div class="profile-field">
-            <label>Student ID</label>
-            <span id="profile-id">MKPS08001</span>
-          </div>
-          <div class="profile-field">
-            <label>Email</label>
-            <span id="profile-email">john.doe@mkps.edu</span>
-          </div>
-          <div class="profile-field">
-            <label>Phone</label>
-            <span id="profile-phone">+92 300 1234567</span>
-          </div>
-          <div class="profile-field">
-            <label>Parent/Guardian</label>
-            <span id="profile-parent">Mr. Ahmed Khan</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-6">Profile Completion</h3>
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="text-3xl font-bold text-green-400 mb-2" id="profile-completion">88%</div>
-              <div class="text-sm">Assignment Completion</div>
-            </div>
-            <div class="stat-item">
-              <div class="text-3xl font-bold text-purple-400 mb-2" id="profile-average">85%</div>
-              <div class="text-sm">Average Grade</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="admin-panel-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Admin Panel</h2>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-4">System Overview</h3>
-          <div class="space-y-3">
-            <div class="flex justify-between">
-              <span>Total Students</span>
-              <span class="font-medium">1,247</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Total Teachers</span>
-              <span class="font-medium">89</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Active Homework</span>
-              <span class="font-medium" id="active-homework">42</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Pending Messages</span>
-              <span class="font-medium" id="pending-messages">5</span>
-            </div>
-          </div>
-        </div>
-        <div class="card lg:col-span-2">
-          <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
-          <div class="grid grid-cols-2 gap-4">
-            <button class="btn btn-primary" id="add-homework-btn">Add Homework</button>
-            <button class="btn btn-primary" id="add-announcement-btn">Post Announcement</button>
-            <button class="btn btn-primary" id="manage-users-btn">Manage Users</button>
-            <button class="btn btn-primary" id="view-messages-btn">View Messages</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="text-center py-6 text-gray-400 text-sm mt-12">
-      <p>&copy; 2023 Milli Karwaan Public School. All rights reserved.</p>
-    </footer>
-  </div>
-
-  <!-- Homework Modal -->
-  <div class="modal" id="homework-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Homework Details</h3>
-        <i class="fas fa-times cursor-pointer" id="close-homework"></i>
-      </div>
-      <div id="homework-detail-content">
-        <!-- Homework details will be loaded here -->
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-secondary mr-3" id="cancel-homework">Cancel</button>
-        <button class="btn btn-primary" id="complete-homework">Mark as Complete</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- AI Assistant Chat -->
-  <div class="ai-chat" id="ai-chat">
-    <div class="ai-chat-header">
-      <div class="ai-chat-title">
-        <i class="fas fa-robot"></i>
-        <span>AI Assistant</span>
-      </div>
-      <i class="fas fa-times" id="close-ai-chat"></i>
-    </div>
-    <div class="ai-chat-body" id="ai-chat-body">
-      <div class="message assistant">
-        Hello! I'm your AI assistant. How can I help you with your studies today?
-      </div>
-    </div>
-    <div class="ai-chat-footer">
-      <div class="ai-chat-input">
-        <input type="text" placeholder="Ask me anything..." id="ai-chat-input">
-        <button id="send-ai-message"><i class="fas fa-paper-plane"></i></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Notification Modal -->
-  <div class="modal" id="notification-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Notifications</h3>
-        <i class="fas fa-times" id="close-notifications"></i>
-      </div>
-      <div class="modal-body">
-        <div id="notifications-list">
-          <!-- Notifications will be added here dynamically -->
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-secondary" id="mark-all-read">Mark all as read</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add Homework Modal -->
-  <div class="modal" id="add-homework-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="homework-modal-title">Add Homework</h3>
-        <i class="fas fa-times" id="close-add-homework"></i>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" class="form-control" id="homework-title" placeholder="Enter homework title">
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea class="form-control" id="homework-description" rows="3" placeholder="Enter homework description"></textarea>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="form-group">
-            <label>Subject</label>
-            <select class="form-control" id="homework-subject">
-              <option value="math">Mathematics</option>
-              <option value="science">Science</option>
-              <option value="english">English</option>
-              <option value="social">Social Studies</option>
-              <option value="hindi">Hindi</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Target Class</label>
-            <select class="form-control" id="homework-class">
-              <option value="all">All Classes</option>
-              <option value="1">Class 1</option>
-              <option value="2">Class 2</option>
-              <option value="3">Class 3</option>
-              <option value="4">Class 4</option>
-              <option value="5">Class 5</option>
-              <option value="6">Class 6</option>
-              <option value="7">Class 7</option>
-              <option value="8">Class 8</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Due Date</label>
-          <input type="date" class="form-control" id="homework-due-date">
-        </div>
-        <div class="form-group">
-          <label>Points</label>
-          <input type="number" class="form-control" id="homework-points" value="10">
-        </div>
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-secondary" id="cancel-add-homework">Cancel</button>
-        <button class="btn btn-primary" id="save-homework">Save Homework</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add Announcement Modal -->
-  <div class="modal" id="add-announcement-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Post Announcement</h3>
-        <i class="fas fa-times" id="close-announcement"></i>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" class="form-control" id="announcement-title" placeholder="Enter announcement title">
-        </div>
-        <div class="form-group">
-          <label>Type</label>
-          <select class="form-control" id="announcement-type">
-            <option value="general">General</option>
-            <option value="event">Event</option>
-            <option value="warning">Warning</option>
-            <option value="important">Important</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Content</label>
-          <textarea class="form-control" id="announcement-content" rows="4" placeholder="Enter announcement content"></textarea>
-        </div>
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-secondary" id="cancel-announcement">Cancel</button>
-        <button class="btn btn-primary" id="save-announcement">Post Announcement</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs",
-      authDomain: "mkps-school.firebaseapp.com",
-      projectId: "mkps-school",
-      storageBucket: "mkps-school.appspot.com",
-      messagingSenderId: "529549341206",
-      appId: "1:529549341206:web:8a3e2d9d7c1b8e7d9e8f1a"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
-
-    // DOM Elements
-    const studentNameEl = document.getElementById('student-name');
-    const studentClassEl = document.getElementById('student-class');
-    const pendingHwEl = document.getElementById('pending-hw');
-    const upcomingTestsEl = document.getElementById('upcoming-tests');
-    const avgGradeEl = document.getElementById('avg-grade');
-    const attendanceEl = document.getElementById('attendance');
-    const navItems = document.querySelectorAll('.nav-item');
-    const themeToggle = document.getElementById('theme-toggle');
-    const logoutBtn = document.getElementById('logout-btn');
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const overlay = document.querySelector('.overlay');
-    const sidebar = document.querySelector('.sidebar');
-    const profileDropdown = document.getElementById('profile-dropdown');
-    const dropdownMenu = document.getElementById('dropdown-menu');
-    const aiButton = document.getElementById('ai-button');
-    const aiChat = document.getElementById('ai-chat');
-    const closeAiChat = document.getElementById('close-ai-chat');
-    const sendAiMessage = document.getElementById('send-ai-message');
-    const aiChatInput = document.getElementById('ai-chat-input');
-    const notificationBtn = document.getElementById('notification-btn');
-    const notificationCount = document.getElementById('notification-count');
-    const adminPanelBtn = document.getElementById('admin-panel');
-
-    // Modal Elements
-    const homeworkModal = document.getElementById('homework-modal');
-    const closeHomework = document.getElementById('close-homework');
-    const cancelHomework = document.getElementById('cancel-homework');
-    const completeHomeworkBtn = document.getElementById('complete-homework');
-    const notificationModal = document.getElementById('notification-modal');
-    const closeNotifications = document.getElementById('close-notifications');
-    const markAllRead = document.getElementById('mark-all-read');
-    const addHomeworkModal = document.getElementById('add-homework-modal');
-    const closeAddHomework = document.getElementById('close-add-homework');
-    const cancelAddHomework = document.getElementById('cancel-add-homework');
-    const saveHomework = document.getElementById('save-homework');
-    const addAnnouncementModal = document.getElementById('add-announcement-modal');
-    const closeAnnouncement = document.getElementById('close-announcement');
-    const cancelAnnouncement = document.getElementById('cancel-announcement');
-    const saveAnnouncement = document.getElementById('save-announcement');
-
-    // Profile Elements
-    const profileName = document.getElementById('profile-name');
-    const profileClass = document.getElementById('profile-class');
-    const profileId = document.getElementById('profile-id');
-    const profileEmail = document.getElementById('profile-email');
-    const profilePhone = document.getElementById('profile-phone');
-    const profileParent = document.getElementById('profile-parent');
-    const profileCompletion = document.getElementById('profile-completion');
-    const profileAverage = document.getElementById('profile-average');
-
-    // Mock data
-    let homeworkData = [];
-    let assignmentsData = [];
-    let timetableData = [];
-    let announcementsData = [];
-    let gradesData = [];
-    let performanceData = [];
-    let userData = [];
-    let messagesData = [];
-    let notifications = [];
-
-    // Load data from localStorage or use defaults
-    function loadData() {
-      const savedHomework = localStorage.getItem('mkps_homework');
-      const savedAssignments = localStorage.getItem('mkps_assignments');
-      const savedTimetable = localStorage.getItem('mkps_timetable');
-      const savedAnnouncements = localStorage.getItem('mkps_announcements');
-      const savedGrades = localStorage.getItem('mkps_grades');
-      const savedPerformance = localStorage.getItem('mkps_performance');
-      const savedUsers = localStorage.getItem('mkps_users');
-      const savedMessages = localStorage.getItem('mkps_messages');
-      const savedNotifications = localStorage.getItem('mkps_notifications');
-
-      homeworkData = savedHomework ? JSON.parse(savedHomework) : [
-        { id: 1, class: '5', subject: 'math', title: 'Algebra Problems', dueDate: '2023-07-15', status: 'pending', description: 'Complete problems 1-20 on page 45', completed: false, teacher: 'Mr. Sharma', points: 20 },
-        { id: 2, class: '5', subject: 'science', title: 'Lab Report', dueDate: '2023-07-16', status: 'pending', description: 'Write up the experiment on plant growth', completed: false, teacher: 'Ms. Patel', points: 30 },
-        { id: 3, class: 'all', subject: 'english', title: 'Essay on Summer Vacation', dueDate: '2023-07-18', status: 'pending', description: '500 words about your summer vacation', completed: false, teacher: 'Mrs. Gupta', points: 25 },
-        { id: 4, class: '5', subject: 'math', title: 'Geometry Assignment', dueDate: '2023-07-12', status: 'completed', description: 'Complete exercises on triangles and angles', completed: true, teacher: 'Mr. Sharma', points: 20, grade: 'A', feedback: 'Excellent work on the proofs!' }
-      ];
-
-      assignmentsData = savedAssignments ? JSON.parse(savedAssignments) : [
-        { id: 1, class: '5', subject: 'math', title: 'Midterm Exam', dueDate: '2023-07-25', status: 'pending', points: 100, submitted: false, completed: false },
-        { id: 2, class: '5', subject: 'english', title: 'Poetry Analysis', dueDate: '2023-07-22', status: 'pending', points: 50, submitted: false, completed: false },
-        { id: 3, class: 'all', subject: 'science', title: 'Research Paper', dueDate: '2023-08-05', status: 'pending', points: 200, submitted: false, completed: false },
-        { id: 4, class: '5', subject: 'math', title: 'Final Project', dueDate: '2023-08-10', status: 'graded', points: 150, submitted: true, grade: 'A', feedback: 'Excellent work! Clear explanations and correct solutions.', completed: true },
-        { id: 5, class: '5', subject: 'english', title: 'Book Report', dueDate: '2023-07-30', status: 'submitted', points: 75, submitted: true, grade: 'B+', feedback: 'Good analysis, could use more examples from the text.', completed: true }
-      ];
-
-      timetableData = savedTimetable ? JSON.parse(savedTimetable) : [
-        { time: '8:00-8:45', mon: 'Math', tue: 'English', wed: 'Science', thu: 'Math', fri: 'English' },
-        { time: '8:45-9:30', mon: 'English', tue: 'Science', wed: 'Math', thu: 'English', fri: 'Science' },
-        { time: '9:30-10:15', mon: 'Science', tue: 'Math', wed: 'English', thu: 'Science', fri: 'Math' },
-        { time: '10:15-11:00', mon: 'Social', tue: 'Hindi', wed: 'Social', thu: 'Hindi', fri: 'Social' },
-        { time: '11:00-11:45', mon: 'Hindi', tue: 'Social', wed: 'Hindi', thu: 'Social', fri: 'Hindi' },
-        { time: '11:45-12:30', mon: 'PE', tue: 'Art', wed: 'Music', thu: 'PE', fri: 'Art' }
-      ];
-
-      announcementsData = savedAnnouncements ? JSON.parse(savedAnnouncements) : [
-        { id: 1, title: 'Summer Vacation', type: 'event', content: 'Summer vacation will start from June 15th and end on August 15th.', date: '2023-06-01', author: 'Principal' },
-        { id: 2, title: 'Exam Schedule', type: 'important', content: 'Midterm exams will be held from July 10th to July 14th. Please check the detailed schedule.', date: '2023-07-01', author: 'Examination Cell' },
-        { id: 3, title: 'New Library Books', type: 'general', content: 'We have added new books to our library collection. Come and explore the latest additions!', date: '2023-07-05', author: 'Library Department' }
-      ];
-
-      gradesData = savedGrades ? JSON.parse(savedGrades) : [
-        { subject: 'Mathematics', term1: 88, term2: 92, term3: 85 },
-        { subject: 'Science', term1: 85, term2: 87, term3: 90 },
-        { subject: 'English', term1: 90, term2: 88, term3: 86 },
-        { subject: 'Social Studies', term1: 82, term2: 85, term3: 88 },
-        { subject: 'Hindi', term1: 87, term2: 84, term3: 86 }
-      ];
-
-      performanceData = savedPerformance ? JSON.parse(savedPerformance) : [
-        { term: 'Term 1', math: 88, science: 85, english: 90 },
-        { term: 'Term 2', math: 92, science: 87, english: 88 },
-        { term: 'Term 3', math: 85, science: 90, english: 86 }
-      ];
-
-      userData = savedUsers ? JSON.parse(savedUsers) : [
-        { id: 1, name: 'John Doe', class: '5', email: 'john.doe@mkps.edu', role: 'student' },
-        { id: 2, name: 'Jane Smith', class: '5', email: 'jane.smith@mkps.edu', role: 'student' },
-        { id: 3, name: 'Mr. Sharma', class: '', email: 'sharma@mkps.edu', role: 'teacher' }
-      ];
-
-      messagesData = savedMessages ? JSON.parse(savedMessages) : [
-        { id: 1, from: 'Mr. Sharma', to: 'student', subject: 'Math Homework', content: 'Please submit your algebra assignment by tomorrow.', date: '2023-07-14', read: false, type: 'homework' },
-        { id: 2, from: 'Mrs. Gupta', to: 'student', subject: 'Essay Feedback', content: 'Your essay was well-written. Consider adding more descriptive language next time.', date: '2023-07-10', read: true, type: 'grade' },
-        { id: 3, from: 'Library', to: 'all', subject: 'New Books Available', content: 'We\'ve added new books to the library. Come check them out!', date: '2023-07-05', read: false, type: 'info' }
-      ];
-
-      notifications = savedNotifications ? JSON.parse(savedNotifications) : [
-        { id: 1, type: 'homework', title: 'New Homework Assigned', content: 'Mathematics homework has been assigned due next week.', date: '2023-07-12', read: false },
-        { id: 2, type: 'grade', title: 'Grades Updated', content: 'Your English assignment has been graded.', date: '2023-07-10', read: false },
-        { id: 3, type: 'announcement', title: 'Upcoming Event', content: 'Parent-teacher meeting scheduled for next week.', date: '2023-07-08', read: true }
-      ];
-    }
-
-    // Initialize the app
-    function initApp() {
-      // Check if user is logged in
-      const studentData = localStorage.getItem('mkps_student');
-      if (!studentData) {
-        window.location.href = 'index.html';
-        return;
-      }
-
-      const student = JSON.parse(studentData);
-      studentNameEl.textContent = student.name;
-      studentClassEl.textContent = `Class ${student.class || 'N/A'}`;
-
-      // Set profile data
-      profileName.textContent = student.name;
-      profileClass.textContent = `Class ${student.class || 'N/A'}`;
-      profileId.textContent = `MKPS${String(student.class).padStart(2, '0')}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
-      profileEmail.textContent = student.email || `${student.name.toLowerCase().replace(' ', '.')}@mkps.edu`;
-      profilePhone.textContent = student.phone || 'Not specified';
-      profileParent.textContent = student.parent || 'Not specified';
-
-      // Load data
-      loadData();
-
-      // Set up event listeners
-      setupEventListeners();
-
-      // Load dashboard data
-      loadDashboardData();
-
-      // Create charts
-      createCharts();
-
-      // Load page content
-      loadPageContent();
-
-      // Check theme preference
-      const savedTheme = localStorage.getItem('mkps_theme');
-      if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
-      }
-
-      // Check if user is admin
-      checkAdminAccess();
-
-      // Update notification count
-      updateNotificationCount();
-    }
-
-    // Check if current user has admin access
-    function checkAdminAccess() {
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      
-      // Only specific users can access admin panel
-      if (studentData.name === 'Admin User' || studentData.email === 'admin@mkps.edu') {
-        adminPanelBtn.style.display = 'flex';
-      } else {
-        adminPanelBtn.style.display = 'none';
-      }
-    }
-
-    // Set up event listeners
-    function setupEventListeners() {
-      // Navigation
-      navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          const page = item.getAttribute('data-page');
-          if (page) {
-            // Update active nav item
-            navItems.forEach(nav => nav.classList.remove('active'));
-            item.classList.add('active');
-
-            // Show selected page
-            document.querySelectorAll('.page-content').forEach(content => {
-              content.classList.add('hidden');
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        // Form validation and submission
+        const loginForm = document.getElementById('loginForm');
+        const warningBox = document.getElementById('warningBox');
+        const warningText = document.getElementById('warningText');
+        const loading = document.getElementById('loading');
+        
+        function showWarning(message) {
+            warningText.textContent = message;
+            warningBox.style.display = 'block';
+            setTimeout(() => {
+                warningBox.style.display = 'none';
+            }, 3000);
+        }
+        
+        function showMessage(message, type = 'success') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `form-message ${type}`;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => messageDiv.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+                setTimeout(() => document.body.removeChild(messageDiv), 300);
+            }, 3000);
+        }
+        
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentClass = document.getElementById('studentClass').value;
+            const parentName = document.getElementById('parentName').value.trim();
+            
+            // Validate inputs
+            if (!studentName || !studentClass || !parentName) {
+                showWarning('Please fill in all required fields');
+                return;
+            }
+            
+            if (studentName.length < 2 || studentName.length > 50) {
+                showWarning('Student name must be between 2 and 50 characters');
+                return;
+            }
+            
+            if (parentName.length < 2 || parentName.length > 50) {
+                showWarning('Parent name must be between 2 and 50 characters');
+                return;
+            }
+            
+            // Sanitize inputs
+            const sanitizedData = {
+                studentName: sanitizeInput(studentName),
+                studentClass: sanitizeInput(studentClass),
+                parentName: sanitizeInput(parentName),
+                loginTime: new Date().toISOString()
+            };
+            
+            // Show loading
+            loading.style.display = 'block';
+            loginForm.style.display = 'none';
+            
+            // Save to localStorage
+            localStorage.setItem('mkps_student', JSON.stringify(sanitizedData));
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                showMessage('Login successful! Redirecting to dashboard...');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            }, 1000);
+        });
+        
+        // Google Sign-In
+        function onGoogleSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            const userData = {
+                studentName: profile.getName(),
+                studentEmail: profile.getEmail(),
+                studentPhoto: profile.getImageUrl(),
+                loginMethod: 'google',
+                loginTime: new Date().toISOString()
+            };
+            
+            // Default class assignment based on email (can be updated later)
+            userData.studentClass = '1';
+            userData.parentName = 'Google Account';
+            
+            localStorage.setItem('mkps_student', JSON.stringify(userData));
+            showMessage('Google login successful! Redirecting...');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        }
+        
+        // Form field enhancements
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
             });
-
-            if (page === 'admin-panel') {
-              // Check if user has admin access
-              const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-              if (studentData.name === 'Admin User' || studentData.email === 'admin@mkps.edu') {
-                document.getElementById(`${page}-page`).classList.remove('hidden');
-              } else {
-                alert('You do not have permission to access the admin panel.');
-                item.classList.remove('active');
-                document.querySelector('[data-page="dashboard"]').classList.add('active');
-                document.getElementById('dashboard-page').classList.remove('hidden');
-              }
-            } else {
-              document.getElementById(`${page}-page`).classList.remove('hidden');
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Auto-save form data
+        const formFields = ['studentName', 'studentClass', 'parentName'];
+        formFields.forEach(field => {
+            const element = document.getElementById(field);
+            const saved = localStorage.getItem(`mkps_login_${field}`);
+            if (saved) {
+                element.value = saved;
             }
-
-            // Close mobile menu
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
-          }
+            
+            element.addEventListener('input', function() {
+                localStorage.setItem(`mkps_login_${field}`, this.value);
+            });
         });
-      });
-
-      // Theme toggle
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        if (document.body.classList.contains('light-theme')) {
-          localStorage.setItem('mkps_theme', 'light');
-          themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
-        } else {
-          localStorage.setItem('mkps_theme', 'dark');
-          themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
-        }
-      });
-
-      // Logout
-      logoutBtn.addEventListener('click', () => {
-        if (confirm('Are you sure you want to logout?')) {
-          localStorage.removeItem('mkps_student');
-          window.location.href = 'index.html';
-        }
-      });
-
-      const logoutLink = document.getElementById('logout-link');
-      logoutLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (confirm('Are you sure you want to logout?')) {
-          localStorage.removeItem('mkps_student');
-          window.location.href = 'index.html';
-        }
-      });
-
-      // Mobile menu
-      mobileMenuBtn.addEventListener('click', () => {
-        sidebar.classList.add('open');
-        overlay.classList.add('active');
-      });
-
-      overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
-      });
-
-      // Profile dropdown
-      profileDropdown.addEventListener('click', () => {
-        dropdownMenu.classList.toggle('hidden');
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!profileDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
-          dropdownMenu.classList.add('hidden');
-        }
-      });
-
-      // AI Assistant
-      aiButton.addEventListener('click', () => {
-        aiChat.style.display = 'flex';
-      });
-
-      closeAiChat.addEventListener('click', () => {
-        aiChat.style.display = 'none';
-      });
-
-      sendAiMessage.addEventListener('click', sendAiMessageHandler);
-      aiChatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          sendAiMessageHandler();
-        }
-      });
-
-      // Notification button
-      notificationBtn.addEventListener('click', () => {
-        showNotifications();
-      });
-
-      closeNotifications.addEventListener('click', () => {
-        notificationModal.classList.remove('active');
-      });
-
-      markAllRead.addEventListener('click', () => {
-        notifications.forEach(n => n.read = true);
-        localStorage.setItem('mkps_notifications', JSON.stringify(notifications));
-        updateNotificationCount();
-        showNotifications();
-      });
-
-      // Homework modal
-      closeHomework.addEventListener('click', () => {
-        homeworkModal.classList.remove('active');
-      });
-
-      cancelHomework.addEventListener('click', () => {
-        homeworkModal.classList.remove('active');
-      });
-
-      // Add homework modal
-      document.getElementById('add-homework-btn')?.addEventListener('click', () => {
-        document.getElementById('homework-modal-title').textContent = 'Add Homework';
-        document.getElementById('homework-title').value = '';
-        document.getElementById('homework-description').value = '';
-        document.getElementById('homework-due-date').value = '';
-        document.getElementById('homework-points').value = 10;
-        addHomeworkModal.classList.add('active');
-      });
-
-      closeAddHomework.addEventListener('click', () => {
-        addHomeworkModal.classList.remove('active');
-      });
-
-      cancelAddHomework.addEventListener('click', () => {
-        addHomeworkModal.classList.remove('active');
-      });
-
-      saveHomework.addEventListener('click', () => {
-        const title = document.getElementById('homework-title').value.trim();
-        const description = document.getElementById('homework-description').value.trim();
-        const subject = document.getElementById('homework-subject').value;
-        const classTarget = document.getElementById('homework-class').value;
-        const dueDate = document.getElementById('homework-due-date').value;
-        const points = parseInt(document.getElementById('homework-points').value);
-
-        if (title && description && dueDate) {
-          const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-          const newHomework = {
-            id: Date.now(),
-            class: classTarget,
-            subject: subject,
-            title: title,
-            dueDate: dueDate,
-            status: 'pending',
-            description: description,
-            completed: false,
-            teacher: studentData.name,
-            points: points
-          };
-
-          homeworkData.unshift(newHomework);
-          localStorage.setItem('mkps_homework', JSON.stringify(homeworkData));
-
-          // Add notification for all users in the target class
-          const newNotification = {
-            id: Date.now(),
-            type: 'homework',
-            title: 'New Homework Assigned',
-            content: `${title} has been assigned.`,
-            date: new Date().toISOString().split('T')[0],
-            read: false
-          };
-          notifications.unshift(newNotification);
-          localStorage.setItem('mkps_notifications', JSON.stringify(notifications));
-
-          addHomeworkModal.classList.remove('active');
-          loadPageContent();
-          updateNotificationCount();
-          alert('Homework added successfully!');
-        } else {
-          alert('Please fill in all required fields');
-        }
-      });
-
-      // Add announcement modal
-      document.getElementById('add-announcement-btn')?.addEventListener('click', () => {
-        document.getElementById('announcement-title').value = '';
-        document.getElementById('announcement-content').value = '';
-        addAnnouncementModal.classList.add('active');
-      });
-
-      closeAnnouncement.addEventListener('click', () => {
-        addAnnouncementModal.classList.remove('active');
-      });
-
-      cancelAnnouncement.addEventListener('click', () => {
-        addAnnouncementModal.classList.remove('active');
-      });
-
-      saveAnnouncement.addEventListener('click', () => {
-        const title = document.getElementById('announcement-title').value.trim();
-        const content = document.getElementById('announcement-content').value.trim();
-        const type = document.getElementById('announcement-type').value;
-
-        if (title && content) {
-          const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-          const newAnnouncement = {
-            id: Date.now(),
-            title: title,
-            type: type,
-            content: content,
-            date: new Date().toISOString().split('T')[0],
-            author: studentData.name
-          };
-
-          announcementsData.unshift(newAnnouncement);
-          localStorage.setItem('mkps_announcements', JSON.stringify(announcementsData));
-
-          // Add notification for all users
-          const newNotification = {
-            id: Date.now(),
-            type: 'announcement',
-            title: 'New Announcement',
-            content: title,
-            date: new Date().toISOString().split('T')[0],
-            read: false
-          };
-          notifications.unshift(newNotification);
-          localStorage.setItem('mkps_notifications', JSON.stringify(notifications));
-
-          addAnnouncementModal.classList.remove('active');
-          loadPageContent();
-          updateNotificationCount();
-          alert('Announcement posted successfully!');
-        } else {
-          alert('Please fill in all fields');
-        }
-      });
-    }
-
-    // Load page content
-    function loadPageContent() {
-      // Homework page
-      filterHomework('all');
-
-      // Assignments page
-      filterAssignments('all');
-
-      // Timetable page
-      const timetableBody = document.getElementById('timetable-body');
-      timetableBody.innerHTML = '';
-      timetableData.forEach(period => {
-        const row = document.createElement('tr');
-        row.className = 'border-b border-gray-700';
-        row.innerHTML = `<td class="py-3 px-2 font-medium">${period.time}</td>
-                         <td class="py-3 px-2">${period.mon}</td>
-                         <td class="py-3 px-2">${period.tue}</td>
-                         <td class="py-3 px-2">${period.wed}</td>
-                         <td class="py-3 px-2">${period.thu}</td>
-                         <td class="py-3 px-2">${period.fri}</td>`;
-        timetableBody.appendChild(row);
-      });
-
-      // Upcoming events
-      const upcomingEvents = document.getElementById('upcoming-events');
-      upcomingEvents.innerHTML = '';
-      const events = [
-        { date: '2023-07-15', title: 'Math Homework Due', type: 'homework' },
-        { date: '2023-07-20', title: 'Parent-Teacher Meeting', type: 'event' },
-        { date: '2023-07-25', title: 'Science Fair', type: 'event' },
-        { date: '2023-08-01', title: 'Midterm Exams Begin', type: 'warning' }
-      ];
-      events.forEach(event => {
-        const eventEl = document.createElement('div');
-        eventEl.className = 'p-3 mb-3 rounded-lg bg-white bg-opacity-10';
-        eventEl.innerHTML = `<div class="flex items-center gap-2 mb-1">
-                              <i class="fas fa-calendar-alt text-blue-400"></i>
-                              <span class="font-medium">${formatDate(event.date)}</span>
-                            </div>
-                            <h4 class="font-semibold">${event.title}</h4>`;
-        upcomingEvents.appendChild(eventEl);
-      });
-
-      // Announcements
-      const announcements = document.getElementById('announcements');
-      announcements.innerHTML = '';
-      announcementsData.slice(0, 3).forEach(announcement => {
-        const annEl = document.createElement('div');
-        annEl.className = 'p-3 mb-3 rounded-lg bg-white bg-opacity-10';
-        annEl.innerHTML = `<div class="flex items-center gap-2 mb-1">
-                            <i class="fas fa-bullhorn text-green-400"></i>
-                            <span class="font-medium">${formatDate(announcement.date)}</span>
-                          </div>
-                          <h4 class="font-semibold">${announcement.title}</h4>
-                          <p class="text-sm text-gray-300 mt-1">${announcement.content}</p>`;
-        announcements.appendChild(annEl);
-      });
-    }
-
-    // Filter homework
-    function filterHomework(filter) {
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      const studentClass = studentData.class;
-
-      // Update active tab
-      document.querySelectorAll('.tabs .tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelector(`.tabs .tab[data-filter="${filter}"]`).classList.add('active');
-
-      const homeworkList = document.getElementById('homework-list');
-      homeworkList.innerHTML = '';
-
-      // Filter by student class
-      let filteredHomework = homeworkData.filter(hw => hw.class === 'all' || hw.class === studentClass);
-
-      // Apply additional filters
-      if (filter !== 'all') {
-        if (filter === 'pending') {
-          filteredHomework = filteredHomework.filter(hw => !hw.completed);
-        } else if (filter === 'completed') {
-          filteredHomework = filteredHomework.filter(hw => hw.completed);
-        } else {
-          filteredHomework = filteredHomework.filter(hw => hw.subject === filter);
-        }
-      }
-
-      if (filteredHomework.length === 0) {
-        homeworkList.innerHTML = '<div class="text-center py-8 text-gray-400">No homework found for this category</div>';
-        return;
-      }
-
-      filteredHomework.forEach(hw => {
-        const hwEl = document.createElement('div');
-        hwEl.className = `homework-item ${hw.completed ? 'completed' : ''}`;
-        hwEl.innerHTML = `<div>
-                            <h4 class="font-semibold">${hw.title}</h4>
-                            <p class="text-sm text-gray-400">${hw.description}</p>
-                            <div class="flex items-center gap-2 mt-2">
-                              <span class="subject-tag" style="background: ${getSubjectColor(hw.subject)}">${getSubjectName(hw.subject)}</span>
-                              <span class="text-sm">Due: ${formatDate(hw.dueDate)}</span>
-                              <span class="text-sm">Points: ${hw.points}</span>
-                              <span class="badge ${hw.completed ? 'completed' : 'pending'}">${hw.completed ? 'Completed' : 'Pending'}</span>
-                            </div>
-                          </div>
-                          <div class="flex gap-2">
-                            <button class="btn btn-secondary btn-xs view-btn" data-id="${hw.id}">View</button>
-                            <button class="btn btn-primary btn-xs complete-btn" data-id="${hw.id}">${hw.completed ? 'View' : 'Complete'}</button>
-                          </div>`;
-        homeworkList.appendChild(hwEl);
-      });
-
-      // Add event listeners to view buttons
-      document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const hwId = this.getAttribute('data-id');
-          viewHomework(hwId);
+        
+        // Clear saved form data on successful login
+        loginForm.addEventListener('submit', function() {
+            formFields.forEach(field => {
+                localStorage.removeItem(`mkps_login_${field}`);
+            });
         });
-      });
-
-      // Add event listeners to complete buttons
-      document.querySelectorAll('.complete-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const hwId = this.getAttribute('data-id');
-          completeHomeworkItem(hwId);
-        });
-      });
-    }
-
-    // View homework details
-    function viewHomework(hwId) {
-      const homework = homeworkData.find(hw => hw.id == hwId);
-      if (homework) {
-        const detailContent = document.getElementById('homework-detail-content');
-        detailContent.innerHTML = `<div class="homework-detail">
-                                    <h3>${homework.title}</h3>
-                                    <p><strong>Description:</strong> ${homework.description}</p>
-                                    <p><strong>Subject:</strong> ${getSubjectName(homework.subject)}</p>
-                                    <p><strong>Due Date:</strong> ${formatDate(homework.dueDate)}</p>
-                                    <p><strong>Points:</strong> ${homework.points}</p>
-                                    <p><strong>Teacher:</strong> ${homework.teacher}</p>
-                                  </div>`;
-        homeworkModal.classList.add('active');
-      }
-    }
-
-    // Complete homework item
-    function completeHomeworkItem(hwId) {
-      const homework = homeworkData.find(hw => hw.id == hwId);
-      if (homework) {
-        if (homework.completed) {
-          // If already completed, just view details
-          viewHomework(hwId);
-        } else {
-          // Mark as completed
-          homework.completed = true;
-          homework.status = 'completed';
-
-          // Save to localStorage
-          localStorage.setItem('mkps_homework', JSON.stringify(homeworkData));
-
-          // Update UI
-          loadDashboardData();
-          filterHomework(document.querySelector('#homework-page .tabs .tab.active').getAttribute('data-filter'));
-
-          // Add to recent activity
-          const activity = document.getElementById('recent-activity');
-          const item = document.createElement('div');
-          item.className = 'flex items-center gap-3';
-          item.innerHTML = `<div class="bg-blue-500 bg-opacity-20 p-2 rounded-full">
-                              <i class="fas fa-book text-blue-400"></i>
-                            </div>
-                            <div class="flex-1">
-                              <p class="font-medium">Homework completed: ${homework.title}</p>
-                              <p class="text-sm text-gray-400">${new Date().toLocaleString()}</p>
-                            </div>`;
-          activity.prepend(item);
-
-          // Close modal if open
-          homeworkModal.classList.remove('active');
-        }
-      }
-    }
-
-    // Filter assignments
-    function filterAssignments(filter) {
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      const studentClass = studentData.class;
-
-      // Update active tab
-      document.querySelectorAll('#assignments-page .tabs .tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelector(`#assignments-page .tabs .tab[data-filter="${filter}"]`).classList.add('active');
-
-      const assignmentsList = document.getElementById('assignments-list');
-      assignmentsList.innerHTML = '';
-
-      // Filter by student class
-      let filteredAssignments = assignmentsData.filter(ass => ass.class === 'all' || ass.class === studentClass);
-
-      // Apply additional filters
-      if (filter !== 'all') {
-        if (filter === 'pending') {
-          filteredAssignments = filteredAssignments.filter(ass => !ass.submitted);
-        } else if (filter === 'submitted') {
-          filteredAssignments = filteredAssignments.filter(ass => ass.submitted && !ass.grade);
-        } else if (filter === 'graded') {
-          filteredAssignments = filteredAssignments.filter(ass => ass.grade);
-        }
-      }
-
-      if (filteredAssignments.length === 0) {
-        assignmentsList.innerHTML = '<div class="text-center py-8 text-gray-400">No assignments found for this category</div>';
-        return;
-      }
-
-      filteredAssignments.forEach(ass => {
-        const assEl = document.createElement('div');
-        assEl.className = 'assignment-item';
-        assEl.innerHTML = `<div class="flex justify-between items-start">
-                            <div>
-                              <h4 class="font-semibold">${ass.title}</h4>
-                              <div class="flex items-center gap-3 mt-1">
-                                <span class="subject-tag" style="background: ${getSubjectColor(ass.subject)}">${getSubjectName(ass.subject)}</span>
-                                <span class="text-sm">Points: ${ass.points}</span>
-                                <span class="text-sm">Due: ${formatDate(ass.dueDate)}</span>
-                              </div>
-                              ${ass.grade ? `<div class="mt-2">
-                                <span class="text-sm">Grade: <strong>${ass.grade}</strong></span>
-                                ${ass.feedback ? `<p class="text-sm text-gray-400 mt-1">${ass.feedback}</p>` : ''}
-                              </div>` : ''}
-                            </div>
-                            <div class="flex gap-2">
-                              <button class="btn btn-secondary btn-xs view-assignment" data-id="${ass.id}">View</button>
-                              ${!ass.submitted ? `<button class="btn btn-primary btn-xs submit-assignment" data-id="${ass.id}">Submit</button>` : 
-                                ass.grade ? `<span class="badge completed">Graded</span>` : `<span class="badge pending">Submitted</span>`}
-                            </div>
-                          </div>`;
-        assignmentsList.appendChild(assEl);
-      });
-
-      // Add event listeners to view buttons
-      document.querySelectorAll('.view-assignment').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const assId = this.getAttribute('data-id');
-          viewAssignment(assId);
-        });
-      });
-
-      // Add event listeners to submit buttons
-      document.querySelectorAll('.submit-assignment').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const assId = this.getAttribute('data-id');
-          submitAssignment(assId);
-        });
-      });
-    }
-
-    // View assignment details
-    function viewAssignment(assId) {
-      const assignment = assignmentsData.find(ass => ass.id == assId);
-      if (assignment) {
-        const detailContent = document.getElementById('homework-detail-content');
-        detailContent.innerHTML = `<div class="homework-detail">
-                                    <h3>${assignment.title}</h3>
-                                    <p><strong>Subject:</strong> ${getSubjectName(assignment.subject)}</p>
-                                    <p><strong>Due Date:</strong> ${formatDate(assignment.dueDate)}</p>
-                                    <p><strong>Points:</strong> ${assignment.points}</p>
-                                    ${assignment.grade ? `<p><strong>Grade:</strong> ${assignment.grade}</p>` : ''}
-                                    ${assignment.feedback ? `<p><strong>Feedback:</strong> ${assignment.feedback}</p>` : ''}
-                                    ${assignment.submitted ? `<p><strong>Status:</strong> Submitted</p>` : '<p><strong>Status:</strong> Pending Submission</p>'}
-                                  </div>`;
-        homeworkModal.classList.add('active');
-      }
-    }
-
-    // Submit assignment
-    function submitAssignment(assId) {
-      const assignment = assignmentsData.find(ass => ass.id == assId);
-      if (assignment && !assignment.submitted) {
-        if (confirm('Are you sure you want to submit this assignment?')) {
-          assignment.submitted = true;
-          assignment.status = 'submitted';
-
-          // Save to localStorage
-          localStorage.setItem('mkps_assignments', JSON.stringify(assignmentsData));
-
-          // Update UI
-          loadDashboardData();
-          filterAssignments(document.querySelector('#assignments-page .tabs .tab.active').getAttribute('data-filter'));
-
-          // Add to recent activity
-          const activity = document.getElementById('recent-activity');
-          const item = document.createElement('div');
-          item.className = 'flex items-center gap-3';
-          item.innerHTML = `<div class="bg-green-500 bg-opacity-20 p-2 rounded-full">
-                              <i class="fas fa-clipboard-check text-green-400"></i>
-                            </div>
-                            <div class="flex-1">
-                              <p class="font-medium">Assignment submitted: ${assignment.title}</p>
-                              <p class="text-sm text-gray-400">${new Date().toLocaleString()}</p>
-                            </div>`;
-          activity.prepend(item);
-        }
-      }
-    }
-
-    // Load dashboard data
-    function loadDashboardData() {
-      // Calculate pending homework
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      const studentClass = studentData.class;
-      const pendingHw = homeworkData.filter(hw => (hw.class === 'all' || hw.class === studentClass) && !hw.completed).length;
-      pendingHwEl.textContent = pendingHw;
-
-      // Upcoming tests (mock data)
-      upcomingTestsEl.textContent = '3';
-
-      // Average grade
-      const completedAssignments = assignmentsData.filter(ass => (ass.class === 'all' || ass.class === studentClass) && ass.grade);
-      if (completedAssignments.length > 0) {
-        const totalGrades = completedAssignments.reduce((sum, ass) => {
-          const gradeValue = ass.grade === 'A' ? 95 : ass.grade === 'B+' ? 85 : ass.grade === 'B' ? 75 : ass.grade === 'C' ? 65 : 50;
-          return sum + gradeValue;
-        }, 0);
-        const avg = Math.round(totalGrades / completedAssignments.length);
-        avgGradeEl.textContent = `${avg}%`;
-      }
-
-      // Profile completion
-      const totalHw = homeworkData.filter(hw => hw.class === 'all' || hw.class === studentClass).length;
-      const completedHw = homeworkData.filter(hw => (hw.class === 'all' || hw.class === studentClass) && hw.completed).length;
-      const completionPercent = totalHw > 0 ? Math.round((completedHw / totalHw) * 100) : 0;
-      profileCompletion.textContent = `${completionPercent}%`;
-
-      // Recent activity
-      const activity = document.getElementById('recent-activity');
-      activity.innerHTML = '';
-      const recentItems = [
-        { icon: 'book', color: 'blue', text: 'Math homework completed', time: '2 hours ago' },
-        { icon: 'clipboard-check', color: 'green', text: 'English assignment submitted', time: '1 day ago' },
-        { icon: 'chart-line', color: 'purple', text: 'Science test graded: A-', time: '2 days ago' }
-      ];
-      recentItems.forEach(item => {
-        const activityItem = document.createElement('div');
-        activityItem.className = 'flex items-center gap-3 mb-3';
-        activityItem.innerHTML = `<div class="bg-${item.color}-500 bg-opacity-20 p-2 rounded-full">
-                                    <i class="fas fa-${item.icon} text-${item.color}-400"></i>
-                                  </div>
-                                  <div class="flex-1">
-                                    <p class="font-medium">${item.text}</p>
-                                    <p class="text-sm text-gray-400">${item.time}</p>
-                                  </div>`;
-        activity.appendChild(activityItem);
-      });
-    }
-
-    // Create charts
-    function createCharts() {
-      // Performance Chart
-      const performanceCtx = document.getElementById('performanceChart').getContext('2ch');
-      new Chart(performanceCtx, {
-        type: 'line',
-         {
-          labels: performanceData.map(d => d.term),
-          datasets: [
-            {
-              label: 'Mathematics',
-              data: performanceData.map(d => d.math),
-              borderColor: '#6366f1',
-              backgroundColor: 'rgba(99, 102, 241, 0.1)',
-              tension: 0.4,
-              fill: true
-            },
-            {
-              label: 'Science',
-               performanceData.map(d => d.science),
-              borderColor: '#8b5cf6',
-              backgroundColor: 'rgba(139, 92, 246, 0.1)',
-              tension: 0.4,
-              fill: true
-            },
-            {
-              label: 'English',
-               performanceData.map(d => d.english),
-              borderColor: '#06b6d4',
-              backgroundColor: 'rgba(6, 182, 212, 0.1)',
-              tension: 0.4,
-              fill: true
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                loginForm.dispatchEvent(new Event('submit'));
             }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              labels: {
-                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              grid: {
-                color: 'rgba(255, 255, 255, 0.1)'
-              },
-              ticks: {
-                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
-              }
-            },
-            x: {
-              grid: {
-                display: false
-              },
-              ticks: {
-                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // Show notifications
-    function showNotifications() {
-      const notificationsList = document.getElementById('notifications-list');
-      notificationsList.innerHTML = '';
-
-      if (notifications.length === 0) {
-        notificationsList.innerHTML = '<div class="text-center py-8 text-gray-400">No notifications</div>';
-        return;
-      }
-
-      notifications.forEach(notification => {
-        const notificationEl = document.createElement('div');
-        notificationEl.className = `p-3 mb-2 rounded-lg ${!notification.read ? 'bg-blue-500 bg-opacity-20' : 'bg-white bg-opacity-10'}`;
-        notificationEl.innerHTML = `<div class="flex items-start gap-2">
-                                      <div class="mt-1">
-                                        <i class="fas fa-bell text-blue-400"></i>
-                                      </div>
-                                      <div class="flex-1">
-                                        <div class="flex justify-between">
-                                          <h4 class="font-medium">${notification.title}</h4>
-                                          <span class="text-xs text-gray-400">${formatDate(notification.date)}</span>
-                                        </div>
-                                        <p class="text-sm text-gray-300 mt-1">${notification.content}</p>
-                                        ${!notification.read ? '<span class="text-xs text-blue-400 mt-1">New</span>' : ''}
-                                      </div>
-                                    </div>`;
-        notificationsList.appendChild(notificationEl);
-      });
-
-      notificationModal.classList.add('active');
-    }
-
-    // Update notification count
-    function updateNotificationCount() {
-      const unreadCount = notifications.filter(n => !n.read).length;
-      notificationCount.textContent = unreadCount > 0 ? unreadCount : '';
-    }
-
-    // Get subject color
-    function getSubjectColor(subject) {
-      switch(subject) {
-        case 'math': return '#6366f1';
-        case 'science': return '#8b5cf6';
-        case 'english': return '#06b6d4';
-        case 'social': return '#10b981';
-        case 'hindi': return '#f59e0b';
-        default: return '#6b7280';
-      }
-    }
-
-    // Get subject name
-    function getSubjectName(subject) {
-      switch(subject) {
-        case 'math': return 'Mathematics';
-        case 'science': return 'Science';
-        case 'english': return 'English';
-        case 'social': return 'Social Studies';
-        case 'hindi': return 'Hindi';
-        default: return subject;
-      }
-    }
-
-    // Format date
-    function formatDate(dateString) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-
-    // AI Assistant functions
-    async function sendAiMessageHandler() {
-      const message = aiChatInput.value.trim();
-      if (!message) return;
-
-      // Add user message
-      const userMsg = document.createElement('div');
-      userMsg.className = 'message user';
-      userMsg.textContent = message;
-      document.getElementById('ai-chat-body').appendChild(userMsg);
-
-      // Clear input
-      aiChatInput.value = '';
-
-      // Scroll to bottom
-      const chatBody = document.getElementById('ai-chat-body');
-      chatBody.scrollTop = chatBody.scrollHeight;
-
-      // Show loading
-      const loadingMsg = document.createElement('div');
-      loadingMsg.className = 'message assistant';
-      loadingMsg.textContent = 'Thinking...';
-      document.getElementById('ai-chat-body').appendChild(loadingMsg);
-
-      try {
-        // Get student context
-        const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-        const context = `You are helping ${studentData.name} from Class ${studentData.class} with their studies.`;
-
-        // Call Gemini API
-        const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: context + ' ' + message
-              }]
-            }]
-          })
         });
-
-        // Remove loading message
-        document.getElementById('ai-chat-body').removeChild(loadingMsg);
-
-        if (response.ok) {
-          const data = await response.json();
-          const aiResponse = data.candidates[0].content.parts[0].text;
-
-          // Add AI response
-          const aiMsg = document.createElement('div');
-          aiMsg.className = 'message assistant';
-          aiMsg.textContent = aiResponse;
-          document.getElementById('ai-chat-body').appendChild(aiMsg);
-        } else {
-          throw new Error('API request failed');
+        
+        // Service Worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function() {
+                    console.log('Service Worker registration failed');
+                });
+            });
         }
-      } catch (error) {
-        // Remove loading message
-        document.getElementById('ai-chat-body').removeChild(loadingMsg);
-
-        // Show error message
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'message assistant';
-        aiMsg.textContent = "I'm sorry, I'm having trouble connecting to the AI service right now. Please try again later.";
-        document.getElementById('ai-chat-body').appendChild(aiMsg);
-      }
-
-      // Scroll to bottom
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }
-
-    // Initialize the app when the page loads
-    document.addEventListener('DOMContentLoaded', initApp);
-  </script>
+    </script>
 </body>
 </html>
