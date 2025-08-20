@@ -1,245 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milli Karwaan Public School | Login</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milli karwaan public School - Login</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    body{
-      min-height:100vh;display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-      color:#fff;overflow:hidden;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      margin: 0;
     }
-
-    /* Floating animated background circles */
-    .circle{
-      position:absolute;border-radius:50%;background:rgba(255,255,255,0.08);
-      animation:float 12s infinite ease-in-out;
+    .tab {
+      @apply px-6 py-3 font-medium text-center cursor-pointer transition;
     }
-    .circle:nth-child(1){width:120px;height:120px;top:10%;left:15%;animation-delay:0s;}
-    .circle:nth-child(2){width:200px;height:200px;bottom:10%;right:10%;animation-delay:3s;}
-    .circle:nth-child(3){width:80px;height:80px;bottom:25%;left:20%;animation-delay:6s;}
-
-    @keyframes float{
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-30px);}
+    .tab.active {
+      @apply text-blue-600 border-b-2 border-blue-600;
     }
-
-    .card{
-      background:rgba(255,255,255,0.1);
-      backdrop-filter:blur(20px);
-      padding:2rem;border-radius:25px;width:95%;max-width:420px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.5);
-      animation:fadeIn 1.2s ease-in-out;
-      z-index:2;position:relative;
+    .form-container {
+      @apply mt-6 p-5 bg-white rounded-lg shadow-md transition-all duration-300;
     }
-    .logo{text-align:center;margin-bottom:1rem;}
-    .logo img{width:90px;filter:drop-shadow(0 0 8px #00c6ff);}
-    h2{text-align:center;margin-bottom:1rem;font-weight:700;font-size:1.6rem;}
-
-    label{font-size:0.9rem;margin-top:1rem;display:block;}
-    input,select{
-      width:100%;padding:0.8rem;margin-top:0.4rem;border:none;
-      border-radius:12px;background:rgba(255,255,255,0.2);
-      color:#fff;outline:none;transition:0.3s;
+    .btn {
+      @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-5 rounded transition;
     }
-    input:focus,select:focus{
-      box-shadow:0 0 10px #00c6ff;transform:scale(1.02);
+    .input-group {
+      @apply mb-4;
     }
-    input::placeholder{color:#ddd;}
-
-    button{
-      margin-top:1.5rem;width:100%;padding:0.9rem;border:none;
-      border-radius:12px;background:linear-gradient(135deg,#00c6ff,#0072ff);
-      color:#fff;font-weight:600;cursor:pointer;transition:0.3s;
-      font-size:1rem;box-shadow:0 5px 15px rgba(0,114,255,0.4);
+    .input-group label {
+      @apply block text-sm font-medium text-gray-700 mb-1;
     }
-    button:hover{transform:translateY(-2px);opacity:0.9;}
-
-    .google-btn{
-      margin-top:1rem;width:100%;background:#fff;color:#444;
-      font-weight:600;display:flex;align-items:center;justify-content:center;
-      gap:10px;border-radius:12px;padding:0.8rem;
-      box-shadow:0 5px 15px rgba(0,0,0,0.2);cursor:pointer;
-      transition:0.3s;
+    .input-group input, .input-group select {
+      @apply w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
     }
-    .google-btn:hover{transform:translateY(-2px);opacity:0.9;}
-    .google-btn img{width:22px;}
-
-    .toggle{
-      margin-top:1rem;text-align:center;cursor:pointer;font-size:0.9rem;
+    .error {
+      @apply text-red-500 text-sm mt-2;
     }
-
-    @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-
-    /* Modal for Google Extra Form */
-    .modal{
-      display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,0.6);backdrop-filter:blur(5px);
-      display:flex;align-items:center;justify-content:center;z-index:9999;
+    .hidden {
+      display: none;
     }
-    .modal-content{
-      background:#fff;color:#000;padding:2rem;border-radius:20px;
-      width:90%;max-width:400px;animation:fadeIn 0.5s;
+    .loader {
+      border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; margin-right: 8px;
     }
-    .modal-content h3{margin-bottom:1rem;}
-    .modal-content input,.modal-content select{
-      width:100%;padding:0.7rem;margin:0.5rem 0;border-radius:10px;
-      border:1px solid #ccc;
-    }
-    .modal-content button{
-      background:linear-gradient(135deg,#00c6ff,#0072ff);
-      color:#fff;width:100%;padding:0.8rem;border:none;border-radius:12px;
-      font-weight:600;margin-top:1rem;cursor:pointer;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
-
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body>
-  <!-- Floating Background -->
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
+<body class="text-gray-800">
 
-  <div class="card">
-    <div class="logo">
-      <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo">
-    </div>
-    <h2>Welcome to MKPS Balrampur</h2>
+  <div class="container max-w-4xl mx-auto p-4 pt-10">
+    <h1 class="text-3xl font-bold text-center text-blue-700 mb-2">SchoolConnect</h1>
+    <p class="text-center text-gray-600 mb-8">One Platform for Students, Parents & Teachers</p>
 
-    <!-- Manual Login -->
-    <form id="studentForm">
-      <label>Student Name</label>
-      <input type="text" id="studentName" placeholder="Enter your name" required>
-      <label>Class</label>
-      <select id="studentClass" required>
-        <option value="">Select Class</option>
-        <option value="1">Class 1</option>
-        <option value="2">Class 2</option>
-        <option value="3">Class 3</option>
-        <option value="4">Class 4</option>
-        <option value="5">Class 5</option>
-        <option value="6">Class 6</option>
-        <option value="7">Class 7</option>
-        <option value="8">Class 8</option>
-      </select>
-      <label>Parent Name</label>
-      <input type="text" id="parentName" placeholder="Enter parent name" required>
-      <button type="submit">Login</button>
-    </form>
-
-    <!-- Google Login -->
-    <div id="g_id_onload"
-      data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
-      data-callback="handleGoogleResponse"
-      data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin google-btn" data-type="standard" data-shape="rect" data-theme="outline" data-text="signin_with" data-size="large">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/> Sign in with Google
+    <!-- Google Sign In Button -->
+    <div class="flex justify-center mb-6">
+      <div id="g_id_onload"
+           data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
+           data-context="signin"
+           data-ux_mode="popup"
+           data-callback="handleCredentialResponse"
+           data-auto_select="false"
+           data-itp_support="true">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rectangular"
+           data-theme="outline"
+           data-text="signin_with"
+           data-size="large"
+           data-logo_alignment="left">
+      </div>
     </div>
 
-    <div class="toggle" onclick="toggleTheme()">🌗 Toggle Dark/Light</div>
-  </div>
+    <!-- Tabs -->
+    <div class="flex border-b border-gray-300 mb-6">
+      <div class="tab active" data-tab="student">Student</div>
+      <div class="tab" data-tab="parent">Parent</div>
+      <div class="tab" data-tab="teacher">Teacher</div>
+    </div>
 
-  <!-- Modal for Google Login Extra Details -->
-  <div id="googleModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <h3>Complete Your Profile</h3>
-      <form id="googleExtraForm">
-        <label>Student Name</label>
-        <input type="text" id="gStudentName" required>
-        <label>Class</label>
-        <select id="gStudentClass" required>
-          <option value="">Select Class</option>
-          <option value="1">Class 1</option>
-          <option value="2">Class 2</option>
-          <option value="3">Class 3</option>
-          <option value="4">Class 4</option>
-          <option value="5">Class 5</option>
-          <option value="6">Class 6</option>
-          <option value="7">Class 7</option>
-          <option value="8">Class 8</option>
-        </select>
-        <label>Parent Name</label>
-        <input type="text" id="gParentName" required>
-        <button type="submit">Save & Continue</button>
-      </form>
+    <!-- User Info After Google Login -->
+    <div id="user-info" class="hidden mb-4 p-4 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
+      Logged in as <strong id="user-email">—</strong>
+    </div>
+
+    <!-- Forms Container -->
+    <div id="form-container">
+      <!-- Student Form (Default) -->
+      <div id="student-form" class="form-container">
+        <h3 class="text-xl font-semibold mb-4">Student Details</h3>
+        <form id="studentForm">
+          <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" name="name" required />
+          </div>
+          <div class="input-group">
+            <label>Parent's Name</label>
+            <input type="text" name="parentName" required />
+          </div>
+          <div class="input-group">
+            <label>Class</label>
+            <select name="class" required>
+              <option value="">Select Class</option>
+              <script>
+                for (let i = 1; i <= 8; i++) document.write(`<option value="${i}">Class ${i}</option>`);
+              </script>
+            </select>
+          </div>
+          <button type="submit" class="btn">Continue to Dashboard</button>
+        </form>
+      </div>
+
+      <!-- Parent Form -->
+      <div id="parent-form" class="form-container hidden">
+        <h3 class="text-xl font-semibold mb-4">Parent Details</h3>
+        <form id="parentForm">
+          <div class="input-group">
+            <label>Your Name</label>
+            <input type="text" name="parentName" required />
+          </div>
+          <div class="input-group">
+            <label>Child's Name</label>
+            <input type="text" name="childName" required />
+          </div>
+          <div class="input-group">
+            <label>Class</label>
+            <select name="class" required>
+              <option value="">Select Class</option>
+              <script>
+                for (let i = 1; i <= 8; i++) document.write(`<option value="${i}">Class ${i}</option>`);
+              </script>
+            </select>
+          </div>
+          <button type="submit" class="btn">Verify & Enter</button>
+        </form>
+        <p id="parent-error" class="error hidden">Your child is not registered.</p>
+      </div>
+
+      <!-- Teacher Form -->
+      <div id="teacher-form" class="form-container hidden">
+        <h3 class="text-xl font-semibold mb-4">Teacher Login</h3>
+        <form id="teacherForm">
+          <div class="input-group">
+            <label>Teacher Name</label>
+            <input type="text" name="teacherName" value="Abutalha" readonly class="bg-gray-100" />
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" required placeholder="Enter password" />
+          </div>
+          <button type="submit" class="btn">Login as Teacher</button>
+        </form>
+        <p id="teacher-error" class="error hidden">Invalid credentials.</p>
+      </div>
     </div>
   </div>
 
   <script>
-    // Theme toggle
-    function toggleTheme(){
-      document.body.classList.toggle("light");
-      if(document.body.classList.contains("light")){
-        document.body.style.background="linear-gradient(135deg,#f5f7fa,#c3cfe2)";
-        document.body.style.color="#000";
-      }else{
-        document.body.style.background="linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
-        document.body.style.color="#fff";
-      }
-    }
+    // Tab Switching
+    const tabs = document.querySelectorAll('.tab');
+    const forms = {
+      student: document.getElementById('student-form'),
+      parent: document.getElementById('parent-form'),
+      teacher: document.getElementById('teacher-form')
+    };
 
-    // Manual form login
-    document.getElementById("studentForm").addEventListener("submit",function(e){
-      e.preventDefault();
-      let student={
-        name:document.getElementById("studentName").value.trim(),
-        class:document.getElementById("studentClass").value,
-        parent:document.getElementById("parentName").value.trim()
-      };
-      if(!student.name||!student.class||!student.parent){alert("Please fill all fields");return;}
-      localStorage.setItem("mkps_student",JSON.stringify(student));
-      window.location.href="dashboard.html";
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        Object.keys(forms).forEach(key => forms[key].classList.add('hidden'));
+        const role = tab.getAttribute('data-tab');
+        forms[role].classList.remove('hidden');
+      });
     });
 
-    // Google login response
-    let googleUserData={};
-    function handleGoogleResponse(response){
-      try{
-        const data=jwt_decode(response.credential);
-        googleUserData={email:data.email};
-        // Show modal to complete profile
-        document.getElementById("googleModal").style.display="flex";
-      }catch(err){
-        alert("Google login failed: "+err.message);
-      }
+    // Google Sign-In Response
+    let googleUserEmail = null;
+
+    function handleCredentialResponse(response) {
+      const credential = response.credential;
+      const decoded = parseJwt(credential);
+      googleUserEmail = decoded.email;
+
+      document.getElementById('user-email').textContent = decoded.email;
+      document.getElementById('user-info').classList.remove('hidden');
+
+      // Show the correct form based on active tab
+      const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+      forms[activeTab].classList.remove('hidden');
     }
 
-    // Save extra Google info
-    document.getElementById("googleExtraForm").addEventListener("submit",function(e){
-      e.preventDefault();
-      let student={
-        name:document.getElementById("gStudentName").value.trim(),
-        class:document.getElementById("gStudentClass").value,
-        parent:document.getElementById("gParentName").value.trim(),
-        email:googleUserData.email || ""
-      };
-      localStorage.setItem("mkps_student",JSON.stringify(student));
-      window.location.href="dashboard.html";
-    });
-
-    // JWT decode
-    function jwt_decode(token){
-      let base64Url=token.split('.')[1];
-      let base64=base64Url.replace(/-/g,'+').replace(/_/g,'/');
-      let jsonPayload=decodeURIComponent(atob(base64).split('').map(c=>{
-        return'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
       return JSON.parse(jsonPayload);
     }
 
-    // If already logged in → go to dashboard
-    if(localStorage.getItem("mkps_student")){
-      window.location.href="dashboard.html";
-    }
+    // Dummy Data for Validation
+    const dummyStudents = [
+      { name: "Ali Raza", parent: "Sana Raza", class: 5 },
+      { name: "Zainab Khan", parent: "Imran Khan", class: 7 },
+      { name: "Umar Farooq", parent: "Nadia Farooq", class: 5 },
+    ];
+
+    const dummyParents = [
+      { parent: "Sana Raza", child: "Ali Raza", class: 5 },
+      { parent: "Imran Khan", child: "Zainab Khan", class: 7 },
+      { parent: "Nadia Farooq", child: "Umar Farooq", class: 5 },
+    ];
+
+    // Student Form Submit
+    document.getElementById('studentForm').onsubmit = function (e) {
+      e.preventDefault();
+      if (googleUserEmail) {
+        const data = new FormData(this);
+        const studentData = {
+          role: 'student',
+          name: data.get('name'),
+          parentName: data.get('parentName'),
+          class: data.get('class'),
+          email: googleUserEmail
+        };
+        localStorage.setItem('currentUser', JSON.stringify(studentData));
+        window.location.href = 'dashboard.html';
+      }
+    };
+
+    // Parent Form Submit
+    document.getElementById('parentForm').onsubmit = function (e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      const parentName = data.get('parentName');
+      const childName = data.get('childName');
+      const classNum = parseInt(data.get('class'));
+
+      const match = dummyParents.some(p =>
+        (p.parent === parentName) +
+        (p.child === childName) +
+        (p.class === classNum) >= 2
+      );
+
+      if (match) {
+        const child = dummyStudents.find(s => s.name === childName && s.class === classNum);
+        if (child) {
+          const parentData = {
+            role: 'parent',
+            parentName,
+            childName,
+            class: classNum,
+            email: googleUserEmail,
+            childDetails: child
+          };
+          localStorage.setItem('currentUser', JSON.stringify(parentData));
+          window.location.href = 'parent.html';
+        }
+      } else {
+        document.getElementById('parent-error').classList.remove('hidden');
+        setTimeout(() => document.getElementById('parent-error').classList.add('hidden'), 3000);
+      }
+    };
+
+    // Teacher Form Submit
+    document.getElementById('teacherForm').onsubmit = function (e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      const name = data.get('teacherName');
+      const pass = data.get('password');
+
+      if (name === 'Abutalha' && pass === 'Abutalha') {
+        const teacherData = {
+          role: 'teacher',
+          name: 'Abutalha',
+          email: googleUserEmail
+        };
+        localStorage.setItem('currentUser', JSON.stringify(teacherData));
+        window.location.href = 'teacher.html';
+      } else {
+        document.getElementById('teacher-error').classList.remove('hidden');
+        setTimeout(() => document.getElementById('teacher-error').classList.add('hidden'), 3000);
+      }
+    };
+
+    // Auto-show active form after Google login
+    window.onload = () => {
+      // Default to student
+      forms.student.classList.remove('hidden');
+    };
   </script>
+
 </body>
 </html>
