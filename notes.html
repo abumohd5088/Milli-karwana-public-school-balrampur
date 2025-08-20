@@ -3,53 +3,617 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes - <span id="studentNameDisplay">Student</span> - Class <span id="classDisplay">1</span></title>
-    <link rel="stylesheet" href="css/ultra.css">
+    <title>Mili Karwaan Public School Balrampur - Student Login</title>
+    <meta name="description" content="Official login portal for Mili Karwaan Public School Balrampur students">
+    <meta name="keywords" content="Mili Karwaan Public School, Balrampur, student login, education">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <meta name="google-signin-client_id" content="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 60px 50px;
+            width: 100%;
+            max-width: 450px;
+            animation: slideIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .school-logo {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .school-logo i {
+            font-size: 60px;
+            color: #667eea;
+            margin-bottom: 15px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .school-logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .school-logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .google-signin {
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .google-signin .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .google-signin .divider::before,
+        .google-signin .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 0 10px;
+        }
+        
+        .g-signin2 {
+            display: inline-block;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeaa7;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-info i {
+            margin-right: 5px;
+            color: #667eea;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 30px;
+                margin: 10px;
+            }
+            
+            .school-logo h1 {
+                font-size: 24px;
+            }
+            
+            .school-logo i {
+                font-size: 50px;
+            }
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            background: #764ba2;
+            border-radius: 30%;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            top: 40%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .password-strength.weak {
+            background: #ff6b6b;
+            width: 33%;
+        }
+        
+        .password-strength.medium {
+            background: #feca57;
+            width: 66%;
+        }
+        
+        .password-strength.strong {
+            background: #48dbfb;
+            width: 100%;
+        }
+        
+        .form-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .form-message.success {
+            background: #2ed573;
+        }
+        
+        .form-message.error {
+            background: #ff4757;
+        }
+        
+        .form-message.show {
+            transform: translateX(0);
+        }
+    </style>
 </head>
 <body>
-    <header class="app-header">
-        <button class="nav-btn" onclick="goToHome()">
-            <i class="fas fa-home"></i>
-        </button>
-        <div class="header-info">
-            <h1>Notes</h1>
-            <p><span id="studentNameDisplay">Student</span> • Class <span id="classDisplay">1</span></p>
-        </div>
-        <button class="nav-btn" onclick="goBack()">
-            <i class="fas fa-times"></i>
-        </button>
-    </header>
-
-    <div class="subject-tabs">
-        <button class="tab-btn active" data-subject="Math">Math</button>
-        <button class="tab-btn" data-subject="English">English</button>
-        <button class="tab-btn" data-subject="Science">Science</button>
-        <button class="tab-btn" data-subject="Hindi">Hindi</button>
-        <button class="tab-btn" data-subject="EVS">EVS</button>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
-
-    <main class="content-area">
-        <div id="notesList" class="content-grid">
-            <!-- Dynamic notes -->
+    
+    <div class="login-container">
+        <div class="school-logo">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>Mili Karwaan Public School</h1>
+            <p>Balrampur - Excellence in Education</p>
         </div>
-    </main>
-
-    <!-- Hidden Admin Form -->
-    <div id="adminForm" class="admin-form hidden">
-        <div class="form-container">
-            <div class="form-header">
-                <h3>Add Notes</h3>
-                <button onclick="closeAdminForm()" class="close-btn">×</button>
+        
+        <div class="warning" id="warningBox">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="warningText">Please fill in all fields</span>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" name="studentName" required maxlength="50"
+                       placeholder="Enter your full name"
+                       autocomplete="name">
             </div>
-            <input type="text" id="noteTitle" placeholder="Title" required>
-            <textarea id="noteContent" placeholder="Content" required></textarea>
-            <div class="form-actions">
-                <button onclick="saveNotes()" class="btn btn-primary">Save</button>
-                <button onclick="closeAdminForm()" class="btn btn-secondary">Cancel</button>
+            
+            <div class="form-group">
+                <label for="studentClass">Class</label>
+                <select id="studentClass" name="studentClass" required>
+                    <option value="">Select your class</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                </select>
             </div>
+            
+            <div class="form-group">
+                <label for="parentName">Parent/Guardian Name</label>
+                <input type="text" id="parentName" name="parentName" required maxlength="50"
+                       placeholder="Enter parent/guardian name"
+                       autocomplete="on">
+            </div>
+            
+            <button type="submit" class="btn">
+                <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+            </button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Logging you in...</p>
+        </div>
+        
+        <div class="google-signin">
+            <div class="divider">or</div>
+            <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
+        </div>
+        
+        <div class="contact-info">
+            <p><i class="fas fa-map-marker-alt"></i> Boluha Police Chowki, Balrampur</p>
+            <p><i class="fas fa-phone"></i> 9758919151</p>
+            <p><i class="fas fa-envelope"></i> madamsir066@gmail.com</p>
         </div>
     </div>
-
-    <script src="js/ultra.js"></script>
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        // Form validation and submission
+        const loginForm = document.getElementById('loginForm');
+        const warningBox = document.getElementById('warningBox');
+        const warningText = document.getElementById('warningText');
+        const loading = document.getElementById('loading');
+        
+        function showWarning(message) {
+            warningText.textContent = message;
+            warningBox.style.display = 'block';
+            setTimeout(() => {
+                warningBox.style.display = 'none';
+            }, 3000);
+        }
+        
+        function showMessage(message, type = 'success') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `form-message ${type}`;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => messageDiv.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+                setTimeout(() => document.body.removeChild(messageDiv), 300);
+            }, 3000);
+        }
+        
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentClass = document.getElementById('studentClass').value;
+            const parentName = document.getElementById('parentName').value.trim();
+            
+            // Validate inputs
+            if (!studentName || !studentClass || !parentName) {
+                showWarning('Please fill in all required fields');
+                return;
+            }
+            
+            if (studentName.length < 2 || studentName.length > 50) {
+                showWarning('Student name must be between 2 and 50 characters');
+                return;
+            }
+            
+            if (parentName.length < 2 || parentName.length > 50) {
+                showWarning('Parent name must be between 2 and 50 characters');
+                return;
+            }
+            
+            // Sanitize inputs
+            const sanitizedData = {
+                studentName: sanitizeInput(studentName),
+                studentClass: sanitizeInput(studentClass),
+                parentName: sanitizeInput(parentName),
+                loginTime: new Date().toISOString()
+            };
+            
+            // Show loading
+            loading.style.display = 'block';
+            loginForm.style.display = 'none';
+            
+            // Save to localStorage
+            localStorage.setItem('mkps_student', JSON.stringify(sanitizedData));
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                showMessage('Login successful! Redirecting to dashboard...');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            }, 1000);
+        });
+        
+        // Google Sign-In
+        function onGoogleSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            const userData = {
+                studentName: profile.getName(),
+                studentEmail: profile.getEmail(),
+                studentPhoto: profile.getImageUrl(),
+                loginMethod: 'google',
+                loginTime: new Date().toISOString()
+            };
+            
+            // Default class assignment based on email (can be updated later)
+            userData.studentClass = '1';
+            userData.parentName = 'Google Account';
+            
+            localStorage.setItem('mkps_student', JSON.stringify(userData));
+            showMessage('Google login successful! Redirecting...');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        }
+        
+        // Form field enhancements
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Auto-save form data
+        const formFields = ['studentName', 'studentClass', 'parentName'];
+        formFields.forEach(field => {
+            const element = document.getElementById(field);
+            const saved = localStorage.getItem(`mkps_login_${field}`);
+            if (saved) {
+                element.value = saved;
+            }
+            
+            element.addEventListener('input', function() {
+                localStorage.setItem(`mkps_login_${field}`, this.value);
+            });
+        });
+        
+        // Clear saved form data on successful login
+        loginForm.addEventListener('submit', function() {
+            formFields.forEach(field => {
+                localStorage.removeItem(`mkps_login_${field}`);
+            });
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+        
+        // Service Worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function() {
+                    console.log('Service Worker registration failed');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
