@@ -1,619 +1,1242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mili Karwaan Public School Balrampur - Student Login</title>
-    <meta name="description" content="Official login portal for Mili Karwaan Public School Balrampur students">
-    <meta name="keywords" content="Mili Karwaan Public School, Balrampur, student login, education">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <meta name="google-signin-client_id" content="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-        
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            padding: 60px 50px;
-            width: 100%;
-            max-width: 450px;
-            animation: slideIn 0.8s ease-out;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .school-logo {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .school-logo i {
-            font-size: 60px;
-            color: #667eea;
-            margin-bottom: 15px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .school-logo h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .school-logo p {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-            font-size: 14px;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .form-group select {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .btn:active::after {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .google-signin {
-            margin-top: 30px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .google-signin .divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .google-signin .divider::before,
-        .google-signin .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-            margin: 0 10px;
-        }
-        
-        .g-signin2 {
-            display: inline-block;
-        }
-        
-        .warning {
-            background: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ffeaa7;
-            display: none;
-            animation: shake 0.5s ease-in-out;
-            position: relative;
-            z-index: 1;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .contact-info {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-            font-size: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .contact-info i {
-            margin-right: 5px;
-            color: #667eea;
-        }
-        
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 40px 30px;
-                margin: 10px;
-            }
-            
-            .school-logo h1 {
-                font-size: 24px;
-            }
-            
-            .school-logo i {
-                font-size: 50px;
-            }
-        }
-        
-        .floating-shapes {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-        
-        .shape {
-            position: absolute;
-            opacity: 0.1;
-            animation: float 20s infinite ease-in-out;
-        }
-        
-        .shape:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            background: #667eea;
-            border-radius: 50%;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        
-        .shape:nth-child(2) {
-            width: 120px;
-            height: 120px;
-            background: #764ba2;
-            border-radius: 30%;
-            top: 60%;
-            right: 10%;
-            animation-delay: 2s;
-        }
-        
-        .shape:nth-child(3) {
-            width: 60px;
-            height: 60px;
-            background: #fff;
-            top: 40%;
-            left: 80%;
-            animation-delay: 4s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(120deg); }
-            66% { transform: translateY(30px) rotate(240deg); }
-        }
-        
-        .password-strength {
-            height: 5px;
-            margin-top: 5px;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-            display: none;
-        }
-        
-        .password-strength.weak {
-            background: #ff6b6b;
-            width: 33%;
-        }
-        
-        .password-strength.medium {
-            background: #feca57;
-            width: 66%;
-        }
-        
-        .password-strength.strong {
-            background: #48dbfb;
-            width: 100%;
-        }
-        
-        .form-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .form-message.success {
-            background: #2ed573;
-        }
-        
-        .form-message.error {
-            background: #ff4757;
-        }
-        
-        .form-message.show {
-            transform: translateX(0);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milli Karwaan Public School | Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating animated background circles */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      animation: float 12s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    .circle:nth-child(1) {
+      width: 120px;
+      height: 120px;
+      top: 10%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+
+    .circle:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      bottom: 10%;
+      right: 10%;
+      animation-delay: 3s;
+    }
+
+    .circle:nth-child(3) {
+      width: 80px;
+      height: 80px;
+      bottom: 25%;
+      left: 20%;
+      animation-delay: 6s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    .dashboard {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 1rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .user-details h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .user-details p {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .greeting {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card i {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: #00c6ff;
+    }
+
+    .stat-card .value {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .stat-card .label {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i {
+      color: #00c6ff;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active {
+      background: #00c6ff;
+      color: #000;
+    }
+
+    .filter-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .timetable {
+      display: grid;
+      grid-template-columns: 0.8fr 1fr;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .time-slot {
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      text-align: right;
+      opacity: 0.8;
+    }
+
+    .subject {
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .subject::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #00c6ff;
+    }
+
+    .subject .name {
+      font-weight: 600;
+    }
+
+    .subject .teacher {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
+    .homework-list, .announcement-list, .ai-suggestions {
+      list-style: none;
+    }
+
+    .homework-item, .announcement-item, .ai-item {
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 0.8rem;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .homework-item:hover, .announcement-item:hover, .ai-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .homework-item .title, .announcement-item .title, .ai-item .title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .homework-item .details, .announcement-item .details, .ai-item .details {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+
+    .homework-item .date, .announcement-item .date, .ai-item .date {
+      font-size: 0.7rem;
+      opacity: 0.6;
+    }
+
+    .homework-item .status {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 10px;
+      background: #ff9800;
+    }
+
+    .homework-item.completed .status {
+      background: #4caf50;
+    }
+
+    .homework-item.overdue .status {
+      background: #f44336;
+    }
+
+    .more-options {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .ai-chat {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .ai-chat:hover {
+      transform: scale(1.1);
+      width: 55px;
+      height: 55px;
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      max-width: 90vw;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      z-index: 1000;
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chat-header {
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .close-chat {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 0.8rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .ai-message {
+      background: rgba(0, 198, 255, 0.2);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+
+    .user-message {
+      background: rgba(255, 255, 255, 0.2);
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      outline: none;
+    }
+
+    .chat-input input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .chat-input button {
+      background: #00c6ff;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4caf50;
+      color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 2000;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .help-btn {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #4caf50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .help-btn:hover {
+      transform: scale(1.1);
+      width: 55px;
+      height: 55px;
+    }
+
+    .help-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .help-content {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .help-header {
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 15px 15px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .help-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .close-help {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .help-body {
+      padding: 1.5rem;
+    }
+
+    .help-body textarea {
+      width: 100%;
+      height: 100px;
+      padding: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      resize: none;
+      margin-bottom: 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .help-body textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .help-body button {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .header {
+        padding: 0.8rem;
+      }
+      
+      .user-info {
+        gap: 0.8rem;
+      }
+      
+      .user-details h3 {
+        font-size: 1rem;
+      }
+      
+      .greeting {
+        font-size: 1.2rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .timetable {
+        grid-template-columns: 0.7fr 1fr;
+      }
+      
+      .time-slot {
+        font-size: 0.7rem;
+        padding: 0.4rem;
+      }
+      
+      .subject {
+        padding: 0.7rem;
+      }
+      
+      .homework-item, .announcement-item, .ai-item {
+        padding: 0.8rem;
+      }
+      
+      .chat-container {
+        width: 90vw;
+        right: 5%;
+        bottom: 80px;
+      }
+    }
+
+    /* Animation for elements */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+  </style>
 </head>
 <body>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
+  <!-- Floating Background -->
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+
+  <div class="dashboard">
+    <div class="header animate-in">
+      <div class="user-info">
+        <div class="avatar" id="userAvatar">U</div>
+        <div class="user-details">
+          <h3 id="userName">Loading...</h3>
+          <p id="userClass">Class: --</p>
+        </div>
+      </div>
+      <button class="menu-btn" id="themeToggle">🌗</button>
     </div>
-    
-    <div class="login-container">
-        <div class="school-logo">
-            <i class="fas fa-graduation-cap"></i>
-            <h1>Mili Karwaan Public School</h1>
-            <p>Balrampur - Excellence in Education</p>
-        </div>
-        
-        <div class="warning" id="warningBox">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span id="warningText">Please fill in all fields</span>
-        </div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="studentName">Student Name</label>
-                <input type="text" id="studentName" name="studentName" required maxlength="50"
-                       placeholder="Enter your full name"
-                       autocomplete="name">
-            </div>
-            
-            <div class="form-group">
-                <label for="studentClass">Class</label>
-                <select id="studentClass" name="studentClass" required>
-                    <option value="">Select your class</option>
-                    <option value="1">Class 1</option>
-                    <option value="2">Class 2</option>
-                    <option value="3">Class 3</option>
-                    <option value="4">Class 4</option>
-                    <option value="5">Class 5</option>
-                    <option value="6">Class 6</option>
-                    <option value="7">Class 7</option>
-                    <option value="8">Class 8</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="parentName">Parent/Guardian Name</label>
-                <input type="text" id="parentName" name="parentName" required maxlength="50"
-                       placeholder="Enter parent/guardian name"
-                       autocomplete="on">
-            </div>
-            
-            <button type="submit" class="btn">
-                <i class="fas fa-sign-in-alt"></i> Login to Dashboard
-            </button>
-        </form>
-        
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Logging you in...</p>
-        </div>
-        
-        <div class="google-signin">
-            <div class="divider">or</div>
-            <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
-        </div>
-        
-        <div class="contact-info">
-            <p><i class="fas fa-map-marker-alt"></i> Boluha Police Chowki, Balrampur</p>
-            <p><i class="fas fa-phone"></i> 9758919151</p>
-            <p><i class="fas fa-envelope"></i> madamsir066@gmail.com</p>
-        </div>
+
+    <div class="greeting animate-in delay-1">
+      Good morning, <span id="greetingName">Student</span>! 👋
     </div>
-    
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script>
-        // Form validation and submission
-        const loginForm = document.getElementById('loginForm');
-        const warningBox = document.getElementById('warningBox');
-        const warningText = document.getElementById('warningText');
-        const loading = document.getElementById('loading');
+
+    <div class="stats-grid animate-in delay-2">
+      <div class="stat-card">
+        <i class="material-icons">assignment</i>
+        <div class="value" id="homeworkCount">0</div>
+        <div class="label">Homework</div>
+      </div>
+      <div class="stat-card">
+        <i class="material-icons">event</i>
+        <div class="value" id="pendingCount">0</div>
+        <div class="label">Pending</div>
+      </div>
+    </div>
+
+    <div class="section animate-in delay-3">
+      <div class="section-header">
+        <h3 class="section-title"><i class="material-icons">schedule</i> Today's Timetable</h3>
+      </div>
+      <div class="timetable" id="timetable">
+        <div class="time-slot">09:00</div>
+        <div class="subject">
+          <div class="name">Mathematics</div>
+          <div class="teacher">Mr. Sharma</div>
+        </div>
+        <div class="time-slot">10:00</div>
+        <div class="subject">
+          <div class="name">English</div>
+          <div class="teacher">Mrs. Patel</div>
+        </div>
+        <div class="time-slot">11:00</div>
+        <div class="subject">
+          <div class="name">Science</div>
+          <div class="teacher">Mr. Kumar</div>
+        </div>
+        <div class="time-slot">12:00</div>
+        <div class="subject">
+          <div class="name">Break</div>
+        </div>
+        <div class="time-slot">13:00</div>
+        <div class="subject">
+          <div class="name">Hindi</div>
+          <div class="teacher">Mrs. Singh</div>
+        </div>
+        <div class="time-slot">14:00</div>
+        <div class="subject">
+          <div class="name">Social Studies</div>
+          <div class="teacher">Mr. Gupta</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section animate-in delay-4">
+      <div class="section-header">
+        <h3 class="section-title"><i class="material-icons">assignment</i> Homework</h3>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="pending">Pending</button>
+          <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+      </div>
+      <ul class="homework-list" id="homeworkList">
+        <!-- Homework items will be added here dynamically -->
+      </ul>
+    </div>
+
+    <div class="section animate-in delay-5">
+      <div class="section-header">
+        <h3 class="section-title"><i class="material-icons">campaign</i> Announcements</h3>
+      </div>
+      <ul class="announcement-list" id="announcementList">
+        <!-- Announcement items will be added here dynamically -->
+      </ul>
+    </div>
+
+    <div class="section animate-in delay-6">
+      <div class="section-header">
+        <h3 class="section-title"><i class="material-icons">lightbulb</i> AI Study Tips</h3>
+      </div>
+      <ul class="ai-suggestions" id="aiSuggestions">
+        <!-- AI suggestions will be added here dynamically -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- AI Chat Button -->
+  <div class="ai-chat" id="aiChatBtn">
+    <i class="material-icons">smart_toy</i>
+  </div>
+
+  <!-- AI Chat Container -->
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <h4>AI Study Assistant</h4>
+      <button class="close-chat" id="closeChat">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message ai-message">
+        Hello! I'm your AI study assistant. How can I help you with your studies today?
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Ask me anything about your studies...">
+      <button id="sendChat"><i class="material-icons">send</i></button>
+    </div>
+  </div>
+
+  <!-- Help Button -->
+  <div class="help-btn" id="helpBtn">
+    <i class="material-icons">help</i>
+  </div>
+
+  <!-- Help Modal -->
+  <div class="help-modal" id="helpModal">
+    <div class="help-content">
+      <div class="help-header">
+        <h3>Need Help?</h3>
+        <button class="close-help" id="closeHelp">×</button>
+      </div>
+      <div class="help-body">
+        <textarea id="helpMessage" placeholder="Describe your issue or question..."></textarea>
+        <button id="sendHelp">Send Message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">
+    Message sent successfully!
+  </div>
+
+  <script>
+    // Mock data for homework
+    const homeworkData = [
+      { id: 1, title: "Mathematics Assignment", subject: "Math", class: "6", details: "Complete exercises 1-10 on page 45", dueDate: "2023-06-15", status: "pending" },
+      { id: 2, title: "English Essay", subject: "English", class: "6", details: "Write a 500-word essay on 'My Favorite Book'", dueDate: "2023-06-16", status: "pending" },
+      { id: 3, title: "Science Project", subject: "Science", class: "6", details: "Prepare a model of the solar system", dueDate: "2023-06-20", status: "completed" },
+      { id: 4, title: "Hindi Poem", subject: "Hindi", class: "6", details: "Learn and recite the poem 'Saraswati Vandana'", dueDate: "2023-06-14", status: "overdue" },
+      { id: 5, title: "Social Studies Map", subject: "Social Studies", class: "6", details: "Draw and label the map of India with all states", dueDate: "2023-06-18", status: "pending" }
+    ];
+
+    // Mock data for announcements
+    const announcementData = [
+      { id: 1, title: "Annual Sports Day", details: "Annual Sports Day will be held on June 25th. All students are requested to participate.", date: "2023-06-10", priority: "high" },
+      { id: 2, title: "Parent-Teacher Meeting", details: "Parent-Teacher meeting scheduled for June 22nd at 3:00 PM in the school auditorium.", date: "2023-06-08", priority: "medium" },
+      { id: 3, title: "Library Hours Extended", details: "Library hours have been extended from 3:00 PM to 5:00 PM on weekdays.", date: "2023-06-05", priority: "low" }
+    ];
+
+    // Mock data for AI suggestions
+    const aiSuggestionsData = [
+      "Create a study schedule with short breaks every 25 minutes using the Pomodoro technique.",
+      "Use flashcards to memorize vocabulary words and key concepts.",
+      "Teach the material to someone else to reinforce your own understanding.",
+      "Practice past exam papers to familiarize yourself with the question format.",
+      "Stay hydrated and get enough sleep before exams for optimal brain function."
+    ];
+
+    // Timetable data based on class
+    const timetableData = {
+      "1": [
+        { time: "09:00", subject: "Mathematics", teacher: "Ms. Gupta" },
+        { time: "10:00", subject: "English", teacher: "Mr. Patel" },
+        { time: "11:00", subject: "Drawing", teacher: "Mrs. Sharma" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mr. Kumar" },
+        { time: "14:00", subject: "Games", teacher: "Coach Singh" }
+      ],
+      "2": [
+        { time: "09:00", subject: "Mathematics", teacher: "Ms. Gupta" },
+        { time: "10:00", subject: "English", teacher: "Mr. Patel" },
+        { time: "11:00", subject: "EVS", teacher: "Mrs. Sharma" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mr. Kumar" },
+        { time: "14:00", subject: "Art", teacher: "Mrs. Mehta" }
+      ],
+      "3": [
+        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
+        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
+        { time: "11:00", subject: "EVS", teacher: "Mr. Kumar" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
+        { time: "14:00", subject: "Computer", teacher: "Mr. Gupta" }
+      ],
+      "4": [
+        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
+        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
+        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
+        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
+      ],
+      "5": [
+        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
+        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
+        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
+        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
+      ],
+      "6": [
+        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
+        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
+        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
+        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
+      ],
+      "7": [
+        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
+        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
+        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
+        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
+      ],
+      "8": [
+        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
+        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
+        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
+        { time: "12:00", subject: "Break" },
+        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
+        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
+      ]
+    };
+
+    // Gemini AI API configuration
+    const GEMINI_API_KEY_1 = "AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU";
+    const GEMINI_API_KEY_2 = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
+    let currentGeminiKey = GEMINI_API_KEY_1;
+
+    // Initialize the dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
+      if (!studentData) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Display user information
+      displayUserInfo(studentData);
+      
+      // Load data
+      loadHomework(studentData.class);
+      loadAnnouncements();
+      loadTimetable(studentData.class);
+      generateAISuggestions(studentData.class);
+      
+      // Set up event listeners
+      setupEventListeners();
+      
+      // Show welcome notification
+      showNotification(`Welcome back, ${studentData.name}!`);
+    });
+
+    function displayUserInfo(studentData) {
+      const userNameEl = document.getElementById('userName');
+      const userClassEl = document.getElementById('userClass');
+      const userAvatarEl = document.getElementById('userAvatar');
+      const greetingNameEl = document.getElementById('greetingName');
+      
+      userNameEl.textContent = studentData.name;
+      userClassEl.textContent = `Class: ${studentData.class}`;
+      greetingNameEl.textContent = studentData.name.split(' ')[0];
+      
+      // Set avatar initial
+      userAvatarEl.textContent = studentData.name.charAt(0).toUpperCase();
+    }
+
+    function loadHomework(classLevel) {
+      const homeworkList = document.getElementById('homeworkList');
+      const filteredHomework = homeworkData.filter(hw => hw.class === classLevel);
+      
+      // Update counts
+      const pendingCount = filteredHomework.filter(hw => hw.status === 'pending').length;
+      const homeworkCount = filteredHomework.length;
+      
+      document.getElementById('pendingCount').textContent = pendingCount;
+      document.getElementById('homeworkCount').textContent = homeworkCount;
+      
+      // Clear existing list
+      homeworkList.innerHTML = '';
+      
+      // Add homework items
+      filteredHomework.forEach(hw => {
+        const li = document.createElement('li');
+        li.className = `homework-item ${hw.status}`;
+        li.innerHTML = `
+          <div class="title">${hw.title}</div>
+          <div class="details">${hw.details}</div>
+          <div class="date">Due: ${formatDate(hw.dueDate)}</div>
+          <span class="status">${hw.status.charAt(0).toUpperCase() + hw.status.slice(1)}</span>
+          <button class="more-options"><i class="material-icons">more_vert</i></button>
+        `;
+        homeworkList.appendChild(li);
+      });
+    }
+
+    function loadAnnouncements() {
+      const announcementList = document.getElementById('announcementList');
+      
+      // Clear existing list
+      announcementList.innerHTML = '';
+      
+      // Add announcement items
+      announcementData.forEach(ann => {
+        const li = document.createElement('li');
+        li.className = 'announcement-item';
+        li.innerHTML = `
+          <div class="title">${ann.title}</div>
+          <div class="details">${ann.details}</div>
+          <div class="date">${ann.date}</div>
+        `;
+        announcementList.appendChild(li);
+      });
+    }
+
+    function loadTimetable(classLevel) {
+      const timetable = document.getElementById('timetable');
+      const classTimetable = timetableData[classLevel] || timetableData['6'];
+      
+      // Clear existing timetable
+      timetable.innerHTML = '';
+      
+      // Add timetable items
+      classTimetable.forEach(slot => {
+        const timeSlot = document.createElement('div');
+        timeSlot.className = 'time-slot';
+        timeSlot.textContent = slot.time;
         
-        function showWarning(message) {
-            warningText.textContent = message;
-            warningBox.style.display = 'block';
-            setTimeout(() => {
-                warningBox.style.display = 'none';
-            }, 3000);
+        const subject = document.createElement('div');
+        subject.className = 'subject';
+        if (slot.subject !== 'Break') {
+          subject.innerHTML = `
+            <div class="name">${slot.subject}</div>
+            <div class="teacher">${slot.teacher}</div>
+          `;
+        } else {
+          subject.innerHTML = `<div class="name">${slot.subject}</div>`;
         }
         
-        function showMessage(message, type = 'success') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `form-message ${type}`;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
-            
-            setTimeout(() => messageDiv.classList.add('show'), 100);
-            
-            setTimeout(() => {
-                messageDiv.classList.remove('show');
-                setTimeout(() => document.body.removeChild(messageDiv), 300);
-            }, 3000);
+        timetable.appendChild(timeSlot);
+        timetable.appendChild(subject);
+      });
+    }
+
+    function generateAISuggestions(classLevel) {
+      const aiSuggestions = document.getElementById('aiSuggestions');
+      
+      // Clear existing suggestions
+      aiSuggestions.innerHTML = '';
+      
+      // Add AI suggestions
+      const relevantSuggestions = aiSuggestionsData.slice(0, 3);
+      relevantSuggestions.forEach(suggestion => {
+        const li = document.createElement('li');
+        li.className = 'ai-item';
+        li.innerHTML = `
+          <div class="title">Study Tip</div>
+          <div class="details">${suggestion}</div>
+          <div class="date">AI Generated</div>
+        `;
+        aiSuggestions.appendChild(li);
+      });
+    }
+
+    function setupEventListeners() {
+      // Theme toggle
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      
+      // Filter buttons for homework
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterButtons.forEach(b => b.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Filter homework (implementation would go here)
+          const filter = this.getAttribute('data-filter');
+          console.log(`Filtering homework: ${filter}`);
+        });
+      });
+      
+      // AI Chat functionality
+      const aiChatBtn = document.getElementById('aiChatBtn');
+      const chatContainer = document.getElementById('chatContainer');
+      const closeChat = document.getElementById('closeChat');
+      const chatInput = document.getElementById('chatInput');
+      const sendChat = document.getElementById('sendChat');
+      
+      aiChatBtn.addEventListener('click', () => {
+        chatContainer.style.display = 'flex';
+      });
+      
+      closeChat.addEventListener('click', () => {
+        chatContainer.style.display = 'none';
+      });
+      
+      sendChat.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+      
+      // Help button functionality
+      const helpBtn = document.getElementById('helpBtn');
+      const helpModal = document.getElementById('helpModal');
+      const closeHelp = document.getElementById('closeHelp');
+      const sendHelp = document.getElementById('sendHelp');
+      
+      helpBtn.addEventListener('click', () => {
+        helpModal.style.display = 'flex';
+      });
+      
+      closeHelp.addEventListener('click', () => {
+        helpModal.style.display = 'none';
+      });
+      
+      sendHelp.addEventListener('click', sendHelpMessage);
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      const themeToggle = document.getElementById('themeToggle');
+      
+      if (document.body.classList.contains('light')) {
+        document.body.style.background = 'linear-gradient(135deg, #f5f7fa, #c3cfe2)';
+        document.body.style.color = '#000';
+        themeToggle.textContent = '🌙';
+      } else {
+        document.body.style.background = 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)';
+        document.body.style.color = '#fff';
+        themeToggle.textContent = '🌗';
+      }
+    }
+
+    function sendMessage() {
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+      
+      const message = chatInput.value.trim();
+      if (!message) return;
+      
+      // Add user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user-message';
+      userMsg.textContent = message;
+      chatMessages.appendChild(userMsg);
+      
+      // Clear input
+      chatInput.value = '';
+      
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      
+      // Simulate AI response (would normally call Gemini API)
+      setTimeout(() => {
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'message ai-message';
+        
+        // Simple response logic
+        if (message.toLowerCase().includes('homework')) {
+          aiMsg.textContent = "I can help you with your homework! What subject are you working on?";
+        } else if (message.toLowerCase().includes('math')) {
+          aiMsg.textContent = "Math is all about practice. Try breaking down problems into smaller steps and work through them systematically.";
+        } else if (message.toLowerCase().includes('science')) {
+          aiMsg.textContent = "For science, make sure to understand the concepts rather than just memorizing facts. Creating diagrams can help visualize complex ideas.";
+        } else if (message.toLowerCase().includes('english')) {
+          aiMsg.textContent = "Reading regularly improves your English skills. Try to read for at least 20 minutes every day and note down new words you learn.";
+        } else {
+          aiMsg.textContent = "That's an interesting question! As your AI study assistant, I'm here to help you with any academic challenges you're facing.";
         }
         
-        function sanitizeInput(input) {
-            const div = document.createElement('div');
-            div.textContent = input;
-            return div.innerHTML;
+        chatMessages.appendChild(aiMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 1000);
+    }
+
+    function sendHelpMessage() {
+      const helpMessage = document.getElementById('helpMessage');
+      const message = helpMessage.value.trim();
+      
+      if (!message) {
+        showNotification('Please enter a message');
+        return;
+      }
+      
+      // In a real app, this would send to admin
+      console.log('Help message sent:', message);
+      
+      // Clear and close
+      helpMessage.value = '';
+      document.getElementById('helpModal').style.display = 'none';
+      
+      // Show confirmation
+      showNotification('Your message has been sent to the admin');
+    }
+
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.style.display = 'block';
+      
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Add event listener for the more options buttons (using event delegation)
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.more-options')) {
+        const homeworkItem = e.target.closest('.homework-item');
+        const status = homeworkItem.classList.contains('completed') ? 'pending' : 'completed';
+        
+        // Toggle status
+        if (status === 'completed') {
+          homeworkItem.classList.remove('pending');
+          homeworkItem.classList.remove('overdue');
+          homeworkItem.classList.add('completed');
+          homeworkItem.querySelector('.status').textContent = 'Completed';
+          homeworkItem.querySelector('.status').style.background = '#4caf50';
+        } else {
+          homeworkItem.classList.remove('completed');
+          homeworkItem.classList.add('pending');
+          homeworkItem.querySelector('.status').textContent = 'Pending';
+          homeworkItem.querySelector('.status').style.background = '#ff9800';
         }
         
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const studentName = document.getElementById('studentName').value.trim();
-            const studentClass = document.getElementById('studentClass').value;
-            const parentName = document.getElementById('parentName').value.trim();
-            
-            // Validate inputs
-            if (!studentName || !studentClass || !parentName) {
-                showWarning('Please fill in all required fields');
-                return;
-            }
-            
-            if (studentName.length < 2 || studentName.length > 50) {
-                showWarning('Student name must be between 2 and 50 characters');
-                return;
-            }
-            
-            if (parentName.length < 2 || parentName.length > 50) {
-                showWarning('Parent name must be between 2 and 50 characters');
-                return;
-            }
-            
-            // Sanitize inputs
-            const sanitizedData = {
-                studentName: sanitizeInput(studentName),
-                studentClass: sanitizeInput(studentClass),
-                parentName: sanitizeInput(parentName),
-                loginTime: new Date().toISOString()
-            };
-            
-            // Show loading
-            loading.style.display = 'block';
-            loginForm.style.display = 'none';
-            
-            // Save to localStorage
-            localStorage.setItem('mkps_student', JSON.stringify(sanitizedData));
-            
-            // Simulate API call delay
-            setTimeout(() => {
-                showMessage('Login successful! Redirecting to dashboard...');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-            }, 1000);
-        });
-        
-        // Google Sign-In
-        function onGoogleSignIn(googleUser) {
-            const profile = googleUser.getBasicProfile();
-            const userData = {
-                studentName: profile.getName(),
-                studentEmail: profile.getEmail(),
-                studentPhoto: profile.getImageUrl(),
-                loginMethod: 'google',
-                loginTime: new Date().toISOString()
-            };
-            
-            // Default class assignment based on email (can be updated later)
-            userData.studentClass = '1';
-            userData.parentName = 'Google Account';
-            
-            localStorage.setItem('mkps_student', JSON.stringify(userData));
-            showMessage('Google login successful! Redirecting...');
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
+        showNotification(`Homework marked as ${status}`);
+      }
+    });
+
+    // Check for overdue homework
+    function checkOverdueHomework() {
+      const today = new Date().toISOString().split('T')[0];
+      const overdueItems = document.querySelectorAll('.homework-item.pending');
+      
+      overdueItems.forEach(item => {
+        const dueDate = item.querySelector('.date').textContent.replace('Due: ', '');
+        if (dueDate < today) {
+          item.classList.remove('pending');
+          item.classList.add('overdue');
+          item.querySelector('.status').textContent = 'Overdue';
+          item.querySelector('.status').style.background = '#f44336';
         }
-        
-        // Form field enhancements
-        const inputs = document.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Auto-save form data
-        const formFields = ['studentName', 'studentClass', 'parentName'];
-        formFields.forEach(field => {
-            const element = document.getElementById(field);
-            const saved = localStorage.getItem(`mkps_login_${field}`);
-            if (saved) {
-                element.value = saved;
-            }
-            
-            element.addEventListener('input', function() {
-                localStorage.setItem(`mkps_login_${field}`, this.value);
-            });
-        });
-        
-        // Clear saved form data on successful login
-        loginForm.addEventListener('submit', function() {
-            formFields.forEach(field => {
-                localStorage.removeItem(`mkps_login_${field}`);
-            });
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'Enter') {
-                loginForm.dispatchEvent(new Event('submit'));
-            }
-        });
-        
-        // Service Worker for offline support
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').catch(function() {
-                    console.log('Service Worker registration failed');
-                });
-            });
-        }
-    </script>
+      });
+    }
+
+    // Run overdue check
+    checkOverdueHomework();
+
+    // Periodic check for overdue items (every hour)
+    setInterval(checkOverdueHomework, 60 * 60 * 1000);
+  </script>
 </body>
 </html>
