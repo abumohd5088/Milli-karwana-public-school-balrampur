@@ -1,99 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MKPS Parent Portal</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Mili Karwaan Public School | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    body{min-height:100vh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;}
-    header{width:100%;padding:1rem 2rem;background:rgba(0,0,0,0.3);backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
-    header h1{font-size:1.5rem;}
-    header button{padding:0.5rem 1rem;border:none;border-radius:12px;background:#ff4b2b;color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
-    header button:hover{opacity:0.9;transform:translateY(-2px);}
-    main{flex:1;width:95%;max-width:1000px;margin-top:2rem;}
-    .card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);padding:1.5rem;border-radius:20px;margin-bottom:1.5rem;box-shadow:0 5px 20px rgba(0,0,0,0.3);}
-    .card h2{margin-bottom:1rem;}
-    table{width:100%;border-collapse:collapse;margin-top:1rem;}
-    table th, table td{padding:0.8rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.2);}
-    table th{background:rgba(255,255,255,0.05);}
-    table tr:hover{background:rgba(255,255,255,0.1);}
-    .toggle{margin:1rem 0;text-align:center;cursor:pointer;font-size:0.9rem;}
-    @media(max-width:768px){table th, table td{font-size:0.85rem;}}
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray-100: #f1f3f5;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --gray-500: #adb5bd;
+      --gray-700: #495057;
+      --danger: #e63946;
+      --warning: #f4a261;
+      --info: #48cae4;
+      --border-radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+      --font-family: 'Poppins', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --primary: #4895ef;
+      --secondary: #4361ee;
+      --light: #1a1a2e;
+      --dark: #f1f1f1;
+      --gray-100: #1e1e2f;
+      --gray-200: #2a2a3a;
+      --gray-300: #3a3a4a;
+      --gray-500: #8a8a9a;
+      --gray-700: #c1c1d0;
+      --danger: #e94d5f;
+      --warning: #f8961e;
+      --info: #4cc9f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-attachment: fixed;
+      color: var(--dark);
+      transition: var(--transition);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    [data-theme="dark"] body {
+      background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+      color: var(--light);
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    [data-theme="dark"] .card {
+      background: #1e1e2f;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .card-header {
+      background: var(--primary);
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .card-header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .card-header p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin-top: 6px;
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+
+    [data-theme="dark"] label {
+      color: var(--gray-500);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: white;
+      color: var(--dark);
+    }
+
+    [data-theme="dark"] input[type="text"],
+    [data-theme="dark"] input[type="email"],
+    [data-theme="dark"] select {
+      background: #2a2a3a;
+      border-color: #4a4a5a;
+      color: var(--light);
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .error {
+      color: var(--danger);
+      font-size: 0.875rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: var(--secondary);
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .google-btn {
+      background: white;
+      color: #4285f4;
+      border: 1px solid #dadce0;
+      font-weight: 500;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .google-btn:hover {
+      background: #f8f9fa;
+      border-color: #c6c6c6;
+    }
+
+    .google-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    .links a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      z-index: 10;
+    }
+
+    .school-info {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    [data-theme="dark"] .school-info {
+      background: #2a2a3a;
+      color: var(--gray-300);
+    }
+
+    .school-info strong {
+      color: var(--primary);
+    }
+
+    [data-theme="dark"] .school-info strong {
+      color: var(--info);
+    }
+
+    .loader {
+      display: none;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    .loader.show {
+      display: block;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .alert {
+      padding: 12px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .alert-danger {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    [data-theme="dark"] .alert-danger {
+      background: #492226;
+      color: #e87979;
+      border: 1px solid #722a2a;
+    }
+
+    [data-theme="dark"] .alert-success {
+      background: #264d36;
+      color: #8ce0a3;
+      border: 1px solid #3c8754;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .admin-link {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px;
+      background: var(--gray-200);
+      border-radius: 6px;
+      color: var(--gray-700);
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    [data-theme="dark"] .admin-link {
+      background: #3a3a4a;
+      color: var(--gray-300);
+    }
+
+    .admin-link:hover {
+      background: var(--gray-300);
+    }
+
+    [data-theme="dark"] .admin-link:hover {
+      background: #4a4a5a;
+    }
+
+    @media (max-width: 480px) {
+      .card-header h1 {
+        font-size: 1.5rem;
+      }
+      .card-body {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>MKPS Parent Portal</h1>
-    <button onclick="logout()">Logout</button>
-  </header>
-
-  <main>
+  <button class="theme-toggle" aria-label="Toggle theme" id="themeToggle">🌙</button>
+  <div class="container">
     <div class="card">
-      <h2>Welcome, <span id="parentNameDisplay"></span></h2>
-      <p>Viewing information for your child: <strong id="studentNameDisplay"></strong> (Class <span id="studentClassDisplay"></span>)</p>
-    </div>
+      <div class="card-header">
+        <h1>Mili Karwaan Public School</h1>
+        <p>Student Login Portal</p>
+      </div>
+      <div class="card-body">
+        <div id="alertContainer"></div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" name="studentName" required autocomplete="name"/>
+            <div class="error" id="nameError">Please enter your full name.</div>
+          </div>
+          <div class="form-group">
+            <label for="class">Class</label>
+            <select id="class" name="class" required>
+              <option value="">Select Class</option>
+              <option value="1">Class 1</option>
+              <option value="2">Class 2</option>
+              <option value="3">Class 3</option>
+              <option value="4">Class 4</option>
+              <option value="5">Class 5</option>
+              <option value="6">Class 6</option>
+              <option value="7">Class 7</option>
+              <option value="8">Class 8</option>
+            </select>
+            <div class="error" id="classError">Please select your class.</div>
+          </div>
+          <div class="form-group">
+            <label for="parentName">Parent/Guardian Name</label>
+            <input type="text" id="parentName" name="parentName" required autocomplete="family-name"/>
+            <div class="error" id="parentError">Please enter parent/guardian name.</div>
+          </div>
+          <button type="submit" class="btn" id="loginBtn">Login</button>
+        </form>
 
-    <div class="card">
-      <h2>Student Information</h2>
-      <table>
-        <tr><th>Student Name</th><td id="infoStudentName"></td></tr>
-        <tr><th>Class</th><td id="infoStudentClass"></td></tr>
-        <tr><th>Parent Name</th><td id="infoParentName"></td></tr>
-      </table>
-    </div>
+        <div class="separator" style="margin: 20px 0; text-align: center; position: relative;">
+          <hr style="border-color: var(--gray-300); margin: 16px 0;">
+          <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; padding: 0 10px; font-size: 0.9rem; color: var(--gray-500);">OR</span>
+          [data-theme="dark"] span { background: #1e1e2f; }
+        </div>
 
-    <div class="card">
-      <h2>Homework / Notices</h2>
-      <table>
-        <tr><th>Date</th><th>Subject</th><th>Homework</th></tr>
-        <tr><td>2025-08-18</td><td>Math</td><td>Practice addition & subtraction</td></tr>
-        <tr><td>2025-08-18</td><td>Science</td><td>Read chapter 2 & write summary</td></tr>
-        <tr><td>2025-08-18</td><td>English</td><td>Write a short paragraph about your hobby</td></tr>
-      </table>
-    </div>
+        <div id="g_id_onload"
+          data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="handleGoogleSignIn"
+          data-auto_select="false"
+          data-itp_support="true">
+        </div>
 
-    <div class="toggle" onclick="toggleTheme()">🌗 Toggle Dark/Light</div>
-  </main>
+        <div class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left">
+        </div>
+
+        <div class="loader" id="googleLoader"></div>
+
+        <div class="school-info">
+          <strong>School:</strong> Mili Karwaan Public School Balrampur<br/>
+          <strong>Address:</strong> Boluha Police Chowki, Balrampur<br/>
+          <strong>Phone:</strong> <a href="tel:9758919151" style="color:inherit;text-decoration:underline">9758919151</a><br/>
+          <strong>Email:</strong> <a href="mailto:madamsir066@gmail.com" style="color:inherit;text-decoration:underline">madamsir066@gmail.com</a>
+        </div>
+
+        <a href="#" class="admin-link" id="adminLink">Go to Admin Panel</a>
+      </div>
+    </div>
+  </div>
+
+  <div aria-live="polite" id="ariaLive" style="position: absolute; clip: rect(1px, 1px, 1px, 1px); padding: 0; border: 0; height: 1px; width: 1px; overflow: hidden;"></div>
 
   <script>
-    // Lock page if no parent login
-    const parentData = JSON.parse(localStorage.getItem("mkps_parent"));
-    const studentData = JSON.parse(localStorage.getItem("mkps_student"));
-    if(!parentData || !studentData || parentData.studentName!==studentData.name){
-      alert("Access denied! Please login first.");
-      window.location.href="index.html";
+    // Utility functions
+    function sanitizeInput(str) {
+      const temp = document.createElement('div');
+      temp.textContent = str;
+      return temp.innerHTML;
     }
 
-    // Display parent & student info
-    document.getElementById("parentNameDisplay").innerText = parentData.parentName;
-    document.getElementById("studentNameDisplay").innerText = parentData.studentName;
-    document.getElementById("studentClassDisplay").innerText = parentData.class;
-
-    document.getElementById("infoStudentName").innerText = studentData.name;
-    document.getElementById("infoStudentClass").innerText = studentData.class;
-    document.getElementById("infoParentName").innerText = parentData.parentName;
-
-    // Logout
-    function logout(){
-      localStorage.removeItem("mkps_parent");
-      window.location.href="index.html";
+    function showToast(message, type = 'success') {
+      const alertContainer = document.getElementById('alertContainer');
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type} show`;
+      alert.textContent = message;
+      alertContainer.appendChild(alert);
+      setTimeout(() => {
+        alert.remove();
+      }, 5000);
     }
 
-    // Theme toggle
-    function toggleTheme(){
-      document.body.classList.toggle("light");
-      if(document.body.classList.contains("light")){
-        document.body.style.background="linear-gradient(135deg,#f5f7fa,#c3cfe2)";
-        document.body.style.color="#000";
-      }else{
-        document.body.style.background="linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
-        document.body.style.color="#fff";
+    function announceToScreenReader(message) {
+      const ariaLive = document.getElementById('ariaLive');
+      ariaLive.textContent = message;
+      setTimeout(() => {
+        ariaLive.textContent = '';
+      }, 1000);
+    }
+
+    // Theme handling
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('mkps_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('mkps_theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
+
+    // Redirect if already logged in
+    window.addEventListener('DOMContentLoaded', () => {
+      const studentData = localStorage.getItem('mkps_student');
+      if (studentData) {
+        try {
+          const parsed = JSON.parse(studentData);
+          if (parsed.email === 'admin@mkps.edu' || parsed.name === 'Admin User') {
+            // Admin can access admin panel
+            const adminLink = document.getElementById('adminLink');
+            adminLink.style.display = 'block';
+            adminLink.href = 'admin.html';
+          } else {
+            window.location.href = 'dashboard.html';
+          }
+        } catch (e) {
+          localStorage.removeItem('mkps_student');
+        }
+      } else {
+        // Check if Google login already has session
+        google.accounts.id.prompt(); // Check for Google session
+      }
+    });
+
+    // Form validation
+    const loginForm = document.getElementById('loginForm');
+    const studentName = document.getElementById('studentName');
+    const classSelect = document.getElementById('class');
+    const parentName = document.getElementById('parentName');
+    const nameError = document.getElementById('nameError');
+    const classError = document.getElementById('classError');
+    const parentError = document.getElementById('parentError');
+    const loginBtn = document.getElementById('loginBtn');
+
+    function validateForm() {
+      let isValid = true;
+
+      if (!studentName.value.trim()) {
+        nameError.classList.add('show');
+        isValid = false;
+      } else {
+        nameError.classList.remove('show');
+      }
+
+      if (!classSelect.value) {
+        classError.classList.add('show');
+        isValid = false;
+      } else {
+        classError.classList.remove('show');
+      }
+
+      if (!parentName.value.trim()) {
+        parentError.classList.add('show');
+        isValid = false;
+      } else {
+        parentError.classList.remove('show');
+      }
+
+      return isValid;
+    }
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (validateForm()) {
+        const studentData = {
+          name: sanitizeInput(studentName.value.trim()),
+          class: classSelect.value,
+          parent: sanitizeInput(parentName.value.trim())
+        };
+        localStorage.setItem('mkps_student', JSON.stringify(studentData));
+        window.location.href = 'dashboard.html';
+      } else {
+        announceToScreenReader('Please fill in all required fields.');
+      }
+    });
+
+    // Google Sign-In
+    function handleGoogleSignIn(response) {
+      const googleLoader = document.getElementById('googleLoader');
+      googleLoader.classList.add('show');
+
+      if (response.credential) {
+        const payload = parseJwt(response.credential);
+        const email = payload.email;
+        const name = payload.name;
+
+        let studentData = null;
+        const existing = localStorage.getItem('mkps_student');
+        if (existing) {
+          try {
+            studentData = JSON.parse(existing);
+          } catch (e) {}
+        }
+
+        // If admin, allow direct access
+        if (email === 'admin@mkps.edu' || name === 'Admin User') {
+          studentData = {
+            name: sanitizeInput(name),
+            class: 'admin',
+            parent: 'Administrator',
+            email: email
+          };
+          localStorage.setItem('mkps_student', JSON.stringify(studentData));
+          document.getElementById('adminLink').style.display = 'block';
+          document.getElementById('adminLink').href = 'admin.html';
+          window.location.href = 'admin.html';
+          return;
+        }
+
+        // If already has class and parent, just update email
+        if (studentData && studentData.class && studentData.parent) {
+          studentData.email = email;
+          localStorage.setItem('mkps_student', JSON.stringify(studentData));
+          window.location.href = 'dashboard.html';
+          return;
+        }
+
+        // Otherwise, pre-fill form
+        if (!studentData) studentData = {};
+        studentData.name = sanitizeInput(name);
+        studentData.email = email;
+        if (studentData.class) document.getElementById('class').value = studentData.class;
+        if (studentData.parent) document.getElementById('parentName').value = studentData.parent;
+        document.getElementById('studentName').value = studentData.name;
+
+        // Scroll to form
+        document.getElementById('studentName').focus();
+        announceToScreenReader(`Signed in with Google as ${name}. Please complete your profile.`);
+      } else {
+        showToast('Google Sign-In failed.', 'danger');
+      }
+      googleLoader.classList.remove('show');
+    }
+
+    function parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        return {};
       }
     }
+
+    // Admin link guard
+    document.getElementById('adminLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      const studentData = localStorage.getItem('mkps_student');
+      if (studentData) {
+        try {
+          const parsed = JSON.parse(studentData);
+          if (parsed.email === 'admin@mkps.edu' || parsed.name === 'Admin User') {
+            window.location.href = 'admin.html';
+          } else {
+            showToast('You do not have permission to access the admin panel.', 'danger');
+            announceToScreenReader('Access denied. Admin privileges required.');
+          }
+        } catch (e) {
+          showToast('Session error. Please log in again.', 'danger');
+        }
+      } else {
+        showToast('Please log in first.', 'danger');
+      }
+    });
   </script>
 </body>
 </html>
