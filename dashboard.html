@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milli Karwaan Public School | Dashboard</title>
+  <title>Milli Karwaan Public School | Admin Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -400,16 +399,6 @@
       justify-content: center;
       font-size: 0.75rem;
     }
-    .attendance-progress {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: conic-gradient(#00c6ff 0%, #00c6ff 75%, #333 75%, #333 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
     .dropdown {
       position: relative;
       display: inline-block;
@@ -446,25 +435,93 @@
     .page-content.active {
       display: block;
     }
-    .homework-detail {
-      padding: 1.5rem;
-      border-radius: 15px;
-      margin-bottom: 1rem;
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.1);
+      color: white;
+      outline: none;
     }
-    .homework-detail h3 {
-      margin-bottom: 0.5rem;
-      color: #00c6ff;
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
     }
-    .homework-detail p {
-      margin-bottom: 0.5rem;
-    }
-    .homework-detail .meta {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-      font-size: 0.9rem;
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
       color: #aaa;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #aaa;
+      transition: color 0.3s ease;
+    }
+    .modal-close:hover {
+      color: #ff3b30;
+    }
+    .modal-body {
+      padding: 1.5rem;
+    }
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
     }
     @media (max-width: 1024px) {
       .sidebar {
@@ -490,17 +547,14 @@
   <div class="overlay"></div>
   
   <!-- Sidebar -->
-  <div class="topbar">
-  <h2>Dashboard</h2>
-  <div class="dots" onclick="toggleMenu()">⋮</div>
   <div class="sidebar">
     <div class="profile">
       <div class="profile-img">
-        <i class="fas fa-user"></i>
+        <i class="fas fa-user-shield"></i>
       </div>
       <div class="profile-info">
-        <h4 id="sidebar-name">Student Name</h4>
-        <p id="sidebar-class">Class X</p>
+        <h4 id="sidebar-name">Admin User</h4>
+        <p>Administrator</p>
       </div>
     </div>
     
@@ -510,27 +564,23 @@
     </div>
     <div class="nav-item" data-page="homework">
       <i class="fas fa-book"></i>
-      <span>Homework</span>
-    </div>
-    <div class="nav-item" data-page="assignments">
-      <i class="fas fa-tasks"></i>
-      <span>Assignments</span>
-    </div>
-    <div class="nav-item" data-page="timetable">
-      <i class="fas fa-calendar-alt"></i>
-      <span>Timetable</span>
-    </div>
-    <div class="nav-item" data-page="grades">
-      <i class="fas fa-graduation-cap"></i>
-      <span>Grades</span>
+      <span>Homework Management</span>
     </div>
     <div class="nav-item" data-page="announcements">
       <i class="fas fa-bullhorn"></i>
       <span>Announcements</span>
     </div>
-    <div class="nav-item" data-page="resources">
-      <i class="fas fa-book-open"></i>
-      <span>Resources</span>
+    <div class="nav-item" data-page="users">
+      <i class="fas fa-users"></i>
+      <span>User Management</span>
+    </div>
+    <div class="nav-item" data-page="messages">
+      <i class="fas fa-envelope"></i>
+      <span>Messages</span>
+    </div>
+    <div class="nav-item" data-page="analytics">
+      <i class="fas fa-chart-line"></i>
+      <span>Analytics</span>
     </div>
     <div class="nav-item mt-8" id="theme-toggle">
       <i class="fas fa-moon"></i>
@@ -540,41 +590,13 @@
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </div>
-    <div class="nav-item" id="admin-panel" style="display: none;">
-      <i class="fas fa-cog"></i>
-      <span>Admin Panel</span>
-    </div>
   </div>
-
-  <script>
-  // 3 dots menu toggle
-  const dots = document.querySelector(".dots");
-  const dropdown = document.querySelector(".dropdown");
-
-  dots.addEventListener("click", () => {
-    dropdown.classList.toggle("show");
-  });
-
-  // Auto hide dropdown when option is clicked
-  document.querySelectorAll(".dropdown a").forEach(item => {
-    item.addEventListener("click", () => {
-      dropdown.classList.remove("show");
-    });
-  });
-
-  // Optional: hide if clicked outside
-  document.addEventListener("click", (e) => {
-    if (!dots.contains(e.target) && !dropdown.contains(e.target)) {
-      dropdown.classList.remove("show");
-    }
-  });
-</script>
   
   <!-- Main Content -->
   <div class="main-content text-white">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <h1 class="text-3xl font-bold">Admin Panel</h1>
       <div class="flex items-center gap-4">
         <div class="relative">
           <button class="text-white p-2 rounded-full hover:bg-white hover:bg-opacity-10 transition-all">
@@ -585,9 +607,9 @@
         <div class="dropdown">
           <button class="flex items-center gap-2 text-white p-2 rounded-full hover:bg-white hover:bg-opacity-10 transition-all">
             <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <i class="fas fa-user text-xs"></i>
+              <i class="fas fa-user-shield text-xs"></i>
             </div>
-            <span id="header-name">Name</span>
+            <span id="header-name">Admin</span>
             <i class="fas fa-chevron-down text-xs"></i>
           </button>
           <div class="dropdown-content">
@@ -601,67 +623,57 @@
     
     <!-- Dashboard Content -->
     <div id="dashboard-page" class="page-content active">
+      <h2 class="text-2xl font-bold mb-6">Dashboard Overview</h2>
+      
       <!-- Stats Row -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="card">
           <div class="flex justify-between items-start">
             <div>
-              <p class="text-gray-400 text-sm">Pending Homework</p>
-              <h2 class="text-3xl font-bold mt-1" id="pending-hw">0</h2>
+              <p class="text-gray-400 text-sm">Total Students</p>
+              <h2 class="text-3xl font-bold mt-1" id="total-students">0</h2>
             </div>
             <div class="bg-blue-500 bg-opacity-20 p-3 rounded-full">
-              <i class="fas fa-book text-blue-400 text-xl"></i>
+              <i class="fas fa-user-graduate text-blue-400 text-xl"></i>
             </div>
           </div>
         </div>
         <div class="card">
           <div class="flex justify-between items-start">
             <div>
-              <p class="text-gray-400 text-sm">Attendance</p>
-              <h2 class="text-3xl font-bold mt-1" id="attendance-rate">0%</h2>
+              <p class="text-gray-400 text-sm">Active Teachers</p>
+              <h2 class="text-3xl font-bold mt-1" id="active-teachers">0</h2>
             </div>
             <div class="bg-green-500 bg-opacity-20 p-3 rounded-full">
-              <i class="fas fa-check-circle text-green-400 text-xl"></i>
+              <i class="fas fa-chalkboard-teacher text-green-400 text-xl"></i>
             </div>
           </div>
         </div>
         <div class="card">
           <div class="flex justify-between items-start">
             <div>
-              <p class="text-gray-400 text-sm">Average Grade</p>
-              <h2 class="text-3xl font-bold mt-1" id="avg-grade">0</h2>
+              <p class="text-gray-400 text-sm">Pending Homework</p>
+              <h2 class="text-3xl font-bold mt-1" id="pending-homework">0</h2>
             </div>
             <div class="bg-purple-500 bg-opacity-20 p-3 rounded-full">
-              <i class="fas fa-star text-purple-400 text-xl"></i>
+              <i class="fas fa-book text-purple-400 text-xl"></i>
             </div>
           </div>
         </div>
         <div class="card">
           <div class="flex justify-between items-start">
             <div>
-              <p class="text-gray-400 text-sm">Assignments</p>
-              <h2 class="text-3xl font-bold mt-1" id="total-assignments">0</h2>
+              <p class="text-gray-400 text-sm">System Messages</p>
+              <h2 class="text-3xl font-bold mt-1" id="system-messages">0</h2>
             </div>
             <div class="bg-orange-500 bg-opacity-20 p-3 rounded-full">
-              <i class="fas fa-tasks text-orange-400 text-xl"></i>
+              <i class="fas fa-envelope text-orange-400 text-xl"></i>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- Charts Row -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-4">Performance Trend</h3>
-          <canvas id="performance-chart" height="200"></canvas>
-        </div>
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-4">Subject Grades</h3>
-          <canvas id="grades-chart" height="200"></canvas>
-        </div>
-      </div>
-      
-      <!-- Recent Activity & Upcoming Events -->
+      <!-- Recent Activity & System Status -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="card">
           <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
@@ -670,17 +682,39 @@
           </div>
         </div>
         <div class="card">
-          <h3 class="text-xl font-semibold mb-4">Upcoming Events</h3>
-          <div id="upcoming-events" class="space-y-3">
-            <!-- Events will be added here -->
+          <h3 class="text-xl font-semibold mb-4">System Status</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span>Database Status</span>
+              <span class="text-green-400 flex items-center"><i class="fas fa-check-circle mr-1"></i> Online</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>Storage Usage</span>
+              <span>45% of 100GB</span>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 45%"></div>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>System Uptime</span>
+              <span>32 days</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>Last Backup</span>
+              <span>2 hours ago</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Homework Page -->
+    <!-- Homework Management Page -->
     <div id="homework-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Homework</h2>
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Homework Management</h2>
+        <button class="btn-primary" id="add-homework-btn"><i class="fas fa-plus mr-2"></i> Add Homework</button>
+      </div>
+      
       <div class="tabs mb-6">
         <div class="tab active" data-filter="all">All</div>
         <div class="tab" data-filter="pending">Pending</div>
@@ -690,153 +724,116 @@
         <div class="tab" data-filter="english">English</div>
         <div class="tab" data-filter="social">Social Studies</div>
       </div>
+      
       <div id="homework-list">
         <!-- Homework items will be dynamically added here -->
       </div>
     </div>
     
-    <!-- Assignments Page -->
-    <div id="assignments-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Assignments</h2>
+    <!-- Announcements Page -->
+    <div id="announcements-page" class="page-content hidden">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Announcements</h2>
+        <button class="btn-primary" id="add-announcement-btn"><i class="fas fa-plus mr-2"></i> New Announcement</button>
+      </div>
+      
       <div class="tabs mb-6">
         <div class="tab active" data-filter="all">All</div>
-        <div class="tab" data-filter="pending">Pending</div>
-        <div class="tab" data-filter="submitted">Submitted</div>
-        <div class="tab" data-filter="graded">Graded</div>
+        <div class="tab" data-filter="general">General</div>
+        <div class="tab" data-filter="academic">Academic</div>
+        <div class="tab" data-filter="event">Events</div>
+        <div class="tab" data-filter="urgent">Urgent</div>
       </div>
-      <div id="assignments-list">
-        <!-- Assignment items will be dynamically added here -->
+      
+      <div id="announcements-list">
+        <!-- Announcements will be populated here -->
       </div>
     </div>
     
-    <!-- Timetable Page -->
-    <div id="timetable-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Class Timetable</h2>
+    <!-- User Management Page -->
+    <div id="users-page" class="page-content hidden">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">User Management</h2>
+        <button class="btn-primary" id="add-user-btn"><i class="fas fa-plus mr-2"></i> Add User</button>
+      </div>
+      
       <div class="card">
         <div class="overflow-x-auto">
           <table class="w-full">
             <thead>
               <tr class="border-b border-gray-700">
-                <th class="py-3 px-2 text-left">Time</th>
-                <th class="py-3 px-2 text-left">Monday</th>
-                <th class="py-3 px-2 text-left">Tuesday</th>
-                <th class="py-3 px-2 text-left">Wednesday</th>
-                <th class="py-3 px-2 text-left">Thursday</th>
-                <th class="py-3 px-2 text-left">Friday</th>
+                <th class="py-3 px-2 text-left">Name</th>
+                <th class="py-3 px-2 text-left">Role</th>
+                <th class="py-3 px-2 text-left">Class/Subject</th>
+                <th class="py-3 px-2 text-left">Status</th>
+                <th class="py-3 px-2 text-left">Actions</th>
               </tr>
             </thead>
-            <tbody id="timetable-body">
-              <!-- Timetable data will be added here -->
+            <tbody id="user-management">
+              <!-- User data will be added here -->
             </tbody>
           </table>
         </div>
       </div>
     </div>
     
-    <!-- Grades Page -->
-    <div id="grades-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Grades & Performance</h2>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2">
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4">Subject-wise Grades</h3>
-            <div id="subject-grades" class="space-y-2">
-              <!-- Grades will be added here -->
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4">Attendance</h3>
-            <div class="flex justify-center my-4">
-              <div class="attendance-progress" id="attendance-progress">0%</div>
-            </div>
-            <div class="text-center">
-              <p class="text-sm">Total Classes: <span id="total-classes">0</span></p>
-              <p class="text-sm">Present: <span id="present-classes">0</span></p>
-            </div>
-          </div>
-        </div>
+    <!-- Messages Page -->
+    <div id="messages-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Messages</h2>
+      
+      <div class="tabs mb-6">
+        <div class="tab active" data-filter="all">All</div>
+        <div class="tab" data-filter="unread">Unread</div>
+        <div class="tab" data-filter="help">Help Requests</div>
+        <div class="tab" data-filter="general">General</div>
+      </div>
+      
+      <div id="messages-list">
+        <!-- Messages will be populated here -->
       </div>
     </div>
     
-    <!-- Announcements Page -->
-    <div id="announcements-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Announcements</h2>
-      <div id="announcements-list">
-        <!-- Announcements will be populated here -->
+    <!-- Analytics Page -->
+    <div id="analytics-page" class="page-content hidden">
+      <h2 class="text-2xl font-bold mb-6">Analytics & Reports</h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Homework Completion Rate</h3>
+          <div class="flex justify-center my-6">
+            <div class="w-40 h-40 relative">
+              <canvas id="completion-chart"></canvas>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <div class="text-2xl font-bold" id="completion-rate">0%</div>
+                  <div class="text-sm">Completed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold mb-4">Subject Performance</h3>
+          <canvas id="performance-chart" height="200"></canvas>
+        </div>
       </div>
-    </div>
-    
-    <!-- Resources Page -->
-    <div id="resources-page" class="page-content hidden">
-      <h2 class="text-2xl font-bold mb-6">Learning Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-4">Study Materials</h3>
-          <div class="space-y-3">
-            <div class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg">
-              <span>Math Formula Sheet</span>
-              <i class="fas fa-download text-blue-400 cursor-pointer hover:text-blue-300"></i>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg">
-              <span>Science Diagrams</span>
-              <i class="fas fa-download text-blue-400 cursor-pointer hover:text-blue-300"></i>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg">
-              <span>English Grammar</span>
-              <i class="fas fa-download text-blue-400 cursor-pointer hover:text-blue-300"></i>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-4">Video Lessons</h3>
-          <div class="space-y-3">
-            <div class="flex items-center gap-3 p-3 bg-white bg-opacity-10 rounded-lg">
-              <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                <i class="fas fa-play text-white"></i>
-              </div>
-              <span class="text-sm">Algebra Basics</span>
-            </div>
-            <div class="flex items-center gap-3 p-3 bg-white bg-opacity-10 rounded-lg">
-              <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                <i class="fas fa-play text-white"></i>
-              </div>
-              <span class="text-sm">Photosynthesis</span>
-            </div>
-            <div class="flex items-center gap-3 p-3 bg-white bg-opacity-10 rounded-lg">
-              <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                <i class="fas fa-play text-white"></i>
-              </div>
-              <span class="text-sm">Essay Writing</span>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-4">Practice Tests</h3>
-          <div class="space-y-3">
-            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
-              <h4 class="font-medium">Math Quiz</h4>
-              <div class="flex justify-between items-center mt-2">
-                <span class="text-sm">10 Questions</span>
-                <button class="btn-primary text-xs px-3 py-1">Start</button>
-              </div>
-            </div>
-            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
-              <h4 class="font-medium">Science Test</h4>
-              <div class="flex justify-between items-center mt-2">
-                <span class="text-sm">15 Questions</span>
-                <button class="btn-primary text-xs px-3 py-1">Start</button>
-              </div>
-            </div>
-            <div class="p-3 bg-white bg-opacity-10 rounded-lg">
-              <h4 class="font-medium">English Exam</h4>
-              <div class="flex justify-between items-center mt-2">
-                <span class="text-sm">20 Questions</span>
-                <button class="btn-primary text-xs px-3 py-1">Start</button>
-              </div>
-            </div>
-          </div>
+      
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-4">User Activity</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th class="py-3 px-2 text-left">Date</th>
+                <th class="py-3 px-2 text-left">Users Active</th>
+                <th class="py-3 px-2 text-left">Homework Submitted</th>
+                <th class="py-3 px-2 text-left">Messages Sent</th>
+              </tr>
+            </thead>
+            <tbody id="activity-data">
+              <!-- Activity data will be added here -->
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -847,119 +844,240 @@
     </footer>
   </div>
   
-  <!-- AI Assistant Chat -->
-  <div class="ai-assistant" id="ai-button">
-    <i class="fas fa-robot"></i>
-  </div>
-  
-  <div class="ai-chat" id="ai-chat">
-    <div class="ai-chat-header">
-      <span>AI Study Assistant</span>
-      <i class="fas fa-times cursor-pointer" id="close-ai-chat"></i>
-    </div>
-    <div class="ai-chat-body" id="ai-chat-body">
-      <div class="message assistant">Hello! I'm your AI study assistant. How can I help you with your studies today?</div>
-    </div>
-    <div class="ai-chat-footer">
-      <input type="text" placeholder="Ask a question..." id="ai-chat-input">
-      <button id="ai-chat-send" class="btn-primary"><i class="fas fa-paper-plane"></i></button>
+  <!-- Add Homework Modal -->
+  <div class="modal" id="homework-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="homework-modal-title">Add Homework</h3>
+        <button class="modal-close" id="close-homework-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="homework-title">Title</label>
+          <input type="text" id="homework-title" placeholder="Enter homework title">
+        </div>
+        <div class="form-group">
+          <label for="homework-subject">Subject</label>
+          <select id="homework-subject">
+            <option value="">Select Subject</option>
+            <option value="math">Mathematics</option>
+            <option value="science">Science</option>
+            <option value="english">English</option>
+            <option value="social">Social Studies</option>
+            <option value="hindi">Hindi</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="homework-class">Class</label>
+          <select id="homework-class">
+            <option value="">Select Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="homework-due-date">Due Date</label>
+          <input type="date" id="homework-due-date">
+        </div>
+        <div class="form-group">
+          <label for="homework-points">Points</label>
+          <input type="number" id="homework-points" placeholder="Enter points" min="1" max="100">
+        </div>
+        <div class="form-group">
+          <label for="homework-description">Description</label>
+          <textarea id="homework-description" placeholder="Enter homework description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="homework-teacher">Assigned By</label>
+          <input type="text" id="homework-teacher" placeholder="Enter teacher name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancel-homework">Cancel</button>
+        <button class="btn-primary" id="save-homework">Save Homework</button>
+      </div>
     </div>
   </div>
   
   <!-- Add Announcement Modal -->
-  <div id="announcement-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white bg-opacity-95 backdrop-filter backdrop-blur-15 rounded-2xl p-6 w-full max-w-md mx-4">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">New Announcement</h3>
-        <i class="fas fa-times cursor-pointer" id="close-announcement"></i>
+  <div class="modal" id="announcement-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="announcement-modal-title">New Announcement</h3>
+        <button class="modal-close" id="close-announcement-modal">&times;</button>
       </div>
-      <div class="space-y-4">
-        <input type="text" placeholder="Title" class="w-full p-3 rounded-lg border border-gray-300" id="announcement-title">
-        <textarea placeholder="Content" class="w-full p-3 rounded-lg border border-gray-300 h-32" id="announcement-content"></textarea>
-        <div class="flex justify-end">
-          <button class="btn-secondary mr-3" id="cancel-announcement">Cancel</button>
-          <button class="btn-primary" id="save-announcement">Save</button>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="announcement-title">Title</label>
+          <input type="text" id="announcement-title" placeholder="Enter announcement title">
         </div>
+        <div class="form-group">
+          <label for="announcement-type">Type</label>
+          <select id="announcement-type">
+            <option value="general">General</option>
+            <option value="academic">Academic</option>
+            <option value="event">Event</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="announcement-content">Content</label>
+          <textarea id="announcement-content" placeholder="Enter announcement content"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="announcement-target">Target Audience</label>
+          <select id="announcement-target" multiple>
+            <option value="all">All Users</option>
+            <option value="students">Students</option>
+            <option value="parents">Parents</option>
+            <option value="teachers">Teachers</option>
+            <option value="class1">Class 1</option>
+            <option value="class2">Class 2</option>
+            <option value="class3">Class 3</option>
+            <option value="class4">Class 4</option>
+            <option value="class5">Class 5</option>
+            <option value="class6">Class 6</option>
+            <option value="class7">Class 7</option>
+            <option value="class8">Class 8</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancel-announcement">Cancel</button>
+        <button class="btn-primary" id="save-announcement">Publish Announcement</button>
       </div>
     </div>
   </div>
   
-  <!-- Homework Detail Modal -->
-  <div id="homework-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white bg-opacity-95 backdrop-filter backdrop-blur-15 rounded-2xl p-6 w-full max-w-2xl mx-4">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">Homework Details</h3>
-        <i class="fas fa-times cursor-pointer" id="close-homework"></i>
+  <!-- Add User Modal -->
+  <div class="modal" id="user-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="user-modal-title">Add User</h3>
+        <button class="modal-close" id="close-user-modal">&times;</button>
       </div>
-      <div id="homework-detail-content">
-        <!-- Homework details will be loaded here -->
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="user-name">Full Name</label>
+          <input type="text" id="user-name" placeholder="Enter full name">
+        </div>
+        <div class="form-group">
+          <label for="user-role">Role</label>
+          <select id="user-role">
+            <option value="">Select Role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+            <option value="parent">Parent</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="user-class">Class/Subject</label>
+          <input type="text" id="user-class" placeholder="Enter class or subject">
+        </div>
+        <div class="form-group">
+          <label for="user-email">Email</label>
+          <input type="email" id="user-email" placeholder="Enter email address">
+        </div>
+        <div class="form-group">
+          <label for="user-phone">Phone</label>
+          <input type="tel" id="user-phone" placeholder="Enter phone number">
+        </div>
+        <div class="form-group">
+          <label for="user-status">Status</label>
+          <select id="user-status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
       </div>
-      <div class="mt-6 flex justify-end">
-        <button class="btn-secondary mr-3" id="cancel-homework">Cancel</button>
-        <button class="btn-primary" id="complete-homework">Mark as Complete</button>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancel-user">Cancel</button>
+        <button class="btn-primary" id="save-user">Add User</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Message Modal -->
+  <div class="modal" id="message-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="message-modal-title">Reply to Message</h3>
+        <button class="modal-close" id="close-message-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="message-from">From</label>
+          <input type="text" id="message-from" readonly>
+        </div>
+        <div class="form-group">
+          <label for="message-subject">Subject</label>
+          <input type="text" id="message-subject" readonly>
+        </div>
+        <div class="form-group">
+          <label for="message-content">Message</label>
+          <textarea id="message-content" readonly></textarea>
+        </div>
+        <div class="form-group">
+          <label for="message-reply">Your Reply</label>
+          <textarea id="message-reply" placeholder="Enter your reply"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancel-message">Cancel</button>
+        <button class="btn-primary" id="send-reply">Send Reply</button>
       </div>
     </div>
   </div>
   
   <!-- Help Center Modal -->
-  <div id="help-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white bg-opacity-95 backdrop-filter backdrop-blur-15 rounded-2xl p-6 w-full max-w-2xl mx-4">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">Help Center</h3>
-        <i class="fas fa-times cursor-pointer" id="close-help"></i>
+  <div class="modal" id="help-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Help Center</h3>
+        <button class="modal-close" id="close-help-modal">&times;</button>
       </div>
-      <div class="space-y-6">
-        <div>
-          <h4 class="font-semibold mb-2">How can we help you?</h4>
-          <p class="text-gray-600 mb-4">Select a topic below or send us a message.</p>
-          <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-              <h5 class="font-medium">Technical Issues</h5>
-              <p class="text-sm text-gray-500">Login, access, or platform problems</p>
-            </div>
-            <div class="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-              <h5 class="font-medium">Academic Questions</h5>
-              <p class="text-sm text-gray-500">Course content and assignments</p>
-            </div>
-            <div class="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-              <h5 class="font-medium">General Inquiry</h5>
-              <p class="text-sm text-gray-500">Other questions</p>
-            </div>
-            <div class="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-              <h5 class="font-medium">Report Issue</h5>
-              <p class="text-sm text-gray-500">Something not working properly?</p>
+      <div class="modal-body">
+        <div class="space-y-6">
+          <div>
+            <h4 class="font-semibold mb-2">Admin Panel Features</h4>
+            <div class="space-y-3 text-sm">
+              <p><strong>Homework Management:</strong> Create, edit, and manage homework assignments for all classes.</p>
+              <p><strong>Announcements:</strong> Send important updates to students, parents, and teachers.</p>
+              <p><strong>User Management:</strong> Add, edit, and manage user accounts (students, teachers, parents).</p>
+              <p><strong>Messages:</strong> View and respond to messages from users.</p>
+              <p><strong>Analytics:</strong> Monitor system usage, homework completion rates, and user activity.</p>
             </div>
           </div>
-        </div>
-        <div>
-          <h4 class="font-semibold mb-2">Send us a message</h4>
-          <div class="space-y-4">
-            <input type="text" placeholder="Subject" class="w-full p-3 rounded-lg border border-gray-300" id="help-subject">
-            <textarea placeholder="Describe your issue..." class="w-full p-3 rounded-lg border border-gray-300 h-32" id="help-message"></textarea>
-            <div class="flex justify-end">
-              <button class="btn-primary px-6" id="send-help-message">Send Message</button>
-            </div>
+          <div>
+            <h4 class="font-semibold mb-2">Quick Tips</h4>
+            <ul class="list-disc list-inside text-sm space-y-2">
+              <li>Use the filter tabs to quickly find specific homework or announcements</li>
+              <li>Always double-check the target audience when sending announcements</li>
+              <li>Regularly monitor the analytics to understand user engagement</li>
+              <li>Respond to help requests within 24 hours for best user experience</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">Need More Help?</h4>
+            <p class="text-sm">Contact the system administrator at admin@mkps.edu for technical support.</p>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  
-  <!-- Notifications Modal -->
-  <div id="notifications-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white bg-opacity-95 backdrop-filter backdrop-blur-15 rounded-2xl p-6 w-full max-w-md mx-4">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">Notifications</h3>
-        <i class="fas fa-times cursor-pointer close-notifications"></i>
-      </div>
-      <div id="notifications-list" class="max-h-96 overflow-y-auto">
-        <!-- Notifications will be populated here -->
+      <div class="modal-footer">
+        <button class="btn-primary" id="close-help">Got it</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Initialize variables
+    // DOM Elements
     const navItems = document.querySelectorAll('.nav-item');
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
@@ -969,215 +1087,227 @@
     const logoutLink = document.getElementById('logout-link');
     const profileLink = document.getElementById('profile-link');
     const helpLink = document.getElementById('help-link');
-    const adminPanelBtn = document.getElementById('admin-panel');
-    const aiButton = document.getElementById('ai-button');
-    const aiChat = document.getElementById('ai-chat');
-    const closeAiChat = document.getElementById('close-ai-chat');
-    const aiChatSend = document.getElementById('ai-chat-send');
-    const aiChatInput = document.getElementById('ai-chat-input');
-    const helpModal = document.getElementById('help-modal');
-    const closeHelp = document.getElementById('close-help');
-    const sendHelpMessage = document.getElementById('send-help-message');
-    const helpSubject = document.getElementById('help-subject');
-    const helpMessage = document.getElementById('help-message');
     const notificationCount = document.getElementById('notification-count');
-    const closeAnnouncement = document.getElementById('close-announcement');
+    
+    // Modal elements
+    const homeworkModal = document.getElementById('homework-modal');
+    const closeHomeworkModal = document.getElementById('close-homework-modal');
+    const cancelHomework = document.getElementById('cancel-homework');
+    const saveHomework = document.getElementById('save-homework');
+    
+    const announcementModal = document.getElementById('announcement-modal');
+    const closeAnnouncementModal = document.getElementById('close-announcement-modal');
     const cancelAnnouncement = document.getElementById('cancel-announcement');
     const saveAnnouncement = document.getElementById('save-announcement');
-    const announcementModal = document.getElementById('announcement-modal');
+    
+    const userModal = document.getElementById('user-modal');
+    const closeUserModal = document.getElementById('close-user-modal');
+    const cancelUser = document.getElementById('cancel-user');
+    const saveUser = document.getElementById('save-user');
+    
+    const messageModal = document.getElementById('message-modal');
+    const closeMessageModal = document.getElementById('close-message-modal');
+    const cancelMessage = document.getElementById('cancel-message');
+    const sendReply = document.getElementById('send-reply');
+    
+    const helpModal = document.getElementById('help-modal');
+    const closeHelpModal = document.getElementById('close-help-modal');
+    const closeHelp = document.getElementById('close-help');
+    
+    // Button elements
+    const addHomeworkBtn = document.getElementById('add-homework-btn');
+    const addAnnouncementBtn = document.getElementById('add-announcement-btn');
+    const addUserBtn = document.getElementById('add-user-btn');
+    
+    // Form elements
+    const homeworkTitle = document.getElementById('homework-title');
+    const homeworkSubject = document.getElementById('homework-subject');
+    const homeworkClass = document.getElementById('homework-class');
+    const homeworkDueDate = document.getElementById('homework-due-date');
+    const homeworkPoints = document.getElementById('homework-points');
+    const homeworkDescription = document.getElementById('homework-description');
+    const homeworkTeacher = document.getElementById('homework-teacher');
+    
     const announcementTitle = document.getElementById('announcement-title');
+    const announcementType = document.getElementById('announcement-type');
     const announcementContent = document.getElementById('announcement-content');
-    const homeworkModal = document.getElementById('homework-modal');
-    const closeHomework = document.getElementById('close-homework');
-    const cancelHomework = document.getElementById('cancel-homework');
-    const completeHomework = document.getElementById('complete-homework');
-    const closeNotifications = document.querySelectorAll('.close-notifications');
+    const announcementTarget = document.getElementById('announcement-target');
+    
+    const userName = document.getElementById('user-name');
+    const userRole = document.getElementById('user-role');
+    const userClass = document.getElementById('user-class');
+    const userEmail = document.getElementById('user-email');
+    const userPhone = document.getElementById('user-phone');
+    const userStatus = document.getElementById('user-status');
+    
+    const messageFrom = document.getElementById('message-from');
+    const messageSubject = document.getElementById('message-subject');
+    const messageContent = document.getElementById('message-content');
+    const messageReply = document.getElementById('message-reply');
+    
+    // Dashboard elements
+    const totalStudents = document.getElementById('total-students');
+    const activeTeachers = document.getElementById('active-teachers');
+    const pendingHomework = document.getElementById('pending-homework');
+    const systemMessages = document.getElementById('system-messages');
     
     // Mock data
     let homeworkData = [
-      { id: 1, title: 'Algebra Equations', subject: 'math', dueDate: '2023-07-15', points: 20, completed: false, description: 'Solve the following equations: 2x + 5 = 15, 3x - 7 = 8, etc.' },
-      { id: 2, title: 'Photosynthesis Process', subject: 'science', dueDate: '2023-07-16', points: 25, completed: true, description: 'Explain the process of photosynthesis with a diagram and write 500 words on its importance.' },
-      { id: 3, title: 'Essay on Environment', subject: 'english', dueDate: '2023-07-18', points: 30, completed: false, description: 'Write a 1000-word essay on environmental conservation and its importance for future generations.' },
-      { id: 4, title: 'Indian Freedom Movement', subject: 'social', dueDate: '2023-07-20', points: 20, completed: false, description: 'Prepare a presentation on the key events of the Indian freedom movement from 1857 to 1947.' },
-      { id: 5, title: 'Geometry Problems', subject: 'math', dueDate: '2023-07-22', points: 15, completed: false, description: 'Solve the given geometry problems involving triangles, circles, and polygons.' }
-    ];
-    
-    let assignmentsData = [
-      { id: 1, title: 'Mathematics Quiz', subject: 'math', dueDate: '2023-07-14', points: 50, submitted: true, status: 'graded', grade: 45 },
-      { id: 2, title: 'Science Project', subject: 'science', dueDate: '2023-07-21', points: 100, submitted: false, status: 'pending', grade: null },
-      { id: 3, title: 'English Composition', subject: 'english', dueDate: '2023-07-19', points: 40, submitted: true, status: 'graded', grade: 38 },
-      { id: 4, title: 'History Research', subject: 'social', dueDate: '2023-07-25', points: 80, submitted: false, status: 'pending', grade: null }
-    ];
-    
-    let timetableData = [
-      { time: '09:00-10:00', mon: 'Math', tue: 'English', wed: 'Science', thu: 'Math', fri: 'English' },
-      { time: '10:00-11:00', mon: 'Science', tue: 'Math', wed: 'English', thu: 'Science', fri: 'Math' },
-      { time: '11:00-12:00', mon: 'Social', tue: 'Hindi', wed: 'Social', thu: 'Hindi', fri: 'Social' },
-      { time: '12:00-13:00', mon: 'Lunch', tue: 'Lunch', wed: 'Lunch', thu: 'Lunch', fri: 'Lunch' },
-      { time: '13:00-14:00', mon: 'English', tue: 'Science', wed: 'Math', thu: 'English', fri: 'Science' },
-      { time: '14:00-15:00', mon: 'Hindi', tue: 'Social', wed: 'Hindi', thu: 'Social', fri: 'Hindi' }
+      { id: 1, title: 'Algebra Equations', subject: 'math', class: '8', dueDate: '2023-07-15', points: 20, completed: false, description: 'Solve the following equations: 2x + 5 = 15, 3x - 7 = 8, etc.', teacher: 'Mr. Sharma', createdAt: '2023-07-10' },
+      { id: 2, title: 'Photosynthesis Process', subject: 'science', class: '7', dueDate: '2023-07-16', points: 25, completed: true, description: 'Explain the process of photosynthesis with a diagram and write 500 words on its importance.', teacher: 'Ms. Patel', createdAt: '2023-07-09' },
+      { id: 3, title: 'Essay on Environment', subject: 'english', class: '8', dueDate: '2023-07-18', points: 30, completed: false, description: 'Write a 1000-word essay on environmental conservation and its importance for future generations.', teacher: 'Mrs. Gupta', createdAt: '2023-07-11' },
+      { id: 4, title: 'Indian Freedom Movement', subject: 'social', class: '8', dueDate: '2023-07-20', points: 20, completed: false, description: 'Prepare a presentation on the key events of the Indian freedom movement from 1857 to 1947.', teacher: 'Mr. Singh', createdAt: '2023-07-12' },
+      { id: 5, title: 'Geometry Problems', subject: 'math', class: '7', dueDate: '2023-07-22', points: 15, completed: false, description: 'Solve the given geometry problems involving triangles, circles, and polygons.', teacher: 'Mr. Sharma', createdAt: '2023-07-13' }
     ];
     
     let announcementsData = [
-      { id: 1, title: 'Summer Vacation', date: '2023-07-05', content: 'Summer vacation will start from July 15th and end on August 30th. Classes will resume on August 31st.' },
-      { id: 2, title: 'Parent-Teacher Meeting', date: '2023-07-10', content: 'Parent-teacher meetings have been scheduled for July 20th. Please book your slot on the parent portal.' },
-      { id: 3, title: 'Science Fair', date: '2023-07-12', content: 'The annual science fair will be held on July 25th. All students are encouraged to participate with their projects.' }
+      { id: 1, title: 'Summer Vacation', type: 'event', content: 'Summer vacation will start from July 15th and end on August 30th. Classes will resume on August 31st.', target: ['all'], createdAt: '2023-07-05', author: 'Admin' },
+      { id: 2, title: 'Parent-Teacher Meeting', type: 'academic', content: 'Parent-teacher meetings have been scheduled for July 20th. Please book your slot on the parent portal.', target: ['parents', 'teachers'], createdAt: '2023-07-10', author: 'Principal' },
+      { id: 3, title: 'Science Fair', type: 'event', content: 'The annual science fair will be held on July 25th. All students are encouraged to participate with their projects.', target: ['students'], createdAt: '2023-07-12', author: 'Science Dept' },
+      { id: 4, title: 'System Maintenance', type: 'urgent', content: 'The system will be down for maintenance on Saturday from 2-4 PM. Please complete all pending tasks before this time.', target: ['all'], createdAt: '2023-07-14', author: 'IT Admin' }
     ];
     
-    let gradesData = [
-      { subject: 'math', grade: 'A', percentage: 92 },
-      { subject: 'science', grade: 'A-', percentage: 88 },
-      { subject: 'english', grade: 'B+', percentage: 85 },
-      { subject: 'social', grade: 'A-', percentage: 87 },
-      { subject: 'hindi', grade: 'B', percentage: 82 }
+    let userData = [
+      { id: 1, name: 'John Doe', role: 'student', class: '8', status: 'active', email: 'john@mkps.edu', phone: '123-456-7890' },
+      { id: 2, name: 'Jane Smith', role: 'teacher', class: 'Mathematics', status: 'active', email: 'jane@mkps.edu', phone: '123-456-7891' },
+      { id: 3, name: 'Bob Johnson', role: 'parent', class: '6', status: 'active', email: 'bob@mkps.edu', phone: '123-456-7892' },
+      { id: 4, name: 'Alice Brown', role: 'teacher', class: 'Science', status: 'active', email: 'alice@mkps.edu', phone: '123-456-7893' },
+      { id: 5, name: 'Charlie Wilson', role: 'student', class: '8', status: 'inactive', email: 'charlie@mkps.edu', phone: '123-456-7894' },
+      { id: 6, name: 'Diana Prince', role: 'admin', class: 'Administration', status: 'active', email: 'diana@mkps.edu', phone: '123-456-7895' }
     ];
     
-    let performanceData = [
-      { month: 'Jan', score: 78 },
-      { month: 'Feb', score: 82 },
-      { month: 'Mar', score: 85 },
-      { month: 'Apr', score: 80 },
-      { month: 'May', score: 88 },
-      { month: 'Jun', score: 92 }
+    let messagesData = [
+      { id: 1, from: 'student1', to: 'admin', subject: 'Login Issue', content: 'I am unable to login to my account. Can you please help?', date: '2023-07-14', read: false, type: 'help' },
+      { id: 2, from: 'parent1', to: 'admin', subject: 'Fee Query', content: 'I have a question about the tuition fees for the next semester.', date: '2023-07-13', read: true, type: 'general' },
+      { id: 3, from: 'student2', to: 'admin', subject: 'Homework Clarification', content: 'I need some clarification on the math homework assigned yesterday.', date: '2023-07-12', read: false, type: 'help' },
+      { id: 4, from: 'teacher1', to: 'admin', subject: 'Resource Request', content: 'I would like to request additional teaching resources for my class.', date: '2023-07-11', read: true, type: 'general' }
     ];
     
-    let userData = [];
-    let messagesData = [];
+    let activityData = [
+      { date: '2023-07-14', usersActive: 125, homeworkSubmitted: 45, messagesSent: 12 },
+      { date: '2023-07-13', usersActive: 132, homeworkSubmitted: 52, messagesSent: 18 },
+      { date: '2023-07-12', usersActive: 141, homeworkSubmitted: 68, messagesSent: 24 },
+      { date: '2023-07-11', usersActive: 138, homeworkSubmitted: 62, messagesSent: 21 },
+      { date: '2023-07-10', usersActive: 129, homeworkSubmitted: 55, messagesSent: 16 }
+    ];
+    
     let notifications = [];
     
-    // Load user data from localStorage
+    // Load data from localStorage
     function loadData() {
       const savedHomework = localStorage.getItem('mkps_homework');
-      const savedAssignments = localStorage.getItem('mkps_assignments');
       const savedAnnouncements = localStorage.getItem('mkps_announcements');
-      const savedGrades = localStorage.getItem('mkps_grades');
-      const savedPerformance = localStorage.getItem('mkps_performance');
-      const savedUserData = localStorage.getItem('mkps_users');
+      const savedUsers = localStorage.getItem('mkps_users');
       const savedMessages = localStorage.getItem('mkps_messages');
+      const savedActivity = localStorage.getItem('mkps_activity');
       const savedNotifications = localStorage.getItem('mkps_notifications');
       
       if (savedHomework) homeworkData = JSON.parse(savedHomework);
-      if (savedAssignments) assignmentsData = JSON.parse(savedAssignments);
       if (savedAnnouncements) announcementsData = JSON.parse(savedAnnouncements);
-      if (savedGrades) gradesData = JSON.parse(savedGrades);
-      if (savedPerformance) performanceData = JSON.parse(savedPerformance);
-      if (savedUserData) userData = JSON.parse(savedUserData);
+      if (savedUsers) userData = JSON.parse(savedUsers);
       if (savedMessages) messagesData = JSON.parse(savedMessages);
+      if (savedActivity) activityData = JSON.parse(savedActivity);
       if (savedNotifications) notifications = JSON.parse(savedNotifications);
     }
     
     // Save data to localStorage
     function saveData() {
       localStorage.setItem('mkps_homework', JSON.stringify(homeworkData));
-      localStorage.setItem('mkps_assignments', JSON.stringify(assignmentsData));
       localStorage.setItem('mkps_announcements', JSON.stringify(announcementsData));
-      localStorage.setItem('mkps_grades', JSON.stringify(gradesData));
-      localStorage.setItem('mkps_performance', JSON.stringify(performanceData));
       localStorage.setItem('mkps_users', JSON.stringify(userData));
       localStorage.setItem('mkps_messages', JSON.stringify(messagesData));
+      localStorage.setItem('mkps_activity', JSON.stringify(activityData));
       localStorage.setItem('mkps_notifications', JSON.stringify(notifications));
-    }
-    
-    // Load user profile
-    function loadUserProfile() {
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      if (studentData) {
-        document.getElementById('sidebar-name').textContent = studentData.name;
-        document.getElementById('sidebar-class').textContent = `Class ${studentData.class}`;
-        document.getElementById('header-name').textContent = studentData.name;
-      }
     }
     
     // Load dashboard data
     function loadDashboardData() {
-      // Calculate pending homework
-      const pendingHW = homeworkData.filter(hw => !hw.completed).length;
-      document.getElementById('pending-hw').textContent = pendingHW;
+      // Update stats
+      totalStudents.textContent = userData.filter(u => u.role === 'student').length;
+      activeTeachers.textContent = userData.filter(u => u.role === 'teacher' && u.status === 'active').length;
+      pendingHomework.textContent = homeworkData.filter(hw => !hw.completed).length;
+      systemMessages.textContent = messagesData.filter(m => !m.read).length;
       
-      // Calculate attendance (mock data)
-      const attendanceRate = 92;
-      document.getElementById('attendance-rate').textContent = `${attendanceRate}%`;
+      // Update recent activity
+      const recentActivity = document.getElementById('recent-activity');
+      recentActivity.innerHTML = '';
       
-      // Calculate average grade
-      const avgGrade = 86.8;
-      document.getElementById('avg-grade').textContent = avgGrade;
+      const recentItems = [
+        { icon: 'book', text: 'Added new homework: Algebra Equations', time: '1 hour ago', user: 'Mr. Sharma' },
+        { icon: 'bullhorn', text: 'Published announcement: System Maintenance', time: '2 hours ago', user: 'IT Admin' },
+        { icon: 'user', text: 'Added new user: Emily Davis', time: '3 hours ago', user: 'Admin' },
+        { icon: 'envelope', text: 'Received help request: Login Issue', time: '4 hours ago', user: 'Student1' }
+      ];
       
-      // Total assignments
-      document.getElementById('total-assignments').textContent = assignmentsData.length;
-      
-      // Update attendance progress
-      document.getElementById('attendance-progress').textContent = `${attendanceRate}%`;
-      document.getElementById('attendance-progress').style.background = `conic-gradient(#00c6ff 0%, #00c6ff ${attendanceRate}%, #333 ${attendanceRate}%, #333 100%)`;
-      document.getElementById('total-classes').textContent = '100';
-      document.getElementById('present-classes').textContent = '92';
+      recentItems.forEach(item => {
+        const actEl = document.createElement('div');
+        actEl.className = 'flex items-center gap-3 mb-3';
+        actEl.innerHTML = `<div class="bg-blue-500 bg-opacity-20 p-2 rounded-full">
+                            <i class="fas fa-${item.icon} text-blue-400"></i>
+                          </div>
+                          <div class="flex-1">
+                            <p class="font-medium">${item.text}</p>
+                            <div class="flex justify-between">
+                              <p class="text-sm text-gray-400">${item.time}</p>
+                              <p class="text-sm text-gray-400">${item.user}</p>
+                            </div>
+                          </div>`;
+        recentActivity.appendChild(actEl);
+      });
     }
     
     // Create charts
     function createCharts() {
-      // Performance chart
-      const performanceCtx = document.getElementById('performance-chart').getContext('2d');
-      new Chart(performanceCtx, {
-        type: 'line',
+      // Completion rate chart
+      const completionCtx = document.getElementById('completion-chart').getContext('2d');
+      const completedHW = homeworkData.filter(hw => hw.completed).length;
+      const totalHW = homeworkData.length;
+      const completionRate = totalHW > 0 ? Math.round((completedHW / totalHW) * 100) : 0;
+      
+      document.getElementById('completion-rate').textContent = `${completionRate}%`;
+      
+      new Chart(completionCtx, {
+        type: 'doughnut',
         data: {
-          labels: performanceData.map(p => p.month),
+          labels: ['Completed', 'Pending'],
           datasets: [{
-            label: 'Performance Score',
-            data: performanceData.map(p => p.score),
-            borderColor: '#00c6ff',
-            backgroundColor: 'rgba(0, 198, 255, 0.1)',
-            tension: 0.4,
-            fill: true
+             [completedHW, totalHW - completedHW],
+            backgroundColor: ['#00c6ff', '#ff6b6b'],
+            borderWidth: 0
           }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          cutout: '70%',
           plugins: {
             legend: {
-              labels: {
-                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              grid: {
-                color: 'rgba(255, 255, 255, 0.1)'
-              },
-              ticks: {
-                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
-              }
-            },
-            x: {
-              grid: {
-                display: false
-              },
-              ticks: {
-                color: document.body.classList.contains('light-theme') ? '#333' : '#fff'
-              }
+              display: false
             }
           }
         }
       });
       
-      // Grades chart
-      const gradesCtx = document.getElementById('grades-chart').getContext('2d');
-      new Chart(gradesCtx, {
+      // Performance chart
+      const performanceCtx = document.getElementById('performance-chart').getContext('2d');
+      const subjectData = {};
+      homeworkData.forEach(hw => {
+        if (!subjectData[hw.subject]) {
+          subjectData[hw.subject] = { count: 0, points: 0 };
+        }
+        subjectData[hw.subject].count++;
+        subjectData[hw.subject].points += hw.points;
+      });
+      
+      const subjects = Object.keys(subjectData);
+      const averages = subjects.map(s => Math.round(subjectData[s].points / subjectData[s].count));
+      
+      new Chart(performanceCtx, {
         type: 'bar',
-        data: {
-          labels: gradesData.map(g => g.subject),
+         {
+          labels: subjects.map(s => getSubjectName(s)),
           datasets: [{
-            label: 'Percentage',
-            data: gradesData.map(g => g.percentage),
-            backgroundColor: [
-              '#00c6ff',
-              '#4ecdc4',
-              '#ff6b6b',
-              '#feca57',
-              '#ff9ff3'
-            ],
+            label: 'Average Points',
+            data: averages,
+            backgroundColor: subjects.map(s => getSubjectColor(s)),
             borderRadius: 5
           }]
         },
@@ -1194,7 +1324,6 @@
           scales: {
             y: {
               beginAtZero: true,
-              max: 100,
               grid: {
                 color: 'rgba(255, 255, 255, 0.1)'
               },
@@ -1213,6 +1342,19 @@
           }
         }
       });
+      
+      // Activity data
+      const activityTable = document.getElementById('activity-data');
+      activityTable.innerHTML = '';
+      activityData.slice(-5).reverse().forEach(item => {
+        const row = document.createElement('tr');
+        row.className = 'border-b border-gray-700';
+        row.innerHTML = `<td class="py-3 px-2">${formatDate(item.date)}</td>
+                         <td class="py-3 px-2">${item.usersActive}</td>
+                         <td class="py-3 px-2">${item.homeworkSubmitted}</td>
+                         <td class="py-3 px-2">${item.messagesSent}</td>`;
+        activityTable.appendChild(row);
+      });
     }
     
     // Load page content
@@ -1220,97 +1362,14 @@
       // Homework page
       filterHomework('all');
       
-      // Assignments page
-      filterAssignments('all');
-      
-      // Timetable page
-      const timetableBody = document.getElementById('timetable-body');
-      timetableBody.innerHTML = '';
-      timetableData.forEach(period => {
-        const row = document.createElement('tr');
-        row.className = 'border-b border-gray-700';
-        row.innerHTML = `<td class="py-3 px-2 font-medium">${period.time}</td>
-                         <td class="py-3 px-2">${period.mon}</td>
-                         <td class="py-3 px-2">${period.tue}</td>
-                         <td class="py-3 px-2">${period.wed}</td>
-                         <td class="py-3 px-2">${period.thu}</td>
-                         <td class="py-3 px-2">${period.fri}</td>`;
-        timetableBody.appendChild(row);
-      });
-      
-      // Upcoming events
-      const upcomingEvents = document.getElementById('upcoming-events');
-      upcomingEvents.innerHTML = '';
-      const events = [
-        { date: '2023-07-15', title: 'Math Test', type: 'event' },
-        { date: '2023-07-18', title: 'English Essay Due', type: 'warning' },
-        { date: '2023-07-20', title: 'Parent-Teacher Meeting', type: 'event' },
-        { date: '2023-07-25', title: 'Science Fair', type: 'event' },
-        { date: '2023-08-01', title: 'Midterm Exams Begin', type: 'warning' }
-      ];
-      events.forEach(event => {
-        const eventEl = document.createElement('div');
-        eventEl.className = 'p-3 mb-3 rounded-lg bg-white bg-opacity-10';
-        eventEl.innerHTML = `<div class="flex items-center gap-2 mb-1">
-                              <i class="fas fa-calendar-alt text-blue-400"></i>
-                              <span class="font-medium">${formatDate(event.date)}</span>
-                            </div>
-                            <h4 class="font-semibold">${event.title}</h4>`;
-        upcomingEvents.appendChild(eventEl);
-      });
-      
-      // Grades page
-      const subjectGrades = document.getElementById('subject-grades');
-      subjectGrades.innerHTML = '';
-      gradesData.forEach(grade => {
-        const gradeEl = document.createElement('div');
-        gradeEl.className = 'flex justify-between items-center p-2 bg-white bg-opacity-10 rounded';
-        gradeEl.innerHTML = `<span>${grade.subject}</span>
-                             <div class="flex items-center gap-3">
-                               <span class="font-semibold">${grade.grade}</span>
-                               <div class="w-20 bg-white bg-opacity-20 rounded-full h-2">
-                                 <div class="bg-blue-500 h-2 rounded-full" style="width: ${grade.percentage}%"></div>
-                               </div>
-                               <span class="text-sm">${grade.percentage}%</span>
-                             </div>`;
-        subjectGrades.appendChild(gradeEl);
-      });
-      
       // Announcements page
-      const announcementsList = document.getElementById('announcements-list');
-      announcementsList.innerHTML = '';
-      announcementsData.forEach(ann => {
-        const annEl = document.createElement('div');
-        annEl.className = 'announcement-item';
-        annEl.innerHTML = `<div class="flex justify-between items-start mb-2">
-                            <h4 class="font-semibold">${ann.title}</h4>
-                            <span class="text-sm text-gray-400">${formatDate(ann.date)}</span>
-                          </div>
-                          <p>${ann.content}</p>`;
-        announcementsList.appendChild(annEl);
-      });
+      filterAnnouncements('all');
       
-      // Recent activity
-      const activity = document.getElementById('recent-activity');
-      activity.innerHTML = '';
-      const recentActivities = [
-        { icon: 'book', text: 'Homework completed: Algebra Equations', time: '2 hours ago' },
-        { icon: 'tasks', text: 'Assignment submitted: Mathematics Quiz', time: '1 day ago' },
-        { icon: 'bullhorn', text: 'New announcement: Summer Vacation', time: '2 days ago' },
-        { icon: 'graduation-cap', text: 'Grade updated: Math - A', time: '3 days ago' }
-      ];
-      recentActivities.forEach(act => {
-        const actEl = document.createElement('div');
-        actEl.className = 'flex items-center gap-3';
-        actEl.innerHTML = `<div class="bg-blue-500 bg-opacity-20 p-2 rounded-full">
-                            <i class="fas fa-${act.icon} text-blue-400"></i>
-                          </div>
-                          <div class="flex-1">
-                            <p class="font-medium">${act.text}</p>
-                            <p class="text-sm text-gray-400">${act.time}</p>
-                          </div>`;
-        activity.appendChild(actEl);
-      });
+      // Users page
+      renderUsers();
+      
+      // Messages page
+      filterMessages('all');
     }
     
     // Filter homework
@@ -1339,167 +1398,635 @@
         const hwEl = document.createElement('div');
         hwEl.className = `homework-item ${hw.completed ? 'completed' : ''}`;
         hwEl.innerHTML = `<div>
-                          <h4 class="font-semibold">${hw.title}</h4>
-                          <div class="flex items-center gap-3 mt-1">
+                          <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-semibold">${hw.title}</h4>
+                            <span class="text-sm text-gray-400">${formatDate(hw.dueDate)}</span>
+                          </div>
+                          <div class="flex items-center gap-3 mb-2">
                             <span class="subject-tag" style="background: ${getSubjectColor(hw.subject)}">${getSubjectName(hw.subject)}</span>
+                            <span class="text-sm">Class ${hw.class}</span>
                             <span class="text-sm">Points: ${hw.points}</span>
                             <span class="badge ${hw.completed ? 'completed' : 'pending'}">${hw.completed ? 'Completed' : 'Pending'}</span>
                           </div>
-                          <p class="text-sm mt-1 opacity-80">Due: ${formatDate(hw.dueDate)}</p>
+                          <p class="text-sm opacity-80">${hw.description}</p>
+                          <p class="text-sm mt-1 opacity-60">Assigned by: ${hw.teacher}</p>
                         </div>
-                        <button class="btn-primary view-btn" data-id="${hw.id}">View</button>`;
+                        <div class="flex gap-2">
+                          <button class="btn-secondary text-xs edit-btn" data-id="${hw.id}">Edit</button>
+                          <button class="btn-warning text-xs delete-btn" data-id="${hw.id}">Delete</button>
+                        </div>`;
         homeworkList.appendChild(hwEl);
       });
       
-      // Add event listeners to view buttons
-      document.querySelectorAll('.view-btn').forEach(btn => {
+      // Add event listeners
+      document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', function() {
           const hwId = this.getAttribute('data-id');
-          viewHomework(hwId);
+          editHomework(hwId);
+        });
+      });
+      
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const hwId = this.getAttribute('data-id');
+          deleteHomework(hwId);
         });
       });
     }
     
-    // Filter assignments
-    function filterAssignments(filter) {
-      const assignmentsList = document.getElementById('assignments-list');
-      assignmentsList.innerHTML = '';
+    // Filter announcements
+    function filterAnnouncements(filter) {
+      const announcementsList = document.getElementById('announcements-list');
+      announcementsList.innerHTML = '';
       
-      let filteredAssignments = assignmentsData;
+      let filteredAnnouncements = announcementsData;
       
       if (filter !== 'all') {
-        filteredAssignments = assignmentsData.filter(ass => ass.status === filter);
+        filteredAnnouncements = announcementsData.filter(ann => ann.type === filter);
       }
       
-      if (filteredAssignments.length === 0) {
-        assignmentsList.innerHTML = '<div class="text-center py-8 text-gray-400">No assignments found for this category</div>';
+      if (filteredAnnouncements.length === 0) {
+        announcementsList.innerHTML = '<div class="text-center py-8 text-gray-400">No announcements found for this category</div>';
         return;
       }
       
-      filteredAssignments.forEach(ass => {
-        const assEl = document.createElement('div');
-        assEl.className = 'assignment-item';
-        assEl.innerHTML = `<div class="flex justify-between items-start">
-                            <div>
-                              <h4 class="font-semibold">${ass.title}</h4>
-                              <div class="flex items-center gap-3 mt-1">
-                                <span class="subject-tag" style="background: ${getSubjectColor(ass.subject)}">${getSubjectName(ass.subject)}</span>
-                                <span class="text-sm">Points: ${ass.points}</span>
-                                <span class="badge ${ass.status}">${ass.status.charAt(0).toUpperCase() + ass.status.slice(1)}</span>
-                              </div>
-                              <p class="text-sm mt-1 opacity-80">Due: ${formatDate(ass.dueDate)}</p>
-                            </div>
-                            <div class="text-right">
-                              ${ass.status === 'pending' ? 
-                                `<button class="btn-primary submit-btn" data-id="${ass.id}">Submit</button>` : 
-                                `<div>
-                                  <p class="text-sm">Grade: ${ass.grade}/${ass.points}</p>
-                                  <p class="text-xs opacity-70">${formatDate(new Date().toISOString())}</p>
-                                </div>`}
-                            </div>
-                          </div>`;
-        assignmentsList.appendChild(assEl);
+      filteredAnnouncements.forEach(ann => {
+        const annEl = document.createElement('div');
+        annEl.className = 'announcement-item';
+        annEl.innerHTML = `<div>
+                          <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-semibold">${ann.title}</h4>
+                            <span class="text-sm text-gray-400">${formatDate(ann.createdAt)}</span>
+                          </div>
+                          <div class="flex items-center gap-3 mb-2">
+                            <span class="badge" style="background: ${getAnnouncementColor(ann.type)}">${capitalizeFirstLetter(ann.type)}</span>
+                            <span class="text-sm">By: ${ann.author}</span>
+                          </div>
+                          <p>${ann.content}</p>
+                          <div class="flex items-center gap-2 mt-2">
+                            <span class="text-xs">Target: ${ann.target.map(t => capitalizeFirstLetter(t.replace('class', 'Class '))).join(', ')}</span>
+                          </div>
+                        </div>
+                        <div class="flex gap-2">
+                          <button class="btn-secondary text-xs edit-btn" data-id="${ann.id}">Edit</button>
+                          <button class="btn-warning text-xs delete-btn" data-id="${ann.id}">Delete</button>
+                        </div>`;
+        announcementsList.appendChild(annEl);
       });
       
-      // Add event listeners to submit buttons
-      document.querySelectorAll('.submit-btn').forEach(btn => {
+      // Add event listeners
+      document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-          const assId = this.getAttribute('data-id');
-          submitAssignment(assId);
+          const annId = this.getAttribute('data-id');
+          editAnnouncement(annId);
+        });
+      });
+      
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const annId = this.getAttribute('data-id');
+          deleteAnnouncement(annId);
         });
       });
     }
     
-    // View homework details
-    function viewHomework(hwId) {
+    // Filter messages
+    function filterMessages(filter) {
+      const messagesList = document.getElementById('messages-list');
+      messagesList.innerHTML = '';
+      
+      let filteredMessages = messagesData;
+      
+      if (filter !== 'all') {
+        if (filter === 'unread') {
+          filteredMessages = messagesData.filter(m => !m.read);
+        } else {
+          filteredMessages = messagesData.filter(m => m.type === filter);
+        }
+      }
+      
+      if (filteredMessages.length === 0) {
+        messagesList.innerHTML = '<div class="text-center py-8 text-gray-400">No messages found for this category</div>';
+        return;
+      }
+      
+      filteredMessages.forEach(msg => {
+        const msgEl = document.createElement('div');
+        msgEl.className = `card mb-4 ${!msg.read ? 'border-l-4 border-l-blue-500' : ''}`;
+        msgEl.innerHTML = `<div class="flex justify-between items-start mb-2">
+                          <h4 class="font-semibold">${msg.subject}</h4>
+                          <span class="text-sm text-gray-400">${formatDate(msg.date)}</span>
+                        </div>
+                        <div class="flex items-center gap-3 mb-3">
+                          <span class="badge" style="background: ${getMessageColor(msg.type)}">${capitalizeFirstLetter(msg.type)}</span>
+                          <span class="text-sm">From: ${msg.from}</span>
+                          ${!msg.read ? '<span class="badge pending">Unread</span>' : ''}
+                        </div>
+                        <p class="text-sm mb-4">${msg.content}</p>
+                        <div class="flex justify-end">
+                          <button class="btn-primary text-xs reply-btn" data-id="${msg.id}">Reply</button>
+                        </div>`;
+        messagesList.appendChild(msgEl);
+      });
+      
+      // Add event listeners
+      document.querySelectorAll('.reply-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const msgId = this.getAttribute('data-id');
+          replyToMessage(msgId);
+        });
+      });
+    }
+    
+    // Render users
+    function renderUsers() {
+      const userTable = document.getElementById('user-management');
+      userTable.innerHTML = '';
+      
+      userData.forEach(user => {
+        const row = document.createElement('tr');
+        row.className = 'border-b border-gray-700';
+        row.innerHTML = `<td class="py-3 px-2">${user.name}</td>
+                         <td class="py-3 px-2">${capitalizeFirstLetter(user.role)}</td>
+                         <td class="py-3 px-2">${user.class}</td>
+                         <td class="py-3 px-2"><span class="badge ${user.status}">${capitalizeFirstLetter(user.status)}</span></td>
+                         <td class="py-3 px-2">
+                           <button class="btn-secondary text-xs mr-2 edit-user" data-id="${user.id}">Edit</button>
+                           <button class="btn-warning text-xs delete-user" data-id="${user.id}">Delete</button>
+                         </td>`;
+        userTable.appendChild(row);
+      });
+      
+      // Add event listeners
+      document.querySelectorAll('.edit-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const userId = this.getAttribute('data-id');
+          editUser(userId);
+        });
+      });
+      
+      document.querySelectorAll('.delete-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const userId = this.getAttribute('data-id');
+          deleteUser(userId);
+        });
+      });
+    }
+    
+    // Open add homework modal
+    function openAddHomeworkModal() {
+      document.getElementById('homework-modal-title').textContent = 'Add Homework';
+      clearHomeworkForm();
+      homeworkModal.classList.add('open');
+    }
+    
+    // Edit homework
+    function editHomework(hwId) {
       const homework = homeworkData.find(hw => hw.id == hwId);
       if (homework) {
-        const content = document.getElementById('homework-detail-content');
-        content.innerHTML = `<div class="homework-detail">
-                              <h3>${homework.title}</h3>
-                              <div class="flex items-center gap-3 mb-4">
-                                <span class="subject-tag" style="background: ${getSubjectColor(homework.subject)}">${getSubjectName(homework.subject)}</span>
-                                <span class="text-sm">Points: ${homework.points}</span>
-                                <span class="badge ${homework.completed ? 'completed' : 'pending'}">${homework.completed ? 'Completed' : 'Pending'}</span>
-                              </div>
-                              <p>${homework.description}</p>
-                              <div class="meta">
-                                <span><i class="fas fa-calendar-alt mr-1"></i> Due: ${formatDate(homework.dueDate)}</span>
-                                <span><i class="fas fa-clock mr-1"></i> Status: ${homework.completed ? 'Completed' : 'Pending'}</span>
-                              </div>
-                            </div>`;
+        document.getElementById('homework-modal-title').textContent = 'Edit Homework';
+        homeworkTitle.value = homework.title;
+        homeworkSubject.value = homework.subject;
+        homeworkClass.value = homework.class;
+        homeworkDueDate.value = homework.dueDate;
+        homeworkPoints.value = homework.points;
+        homeworkDescription.value = homework.description;
+        homeworkTeacher.value = homework.teacher;
         
-        // Update button text based on completion status
-        completeHomework.textContent = homework.completed ? 'View Details' : 'Mark as Complete';
-        document.getElementById('homework-modal').classList.remove('hidden');
+        // Store the ID for updating
+        homeworkModal.setAttribute('data-id', hwId);
+        homeworkModal.classList.add('open');
       }
     }
     
-    // Complete homework item
-    function completeHomeworkItem(hwId) {
-      const homework = homeworkData.find(hw => hw.id == hwId);
-      if (homework) {
-        if (homework.completed) {
-          // If already completed, just view details
-          viewHomework(hwId);
-        } else {
-          // Mark as completed
-          homework.completed = true;
-          homework.status = 'completed';
+    // Delete homework
+    function deleteHomework(hwId) {
+      if (confirm('Are you sure you want to delete this homework?')) {
+        homeworkData = homeworkData.filter(hw => hw.id != hwId);
+        saveData();
+        loadPageContent();
+        loadDashboardData();
+        
+        // Add notification
+        const newNotification = {
+          id: Date.now(),
+          type: 'homework',
+          title: 'Homework Deleted',
+          content: `Homework has been deleted by admin.`,
+          date: new Date().toISOString().split('T')[0],
+          read: false
+        };
+        notifications.unshift(newNotification);
+        saveData();
+        updateNotificationCount();
+      }
+    }
+    
+    // Save homework
+    function saveHomeworkItem() {
+      const title = homeworkTitle.value.trim();
+      const subject = homeworkSubject.value;
+      const classVal = homeworkClass.value;
+      const dueDate = homeworkDueDate.value;
+      const points = parseInt(homeworkPoints.value);
+      const description = homeworkDescription.value.trim();
+      const teacher = homeworkTeacher.value.trim();
+      
+      if (!title || !subject || !classVal || !dueDate || !points || !description || !teacher) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      const now = new Date().toISOString().split('T')[0];
+      
+      // Check if we're editing or adding
+      const hwId = homeworkModal.getAttribute('data-id');
+      if (hwId) {
+        // Edit existing homework
+        const homework = homeworkData.find(hw => hw.id == hwId);
+        if (homework) {
+          homework.title = title;
+          homework.subject = subject;
+          homework.class = classVal;
+          homework.dueDate = dueDate;
+          homework.points = points;
+          homework.description = description;
+          homework.teacher = teacher;
+          homework.updatedAt = now;
+        }
+      } else {
+        // Add new homework
+        const newHomework = {
+          id: Date.now(),
+          title,
+          subject,
+          class: classVal,
+          dueDate,
+          points,
+          completed: false,
+          description,
+          teacher,
+          createdAt: now,
+          updatedAt: now
+        };
+        homeworkData.unshift(newHomework);
+      }
+      
+      saveData();
+      loadPageContent();
+      loadDashboardData();
+      homeworkModal.classList.remove('open');
+      homeworkModal.removeAttribute('data-id');
+      
+      // Add notification
+      const newNotification = {
+        id: Date.now(),
+        type: 'homework',
+        title: hwId ? 'Homework Updated' : 'New Homework Assigned',
+        content: hwId ? `Homework has been updated by admin.` : `New homework has been assigned by admin.`,
+        date: now,
+        read: false
+      };
+      notifications.unshift(newNotification);
+      saveData();
+      updateNotificationCount();
+      
+      alert(hwId ? 'Homework updated successfully!' : 'Homework added successfully!');
+    }
+    
+    // Open add announcement modal
+    function openAddAnnouncementModal() {
+      document.getElementById('announcement-modal-title').textContent = 'New Announcement';
+      clearAnnouncementForm();
+      announcementModal.classList.add('open');
+    }
+    
+    // Edit announcement
+    function editAnnouncement(annId) {
+      const announcement = announcementsData.find(ann => ann.id == annId);
+      if (announcement) {
+        document.getElementById('announcement-modal-title').textContent = 'Edit Announcement';
+        announcementTitle.value = announcement.title;
+        announcementType.value = announcement.type;
+        announcementContent.value = announcement.content;
+        
+        // Clear and set target audience
+        announcementTarget.selectedIndex = -1;
+        announcement.target.forEach(target => {
+          const option = Array.from(announcementTarget.options).find(opt => opt.value === target);
+          if (option) option.selected = true;
+        });
+        
+        // Store the ID for updating
+        announcementModal.setAttribute('data-id', annId);
+        announcementModal.classList.add('open');
+      }
+    }
+    
+    // Delete announcement
+    function deleteAnnouncement(annId) {
+      if (confirm('Are you sure you want to delete this announcement?')) {
+        announcementsData = announcementsData.filter(ann => ann.id != annId);
+        saveData();
+        loadPageContent();
+        
+        // Add notification
+        const newNotification = {
+          id: Date.now(),
+          type: 'announcement',
+          title: 'Announcement Deleted',
+          content: `An announcement has been deleted by admin.`,
+          date: new Date().toISOString().split('T')[0],
+          read: false
+        };
+        notifications.unshift(newNotification);
+        saveData();
+        updateNotificationCount();
+      }
+    }
+    
+    // Save announcement
+    function saveAnnouncementItem() {
+      const title = announcementTitle.value.trim();
+      const type = announcementType.value;
+      const content = announcementContent.value.trim();
+      const target = Array.from(announcementTarget.selectedOptions).map(opt => opt.value);
+      
+      if (!title || !type || !content || target.length === 0) {
+        alert('Please fill in all fields and select at least one target audience');
+        return;
+      }
+      
+      const now = new Date().toISOString().split('T')[0];
+      const author = 'Admin'; // In a real system, this would be the logged-in admin's name
+      
+      // Check if we're editing or adding
+      const annId = announcementModal.getAttribute('data-id');
+      if (annId) {
+        // Edit existing announcement
+        const announcement = announcementsData.find(ann => ann.id == annId);
+        if (announcement) {
+          announcement.title = title;
+          announcement.type = type;
+          announcement.content = content;
+          announcement.target = target;
+          announcement.updatedAt = now;
+        }
+      } else {
+        // Add new announcement
+        const newAnnouncement = {
+          id: Date.now(),
+          title,
+          type,
+          content,
+          target,
+          createdAt: now,
+          updatedAt: now,
+          author
+        };
+        announcementsData.unshift(newAnnouncement);
+      }
+      
+      saveData();
+      loadPageContent();
+      announcementModal.classList.remove('open');
+      announcementModal.removeAttribute('data-id');
+      
+      // Add notification for all users
+      const newNotification = {
+        id: Date.now(),
+        type: 'announcement',
+        title: annId ? 'Announcement Updated' : 'New Announcement',
+        content: annId ? `An announcement has been updated by admin.` : `A new announcement has been posted by admin.`,
+        date: now,
+        read: false
+      };
+      notifications.unshift(newNotification);
+      saveData();
+      updateNotificationCount();
+      
+      alert(annId ? 'Announcement updated successfully!' : 'Announcement published successfully!');
+    }
+    
+    // Open add user modal
+    function openAddUserModal() {
+      document.getElementById('user-modal-title').textContent = 'Add User';
+      clearUserForm();
+      userModal.classList.add('open');
+    }
+    
+    // Edit user
+    function editUser(userId) {
+      const user = userData.find(u => u.id == userId);
+      if (user) {
+        document.getElementById('user-modal-title').textContent = 'Edit User';
+        userName.value = user.name;
+        userRole.value = user.role;
+        userClass.value = user.class;
+        userEmail.value = user.email;
+        userPhone.value = user.phone;
+        userStatus.value = user.status;
+        
+        // Store the ID for updating
+        userModal.setAttribute('data-id', userId);
+        userModal.classList.add('open');
+      }
+    }
+    
+    // Delete user
+    function deleteUser(userId) {
+      if (confirm('Are you sure you want to delete this user?')) {
+        userData = userData.filter(u => u.id != userId);
+        saveData();
+        renderUsers();
+        loadDashboardData();
+        
+        // Add notification
+        const newNotification = {
+          id: Date.now(),
+          type: 'user',
+          title: 'User Deleted',
+          content: `A user has been deleted by admin.`,
+          date: new Date().toISOString().split('T')[0],
+          read: false
+        };
+        notifications.unshift(newNotification);
+        saveData();
+        updateNotificationCount();
+      }
+    }
+    
+    // Save user
+    function saveUserItem() {
+      const name = userName.value.trim();
+      const role = userRole.value;
+      const classVal = userClass.value.trim();
+      const email = userEmail.value.trim();
+      const phone = userPhone.value.trim();
+      const status = userStatus.value;
+      
+      if (!name || !role || !classVal || !email || !phone || !status) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      // Check if email is valid
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
+      
+      // Check if phone is valid (basic validation)
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
+        alert('Please enter a valid 10-digit phone number');
+        return;
+      }
+      
+      // Check if we're editing or adding
+      const userId = userModal.getAttribute('data-id');
+      if (userId) {
+        // Edit existing user
+        const user = userData.find(u => u.id == userId);
+        if (user) {
+          user.name = name;
+          user.role = role;
+          user.class = classVal;
+          user.email = email;
+          user.phone = phone;
+          user.status = status;
+          user.updatedAt = new Date().toISOString().split('T')[0];
+        }
+      } else {
+        // Add new user
+        const newUser = {
+          id: Date.now(),
+          name,
+          role,
+          class: classVal,
+          status,
+          email,
+          phone,
+          createdAt: new Date().toISOString().split('T')[0],
+          updatedAt: new Date().toISOString().split('T')[0]
+        };
+        userData.unshift(newUser);
+      }
+      
+      saveData();
+      renderUsers();
+      loadDashboardData();
+      userModal.classList.remove('open');
+      userModal.removeAttribute('data-id');
+      
+      // Add notification
+      const newNotification = {
+        id: Date.now(),
+        type: 'user',
+        title: userId ? 'User Updated' : 'New User Added',
+        content: userId ? `A user has been updated by admin.` : `A new user has been added by admin.`,
+        date: new Date().toISOString().split('T')[0],
+        read: false
+      };
+      notifications.unshift(newNotification);
+      saveData();
+      updateNotificationCount();
+      
+      alert(userId ? 'User updated successfully!' : 'User added successfully!');
+    }
+    
+    // Reply to message
+    function replyToMessage(msgId) {
+      const message = messagesData.find(m => m.id == msgId);
+      if (message) {
+        messageFrom.value = message.from;
+        messageSubject.value = `Re: ${message.subject}`;
+        messageContent.value = message.content;
+        messageReply.value = '';
+        
+        // Store the ID for replying
+        messageModal.setAttribute('data-id', msgId);
+        messageModal.classList.add('open');
+      }
+    }
+    
+    // Send reply
+    function sendReplyToMessage() {
+      const reply = messageReply.value.trim();
+      const msgId = messageModal.getAttribute('data-id');
+      
+      if (!reply) {
+        alert('Please enter your reply');
+        return;
+      }
+      
+      if (msgId) {
+        const originalMessage = messagesData.find(m => m.id == msgId);
+        if (originalMessage) {
+          // Mark original message as read
+          originalMessage.read = true;
           
-          // Save to localStorage
-          localStorage.setItem('mkps_homework', JSON.stringify(homeworkData));
+          // Create reply message
+          const replyMessage = {
+            id: Date.now(),
+            from: 'admin',
+            to: originalMessage.from,
+            subject: `Re: ${originalMessage.subject}`,
+            content: reply,
+            date: new Date().toISOString().split('T')[0],
+            read: false,
+            type: 'reply'
+          };
+          messagesData.unshift(replyMessage);
           
-          // Update UI
-          loadDashboardData();
-          filterHomework(document.querySelector('#homework-page .tabs .tab.active').getAttribute('data-filter'));
+          saveData();
+          filterMessages(document.querySelector('#messages-page .tabs .tab.active').getAttribute('data-filter'));
+          messageModal.classList.remove('open');
           
-          // Add to recent activity
-          const activity = document.getElementById('recent-activity');
-          const item = document.createElement('div');
-          item.className = 'flex items-center gap-3';
-          item.innerHTML = `<div class="bg-blue-500 bg-opacity-20 p-2 rounded-full">
-                              <i class="fas fa-book text-blue-400"></i>
-                            </div>
-                            <div class="flex-1">
-                              <p class="font-medium">Homework completed: ${homework.title}</p>
-                              <p class="text-sm text-gray-400">${new Date().toLocaleString()}</p>
-                            </div>`;
-          activity.prepend(item);
+          // Add notification
+          const newNotification = {
+            id: Date.now(),
+            type: 'message',
+            title: 'Reply Sent',
+            content: `Your reply has been sent to ${originalMessage.from}.`,
+            date: new Date().toISOString().split('T')[0],
+            read: false
+          };
+          notifications.unshift(newNotification);
+          saveData();
+          updateNotificationCount();
           
-          // Close modal if open
-          homeworkModal.classList.add('hidden');
+          alert('Reply sent successfully!');
         }
       }
     }
     
-    // Submit assignment
-    function submitAssignment(assId) {
-      const assignment = assignmentsData.find(ass => ass.id == assId);
-      if (assignment && !assignment.submitted) {
-        assignment.submitted = true;
-        assignment.status = 'submitted';
-        
-        // Save to localStorage
-        localStorage.setItem('mkps_assignments', JSON.stringify(assignmentsData));
-        
-        // Update UI
-        loadDashboardData();
-        filterAssignments(document.querySelector('#assignments-page .tabs .tab.active').getAttribute('data-filter'));
-        
-        // Add to recent activity
-        const activity = document.getElementById('recent-activity');
-        const item = document.createElement('div');
-        item.className = 'flex items-center gap-3';
-        item.innerHTML = `<div class="bg-green-500 bg-opacity-20 p-2 rounded-full">
-                            <i class="fas fa-tasks text-green-400"></i>
-                          </div>
-                          <div class="flex-1">
-                            <p class="font-medium">Assignment submitted: ${assignment.title}</p>
-                            <p class="text-sm text-gray-400">${new Date().toLocaleString()}</p>
-                          </div>`;
-        activity.prepend(item);
-      }
+    // Clear forms
+    function clearHomeworkForm() {
+      homeworkTitle.value = '';
+      homeworkSubject.value = '';
+      homeworkClass.value = '';
+      homeworkDueDate.value = '';
+      homeworkPoints.value = '';
+      homeworkDescription.value = '';
+      homeworkTeacher.value = '';
+    }
+    
+    function clearAnnouncementForm() {
+      announcementTitle.value = '';
+      announcementType.value = 'general';
+      announcementContent.value = '';
+      announcementTarget.selectedIndex = -1;
+    }
+    
+    function clearUserForm() {
+      userName.value = '';
+      userRole.value = '';
+      userClass.value = '';
+      userEmail.value = '';
+      userPhone.value = '';
+      userStatus.value = 'active';
     }
     
     // Helper functions
@@ -1525,58 +2052,37 @@
       }
     }
     
+    function getAnnouncementColor(type) {
+      switch(type) {
+        case 'general': return '#808080';
+        case 'academic': return '#00c6ff';
+        case 'event': return '#4ecdc4';
+        case 'urgent': return '#ff6b6b';
+        default: return '#ccc';
+      }
+    }
+    
+    function getMessageColor(type) {
+      switch(type) {
+        case 'help': return '#ff6b6b';
+        case 'general': return '#00c6ff';
+        default: return '#ccc';
+      }
+    }
+    
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    
     function formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString(undefined, options);
     }
     
-    // AI Assistant functions
-    async function sendAiMessage() {
-      const message = aiChatInput.value.trim();
-      if (!message) return;
-      
-      // Add user message
-      const userMsg = document.createElement('div');
-      userMsg.className = 'message user';
-      userMsg.textContent = message;
-      document.getElementById('ai-chat-body').appendChild(userMsg);
-      
-      // Clear input
-      aiChatInput.value = '';
-      
-      // Simulate AI response
-      setTimeout(() => {
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'message assistant';
-        aiMsg.textContent = "I'm an AI assistant. I can help you with your studies. Please ask me a specific question about your homework or studies.";
-        document.getElementById('ai-chat-body').appendChild(aiMsg);
-        
-        // Scroll to bottom
-        const chatBody = document.getElementById('ai-chat-body');
-        chatBody.scrollTop = chatBody.scrollHeight;
-      }, 1000);
-      
-      // Scroll to bottom
-      const chatBody = document.getElementById('ai-chat-body');
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }
-    
     // Update notification count
     function updateNotificationCount() {
-      const count = notifications.filter(n => !n.read).length;
-      notificationCount.textContent = count;
-      notificationCount.style.display = count > 0 ? 'flex' : 'none';
-    }
-    
-    // Check if current user has admin access
-    function checkAdminAccess() {
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      // For demo purposes, only specific users are admins
-      if (studentData.name === 'Admin User' || studentData.email === 'admin@mkps.edu') {
-        adminPanelBtn.style.display = 'flex';
-      } else {
-        adminPanelBtn.style.display = 'none';
-      }
+      const unreadCount = notifications.filter(n => !n.read).length;
+      notificationCount.textContent = unreadCount > 0 ? unreadCount : '0';
     }
     
     // Set up event listeners
@@ -1596,23 +2102,8 @@
               content.classList.add('hidden');
             });
             
-            if (page === 'admin-panel') {
-              // Check if user has admin access
-              const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-              if (studentData.name === 'Admin User' || studentData.email === 'admin@mkps.edu') {
-                document.getElementById(`${page}-page`).classList.remove('hidden');
-                document.getElementById(`${page}-page`).classList.add('active');
-              } else {
-                alert('You do not have permission to access the admin panel.');
-                item.classList.remove('active');
-                document.querySelector('[data-page="dashboard"]').classList.add('active');
-                document.getElementById('dashboard-page').classList.remove('hidden');
-                document.getElementById('dashboard-page').classList.add('active');
-              }
-            } else {
-              document.getElementById(`${page}-page`).classList.remove('hidden');
-              document.getElementById(`${page}-page`).classList.add('active');
-            }
+            document.getElementById(`${page}-page`).classList.remove('hidden');
+            document.getElementById(`${page}-page`).classList.add('active');
           }
         });
       });
@@ -1631,8 +2122,10 @@
           // Filter content
           if (pageId === 'homework-page') {
             filterHomework(this.getAttribute('data-filter'));
-          } else if (pageId === 'assignments-page') {
-            filterAssignments(this.getAttribute('data-filter'));
+          } else if (pageId === 'announcements-page') {
+            filterAnnouncements(this.getAttribute('data-filter'));
+          } else if (pageId === 'messages-page') {
+            filterMessages(this.getAttribute('data-filter'));
           }
         });
       });
@@ -1664,76 +2157,6 @@
         overlay.classList.remove('active');
       });
       
-      // AI Assistant
-      aiButton.addEventListener('click', () => {
-        aiChat.style.display = 'block';
-      });
-      
-      closeAiChat.addEventListener('click', () => {
-        aiChat.style.display = 'none';
-      });
-      
-      aiChatSend.addEventListener('click', sendAiMessage);
-      aiChatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          sendAiMessage();
-        }
-      });
-      
-      // Help Center
-      helpLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        helpModal.classList.remove('hidden');
-      });
-      
-      closeHelp.addEventListener('click', () => {
-        helpModal.classList.add('hidden');
-      });
-      
-      sendHelpMessage.addEventListener('click', () => {
-        if (helpSubject.value.trim() && helpMessage.value.trim()) {
-          const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-          const newMessage = {
-            id: Date.now(),
-            from: studentData.name,
-            to: 'admin',
-            subject: helpSubject.value,
-            content: helpMessage.value,
-            date: new Date().toISOString().split('T')[0],
-            read: false,
-            type: 'help'
-          };
-          messagesData.unshift(newMessage);
-          localStorage.setItem('mkps_messages', JSON.stringify(messagesData));
-          
-          // Add notification for admin
-          const newNotification = {
-            id: Date.now(),
-            type: 'message',
-            title: 'New Help Request',
-            content: `${studentData.name} has sent a help request.`,
-            date: new Date().toISOString().split('T')[0],
-            read: false
-          };
-          notifications.unshift(newNotification);
-          localStorage.setItem('mkps_notifications', JSON.stringify(notifications));
-          
-          // Update UI
-          updateNotificationCount();
-          
-          // Reset form
-          helpSubject.value = '';
-          helpMessage.value = '';
-          
-          // Close modal
-          helpModal.classList.add('hidden');
-          
-          alert('Your message has been sent to the admin. We will get back to you soon.');
-        } else {
-          alert('Please fill in both subject and message.');
-        }
-      });
-      
       // Theme toggle
       themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
@@ -1746,104 +2169,70 @@
         }
       });
       
-      // Homework modal
-      closeHomework.addEventListener('click', () => {
-        homeworkModal.classList.add('hidden');
+      // Modal close buttons
+      closeHomeworkModal.addEventListener('click', () => {
+        homeworkModal.classList.remove('open');
+        homeworkModal.removeAttribute('data-id');
       });
       
       cancelHomework.addEventListener('click', () => {
-        homeworkModal.classList.add('hidden');
+        homeworkModal.classList.remove('open');
+        homeworkModal.removeAttribute('data-id');
       });
       
-      completeHomework.addEventListener('click', () => {
-        const content = document.getElementById('homework-detail-content');
-        const hwId = content.querySelector('.homework-detail')?.querySelector('.view-btn')?.getAttribute('data-id');
-        if (hwId) {
-          completeHomeworkItem(hwId);
-        }
-      });
-      
-      // Notifications
-      document.querySelector('.fa-bell').parentElement.addEventListener('click', () => {
-        const modal = document.getElementById('notifications-modal');
-        const list = document.getElementById('notifications-list');
-        
-        if (notifications.length === 0) {
-          list.innerHTML = '<p class="text-center py-4 text-gray-500">No notifications</p>';
-        } else {
-          list.innerHTML = notifications.map(n => `
-            <div class="p-3 mb-2 rounded-lg ${n.read ? 'bg-white bg-opacity-50' : 'bg-blue-500 bg-opacity-20'}">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h4 class="font-medium">${n.title}</h4>
-                  <p class="text-sm mt-1">${n.content}</p>
-                </div>
-                <span class="text-xs opacity-70">${formatDate(n.date)}</span>
-              </div>
-            </div>
-          `).join('');
-        }
-        
-        modal.classList.remove('hidden');
-      });
-      
-      closeNotifications.forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.getElementById('notifications-modal').classList.add('hidden');
-        });
-      });
-      
-      // Announcement modal
-      document.getElementById('add-announcement').addEventListener('click', () => {
-        announcementModal.classList.remove('hidden');
-      });
-      
-      closeAnnouncement.addEventListener('click', () => {
-        announcementModal.classList.add('hidden');
+      closeAnnouncementModal.addEventListener('click', () => {
+        announcementModal.classList.remove('open');
+        announcementModal.removeAttribute('data-id');
       });
       
       cancelAnnouncement.addEventListener('click', () => {
-        announcementModal.classList.add('hidden');
+        announcementModal.classList.remove('open');
+        announcementModal.removeAttribute('data-id');
       });
       
-      saveAnnouncement.addEventListener('click', () => {
-        if (announcementTitle.value.trim() && announcementContent.value.trim()) {
-          const newAnnouncement = {
-            id: Date.now(),
-            title: announcementTitle.value,
-            content: announcementContent.value,
-            date: new Date().toISOString().split('T')[0]
-          };
-          announcementsData.unshift(newAnnouncement);
-          localStorage.setItem('mkps_announcements', JSON.stringify(announcementsData));
-          
-          // Add notification
-          const newNotification = {
-            id: Date.now(),
-            type: 'announcement',
-            title: 'New Announcement',
-            content: `New announcement: ${announcementTitle.value}`,
-            date: new Date().toISOString().split('T')[0],
-            read: false
-          };
-          notifications.unshift(newNotification);
-          localStorage.setItem('mkps_notifications', JSON.stringify(notifications));
-          
-          // Update UI
-          loadPageContent();
-          updateNotificationCount();
-          
-          // Reset form
-          announcementTitle.value = '';
-          announcementContent.value = '';
-          
-          // Close modal
-          announcementModal.classList.add('hidden');
-          
-          alert('Announcement has been posted successfully.');
-        } else {
-          alert('Please fill in both title and content.');
-        }
+      closeUserModal.addEventListener('click', () => {
+        userModal.classList.remove('open');
+        userModal.removeAttribute('data-id');
+      });
+      
+      cancelUser.addEventListener('click', () => {
+        userModal.classList.remove('open');
+        userModal.removeAttribute('data-id');
+      });
+      
+      closeMessageModal.addEventListener('click', () => {
+        messageModal.classList.remove('open');
+        messageModal.removeAttribute('data-id');
+      });
+      
+      cancelMessage.addEventListener('click', () => {
+        messageModal.classList.remove('open');
+        messageModal.removeAttribute('data-id');
+      });
+      
+      closeHelpModal.addEventListener('click', () => {
+        helpModal.classList.remove('open');
+      });
+      
+      closeHelp.addEventListener('click', () => {
+        helpModal.classList.remove('open');
+      });
+      
+      // Modal save buttons
+      saveHomework.addEventListener('click', saveHomeworkItem);
+      saveAnnouncement.addEventListener('click', saveAnnouncementItem);
+      saveUser.addEventListener('click', saveUserItem);
+      sendReply.addEventListener('click', sendReplyToMessage);
+      
+      // Add buttons
+      addHomeworkBtn.addEventListener('click', openAddHomeworkModal);
+      addAnnouncementBtn.addEventListener('click', openAddAnnouncementModal);
+      addUserBtn.addEventListener('click', openAddUserModal);
+      
+      // Help center
+      helpLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        helpModal.classList.add('open');
       });
     }
     
@@ -1851,9 +2240,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       // Load data
       loadData();
-      
-      // Load user profile
-      loadUserProfile();
       
       // Set up event listeners
       setupEventListeners();
@@ -1874,15 +2260,14 @@
         themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
       }
       
-      // Check if user is admin
-      checkAdminAccess();
-      
       // Update notification count
       updateNotificationCount();
       
-      // If not logged in, redirect to login
-      if (!localStorage.getItem('mkps_student')) {
-        window.location.href = 'index.html';
+      // If not logged in or not admin, redirect to login
+      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
+      if (!studentData || (studentData.name !== 'Admin User' && studentData.email !== 'admin@mkps.edu')) {
+        alert('You do not have permission to access the admin panel.');
+        window.location.href = 'dashboard.html';
       }
     });
   </script>
