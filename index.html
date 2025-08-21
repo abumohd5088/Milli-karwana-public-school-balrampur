@@ -1,300 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Milli karwaan public School - Login</title>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      min-height: 100vh;
-      margin: 0;
-    }
-    .tab {
-      @apply px-6 py-3 font-medium text-center cursor-pointer transition;
-    }
-    .tab.active {
-      @apply text-blue-600 border-b-2 border-blue-600;
-    }
-    .form-container {
-      @apply mt-6 p-5 bg-white rounded-lg shadow-md transition-all duration-300;
-    }
-    .btn {
-      @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-5 rounded transition;
-    }
-    .input-group {
-      @apply mb-4;
-    }
-    .input-group label {
-      @apply block text-sm font-medium text-gray-700 mb-1;
-    }
-    .input-group input, .input-group select {
-      @apply w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
-    }
-    .error {
-      @apply text-red-500 text-sm mt-2;
-    }
-    .hidden {
-      display: none;
-    }
-    .loader {
-      border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; margin-right: 8px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
-</head>
-<body class="text-gray-800">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MKPS Balrampur – Secure Login</title>
+    <meta name="description" content="Official secure login portal for Milli Karwaan Public School, Balrampur.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-  <div class="container max-w-4xl mx-auto p-4 pt-10">
-    <h1 class="text-3xl font-bold text-center text-blue-700 mb-2">SchoolConnect</h1>
-    <p class="text-center text-gray-600 mb-8">One Platform for Students, Parents & Teachers</p>
-
-    <!-- Google Sign In Button -->
-    <div class="flex justify-center mb-6">
-      <div id="g_id_onload"
-           data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
-           data-context="signin"
-           data-ux_mode="popup"
-           data-callback="handleCredentialResponse"
-           data-auto_select="false"
-           data-itp_support="true">
-      </div>
-      <div class="g_id_signin"
-           data-type="standard"
-           data-shape="rectangular"
-           data-theme="outline"
-           data-text="signin_with"
-           data-size="large"
-           data-logo_alignment="left">
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="flex border-b border-gray-300 mb-6">
-      <div class="tab active" data-tab="student">Student</div>
-      <div class="tab" data-tab="parent">Parent</div>
-      <div class="tab" data-tab="teacher">Teacher</div>
-    </div>
-
-    <!-- User Info After Google Login -->
-    <div id="user-info" class="hidden mb-4 p-4 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
-      Logged in as <strong id="user-email">—</strong>
-    </div>
-
-    <!-- Forms Container -->
-    <div id="form-container">
-      <!-- Student Form (Default) -->
-      <div id="student-form" class="form-container">
-        <h3 class="text-xl font-semibold mb-4">Student Details</h3>
-        <form id="studentForm">
-          <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" name="name" required />
-          </div>
-          <div class="input-group">
-            <label>Parent's Name</label>
-            <input type="text" name="parentName" required />
-          </div>
-          <div class="input-group">
-            <label>Class</label>
-            <select name="class" required>
-              <option value="">Select Class</option>
-              <script>
-                for (let i = 1; i <= 8; i++) document.write(`<option value="${i}">Class ${i}</option>`);
-              </script>
-            </select>
-          </div>
-          <button type="submit" class="btn">Continue to Dashboard</button>
-        </form>
-      </div>
-
-      <!-- Parent Form -->
-      <div id="parent-form" class="form-container hidden">
-        <h3 class="text-xl font-semibold mb-4">Parent Details</h3>
-        <form id="parentForm">
-          <div class="input-group">
-            <label>Your Name</label>
-            <input type="text" name="parentName" required />
-          </div>
-          <div class="input-group">
-            <label>Child's Name</label>
-            <input type="text" name="childName" required />
-          </div>
-          <div class="input-group">
-            <label>Class</label>
-            <select name="class" required>
-              <option value="">Select Class</option>
-              <script>
-                for (let i = 1; i <= 8; i++) document.write(`<option value="${i}">Class ${i}</option>`);
-              </script>
-            </select>
-          </div>
-          <button type="submit" class="btn">Verify & Enter</button>
-        </form>
-        <p id="parent-error" class="error hidden">Your child is not registered.</p>
-      </div>
-
-      <!-- Teacher Form -->
-      <div id="teacher-form" class="form-container hidden">
-        <h3 class="text-xl font-semibold mb-4">Teacher Login</h3>
-        <form id="teacherForm">
-          <div class="input-group">
-            <label>Teacher Name</label>
-            <input type="text" name="teacherName" value="Abutalha" readonly class="bg-gray-100" />
-          </div>
-          <div class="input-group">
-            <label>Password</label>
-            <input type="password" name="password" required placeholder="Enter password" />
-          </div>
-          <button type="submit" class="btn">Login as Teacher</button>
-        </form>
-        <p id="teacher-error" class="error hidden">Invalid credentials.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Tab Switching
-    const tabs = document.querySelectorAll('.tab');
-    const forms = {
-      student: document.getElementById('student-form'),
-      parent: document.getElementById('parent-form'),
-      teacher: document.getElementById('teacher-form')
-    };
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        Object.keys(forms).forEach(key => forms[key].classList.add('hidden'));
-        const role = tab.getAttribute('data-tab');
-        forms[role].classList.remove('hidden');
-      });
-    });
-
-    // Google Sign-In Response
-    let googleUserEmail = null;
-
-    function handleCredentialResponse(response) {
-      const credential = response.credential;
-      const decoded = parseJwt(credential);
-      googleUserEmail = decoded.email;
-
-      document.getElementById('user-email').textContent = decoded.email;
-      document.getElementById('user-info').classList.remove('hidden');
-
-      // Show the correct form based on active tab
-      const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
-      forms[activeTab].classList.remove('hidden');
-    }
-
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    }
-
-    // Dummy Data for Validation
-    const dummyStudents = [
-      { name: "Ali Raza", parent: "Sana Raza", class: 5 },
-      { name: "Zainab Khan", parent: "Imran Khan", class: 7 },
-      { name: "Umar Farooq", parent: "Nadia Farooq", class: 5 },
-    ];
-
-    const dummyParents = [
-      { parent: "Sana Raza", child: "Ali Raza", class: 5 },
-      { parent: "Imran Khan", child: "Zainab Khan", class: 7 },
-      { parent: "Nadia Farooq", child: "Umar Farooq", class: 5 },
-    ];
-
-    // Student Form Submit
-    document.getElementById('studentForm').onsubmit = function (e) {
-      e.preventDefault();
-      if (googleUserEmail) {
-        const data = new FormData(this);
-        const studentData = {
-          role: 'student',
-          name: data.get('name'),
-          parentName: data.get('parentName'),
-          class: data.get('class'),
-          email: googleUserEmail
-        };
-        localStorage.setItem('currentUser', JSON.stringify(studentData));
-        window.location.href = 'dashboard.html';
-      }
-    };
-
-    // Parent Form Submit
-    document.getElementById('parentForm').onsubmit = function (e) {
-      e.preventDefault();
-      const data = new FormData(this);
-      const parentName = data.get('parentName');
-      const childName = data.get('childName');
-      const classNum = parseInt(data.get('class'));
-
-      const match = dummyParents.some(p =>
-        (p.parent === parentName) +
-        (p.child === childName) +
-        (p.class === classNum) >= 2
-      );
-
-      if (match) {
-        const child = dummyStudents.find(s => s.name === childName && s.class === classNum);
-        if (child) {
-          const parentData = {
-            role: 'parent',
-            parentName,
-            childName,
-            class: classNum,
-            email: googleUserEmail,
-            childDetails: child
-          };
-          localStorage.setItem('currentUser', JSON.stringify(parentData));
-          window.location.href = 'parent.html';
+    <style>
+        :root {
+            --primary:#2563eb;--primary-dark:#1d4ed8;--secondary:#64748b;--success:#10b981;
+            --error:#ef4444;--bg:#f1f5f9;--card:#ffffff;--text:#0f172a;--muted:#475569;
+            --border:#e2e8f0;--shadow:0 2px 8px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12);
+            --radius:12px;--radius-lg:20px;
         }
-      } else {
-        document.getElementById('parent-error').classList.remove('hidden');
-        setTimeout(() => document.getElementById('parent-error').classList.add('hidden'), 3000);
-      }
-    };
+        *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
+        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+        .wrapper{max-width:440px;width:100%;}
+        .card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;animation:fadeIn .5s ease-out;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+        .header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:32px 24px;text-align:center;}
+        .logo{width:72px;height:72px;border-radius:50%;background:#fff;padding:8px;margin:0 auto 16px;object-fit:contain;}
+        .title{font-size:22px;font-weight:700;line-height:1.2;}
+        .subtitle{font-size:14px;opacity:.9;margin-top:4px;}
+        .google{padding:24px;text-align:center;}
+        .g_id_signin{display:inline-block;}
+        .sep{margin:0 24px;display:flex;align-items:center;color:var(--muted);font-size:13px;}
+        .sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--border);}
+        .sep span{padding:0 12px;background:var(--card);}
+        .tabs{display:flex;border-bottom:1px solid var(--border);}
+        .tab{flex:1;padding:14px 0;border:none;background:none;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;}
+        .tab.active{color:var(--primary);border-bottom:2px solid var(--primary);}
+        .form{padding:24px;}
+        .group{margin-bottom:20px;}
+        label{display:block;font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+        input,select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:15px;transition:.2s;}
+        input:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+        .error{border-color:var(--error);}
+        .errMsg{color:var(--error);font-size:13px;margin-top:4px;display:none;}
+        .btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-weight:600;font-size:16px;cursor:pointer;transition:.2s;}
+        .btn:hover{background:var(--primary-dark);}
+        .btn:disabled{background:var(--muted);cursor:not-allowed;}
+        .hidden{display:none;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card">
+            <div class="header">
+                <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" class="logo">
+                <h1 class="title">Milli Karwaan Public School</h1>
+                <p class="subtitle">Boluha Police Chowki, Balrampur<br>
+                    <i class="fa fa-phone"></i> 9758919151 &nbsp;&nbsp;
+                    <i class="fa fa-envelope"></i> madamsir066@gmail.com
+                </p>
+            </div>
 
-    // Teacher Form Submit
-    document.getElementById('teacherForm').onsubmit = function (e) {
-      e.preventDefault();
-      const data = new FormData(this);
-      const name = data.get('teacherName');
-      const pass = data.get('password');
+            <div class="google">
+                <div id="g_id_onload"
+                     data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
+                     data-callback="handleGoogleSignIn">
+                </div>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="sign_in_with"
+                     data-shape="pill">
+                </div>
+            </div>
 
-      if (name === 'Abutalha' && pass === 'Abutalha') {
-        const teacherData = {
-          role: 'teacher',
-          name: 'Abutalha',
-          email: googleUserEmail
-        };
-        localStorage.setItem('currentUser', JSON.stringify(teacherData));
-        window.location.href = 'teacher.html';
-      } else {
-        document.getElementById('teacher-error').classList.remove('hidden');
-        setTimeout(() => document.getElementById('teacher-error').classList.add('hidden'), 3000);
-      }
-    };
+            <div class="sep"><span>or</span></div>
 
-    // Auto-show active form after Google login
-    window.onload = () => {
-      // Default to student
-      forms.student.classList.remove('hidden');
-    };
-  </script>
+            <div class="tabs">
+                <button class="tab active" data-role="student">Student</button>
+                <button class="tab" data-role="parent">Parent</button>
+                <button class="tab" data-role="teacher">Teacher</button>
+            </div>
 
+            <form id="loginForm" class="form" novalidate>
+                <!-- Student -->
+                <div id="studentForm" class="roleForm">
+                    <div class="group">
+                        <label>Student’s Full Name *</label>
+                        <input type="text" id="sName" name="sName" required>
+                        <div class="errMsg">Enter full name</div>
+                    </div>
+                    <div class="group">
+                        <label>Parent / Guardian Name *</label>
+                        <input type="text" id="pName" name="pName" required>
+                        <div class="errMsg">Enter parent/guardian name</div>
+                    </div>
+                    <div class="group">
+                        <label>Class *</label>
+                        <select id="sClass" name="sClass" required>
+                            <option value="">Select Class</option>
+                            <option>Nursery</option>
+                            <option>LKG</option>
+                            <option>UKG</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
+                        <div class="errMsg">Select class</div>
+                    </div>
+                </div>
+
+                <!-- Parent -->
+                <div id="parentForm" class="roleForm hidden">
+                    <div class="group">
+                        <label>Your Name *</label>
+                        <input type="text" id="pYourName" name="pYourName" required>
+                        <div class="errMsg">Enter your name</div>
+                    </div>
+                    <div class="group">
+                        <label>Child’s Full Name *</label>
+                        <input type="text" id="cName" name="cName" required>
+                        <div class="errMsg">Enter child’s full name</div>
+                    </div>
+                    <div class="group">
+                        <label>Child’s Class *</label>
+                        <select id="cClass" name="cClass" required>
+                            <option value="">Select Class</option>
+                            <option>Nursery</option>
+                            <option>LKG</option>
+                            <option>UKG</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
+                        <div class="errMsg">Select class</div>
+                    </div>
+                </div>
+
+                <!-- Teacher -->
+                <div id="teacherForm" class="roleForm hidden">
+                    <div class="group">
+                        <label>Full Name *</label>
+                        <input type="text" id="tName" name="tName" required>
+                        <div class="errMsg">Enter your name</div>
+                    </div>
+                    <div class="group">
+                        <label>Password *</label>
+                        <input type="password" id="tPass" name="tPass" required>
+                        <div class="errMsg">Invalid password</div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn">Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let role='student', gUser=null;
+        const students=JSON.parse(localStorage.getItem('students')||'[]');
+
+        // tab switch
+        document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',e=>{
+            document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+            e.target.classList.add('active');
+            role=e.target.dataset.role;
+            document.querySelectorAll('.roleForm').forEach(f=>f.classList.add('hidden'));
+            document.getElementById(role+'Form').classList.remove('hidden');
+            clearErrors();
+        }));
+
+        // google
+        function handleGoogleSignIn(res){
+            const p=JSON.parse(atob(res.credential.split('.')[1]));
+            gUser={name:p.name,email:p.email,pic:p.picture};
+            document.querySelector('.google').style.display='none';
+        }
+
+        // form
+        document.getElementById('loginForm').addEventListener('submit',e=>{
+            e.preventDefault();
+            if(!validate()) return;
+            login();
+        });
+
+        function validate(){
+            clearErrors(); let ok=true;
+            if(role==='student'){
+                ok&=req('sName')&&req('pName')&&req('sClass');
+            }else if(role==='parent'){
+                ok&=req('pYourName')&&req('cName')&&req('cClass');
+            }else if(role==='teacher'){
+                ok&=req('tName')&&req('tPass',v=>v==='Abutalha');
+            }
+            return ok;
+        }
+
+        function req(id,test=x=>x.trim()){
+            const el=document.getElementById(id),val=el.value.trim();
+            if(!test(val)){el.classList.add('error');el.nextElementSibling.style.display='block';return false;}
+            return true;
+        }
+
+        function login(){
+            const btn=document.getElementById('submitBtn');
+            btn.disabled=true; btn.textContent='Processing…';
+            setTimeout(()=>{
+                if(role==='student'){
+                    const data={name:sName.value.trim(),parent:pName.value.trim(),class:sClass.value,email:gUser?.email,pic:gUser?.pic};
+                    if(!students.find(s=>s.name===data.name&&s.class===data.class))students.push(data);
+                    localStorage.setItem('students',JSON.stringify(students));
+                    localStorage.setItem('user',JSON.stringify({...data,role:'student'}));
+                    location.href='dashboard.html';
+                }else if(role==='parent'){
+                    const data={yourName:pYourName.value.trim(),child:cName.value.trim(),childClass:cClass.value,email:gUser?.email,pic:gUser?.pic};
+                    const match=students.filter(s=>(s.name===data.child&&s.class===data.childClass)||(s.parent===data.yourName&&s.class===data.childClass)||(s.name===data.child&&s.parent===data.yourName));
+                    if(!match.length){alert('Your child is not registered.');btn.disabled=false;btn.textContent='Continue';return;}
+                    localStorage.setItem('user',JSON.stringify({...data,role:'parent'}));
+                    location.href='parent.html';
+                }else if(role==='teacher'){
+                    localStorage.setItem('user',JSON.stringify({name:tName.value.trim(),role:'teacher',email:gUser?.email,pic:gUser?.pic}));
+                    location.href='teacher.html';
+                }
+            },800);
+        }
+
+        function clearErrors(){document.querySelectorAll('.errMsg').forEach(x=>x.style.display='none');document.querySelectorAll('.error').forEach(x=>x.classList.remove('error'));}
+
+        // auto redirect if already logged in
+        const u=JSON.parse(localStorage.getItem('user')||'{}');
+        if(u.role){location.href=u.role+'.html';}
+    </script>
 </body>
 </html>
