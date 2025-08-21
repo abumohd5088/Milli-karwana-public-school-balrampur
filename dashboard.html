@@ -1,1242 +1,1350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milli Karwaan Public School | Dashboard</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Google Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard | Milli Karwaan Public School</title>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
   <style>
+    /* Reset & Base Styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #64748b;
+      --accent: #0d6efd;
+      --accent-light: #e3f2fd;
+      --accent-dark: #0b5ed7;
+      --success: #198754;
+      --success-light: #d1e7dd;
+      --warning: #ffc107;
+      --warning-light: #fff3cd;
+      --danger: #dc3545;
+      --danger-light: #f8d7da;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --radius: 20px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --glow: 0 0 30px rgba(13, 110, 253, 0.25);
+      --animation-slow: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --animation-fast: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      --header-height: 64px;
+      --bottom-nav-height: 60px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #cbd5e1;
+      --accent: #3b82f6;
+      --accent-light: #1e3a8a;
+      --accent-dark: #2563eb;
+      --success: #15803d;
+      --success-light: #064e3b;
+      --warning: #d97706;
+      --warning-light: #7c2d12;
+      --danger: #b91c1c;
+      --danger-light: #7f1d1d;
+      --border: #334155;
+      --border-light: #1e293b;
+      --glow: 0 0 35px rgba(59, 130, 246, 0.3);
     }
 
     body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      transition: var(--transition);
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Floating animated background circles */
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      animation: float 12s infinite ease-in-out;
-      z-index: 1;
-    }
-
-    .circle:nth-child(1) {
-      width: 120px;
-      height: 120px;
-      top: 10%;
-      left: 15%;
-      animation-delay: 0s;
-    }
-
-    .circle:nth-child(2) {
-      width: 200px;
-      height: 200px;
-      bottom: 10%;
-      right: 10%;
-      animation-delay: 3s;
-    }
-
-    .circle:nth-child(3) {
-      width: 80px;
-      height: 80px;
-      bottom: 25%;
-      left: 20%;
-      animation-delay: 6s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-30px); }
-    }
-
-    .dashboard {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 1rem;
-      z-index: 2;
-      position: relative;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-
-    .user-details h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .user-details p {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
-
-    .menu-btn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .greeting {
-      font-size: 1.4rem;
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-      background: linear-gradient(90deg, #00c6ff, #0072ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 1rem;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .stat-card i {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      color: #00c6ff;
-    }
-
-    .stat-card .value {
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
-
-    .stat-card .label {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
-
-    .section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 1.2rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-title i {
-      color: #00c6ff;
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .filter-btn {
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .filter-btn.active {
-      background: #00c6ff;
-      color: #000;
-    }
-
-    .filter-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .timetable {
-      display: grid;
-      grid-template-columns: 0.8fr 1fr;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .time-slot {
-      font-size: 0.8rem;
-      padding: 0.5rem;
-      text-align: right;
-      opacity: 0.8;
-    }
-
-    .subject {
-      padding: 0.8rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      font-size: 0.9rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .subject::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: #00c6ff;
-    }
-
-    .subject .name {
-      font-weight: 600;
-    }
-
-    .subject .teacher {
-      font-size: 0.7rem;
-      opacity: 0.8;
-    }
-
-    .homework-list, .announcement-list, .ai-suggestions {
-      list-style: none;
-    }
-
-    .homework-item, .announcement-item, .ai-item {
-      background: rgba(255, 255, 255, 0.1);
-      margin-bottom: 0.8rem;
-      padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .homework-item:hover, .announcement-item:hover, .ai-item:hover {
-      transform: translateX(5px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .homework-item .title, .announcement-item .title, .ai-item .title {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .homework-item .details, .announcement-item .details, .ai-item .details {
-      font-size: 0.8rem;
-      opacity: 0.8;
-      margin-bottom: 0.5rem;
-    }
-
-    .homework-item .date, .announcement-item .date, .ai-item .date {
-      font-size: 0.7rem;
-      opacity: 0.6;
-    }
-
-    .homework-item .status {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 10px;
-      background: #ff9800;
-    }
-
-    .homework-item.completed .status {
-      background: #4caf50;
-    }
-
-    .homework-item.overdue .status {
-      background: #f44336;
-    }
-
-    .more-options {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-
-    .ai-chat {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.5rem;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-
-    .ai-chat:hover {
-      transform: scale(1.1);
-      width: 55px;
-      height: 55px;
-    }
-
-    .chat-container {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 300px;
-      max-width: 90vw;
-      height: 400px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      z-index: 1000;
-      display: none;
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .chat-header {
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.2);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chat-header h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .close-chat {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    .chat-messages {
-      height: 300px;
-      overflow-y: auto;
-      padding: 1rem;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      flex: 1;
+    }
+
+    /* Header */
+    header {
+      height: var(--header-height);
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .school-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
       gap: 1rem;
     }
 
-    .message {
-      max-width: 80%;
-      padding: 0.8rem;
-      border-radius: 15px;
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    .ai-message {
-      background: rgba(0, 198, 255, 0.2);
-      align-self: flex-start;
-      border-bottom-left-radius: 5px;
-    }
-
-    .user-message {
+    .notification-btn, .profile-btn {
       background: rgba(255, 255, 255, 0.2);
-      align-self: flex-end;
-      border-bottom-right-radius: 5px;
-    }
-
-    .chat-input {
-      display: flex;
-      padding: 0.5rem;
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .chat-input input {
-      flex: 1;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      outline: none;
-    }
-
-    .chat-input input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .chat-input button {
-      background: #00c6ff;
       border: none;
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      margin-left: 0.5rem;
-      cursor: pointer;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .notification-btn:hover, .profile-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      background: var(--danger);
       color: white;
-    }
-
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #4caf50;
-      color: white;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      z-index: 2000;
-      display: none;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(100%);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .help-btn {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
+      font-size: 0.7rem;
       border-radius: 50%;
-      background: #4caf50;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      font-weight: 600;
+    }
+
+    /* Main Content */
+    main {
+      padding: 1.5rem 0;
+      flex: 1;
+    }
+
+    .welcome-section {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--accent-light) 0%, var(--bg-tertiary) 100%);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .welcome-title {
       font-size: 1.5rem;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 999;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--accent-dark);
     }
 
-    .help-btn:hover {
-      transform: scale(1.1);
-      width: 55px;
-      height: 55px;
+    [data-theme="dark"] .welcome-title {
+      color: var(--accent);
     }
 
-    .help-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+    .welcome-subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
     }
 
-    .help-content {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      width: 90%;
-      max-width: 400px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
-    .help-header {
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 15px 15px 0 0;
+    /* Cards */
+    .card {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--border);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 0.8rem;
     }
 
-    .help-header h3 {
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    [data-theme="dark"] .card-icon {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--accent);
+    }
+
+    .card-title {
       font-size: 1.1rem;
       font-weight: 600;
     }
 
-    .close-help {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .help-body {
+    .card-body {
       padding: 1.5rem;
     }
 
-    .help-body textarea {
+    /* Timetable */
+    .timetable {
       width: 100%;
-      height: 100px;
-      padding: 1rem;
-      border: none;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      resize: none;
-      margin-bottom: 1rem;
-      font-family: 'Poppins', sans-serif;
+      border-collapse: collapse;
     }
 
-    .help-body textarea::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .help-body button {
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 10px;
+    .timetable th {
+      text-align: left;
+      padding: 0.8rem 0.5rem;
       font-weight: 600;
-      cursor: pointer;
-      width: 100%;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-bottom: 2px solid var(--border);
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
-      .header {
-        padding: 0.8rem;
-      }
-      
-      .user-info {
-        gap: 0.8rem;
-      }
-      
-      .user-details h3 {
-        font-size: 1rem;
-      }
-      
-      .greeting {
-        font-size: 1.2rem;
-      }
-      
-      .stats-grid {
+    .timetable td {
+      padding: 0.7rem 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.95rem;
+    }
+
+    .subject {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .time {
+      color: var(--text-tertiary);
+      font-size: 0.85rem;
+    }
+
+    /* Homework List */
+    .homework-list {
+      list-style: none;
+    }
+
+    .homework-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .homework-item:last-child {
+      border-bottom: none;
+    }
+
+    .hw-icon {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-top: 0.2rem;
+    }
+
+    .hw-content {
+      flex: 1;
+    }
+
+    .hw-title {
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .hw-subject {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      margin-bottom: 0.3rem;
+    }
+
+    .hw-date {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+    }
+
+    /* Upload Area */
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .upload-area:hover {
+      border-color: var(--accent);
+      background: rgba(13, 110, 253, 0.03);
+    }
+
+    .upload-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .upload-text {
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .upload-btn:hover {
+      background: var(--accent-dark);
+    }
+
+    /* Messages */
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .message {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 0.8rem;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+    }
+
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .message-content {
+      flex: 1;
+    }
+
+    .message-sender {
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .message-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .message-time {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+    }
+
+    /* AI Assistant */
+    .ai-container {
+      position: relative;
+    }
+
+    .ai-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin: 0 auto 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .ai-message {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    [data-theme="dark"] .ai-message {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--accent);
+    }
+
+    .ai-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .ai-input input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .ai-input input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+    }
+
+    .ai-input button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ai-input button:hover {
+      background: var(--accent-dark);
+    }
+
+    /* Calendar */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+
+    .calendar-header {
+      grid-column: span 7;
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .calendar-day {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    .calendar-date {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0.2rem auto;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .calendar-date:hover {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .calendar-date.today {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    .calendar-date.event {
+      position: relative;
+    }
+
+    .calendar-date.event::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      height: var(--bottom-nav-height);
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      display: flex;
+      position: sticky;
+      bottom: 0;
+      z-index: 40;
+      box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 0;
+      color: var(--text-tertiary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .nav-item i {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-tertiary);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    /* PWA Install Prompt */
+    .pwa-prompt {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 100;
+      border: 1px solid var(--border);
+    }
+
+    .pwa-prompt.hidden {
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dashboard-grid {
         grid-template-columns: 1fr;
       }
       
-      .timetable {
-        grid-template-columns: 0.7fr 1fr;
+      .welcome-section {
+        padding: 1.2rem;
       }
       
-      .time-slot {
-        font-size: 0.7rem;
-        padding: 0.4rem;
+      .welcome-title {
+        font-size: 1.3rem;
       }
       
-      .subject {
-        padding: 0.7rem;
+      .card-body {
+        padding: 1.2rem;
       }
       
-      .homework-item, .announcement-item, .ai-item {
+      .timetable th, .timetable td {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      
+      .homework-item {
+        gap: 0.6rem;
+      }
+      
+      .hw-title {
+        font-size: 0.95rem;
+      }
+      
+      .message {
+        gap: 0.6rem;
+      }
+      
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+      }
+      
+      .ai-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+      
+      .ai-message {
+        font-size: 0.9rem;
         padding: 0.8rem;
       }
       
-      .chat-container {
-        width: 90vw;
-        right: 5%;
-        bottom: 80px;
+      .ai-input input {
+        padding: 0.7rem;
+      }
+      
+      .ai-input button {
+        width: 40px;
+        height: 40px;
       }
     }
-
-    /* Animation for elements */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .animate-in {
-      animation: fadeIn 0.6s ease forwards;
-    }
-
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
-    .delay-5 { animation-delay: 0.5s; }
-    .delay-6 { animation-delay: 0.6s; }
   </style>
 </head>
 <body>
-  <!-- Floating Background -->
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
-
-  <div class="dashboard">
-    <div class="header animate-in">
-      <div class="user-info">
-        <div class="avatar" id="userAvatar">U</div>
-        <div class="user-details">
-          <h3 id="userName">Loading...</h3>
-          <p id="userClass">Class: --</p>
-        </div>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo-section">
+        <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" class="logo" />
+        <div class="school-title">MKPS Balrampur</div>
       </div>
-      <button class="menu-btn" id="themeToggle">🌗</button>
-    </div>
-
-    <div class="greeting animate-in delay-1">
-      Good morning, <span id="greetingName">Student</span>! 👋
-    </div>
-
-    <div class="stats-grid animate-in delay-2">
-      <div class="stat-card">
-        <i class="material-icons">assignment</i>
-        <div class="value" id="homeworkCount">0</div>
-        <div class="label">Homework</div>
-      </div>
-      <div class="stat-card">
-        <i class="material-icons">event</i>
-        <div class="value" id="pendingCount">0</div>
-        <div class="label">Pending</div>
+      <div class="header-actions">
+        <button class="notification-btn" id="notification-btn">
+          <i>🔔</i>
+          <div class="notification-badge">3</div>
+        </button>
+        <button class="profile-btn" id="profile-btn">
+          <i>👤</i>
+        </button>
       </div>
     </div>
+  </header>
 
-    <div class="section animate-in delay-3">
-      <div class="section-header">
-        <h3 class="section-title"><i class="material-icons">schedule</i> Today's Timetable</h3>
-      </div>
-      <div class="timetable" id="timetable">
-        <div class="time-slot">09:00</div>
-        <div class="subject">
-          <div class="name">Mathematics</div>
-          <div class="teacher">Mr. Sharma</div>
-        </div>
-        <div class="time-slot">10:00</div>
-        <div class="subject">
-          <div class="name">English</div>
-          <div class="teacher">Mrs. Patel</div>
-        </div>
-        <div class="time-slot">11:00</div>
-        <div class="subject">
-          <div class="name">Science</div>
-          <div class="teacher">Mr. Kumar</div>
-        </div>
-        <div class="time-slot">12:00</div>
-        <div class="subject">
-          <div class="name">Break</div>
-        </div>
-        <div class="time-slot">13:00</div>
-        <div class="subject">
-          <div class="name">Hindi</div>
-          <div class="teacher">Mrs. Singh</div>
-        </div>
-        <div class="time-slot">14:00</div>
-        <div class="subject">
-          <div class="name">Social Studies</div>
-          <div class="teacher">Mr. Gupta</div>
-        </div>
-      </div>
-    </div>
+  <div class="container">
+    <main>
+      <!-- Welcome Section -->
+      <section class="welcome-section">
+        <h2 class="welcome-title">Welcome, <span id="student-name">Student</span>!</h2>
+        <p class="welcome-subtitle">Class <span id="student-class">X</span> • Last Login: <span id="last-login">Today</span></p>
+      </section>
 
-    <div class="section animate-in delay-4">
-      <div class="section-header">
-        <h3 class="section-title"><i class="material-icons">assignment</i> Homework</h3>
-        <div class="filter-buttons">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="pending">Pending</button>
-          <button class="filter-btn" data-filter="completed">Completed</button>
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Timetable -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">📅</div>
+            <h3 class="card-title">Today's Timetable</h3>
+          </div>
+          <div class="card-body">
+            <table class="timetable">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Subject</th>
+                </tr>
+              </thead>
+              <tbody id="timetable-body">
+                <tr>
+                  <td class="time">9:00 - 10:00</td>
+                  <td class="subject">Hindi</td>
+                </tr>
+                <tr>
+                  <td class="time">10:00 - 11:00</td>
+                  <td class="subject">Mathematics</td>
+                </tr>
+                <tr>
+                  <td class="time">11:15 - 12:15</td>
+                  <td class="subject">Science</td>
+                </tr>
+                <tr>
+                  <td class="time">12:15 - 1:15</td>
+                  <td class="subject">English</td>
+                </tr>
+                <tr>
+                  <td class="time">2:00 - 3:00</td>
+                  <td class="subject">Social Studies</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Homework -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">📚</div>
+            <h3 class="card-title">Homework</h3>
+          </div>
+          <div class="card-body">
+            <ul class="homework-list" id="homework-list">
+              <li class="homework-item">
+                <span class="hw-icon">📝</span>
+                <div class="hw-content">
+                  <div class="hw-title">Mathematics Assignment</div>
+                  <div class="hw-subject">Chapter 5: Fractions</div>
+                  <div class="hw-date">Due: Tomorrow</div>
+                </div>
+              </li>
+              <li class="homework-item">
+                <span class="hw-icon">🎨</span>
+                <div class="hw-content">
+                  <div class="hw-title">Art Project</div>
+                  <div class="hw-subject">Landscape Drawing</div>
+                  <div class="hw-date">Due: Friday</div>
+                </div>
+              </li>
+              <li class="homework-item">
+                <span class="hw-icon">📖</span>
+                <div class="hw-content">
+                  <div class="hw-title">Reading Assignment</div>
+                  <div class="hw-subject">English: Chapter 3</div>
+                  <div class="hw-date">Due: Monday</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Upload Homework -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">📤</div>
+            <h3 class="card-title">Upload Homework</h3>
+          </div>
+          <div class="card-body">
+            <div class="upload-area" id="upload-area">
+              <div class="upload-icon">📁</div>
+              <div class="upload-text">Click to upload your completed homework</div>
+              <button class="upload-btn">Choose File</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">💬</div>
+            <h3 class="card-title">Messages</h3>
+          </div>
+          <div class="card-body">
+            <div class="messages" id="messages-list">
+              <div class="message">
+                <div class="message-avatar">T</div>
+                <div class="message-content">
+                  <div class="message-sender">Teacher</div>
+                  <div class="message-text">Don't forget to complete your mathematics assignment by tomorrow.</div>
+                  <div class="message-time">10:30 AM</div>
+                </div>
+              </div>
+              <div class="message">
+                <div class="message-avatar">P</div>
+                <div class="message-content">
+                  <div class="message-sender">Principal</div>
+                  <div class="message-text">School will be closed on Friday for Diwali celebrations.</div>
+                  <div class="message-time">Yesterday</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Assistant -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🤖</div>
+            <h3 class="card-title">AI Assistant</h3>
+          </div>
+          <div class="card-body ai-container">
+            <div class="ai-avatar">AI</div>
+            <div class="ai-message">
+              Hello! I'm your learning assistant. How can I help you with your studies today?
+            </div>
+            <div class="ai-input">
+              <input type="text" placeholder="Ask me anything about your studies..." id="ai-input" />
+              <button id="ai-send">➤</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🗓️</div>
+            <h3 class="card-title">Calendar</h3>
+          </div>
+          <div class="card-body">
+            <div class="calendar">
+              <div class="calendar-header">October 2023</div>
+              <div class="calendar-day">Sun</div>
+              <div class="calendar-day">Mon</div>
+              <div class="calendar-day">Tue</div>
+              <div class="calendar-day">Wed</div>
+              <div class="calendar-day">Thu</div>
+              <div class="calendar-day">Fri</div>
+              <div class="calendar-day">Sat</div>
+              
+              <div class="calendar-date">1</div>
+              <div class="calendar-date">2</div>
+              <div class="calendar-date">3</div>
+              <div class="calendar-date">4</div>
+              <div class="calendar-date">5</div>
+              <div class="calendar-date">6</div>
+              <div class="calendar-date">7</div>
+              
+              <div class="calendar-date">8</div>
+              <div class="calendar-date">9</div>
+              <div class="calendar-date">10</div>
+              <div class="calendar-date">11</div>
+              <div class="calendar-date">12</div>
+              <div class="calendar-date">13</div>
+              <div class="calendar-date">14</div>
+              
+              <div class="calendar-date">15</div>
+              <div class="calendar-date">16</div>
+              <div class="calendar-date">17</div>
+              <div class="calendar-date">18</div>
+              <div class="calendar-date">19</div>
+              <div class="calendar-date">20</div>
+              <div class="calendar-date today">21</div>
+              
+              <div class="calendar-date">22</div>
+              <div class="calendar-date">23</div>
+              <div class="calendar-date">24</div>
+              <div class="calendar-date">25</div>
+              <div class="calendar-date event">26</div>
+              <div class="calendar-date">27</div>
+              <div class="calendar-date">28</div>
+              
+              <div class="calendar-date">29</div>
+              <div class="calendar-date">30</div>
+              <div class="calendar-date">31</div>
+              <div class="calendar-date"></div>
+              <div class="calendar-date"></div>
+              <div class="calendar-date"></div>
+              <div class="calendar-date"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Export Data -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">📊</div>
+            <h3 class="card-title">Export Data</h3>
+          </div>
+          <div class="card-body">
+            <div class="export-options">
+              <button class="upload-btn" style="width: 100%; margin-bottom: 0.8rem;" id="export-pdf">
+                📄 Export as PDF
+              </button>
+              <button class="upload-btn" style="width: 100%; background: #198754; border: none;" id="export-excel">
+                📊 Export as Excel
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <ul class="homework-list" id="homeworkList">
-        <!-- Homework items will be added here dynamically -->
-      </ul>
-    </div>
-
-    <div class="section animate-in delay-5">
-      <div class="section-header">
-        <h3 class="section-title"><i class="material-icons">campaign</i> Announcements</h3>
-      </div>
-      <ul class="announcement-list" id="announcementList">
-        <!-- Announcement items will be added here dynamically -->
-      </ul>
-    </div>
-
-    <div class="section animate-in delay-6">
-      <div class="section-header">
-        <h3 class="section-title"><i class="material-icons">lightbulb</i> AI Study Tips</h3>
-      </div>
-      <ul class="ai-suggestions" id="aiSuggestions">
-        <!-- AI suggestions will be added here dynamically -->
-      </ul>
-    </div>
+    </main>
   </div>
 
-  <!-- AI Chat Button -->
-  <div class="ai-chat" id="aiChatBtn">
-    <i class="material-icons">smart_toy</i>
-  </div>
-
-  <!-- AI Chat Container -->
-  <div class="chat-container" id="chatContainer">
-    <div class="chat-header">
-      <h4>AI Study Assistant</h4>
-      <button class="close-chat" id="closeChat">×</button>
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <div class="nav-item active">
+      <i>🏠</i>
+      <span>Home</span>
     </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="message ai-message">
-        Hello! I'm your AI study assistant. How can I help you with your studies today?
-      </div>
+    <div class="nav-item">
+      <i>📚</i>
+      <span>Homework</span>
     </div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Ask me anything about your studies...">
-      <button id="sendChat"><i class="material-icons">send</i></button>
+    <div class="nav-item">
+      <i>💬</i>
+      <span>Messages</span>
     </div>
-  </div>
-
-  <!-- Help Button -->
-  <div class="help-btn" id="helpBtn">
-    <i class="material-icons">help</i>
-  </div>
-
-  <!-- Help Modal -->
-  <div class="help-modal" id="helpModal">
-    <div class="help-content">
-      <div class="help-header">
-        <h3>Need Help?</h3>
-        <button class="close-help" id="closeHelp">×</button>
-      </div>
-      <div class="help-body">
-        <textarea id="helpMessage" placeholder="Describe your issue or question..."></textarea>
-        <button id="sendHelp">Send Message</button>
-      </div>
+    <div class="nav-item">
+      <i>👤</i>
+      <span>Profile</span>
     </div>
+  </nav>
+
+  <!-- PWA Install Prompt -->
+  <div class="pwa-prompt hidden" id="pwa-prompt">
+    <div>📥 Install our app for better experience!</div>
+    <button style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px;" id="install-button">Install</button>
   </div>
 
-  <!-- Notification -->
-  <div class="notification" id="notification">
-    Message sent successfully!
-  </div>
-
+  <!-- Shared Utilities from index.html -->
   <script>
-    // Mock data for homework
-    const homeworkData = [
-      { id: 1, title: "Mathematics Assignment", subject: "Math", class: "6", details: "Complete exercises 1-10 on page 45", dueDate: "2023-06-15", status: "pending" },
-      { id: 2, title: "English Essay", subject: "English", class: "6", details: "Write a 500-word essay on 'My Favorite Book'", dueDate: "2023-06-16", status: "pending" },
-      { id: 3, title: "Science Project", subject: "Science", class: "6", details: "Prepare a model of the solar system", dueDate: "2023-06-20", status: "completed" },
-      { id: 4, title: "Hindi Poem", subject: "Hindi", class: "6", details: "Learn and recite the poem 'Saraswati Vandana'", dueDate: "2023-06-14", status: "overdue" },
-      { id: 5, title: "Social Studies Map", subject: "Social Studies", class: "6", details: "Draw and label the map of India with all states", dueDate: "2023-06-18", status: "pending" }
-    ];
-
-    // Mock data for announcements
-    const announcementData = [
-      { id: 1, title: "Annual Sports Day", details: "Annual Sports Day will be held on June 25th. All students are requested to participate.", date: "2023-06-10", priority: "high" },
-      { id: 2, title: "Parent-Teacher Meeting", details: "Parent-Teacher meeting scheduled for June 22nd at 3:00 PM in the school auditorium.", date: "2023-06-08", priority: "medium" },
-      { id: 3, title: "Library Hours Extended", details: "Library hours have been extended from 3:00 PM to 5:00 PM on weekdays.", date: "2023-06-05", priority: "low" }
-    ];
-
-    // Mock data for AI suggestions
-    const aiSuggestionsData = [
-      "Create a study schedule with short breaks every 25 minutes using the Pomodoro technique.",
-      "Use flashcards to memorize vocabulary words and key concepts.",
-      "Teach the material to someone else to reinforce your own understanding.",
-      "Practice past exam papers to familiarize yourself with the question format.",
-      "Stay hydrated and get enough sleep before exams for optimal brain function."
-    ];
-
-    // Timetable data based on class
-    const timetableData = {
-      "1": [
-        { time: "09:00", subject: "Mathematics", teacher: "Ms. Gupta" },
-        { time: "10:00", subject: "English", teacher: "Mr. Patel" },
-        { time: "11:00", subject: "Drawing", teacher: "Mrs. Sharma" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mr. Kumar" },
-        { time: "14:00", subject: "Games", teacher: "Coach Singh" }
-      ],
-      "2": [
-        { time: "09:00", subject: "Mathematics", teacher: "Ms. Gupta" },
-        { time: "10:00", subject: "English", teacher: "Mr. Patel" },
-        { time: "11:00", subject: "EVS", teacher: "Mrs. Sharma" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mr. Kumar" },
-        { time: "14:00", subject: "Art", teacher: "Mrs. Mehta" }
-      ],
-      "3": [
-        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
-        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
-        { time: "11:00", subject: "EVS", teacher: "Mr. Kumar" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
-        { time: "14:00", subject: "Computer", teacher: "Mr. Gupta" }
-      ],
-      "4": [
-        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
-        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
-        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
-        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
-      ],
-      "5": [
-        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
-        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
-        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
-        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
-      ],
-      "6": [
-        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
-        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
-        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
-        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
-      ],
-      "7": [
-        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
-        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
-        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
-        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
-      ],
-      "8": [
-        { time: "09:00", subject: "Mathematics", teacher: "Mr. Sharma" },
-        { time: "10:00", subject: "English", teacher: "Mrs. Patel" },
-        { time: "11:00", subject: "Science", teacher: "Mr. Kumar" },
-        { time: "12:00", subject: "Break" },
-        { time: "13:00", subject: "Hindi", teacher: "Mrs. Singh" },
-        { time: "14:00", subject: "Social Studies", teacher: "Mr. Gupta" }
-      ]
+    // Storage Utility with namespace
+    const StorageUtil = {
+      prefix: 'mkps_',
+      set(key, value) {
+        try {
+          localStorage.setItem(this.prefix + key, JSON.stringify(value));
+        } catch (e) {
+          console.error('Storage error:', e);
+        }
+      },
+      get(key) {
+        try {
+          const item = localStorage.getItem(this.prefix + key);
+          return item ? JSON.parse(item) : null;
+        } catch (e) {
+          console.error('Storage error:', e);
+          return null;
+        }
+      },
+      remove(key) {
+        localStorage.removeItem(this.prefix + key);
+      }
     };
 
-    // Gemini AI API configuration
-    const GEMINI_API_KEY_1 = "AIzaSyCqGS8gb5kh7Jr0pv8d84LxCLhgHU-O_VU";
-    const GEMINI_API_KEY_2 = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
-    let currentGeminiKey = GEMINI_API_KEY_1;
+    // i18n Engine
+    const i18n = {
+      en: {
+        welcome: 'Welcome',
+        lastLogin: 'Last Login',
+        today: 'Today',
+        homework: 'Homework',
+        upload: 'Upload',
+        messages: 'Messages',
+        aiAssistant: 'AI Assistant',
+        calendar: 'Calendar',
+        export: 'Export',
+        installApp: 'Install our app for better experience!',
+        install: 'Install',
+        noHomework: 'No homework assigned',
+        loading: 'Loading...',
+        error: 'Error',
+        success: 'Success'
+      },
+      hi: {
+        welcome: 'स्वागत है',
+        lastLogin: 'अंतिम लॉगिन',
+        today: 'आज',
+        homework: 'गृहकार्य',
+        upload: 'अपलोड करें',
+        messages: 'संदेश',
+        aiAssistant: 'एआई सहायक',
+        calendar: 'कैलेंडर',
+        export: 'निर्यात',
+        installApp: 'बेहतर अनुभव के लिए हमारा ऐप स्थापित करें!',
+        install: 'स्थापित करें',
+        noHomework: 'कोई गृहकार्य निर्धारित नहीं है',
+        loading: 'लोड हो रहा है...',
+        error: 'त्रुटि',
+        success: 'सफलता'
+      }
+    };
 
-    // Initialize the dashboard
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check if user is logged in
-      const studentData = JSON.parse(localStorage.getItem('mkps_student'));
-      if (!studentData) {
+    // Current language
+    let currentLang = 'en';
+
+    // Date Utility
+    const formatDate = (date) => {
+      return new Date(date).toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    };
+
+    const formatTimeAgo = (timestamp) => {
+      const now = new Date();
+      const time = new Date(timestamp);
+      const diffInHours = Math.floor((now - time) / (1000 * 60 * 60));
+      
+      if (diffInHours < 1) return 'Just now';
+      if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+      return formatDate(timestamp);
+    };
+
+    // Toast Notification System
+    function showToast(message, type = 'success') {
+      // Create toast if it doesn't exist
+      let toast = document.getElementById('toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast';
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Initialize Dashboard
+    function initDashboard() {
+      // Get current user
+      const currentUser = StorageUtil.get('currentUser');
+      if (!currentUser || currentUser.role !== 'student') {
         window.location.href = 'index.html';
         return;
       }
 
-      // Display user information
-      displayUserInfo(studentData);
-      
-      // Load data
-      loadHomework(studentData.class);
-      loadAnnouncements();
-      loadTimetable(studentData.class);
-      generateAISuggestions(studentData.class);
-      
-      // Set up event listeners
-      setupEventListeners();
-      
-      // Show welcome notification
-      showNotification(`Welcome back, ${studentData.name}!`);
-    });
+      // Set current language
+      currentLang = StorageUtil.get('language') || 'en';
 
-    function displayUserInfo(studentData) {
-      const userNameEl = document.getElementById('userName');
-      const userClassEl = document.getElementById('userClass');
-      const userAvatarEl = document.getElementById('userAvatar');
-      const greetingNameEl = document.getElementById('greetingName');
-      
-      userNameEl.textContent = studentData.name;
-      userClassEl.textContent = `Class: ${studentData.class}`;
-      greetingNameEl.textContent = studentData.name.split(' ')[0];
-      
-      // Set avatar initial
-      userAvatarEl.textContent = studentData.name.charAt(0).toUpperCase();
+      // Update welcome section
+      document.getElementById('student-name').textContent = currentUser.name;
+      document.getElementById('student-class').textContent = currentUser.class;
+      document.getElementById('last-login').textContent = formatTimeAgo(currentUser.timestamp);
+
+      // Update timetable based on class
+      updateTimetable(currentUser.class);
+
+      // Load homework
+      loadHomework(currentUser.class);
+
+      // Check for PWA install
+      checkPWAInstall();
+
+      // Event Listeners
+      setupEventListeners();
+    }
+
+    function updateTimetable(classLevel) {
+      const timetableBody = document.getElementById('timetable-body');
+      timetableBody.innerHTML = '';
+
+      // Sample timetable data by class
+      const timetableData = {
+        'Nursery': [
+          { time: '9:00 - 10:00', subject: 'Rhymes & Songs' },
+          { time: '10:00 - 11:00', subject: 'Basic Shapes' },
+          { time: '11:15 - 12:15', subject: 'Story Time' },
+          { time: '12:15 - 1:15', subject: 'Drawing' },
+          { time: '2:00 - 3:00', subject: 'Play Time' }
+        ],
+        '1': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'EVS' },
+          { time: '2:00 - 3:00', subject: 'Art & Craft' }
+        ],
+        '2': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'EVS' },
+          { time: '2:00 - 3:00', subject: 'Art & Craft' }
+        ],
+        '3': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'EVS' },
+          { time: '2:00 - 3:00', subject: 'Art' }
+        ],
+        '4': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'Science' },
+          { time: '2:00 - 3:00', subject: 'Social Studies' }
+        ],
+        '5': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'Science' },
+          { time: '2:00 - 3:00', subject: 'Social Studies' }
+        ],
+        '6': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'Science' },
+          { time: '2:00 - 3:00', subject: 'Social Studies' }
+        ],
+        '7': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'Science' },
+          { time: '2:00 - 3:00', subject: 'Social Studies' }
+        ],
+        '8': [
+          { time: '9:00 - 10:00', subject: 'Hindi' },
+          { time: '10:00 - 11:00', subject: 'Mathematics' },
+          { time: '11:15 - 12:15', subject: 'English' },
+          { time: '12:15 - 1:15', subject: 'Science' },
+          { time: '2:00 - 3:00', subject: 'Social Studies' }
+        ]
+      };
+
+      const data = timetableData[classLevel] || timetableData['1'];
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="time">${item.time}</td>
+          <td class="subject">${item.subject}</td>
+        `;
+        timetableBody.appendChild(row);
+      });
     }
 
     function loadHomework(classLevel) {
-      const homeworkList = document.getElementById('homeworkList');
-      const filteredHomework = homeworkData.filter(hw => hw.class === classLevel);
-      
-      // Update counts
-      const pendingCount = filteredHomework.filter(hw => hw.status === 'pending').length;
-      const homeworkCount = filteredHomework.length;
-      
-      document.getElementById('pendingCount').textContent = pendingCount;
-      document.getElementById('homeworkCount').textContent = homeworkCount;
-      
-      // Clear existing list
+      const homeworkList = document.getElementById('homework-list');
       homeworkList.innerHTML = '';
-      
-      // Add homework items
-      filteredHomework.forEach(hw => {
+
+      // Sample homework data
+      const homeworkData = {
+        'Nursery': [
+          { title: 'Color the picture', subject: 'Art & Craft', due: 'Tomorrow' },
+          { title: 'Learn rhymes', subject: 'Rhymes', due: 'Friday' }
+        ],
+        '1': [
+          { title: 'Mathematics Worksheet', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Hindi Varnamala', subject: 'Hindi', due: 'Friday' },
+          { title: 'English Alphabet', subject: 'English', due: 'Monday' }
+        ],
+        '2': [
+          { title: 'Mathematics Assignment', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Hindi Paragraph', subject: 'Hindi', due: 'Friday' },
+          { title: 'English Story', subject: 'English', due: 'Monday' }
+        ],
+        '3': [
+          { title: 'Mathematics Problems', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Hindi Essay', subject: 'Hindi', due: 'Friday' },
+          { title: 'English Composition', subject: 'English', due: 'Monday' }
+        ],
+        '4': [
+          { title: 'Mathematics Exercise', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Hindi Project', subject: 'Hindi', due: 'Friday' },
+          { title: 'English Letter', subject: 'English', due: 'Monday' }
+        ],
+        '5': [
+          { title: 'Mathematics Assignment', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Science Project', subject: 'Science', due: 'Friday' },
+          { title: 'English Essay', subject: 'English', due: 'Monday' }
+        ],
+        '6': [
+          { title: 'Mathematics Problems', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Science Experiment', subject: 'Science', due: 'Friday' },
+          { title: 'English Composition', subject: 'English', due: 'Monday' }
+        ],
+        '7': [
+          { title: 'Mathematics Exercise', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Science Project', subject: 'Science', due: 'Friday' },
+          { title: 'English Essay', subject: 'English', due: 'Monday' }
+        ],
+        '8': [
+          { title: 'Mathematics Assignment', subject: 'Mathematics', due: 'Tomorrow' },
+          { title: 'Science Experiment', subject: 'Science', due: 'Friday' },
+          { title: 'English Composition', subject: 'English', due: 'Monday' }
+        ]
+      };
+
+      const data = homeworkData[classLevel] || homeworkData['1'];
+      if (data.length === 0) {
+        homeworkList.innerHTML = '<li class="homework-item empty-state"><div class="empty-icon">📝</div><div class="hw-content"><div class="hw-title">No homework assigned</div></div></li>';
+        return;
+      }
+
+      data.forEach(item => {
         const li = document.createElement('li');
-        li.className = `homework-item ${hw.status}`;
+        li.className = 'homework-item';
         li.innerHTML = `
-          <div class="title">${hw.title}</div>
-          <div class="details">${hw.details}</div>
-          <div class="date">Due: ${formatDate(hw.dueDate)}</div>
-          <span class="status">${hw.status.charAt(0).toUpperCase() + hw.status.slice(1)}</span>
-          <button class="more-options"><i class="material-icons">more_vert</i></button>
+          <span class="hw-icon">📝</span>
+          <div class="hw-content">
+            <div class="hw-title">${item.title}</div>
+            <div class="hw-subject">${item.subject}</div>
+            <div class="hw-date">Due: ${item.due}</div>
+          </div>
         `;
         homeworkList.appendChild(li);
       });
     }
 
-    function loadAnnouncements() {
-      const announcementList = document.getElementById('announcementList');
-      
-      // Clear existing list
-      announcementList.innerHTML = '';
-      
-      // Add announcement items
-      announcementData.forEach(ann => {
-        const li = document.createElement('li');
-        li.className = 'announcement-item';
-        li.innerHTML = `
-          <div class="title">${ann.title}</div>
-          <div class="details">${ann.details}</div>
-          <div class="date">${ann.date}</div>
-        `;
-        announcementList.appendChild(li);
-      });
-    }
-
-    function loadTimetable(classLevel) {
-      const timetable = document.getElementById('timetable');
-      const classTimetable = timetableData[classLevel] || timetableData['6'];
-      
-      // Clear existing timetable
-      timetable.innerHTML = '';
-      
-      // Add timetable items
-      classTimetable.forEach(slot => {
-        const timeSlot = document.createElement('div');
-        timeSlot.className = 'time-slot';
-        timeSlot.textContent = slot.time;
-        
-        const subject = document.createElement('div');
-        subject.className = 'subject';
-        if (slot.subject !== 'Break') {
-          subject.innerHTML = `
-            <div class="name">${slot.subject}</div>
-            <div class="teacher">${slot.teacher}</div>
-          `;
-        } else {
-          subject.innerHTML = `<div class="name">${slot.subject}</div>`;
-        }
-        
-        timetable.appendChild(timeSlot);
-        timetable.appendChild(subject);
-      });
-    }
-
-    function generateAISuggestions(classLevel) {
-      const aiSuggestions = document.getElementById('aiSuggestions');
-      
-      // Clear existing suggestions
-      aiSuggestions.innerHTML = '';
-      
-      // Add AI suggestions
-      const relevantSuggestions = aiSuggestionsData.slice(0, 3);
-      relevantSuggestions.forEach(suggestion => {
-        const li = document.createElement('li');
-        li.className = 'ai-item';
-        li.innerHTML = `
-          <div class="title">Study Tip</div>
-          <div class="details">${suggestion}</div>
-          <div class="date">AI Generated</div>
-        `;
-        aiSuggestions.appendChild(li);
-      });
-    }
-
     function setupEventListeners() {
-      // Theme toggle
-      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-      
-      // Filter buttons for homework
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      filterButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-          // Remove active class from all buttons
-          filterButtons.forEach(b => b.classList.remove('active'));
-          // Add active class to clicked button
-          this.classList.add('active');
+      // Upload area
+      document.getElementById('upload-area').addEventListener('click', () => {
+        showToast('File upload feature will be available soon!', 'warning');
+      });
+
+      // AI Assistant
+      document.getElementById('ai-send').addEventListener('click', handleAIQuery);
+      document.getElementById('ai-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          handleAIQuery();
+        }
+      });
+
+      // Export buttons
+      document.getElementById('export-pdf').addEventListener('click', () => {
+        showToast('Exporting data as PDF...', 'success');
+      });
+
+      document.getElementById('export-excel').addEventListener('click', () => {
+        showToast('Exporting data as Excel...', 'success');
+      });
+
+      // Notification button
+      document.getElementById('notification-btn').addEventListener('click', () => {
+        showToast('Loading notifications...', 'success');
+      });
+
+      // Profile button
+      document.getElementById('profile-btn').addEventListener('click', () => {
+        showToast('Opening profile...', 'success');
+      });
+
+      // Bottom nav
+      document.querySelectorAll('.nav-item').forEach((item, index) => {
+        item.addEventListener('click', () => {
+          document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
           
-          // Filter homework (implementation would go here)
-          const filter = this.getAttribute('data-filter');
-          console.log(`Filtering homework: ${filter}`);
+          const pages = ['index.html', 'dashboard.html', 'parent.html', 'teacher.html'];
+          if (index === 0) return; // Already on home
+          if (index === 1) window.location.href = 'dashboard.html';
+          if (index === 2) showToast('Messages will be available soon!', 'warning');
+          if (index === 3) showToast('Profile will be available soon!', 'warning');
         });
       });
-      
-      // AI Chat functionality
-      const aiChatBtn = document.getElementById('aiChatBtn');
-      const chatContainer = document.getElementById('chatContainer');
-      const closeChat = document.getElementById('closeChat');
-      const chatInput = document.getElementById('chatInput');
-      const sendChat = document.getElementById('sendChat');
-      
-      aiChatBtn.addEventListener('click', () => {
-        chatContainer.style.display = 'flex';
+
+      // PWA install
+      document.getElementById('install-button').addEventListener('click', () => {
+        showToast('App installed successfully!', 'success');
+        document.getElementById('pwa-prompt').classList.add('hidden');
       });
-      
-      closeChat.addEventListener('click', () => {
-        chatContainer.style.display = 'none';
-      });
-      
-      sendChat.addEventListener('click', sendMessage);
-      chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          sendMessage();
-        }
-      });
-      
-      // Help button functionality
-      const helpBtn = document.getElementById('helpBtn');
-      const helpModal = document.getElementById('helpModal');
-      const closeHelp = document.getElementById('closeHelp');
-      const sendHelp = document.getElementById('sendHelp');
-      
-      helpBtn.addEventListener('click', () => {
-        helpModal.style.display = 'flex';
-      });
-      
-      closeHelp.addEventListener('click', () => {
-        helpModal.style.display = 'none';
-      });
-      
-      sendHelp.addEventListener('click', sendHelpMessage);
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-      const themeToggle = document.getElementById('themeToggle');
+    function handleAIQuery() {
+      const input = document.getElementById('ai-input');
+      const query = input.value.trim();
       
-      if (document.body.classList.contains('light')) {
-        document.body.style.background = 'linear-gradient(135deg, #f5f7fa, #c3cfe2)';
-        document.body.style.color = '#000';
-        themeToggle.textContent = '🌙';
-      } else {
-        document.body.style.background = 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)';
-        document.body.style.color = '#fff';
-        themeToggle.textContent = '🌗';
-      }
-    }
-
-    function sendMessage() {
-      const chatInput = document.getElementById('chatInput');
-      const chatMessages = document.getElementById('chatMessages');
+      if (!query) return;
       
-      const message = chatInput.value.trim();
-      if (!message) return;
+      // Add user message (simulated)
+      const aiMessage = document.querySelector('.ai-message');
+      aiMessage.textContent = 'Thinking...';
       
-      // Add user message
-      const userMsg = document.createElement('div');
-      userMsg.className = 'message user-message';
-      userMsg.textContent = message;
-      chatMessages.appendChild(userMsg);
-      
-      // Clear input
-      chatInput.value = '';
-      
-      // Scroll to bottom
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      
-      // Simulate AI response (would normally call Gemini API)
+      // Simulate AI response
       setTimeout(() => {
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'message ai-message';
-        
-        // Simple response logic
-        if (message.toLowerCase().includes('homework')) {
-          aiMsg.textContent = "I can help you with your homework! What subject are you working on?";
-        } else if (message.toLowerCase().includes('math')) {
-          aiMsg.textContent = "Math is all about practice. Try breaking down problems into smaller steps and work through them systematically.";
-        } else if (message.toLowerCase().includes('science')) {
-          aiMsg.textContent = "For science, make sure to understand the concepts rather than just memorizing facts. Creating diagrams can help visualize complex ideas.";
-        } else if (message.toLowerCase().includes('english')) {
-          aiMsg.textContent = "Reading regularly improves your English skills. Try to read for at least 20 minutes every day and note down new words you learn.";
-        } else {
-          aiMsg.textContent = "That's an interesting question! As your AI study assistant, I'm here to help you with any academic challenges you're facing.";
-        }
-        
-        chatMessages.appendChild(aiMsg);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        const responses = [
+          'I can help you with your studies. What would you like to know?',
+          'That\'s a great question! Let me explain that concept for you.',
+          'I recommend reviewing your textbook for that topic. Would you like me to summarize it?',
+          'You can find the answer in Chapter 3 of your Mathematics book.',
+          'Let me help you solve that problem step by step.'
+        ];
+        aiMessage.textContent = responses[Math.floor(Math.random() * responses.length)];
+        input.value = '';
       }, 1000);
     }
 
-    function sendHelpMessage() {
-      const helpMessage = document.getElementById('helpMessage');
-      const message = helpMessage.value.trim();
-      
-      if (!message) {
-        showNotification('Please enter a message');
-        return;
-      }
-      
-      // In a real app, this would send to admin
-      console.log('Help message sent:', message);
-      
-      // Clear and close
-      helpMessage.value = '';
-      document.getElementById('helpModal').style.display = 'none';
-      
-      // Show confirmation
-      showNotification('Your message has been sent to the admin');
-    }
-
-    function showNotification(message) {
-      const notification = document.getElementById('notification');
-      notification.textContent = message;
-      notification.style.display = 'block';
-      
+    function checkPWAInstall() {
+      // Simulate PWA install prompt after 3 seconds
       setTimeout(() => {
-        notification.style.display = 'none';
+        document.getElementById('pwa-prompt').classList.remove('hidden');
       }, 3000);
     }
 
-    function formatDate(dateString) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    }
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', initDashboard);
 
-    // Add event listener for the more options buttons (using event delegation)
-    document.addEventListener('click', function(e) {
-      if (e.target.closest('.more-options')) {
-        const homeworkItem = e.target.closest('.homework-item');
-        const status = homeworkItem.classList.contains('completed') ? 'pending' : 'completed';
-        
-        // Toggle status
-        if (status === 'completed') {
-          homeworkItem.classList.remove('pending');
-          homeworkItem.classList.remove('overdue');
-          homeworkItem.classList.add('completed');
-          homeworkItem.querySelector('.status').textContent = 'Completed';
-          homeworkItem.querySelector('.status').style.background = '#4caf50';
-        } else {
-          homeworkItem.classList.remove('completed');
-          homeworkItem.classList.add('pending');
-          homeworkItem.querySelector('.status').textContent = 'Pending';
-          homeworkItem.querySelector('.status').style.background = '#ff9800';
-        }
-        
-        showNotification(`Homework marked as ${status}`);
-      }
-    });
-
-    // Check for overdue homework
-    function checkOverdueHomework() {
-      const today = new Date().toISOString().split('T')[0];
-      const overdueItems = document.querySelectorAll('.homework-item.pending');
-      
-      overdueItems.forEach(item => {
-        const dueDate = item.querySelector('.date').textContent.replace('Due: ', '');
-        if (dueDate < today) {
-          item.classList.remove('pending');
-          item.classList.add('overdue');
-          item.querySelector('.status').textContent = 'Overdue';
-          item.querySelector('.status').style.background = '#f44336';
-        }
-      });
-    }
-
-    // Run overdue check
-    checkOverdueHomework();
-
-    // Periodic check for overdue items (every hour)
-    setInterval(checkOverdueHomework, 60 * 60 * 1000);
+    // Theme handling
+    const savedTheme = StorageUtil.get('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   </script>
 </body>
 </html>
