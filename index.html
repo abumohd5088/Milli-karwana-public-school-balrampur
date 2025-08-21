@@ -2,285 +2,977 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>MKPS Balrampur – Login</title>
-  <meta name="theme-color" content="#ffffff" />
-  <link rel="manifest" href="manifest.json" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#1d4ed8" />
+  <title>Milli Karwaan Public School</title>
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWlsbGkgS2Fyd2FhbiBQdWJsaWMgU2Nob29sIiwiZGVzY3JpcHRpb24iOiJTY2hvb2wgQXBwIGZvciBTdHVkZW50cywgUGFyZW50cywgVGVhY2hlcnMiLCJzdGFydF91cmwiOiJpbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiIjMWQ0ZWRjIiwic2hhcmVfcHVyUE9zZSI6Imh0dHBzOi8vZXhhbXBsZS5jb20vaW5kZXguaHRtbCIsImljb25zIjpbeyJzcmMiOiJodHRwczovL2kucG9zdGltZy5jby9yeUd4NDlUQi9lcmFzZWJnLXRyYW5zZm9ybWVkLnBuZyIsIndpZHRoIjoiMTI4IiwiaGVpZ2h0IjoiMTI4IiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      padding-bottom: 70px;
+    }
+    a { text-decoration: none; }
+    img { max-width: 100%; }
+    button, input, select {
+      font: inherit;
+      border: none;
+      outline: none;
+      background: none;
+    }
+    button {
+      cursor: pointer;
+      padding: 10px 16px;
+      border-radius: 8px;
+    }
+    input, select {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      width: 100%;
+      transition: box-shadow 0.2s ease;
+    }
+    input:focus, select:focus {
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+    .error { color: #e53e3e; font-size: 0.85rem; margin-top: 4px; }
+
+    /* ===== THEME ===== */
     :root {
-      --primary:#0a558c;
-      --primary-light:#0f73bf;
-      --bg:#ffffff;
-      --text:#111;
-      --card:#f7f9fc;
-      --border:#e1e5eb;
-      --error:#d93025;
-      --radius:12px;
-      --shadow:0 4px 12px rgba(0,0,0,.08);
-      font-size:16px;
+      --primary: #1d4ed8;
+      --primary-light: #3b82f6;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --input-bg: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --accent: #fbbf24;
     }
-    [data-theme="dark"]{
-      --bg:#121212;
-      --text:#eee;
-      --card:#1e1e1e;
-      --border:#333;
-      --shadow:0 4px 12px rgba(0,0,0,.4);
+    [data-theme="dark"] {
+      --bg: #111827;
+      --text: #f1f5f9;
+      --card: #1e293b;
+      --border: #334155;
+      --input-bg: #334155;
+      --shadow: rgba(0, 0, 0, 0.3);
     }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,Arial}
-    body{background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh}
-    header{position:sticky;top:0;z-index:30;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-    header img{height:40px;border-radius:50%}
-    header h1{font-size:1.1rem;font-weight:600;margin-left:.5rem}
-    .top-actions{display:flex;gap:.5rem;align-items:center}
-    .top-actions button{background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer}
-    main{flex:1;padding:1rem}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1rem;box-shadow:var(--shadow);max-width:420px;margin:0 auto 1.5rem}
-    .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1rem}
-    .tabs button{flex:1;border:none;background:none;padding:.75rem;font-weight:600;cursor:pointer;color:var(--text)}
-    .tabs button.active{border-bottom:2px solid var(--primary);color:var(--primary)}
-    form{display:flex;flex-direction:column;gap:.75rem}
-    label{font-size:.9rem}
-    input,select{width:100%;padding:.6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);transition:border .2s}
-    input:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(10,85,140,.15)}
-    button[type="submit"]{background:var(--primary);color:#fff;font-weight:600;padding:.7rem;border:none;border-radius:6px;cursor:pointer;margin-top:.5rem}
-    button[type="submit"]:hover{background:var(--primary-light)}
-    .error{color:var(--error);font-size:.85rem}
-    .hidden{display:none}
-    .gsi-btn{background:#fff;color:#444;border:1px solid #dadce0;border-radius:4px;padding:.45rem 1rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem}
-    .gsi-btn img{width:18px;height:18px}
-    .divider{margin:1.2rem 0;text-align:center;font-size:.85rem;color:var(--text);opacity:.7}
-    #threeDotMenu{position:absolute;top:48px;right:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:.3rem 0;z-index:40;display:none}
-    #threeDotMenu button{display:block;width:100%;text-align:left;background:none;border:none;padding:.6rem 1rem;cursor:pointer;font-size:.9rem;color:var(--text)}
-    #threeDotMenu button:hover{background:var(--primary);color:#fff}
-    .toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:.7rem 1rem;border-radius:6px;font-size:.9rem;z-index:100;opacity:0;transition:opacity .3s}
-    .toast.show{opacity:1}
-    @media(prefers-color-scheme:dark){:root:not([data-theme]){--bg:#121212;--text:#eee;--card:#1e1e1e;--border:#333;--shadow:0 4px 12px rgba(0,0,0,.4)}}
+
+    /* ===== LAYOUT ===== */
+    .app-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    header.app-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--card);
+      box-shadow: 0 2px 6px var(--shadow);
+      z-index: 1000;
+      height: 60px;
+    }
+    header.app-bar h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-left: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .logo {
+      height: 36px;
+      width: 36px;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .icon-btn {
+      background: var(--border);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+    .bell {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .school-info-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 76px 0 20px;
+      box-shadow: 0 2px 8px var(--shadow);
+      text-align: center;
+    }
+    .school-info-card h2 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .school-info-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== LOGIN TABS ===== */
+    .login-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .tab {
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      opacity: 0.7;
+      transition: all 0.2s ease;
+      flex: 1;
+      text-align: center;
+    }
+    .tab.active {
+      color: var(--primary);
+      opacity: 1;
+      border-bottom: 3px solid var(--primary);
+    }
+    .tab-content {
+      display: none;
+      padding: 16px 0;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== FORM STYLES ===== */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      width: 100%;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      transition: background 0.2s ease;
+    }
+    .submit-btn:hover {
+      background: var(--primary-light);
+    }
+    .submit-btn:disabled {
+      background: var(--border);
+      color: var(--text);
+      cursor: not-allowed;
+    }
+
+    /* ===== GOOGLE SIGN-IN BUTTON ===== */
+    .g-btn-wrapper {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+    #googleSignInBtn {
+      width: 250px !important;
+    }
+
+    /* ===== TOAST NOTIFICATION ===== */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      background: var(--card);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 250px;
+      border-left: 4px solid var(--accent);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .toast.success { border-left-color: #10b981; }
+    .toast.error { border-left-color: #ef4444; }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .toast-icon { font-size: 1.2rem; }
+    .toast-message { flex: 1; }
+
+    /* ===== 3-DOTS MENU (HIDDEN INITIALLY) ===== */
+    .dots-menu {
+      position: absolute;
+      top: 60px;
+      right: 16px;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow);
+      overflow: hidden;
+      z-index: 1001;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+    .dots-menu.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+    .dots-menu-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .dots-menu-item:hover {
+      background: var(--border);
+    }
+
+    /* ===== BOTTOM NAV (PLACEHOLDER) ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--card);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -2px 6px var(--shadow);
+      z-index: 1000;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+    .nav-item.active {
+      color: var(--primary);
+      opacity: 1;
+    }
+    .nav-icon { font-size: 1.2rem; }
+
+    /* ===== INSTALL PROMPT (CUSTOM) ===== */
+    .install-prompt {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 280px;
+    }
+    .install-prompt.hidden {
+      display: none;
+    }
+    .install-prompt button {
+      background: var(--primary);
+      color: white;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+    .install-close {
+      background: none;
+      color: var(--text);
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .install-close:hover {
+      background: var(--border);
+    }
+
+    /* ===== UTILITIES CLASSES ===== */
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 16px; }
+    .mb-2 { margin-bottom: 8px; }
+    .flex { display: flex; }
+    .gap-2 { gap: 8px; }
+    .w-full { width: 100%; }
   </style>
 </head>
 <body>
-  <header>
-    <div style="display:flex;align-items:center">
-      <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" />
-      <h1>Milli Karwaan Public School</h1>
+  <!-- App Bar -->
+  <header class="app-bar">
+    <div class="flex" style="align-items: center; gap: 8px;">
+      <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo" class="logo" />
+      <h1>Milli Karwaan</h1>
     </div>
-    <div class="top-actions">
-      <button id="themeToggle" aria-label="Toggle theme">🌙</button>
-      <button id="langToggle" aria-label="Toggle language">🌐</button>
-      <button id="bell" aria-label="Notifications">🔔</button>
-      <button id="threeDotBtn" aria-label="More">⋮</button>
-      <div id="threeDotMenu">
-        <button data-lang-key="profile">Profile</button>
-        <button data-lang-key="logout">Logout</button>
-      </div>
+    <div class="actions">
+      <button id="langToggle" class="icon-btn" aria-label="Switch Language">EN</button>
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle Theme">☀️</button>
+      <button id="bellBtn" class="icon-btn">
+        <span class="bell">🔔</span>
+      </button>
+      <button id="dotsBtn" class="icon-btn">⋮</button>
     </div>
   </header>
 
-  <main>
-    <section class="card">
-      <h2 data-lang-key="login">Login</h2>
+  <!-- 3-Dots Menu (Reusable) -->
+  <div class="dots-menu" id="dotsMenu">
+    <div class="dots-menu-item" data-action="profile">👤 Profile</div>
+    <div class="dots-menu-item" data-action="homework">📝 Homework</div>
+    <div class="dots-menu-item" data-action="timetable">📅 Timetable</div>
+    <div class="dots-menu-item" data-action="messages">💬 Messages</div>
+    <div class="dots-menu-item" data-action="logout">🚪 Logout</div>
+  </div>
 
-      <!-- Google Sign-In -->
-      <button class="gsi-btn" id="googleBtn">
-        <img alt="Google" src="https://developers.google.com/identity/images/g-logo.png" />
-        <span data-lang-key="signInGoogle">Sign in with Google</span>
-      </button>
+  <div class="app-container">
+    <!-- School Info Card -->
+    <div class="school-info-card">
+      <h2>Milli Karwaan Public School</h2>
+      <p>
+        Boluha Police Chowki, Balrampur<br>
+        📞 9758919151<br>
+        ✉️ madamsir066@gmail.com
+      </p>
+    </div>
 
-      <div class="divider" data-lang-key="or">OR</div>
+    <!-- Language Toggle -->
+    <div class="flex justify-end mb-2">
+      <small id="langLabel">Language: English</small>
+    </div>
 
-      <!-- Tabs -->
-      <div class="tabs" id="tabs">
-        <button class="tab active" data-role="student" data-lang-key="student">Student</button>
-        <button class="tab" data-role="parent" data-lang-key="parent">Parent</button>
-        <button class="tab" data-role="teacher" data-lang-key="teacher">Teacher</button>
-      </div>
+    <!-- Login Tabs -->
+    <div class="login-tabs">
+      <div class="tab active" data-tab="student">Student</div>
+      <div class="tab" data-tab="parent">Parent</div>
+      <div class="tab" data-tab="teacher">Teacher</div>
+    </div>
 
-      <!-- Student Form -->
-      <form id="studentForm">
-        <label data-lang-key="name">Name</label>
-        <input type="text" name="name" required />
-        <label data-lang-key="parentName">Parent Name</label>
-        <input type="text" name="parentName" required />
-        <label data-lang-key="class">Class</label>
-        <select name="cls" required>
-          <option disabled selected value="">Select</option>
-          <option>Nursery</option><option>1</option><option>2</option><option>3</option><option>4</option>
-          <option>5</option><option>6</option><option>7</option><option>8</option>
-        </select>
-        <button type="submit" data-lang-key="loginBtnStudent">Login as Student</button>
+    <!-- Student Login Form -->
+    <div class="tab-content active" id="student-form">
+      <form id="studentLogin">
+        <div class="form-group">
+          <label for="studentName">Your Name</label>
+          <input type="text" id="studentName" required placeholder="Enter your full name" />
+        </div>
+        <div class="form-group">
+          <label for="parentName">Parent's Name</label>
+          <input type="text" id="parentName" required placeholder="Enter parent's full name" />
+        </div>
+        <div class="form-group">
+          <label for="studentClass">Class</label>
+          <select id="studentClass" required>
+            <option value="">Select Class</option>
+            <option value="Nursery">Nursery</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">Login as Student</button>
       </form>
+    </div>
 
-      <!-- Parent Form -->
-      <form id="parentForm" class="hidden">
-        <label data-lang-key="yourName">Your Name</label>
-        <input type="text" name="parentName" required />
-        <label data-lang-key="childName">Child Name</label>
-        <input type="text" name="childName" required />
-        <label data-lang-key="class">Class</label>
-        <select name="cls" required>
-          <option disabled selected value="">Select</option>
-          <option>Nursery</option><option>1</option><option>2</option><option>3</option><option>4</option>
-          <option>5</option><option>6</option><option>7</option><option>8</option>
-        </select>
-        <button type="submit" data-lang-key="loginBtnParent">Login as Parent</button>
-        <p class="error hidden" id="parentError" data-lang-key="parentError">Your child is not registered</p>
+    <!-- Parent Login Form -->
+    <div class="tab-content" id="parent-form">
+      <form id="parentLogin">
+        <div class="form-group">
+          <label for="parentYourName">Your Name</label>
+          <input type="text" id="parentYourName" required placeholder="Your full name" />
+        </div>
+        <div class="form-group">
+          <label for="childName">Child's Name</label>
+          <input type="text" id="childName" required placeholder="Child's full name" />
+        </div>
+        <div class="form-group">
+          <label for="parentClass">Class</label>
+          <select id="parentClass" required>
+            <option value="">Select Class</option>
+            <option value="Nursery">Nursery</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+          </select>
+        </div>
+        <div id="parentError" class="error hidden"></div>
+        <button type="submit" class="submit-btn">Login as Parent</button>
       </form>
+    </div>
 
-      <!-- Teacher Form -->
-      <form id="teacherForm" class="hidden">
-        <label data-lang-key="name">Name</label>
-        <input type="text" name="name" required />
-        <label data-lang-key="password">Password</label>
-        <input type="password" name="password" required />
-        <button type="submit" data-lang-key="loginBtnTeacher">Login as Teacher</button>
-        <p class="error hidden" id="teacherError" data-lang-key="teacherError">Invalid password</p>
+    <!-- Teacher Login Form -->
+    <div class="tab-content" id="teacher-form">
+      <form id="teacherLogin">
+        <div class="form-group">
+          <label for="teacherName">Your Name</label>
+          <input type="text" id="teacherName" required placeholder="Enter your name" />
+        </div>
+        <div class="form-group">
+          <label for="teacherPassword">Password</label>
+          <input type="password" id="teacherPassword" required placeholder="Enter password" />
+          <div id="teacherError" class="error hidden"></div>
+        </div>
+        <button type="submit" class="submit-btn">Login as Teacher</button>
       </form>
-    </section>
-  </main>
+    </div>
 
-  <div id="toast" class="toast"></div>
+    <!-- Google Sign-In -->
+    <div class="g-btn-wrapper">
+      <div id="googleSignInBtn"></div>
+    </div>
+
+    <!-- Install Prompt -->
+    <div class="install-prompt hidden" id="installPrompt">
+      <span>Install Milli Karwaan App for better experience</span>
+      <button id="installBtn">Install</button>
+      <button id="closeInstall" class="install-close">×</button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <span class="toast-icon">ℹ️</span>
+      <span class="toast-message">This is a notification</span>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation (Placeholder) -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span>Home</span>
+    </a>
+    <a href="dashboard.html#homework" class="nav-item">
+      <span class="nav-icon">📚</span>
+      <span>Homework</span>
+    </a>
+    <a href="dashboard.html#messages" class="nav-item">
+      <span class="nav-icon">💬</span>
+      <span>Messages</span>
+    </a>
+    <a href="dashboard.html#profile" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span>Profile</span>
+    </a>
+  </nav>
 
   <script>
-    /* ====== Utilities ====== */
-    const StorageUtil = {
-      prefix: 'mkps_',
-      get(k){return JSON.parse(localStorage.getItem(this.prefix+k)||'null')},
-      set(k,v){localStorage.setItem(this.prefix+k,JSON.stringify(v))},
-      remove(k){localStorage.removeItem(this.prefix+k)}
-    };
-    const i18n = {
-      dict: {
-        en:{
-          login:'Login', signInGoogle:'Sign in with Google', or:'OR',
-          student:'Student', parent:'Parent', teacher:'Teacher',
-          name:'Name', parentName:'Parent Name', class:'Class',
-          yourName:'Your Name', childName:'Child Name',
-          loginBtnStudent:'Login as Student', loginBtnParent:'Login as Parent', loginBtnTeacher:'Login as Teacher',
-          password:'Password', profile:'Profile', logout:'Logout',
-          parentError:'Your child is not registered', teacherError:'Invalid password',
-          welcome:'Welcome', missingRole:'Please select your role to continue'
-        },
-        hi:{
-          login:'लॉगिन', signInGoogle:'Google से लॉगिन करें', or:'या',
-          student:'छात्र', parent:'माता-पिता', teacher:'शिक्षक',
-          name:'नाम', parentName:'माता-पिता का नाम', class:'कक्षा',
-          yourName:'आपका नाम', childName:'बच्चे का नाम',
-          loginBtnStudent:'छात्र के रूप में लॉगिन करें',
-          loginBtnParent:'माता-पिता के रूप में लॉगिन करें',
-          loginBtnTeacher:'शिक्षक के रूप में लॉगिन करें',
-          password:'पासवर्ड', profile:'प्रोफ़ाइल', logout:'लॉगआउट',
-          parentError:'आपका बच्चा पंजीकृत नहीं है', teacherError:'गलत पासवर्ड',
-          welcome:'स्वागत है', missingRole:'कृपया आगे बढ़ने के लिए अपनी भूमिका चुनें'
+    // ===== STORAGE UTILITY =====
+    const mkps_StorageUtil = {
+      get(key) {
+        try {
+          return JSON.parse(localStorage.getItem(`mkps_${key}`));
+        } catch (e) {
+          return localStorage.getItem(`mkps_${key}`);
         }
       },
-      lang:'en',
-      t(k){return this.dict[this.lang][k]||k},
-      setLang(l){this.lang=l;StorageUtil.set('lang',l);this.scan()}
-    };
-    i18n.scan = ()=>document.querySelectorAll('[data-lang-key]').forEach(el=>el.textContent=i18n.t(el.dataset.langKey));
-    i18n.setLang(StorageUtil.get('lang')||'en');
-
-    /* ====== Theme ====== */
-    const themeToggle = document.getElementById('themeToggle');
-    const applyTheme=()=>{const t=StorageUtil.get('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-    document.documentElement.setAttribute('data-theme',t);themeToggle.textContent=t==='dark'?'☀️':'🌙';}
-    applyTheme();
-    themeToggle.onclick=()=>{
-      const newTheme = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
-      StorageUtil.set('theme',newTheme);applyTheme();
+      set(key, value) {
+        localStorage.setItem(`mkps_${key}`, JSON.stringify(value));
+      },
+      remove(key) {
+        localStorage.removeItem(`mkps_${key}`);
+      }
     };
 
-    /* ====== Toast ====== */
-    const toast = (msg,type='info')=>{
-      const el=document.getElementById('toast');
-      el.textContent=msg;el.classList.add('show');
-      setTimeout(()=>el.classList.remove('show'),3000);
-    };
-
-    /* ====== Tabs ====== */
-    const tabs=document.querySelectorAll('.tab');
-    const forms={student:studentForm,parent:parentForm,teacher:teacherForm};
-    tabs.forEach(t=>t.onclick=()=>{
-      tabs.forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-      Object.values(forms).forEach(f=>f.classList.add('hidden'));
-      forms[t.dataset.role].classList.remove('hidden');
+    // ===== EVENT BUS (STORAGE EVENT) =====
+    window.addEventListener('storage', (event) => {
+      // Simulate real-time sync between tabs
+      console.log('Storage updated:', event.key, event.newValue);
     });
 
-    /* ====== Three-dot menu ====== */
-    const threeDotBtn=document.getElementById('threeDotBtn');
-    const threeDotMenu=document.getElementById('threeDotMenu');
-    threeDotBtn.onclick=e=>{
-      e.stopPropagation();
-      threeDotMenu.style.display=threeDotMenu.style.display==='block'?'none':'block';
-    };
-    document.addEventListener('click',()=>threeDotMenu.style.display='none');
-    threeDotMenu.querySelector('[data-lang-key="logout"]').onclick=()=>{
-      StorageUtil.remove('currentUser');
-      location.reload();
+    // ===== I18N ENGINE =====
+    const mkps_i18n = {
+      en: {
+        lang: 'English',
+        switchLang: 'Switch to Hindi',
+        student: 'Student',
+        parent: 'Parent',
+        teacher: 'Teacher',
+        login: 'Login',
+        name: 'Name',
+        parentName: "Parent's Name",
+        yourName: "Your Name",
+        childName: "Child's Name",
+        class: 'Class',
+        password: 'Password',
+        noStudent: 'No student found. Please log in as student first.',
+        childNotRegistered: 'Your child is not registered.',
+        invalidPassword: 'Invalid password.',
+        loginSuccess: 'Login successful!',
+        welcome: 'Welcome',
+        error: 'Error',
+        installApp: 'Install App',
+        dismiss: 'Dismiss'
+      },
+      hi: {
+        lang: 'हिंदी',
+        switchLang: 'अंग्रेजी में बदलें',
+        student: 'छात्र',
+        parent: 'अभिभावक',
+        teacher: 'शिक्षक',
+        login: 'लॉगिन',
+        name: 'नाम',
+        parentName: "माता-पिता का नाम",
+        yourName: "आपका नाम",
+        childName: "बच्चे का नाम",
+        class: 'कक्षा',
+        password: 'पासवर्ड',
+        noStudent: 'कोई छात्र पंजीकृत नहीं है। कृपया पहले छात्र के रूप में लॉगिन करें।',
+        childNotRegistered: 'आपका बच्चा पंजीकृत नहीं है।',
+        invalidPassword: 'अमान्य पासवर्ड।',
+        loginSuccess: 'लॉगिन सफल!',
+        welcome: 'स्वागत है',
+        error: 'त्रुटि',
+        installApp: 'ऐप स्थापित करें',
+        dismiss: 'बंद करें'
+      }
     };
 
-    /* ====== Manual Login ====== */
-    const handle = (form,role)=>{
-      form.addEventListener('submit',e=>{
-        e.preventDefault();
-        const fd=new FormData(form);
-        const data=Object.fromEntries(fd.entries());
-        if(role==='student'){
-          const user={...data,role,email:'',provider:'manual'};
-          StorageUtil.set('currentUser',user);
-          StorageUtil.set('students',(StorageUtil.get('students')||[]).concat(user));
-          location.href='dashboard.html';
-        }
-        if(role==='parent'){
-          const students=StorageUtil.get('students')||[];
-          const matched=students.filter(s=>s.cls===data.cls && (s.name===data.childName || s.parentName===data.parentName));
-          if(students.length===0){toast(i18n.t('parentError'));return;}
-          if(matched.length===0){parentError.classList.remove('hidden');return;}
-          const user={parentName:data.parentName,childName:data.childName,cls:data.cls,role:'parent',email:'',provider:'manual'};
-          StorageUtil.set('currentUser',user);
-          location.href='parent.html';
-        }
-        if(role==='teacher'){
-          if(data.password!=='Abutalha'){teacherError.classList.remove('hidden');return;}
-          const user={name:data.name,role:'teacher',email:'',provider:'manual'};
-          StorageUtil.set('currentUser',user);
-          location.href='teacher.html';
-        }
-      });
+    mkps_i18n.currentLang = 'en';
+    mkps_i18n.setLang = function(lang) {
+      if (!mkps_i18n[lang]) return;
+      this.currentLang = lang;
+      mkps_StorageUtil.set('lang', lang);
+      document.getElementById('langToggle').textContent = lang === 'en' ? 'EN' : 'हिं';
+      document.getElementById('langLabel').textContent = `Language: ${this.t('lang')}`;
+      this.updateUI();
     };
-    handle(studentForm,'student');
-    handle(parentForm,'parent');
-    handle(teacherForm,'teacher');
 
-    /* ====== Google Sign-In ====== */
-    const gsiScript=document.createElement('script');
-    gsiScript.src='https://accounts.google.com/gsi/client';
-    document.head.appendChild(gsiScript);
-    gsiScript.onload=()=>{
-      google.accounts.id.initialize({
-        client_id:'529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com',
-        callback:(response)=>{
-          const {payload}=JSON.parse(atob(response.credential));
-          const {name,email}=payload;
-          const role=prompt(`${i18n.t('welcome')} ${name}. ${i18n.t('missingRole')} (student/parent/teacher)`);
-          if(!['student','parent','teacher'].includes(role)){toast('Invalid role');return;}
-          let extra={};
-          if(role==='student'){
-            extra.parentName=prompt('Parent Name');
-            extra.cls=prompt('Class (Nursery-8)');
+    mkps_i18n.t = function(key) {
+      return mkps_i18n[mkps_i18n.currentLang]?.[key] || key;
+    };
+
+    mkps_i18n.updateUI = function() {
+      // This would update all text in a full app
+      // For now, just update toggles
+    };
+
+    // ===== THEME MANAGER =====
+    const mkps_Theme = {
+      init() {
+        const saved = mkps_StorageUtil.get('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        this.set(theme);
+      },
+      set(theme) {
+        mkps_StorageUtil.set('theme', theme);
+        document.documentElement.setAttribute('data-theme', theme);
+        const btn = document.getElementById('themeToggle');
+        btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+      }
+    };
+
+    // ===== TOAST NOTIFICATION =====
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.className = 'toast show';
+      toast.classList.remove('success', 'error');
+      toast.classList.add(type);
+      toast.querySelector('.toast-message').textContent = message;
+      toast.querySelector('.toast-icon').textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 3000);
+    }
+
+    // ===== DATE UTILS =====
+    const mkps_DateUtil = {
+      formatDate(date) {
+        return new Date(date).toLocaleDateString('en-IN', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      },
+      relativeTime(date) {
+        const now = new Date();
+        const diffMs = now - new Date(date);
+        const diffSec = Math.floor(diffMs / 1000);
+        if (diffSec < 60) return 'just now';
+        const diffMin = Math.floor(diffSec / 60);
+        if (diffMin < 60) return `${diffMin}m ago`;
+        const diffHr = Math.floor(diffMin / 60);
+        if (diffHr < 24) return `${diffHr}h ago`;
+        return Math.floor(diffHr / 24) + 'd ago';
+      }
+    };
+
+    // ===== TAB HANDLER =====
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(`${tabId}-form`).classList.add('active');
+      });
+    });
+
+    // ===== FORM VALIDATION & SUBMISSION =====
+    document.getElementById('studentLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('studentName').value.trim();
+      const parentName = document.getElementById('parentName').value.trim();
+      const classVal = document.getElementById('studentClass').value;
+
+      if (!name || !parentName || !classVal) {
+        showToast('Please fill all fields', 'error');
+        return;
+      }
+
+      const userData = {
+        role: 'student',
+        name,
+        parentName,
+        class: classVal,
+        loginTime: new Date().toISOString()
+      };
+
+      mkps_StorageUtil.set('user', userData);
+      showToast('Login successful!', 'success');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 800);
+    });
+
+    document.getElementById('parentLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const yourName = document.getElementById('parentYourName').value.trim();
+      const childName = document.getElementById('childName').value.trim();
+      const classVal = document.getElementById('parentClass').value;
+      const parentError = document.getElementById('parentError');
+
+      if (!yourName || !childName || !classVal) {
+        parentError.textContent = 'All fields are required.';
+        parentError.classList.remove('hidden');
+        return;
+      }
+
+      const students = mkps_StorageUtil.get('students') || [];
+      const matchedStudent = students.find(s => 
+        s.name.toLowerCase() === childName.toLowerCase() &&
+        s.class === classVal
+      );
+
+      if (students.length === 0) {
+        parentError.textContent = 'No student found. Please log in as student first.';
+        parentError.classList.remove('hidden');
+        return;
+      }
+
+      if (!matchedStudent) {
+        parentError.textContent = 'Your child is not registered.';
+        parentError.classList.remove('hidden');
+        return;
+      }
+
+      let matchCount = 0;
+      if (matchedStudent.parentName.toLowerCase() === yourName.toLowerCase()) matchCount++;
+      if (matchedStudent.name.toLowerCase() === childName.toLowerCase()) matchCount++;
+      if (matchedStudent.class === classVal) matchCount++;
+
+      if (matchCount < 2) {
+        parentError.textContent = 'Your child is not registered.';
+        parentError.classList.remove('hidden');
+        return;
+      }
+
+      parentError.classList.add('hidden');
+      const userData = {
+        role: 'parent',
+        yourName,
+        childName,
+        class: classVal,
+        linkedStudentId: matchedStudent.id || Date.now(),
+        loginTime: new Date().toISOString()
+      };
+
+      mkps_StorageUtil.set('user', userData);
+      showToast('Login successful!', 'success');
+      setTimeout(() => {
+        window.location.href = 'parent.html';
+      }, 800);
+    });
+
+    document.getElementById('teacherLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('teacherName').value.trim();
+      const password = document.getElementById('teacherPassword').value;
+      const teacherError = document.getElementById('teacherError');
+
+      if (!name || !password) {
+        teacherError.textContent = 'All fields are required.';
+        teacherError.classList.remove('hidden');
+        return;
+      }
+
+      if (password !== 'Abutalha') {
+        teacherError.textContent = 'Invalid password.';
+        teacherError.classList.remove('hidden');
+        return;
+      }
+
+      teacherError.classList.add('hidden');
+      const userData = {
+        role: 'teacher',
+        name,
+        loginTime: new Date().toISOString()
+      };
+
+      mkps_StorageUtil.set('user', userData);
+      showToast('Login successful!', 'success');
+      setTimeout(() => {
+        window.location.href = 'teacher.html';
+      }, 800);
+    });
+
+    // ===== GOOGLE SIGN-IN =====
+    window.onload = function() {
+      if (window.google) {
+        google.accounts.id.initialize({
+          client_id: '529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com',
+          callback: handleGoogleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('googleSignInBtn'),
+          { theme: 'outline', size: 'large', text: 'signin_with', width: 250 }
+        );
+      }
+    };
+
+    async function handleGoogleCredentialResponse(response) {
+      try {
+        const payload = parseJwt(response.credential);
+        const email = payload.email;
+        const name = payload.name;
+
+        // Prompt for role selection
+        const role = prompt('Select your role: student, parent, or teacher').trim().toLowerCase();
+        if (!['student', 'parent', 'teacher'].includes(role)) {
+          showToast('Invalid role selected.', 'error');
+          return;
+        }
+
+        let userData = { role, name, email, googleId: payload.sub, loginTime: new Date().toISOString() };
+
+        if (role === 'student') {
+          const parentName = prompt('Enter parent name:');
+          const classVal = prompt('Enter class (Nursery, 1-8):');
+          if (!parentName || !classVal) {
+            showToast('All fields are required.', 'error');
+            return;
           }
-          if(role==='parent'){
-            extra.childName=prompt('Child Name');
-            extra.cls=prompt('Child Class');
+          userData.parentName = parentName;
+          userData.class = classVal;
+
+          // Save to students list
+          const students = mkps_StorageUtil.get('students') || [];
+          students.push({ ...userData, id: Date.now() });
+          mkps_StorageUtil.set('students', students);
+        }
+
+        if (role === 'parent') {
+          const childName = prompt('Enter child name:');
+          const classVal = prompt('Enter child class:');
+          if (!childName || !classVal) {
+            showToast('All fields are required.', 'error');
+            return;
           }
-          const user={name,email,role,provider:'google',...extra};
-          StorageUtil.set('currentUser',user);
-          if(role==='student')StorageUtil.set('students',(StorageUtil.get('students')||[]).concat(user));
-          location.href=role==='student'?'dashboard.html':role==='parent'?'parent.html':'teacher.html';
+          userData.childName = childName;
+          userData.class = classVal;
+
+          // Validate against existing students
+          const students = mkps_StorageUtil.get('students') || [];
+          const matched = students.find(s => 
+            s.name.toLowerCase() === childName.toLowerCase() &&
+            s.class === classVal
+          );
+          if (!matched) {
+            showToast('Child not found in records.', 'error');
+            return;
+          }
+        }
+
+        if (role === 'teacher') {
+          const pass = prompt('Enter teacher password:');
+          if (pass !== 'Abutalha') {
+            showToast('Invalid password.', 'error');
+            return;
+          }
+        }
+
+        mkps_StorageUtil.set('user', userData);
+        showToast('Google Sign-In successful!', 'success');
+        setTimeout(() => {
+          if (role === 'student') window.location.href = 'dashboard.html';
+          else if (role === 'parent') window.location.href = 'parent.html';
+          else if (role === 'teacher') window.location.href = 'teacher.html';
+        }, 800);
+      } catch (error) {
+        showToast('Google Sign-In failed.', 'error');
+      }
+    }
+
+    function parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        return {};
+      }
+    }
+
+    // ===== THEME & LANG TOGGLE =====
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      mkps_Theme.set(current === 'light' ? 'dark' : 'light');
+    });
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      const newLang = mkps_i18n.currentLang === 'en' ? 'hi' : 'en';
+      mkps_i18n.setLang(newLang);
+    });
+
+    // ===== 3-DOTS MENU TOGGLE =====
+    document.getElementById('dotsBtn').addEventListener('click', () => {
+      const menu = document.getElementById('dotsMenu');
+      menu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('dotsMenu');
+      const btn = document.getElementById('dotsBtn');
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('active');
+      }
+    });
+
+    // Handle menu item clicks
+    document.querySelectorAll('.dots-menu-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const action = this.getAttribute('data-action');
+        document.getElementById('dotsMenu').classList.remove('active');
+        if (action === 'logout') {
+          if (confirm('Are you sure you want to logout?')) {
+            mkps_StorageUtil.remove('user');
+            showToast('Logged out successfully.', 'success');
+            setTimeout(() => window.location.reload(), 800);
+          }
+        } else {
+          showToast(`Navigating to ${action}...`, 'info');
         }
       });
-      google.accounts.id.renderButton(document.getElementById('googleBtn'),{theme:'outline',size:'large'});
-    };
+    });
+
+    // ===== INSTALL PROMPT SIMULATION =====
+    const installPrompt = document.getElementById('installPrompt');
+    const installBtn = document.getElementById('installBtn');
+    const closeInstall = document.getElementById('closeInstall');
+
+    // Show prompt after 5 seconds if not dismissed
+    setTimeout(() => {
+      if (!mkps_StorageUtil.get('installDismissed')) {
+        installPrompt.classList.remove('hidden');
+      }
+    }, 5000);
+
+    closeInstall.addEventListener('click', () => {
+      installPrompt.classList.add('hidden');
+      mkps_StorageUtil.set('installDismissed', true);
+    });
+
+    installBtn.addEventListener('click', () => {
+      // In real PWA, this would trigger beforeinstallprompt event
+      showToast('App installation initiated.', 'info');
+      installPrompt.classList.add('hidden');
+      mkps_StorageUtil.set('installDismissed', true);
+    });
+
+    // ===== INITIALIZATION =====
+    (function init() {
+      // Set theme
+      mkps_Theme.init();
+
+      // Set language
+      const savedLang = mkps_StorageUtil.get('lang');
+      mkps_i18n.setLang(savedLang || 'en');
+
+      // Initialize empty students array if not exists
+      if (!mkps_StorageUtil.get('students')) {
+        mkps_StorageUtil.set('students', []);
+      }
+    })();
   </script>
 </body>
 </html>
