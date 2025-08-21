@@ -1,735 +1,1300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MKPS Balrampur - Login</title>
-    <meta name="description" content="Official login portal for Milli Karwaan Public School, Balrampur">
-    
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --background: #f8fafc;
-            --surface: #ffffff;
-            --error: #ef4444;
-            --success: #10b981;
-            --border: #e2e8f0;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --radius: 0.5rem;
-            --transition: all 0.3s ease;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Milli Karwaan Public School Balrampur - Official School App" />
+  <title>Milli Karwaan Public School</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        [data-theme="dark"] {
-            --background: #0f172a;
-            --surface: #1e293b;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
-            --border: #334155;
-        }
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --surface: #ffffff;
+      --surface-light: #f5f5f5;
+      --text: #202124;
+      --text-secondary: #5f6368;
+      --border: #dadce0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --radius: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    [data-theme="dark"] {
+      --primary: #4dabff;
+      --primary-dark: #6ea8ff;
+      --surface: #1a1a1a;
+      --surface-light: #2d2d2d;
+      --text: #e8eaed;
+      --text-secondary: #bdc1c6;
+      --border: #3c4043;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--background);
-            color: var(--text);
-            line-height: 1.5;
-            transition: var(--transition);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: var(--surface-light);
+      color: var(--text);
+      line-height: 1.6;
+      transition: var(--transition);
+      min-height: 100vh;
+    }
 
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 1rem;
-            width: 100%;
-        }
+    /* App Shell Layout */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 2rem 0;
-            background: var(--surface);
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 2rem;
-            border-radius: var(--radius);
-        }
+    /* Top App Bar */
+    .app-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background-color: var(--primary);
+      color: white;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: var(--transition);
+    }
 
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem;
-            border-radius: 50%;
-            box-shadow: var(--shadow-md);
-        }
+    .app-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .school-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
+    .app-logo {
+      height: 40px;
+      width: 40px;
+      border-radius: 8px;
+    }
 
-        .school-details {
-            font-size: 0.875rem;
-            color: var(--text-light);
-            line-height: 1.6;
-        }
+    .app-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
 
-        /* Controls */
-        .controls {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
+    .app-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .control-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 0.5rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.875rem;
-        }
+    .icon-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
 
-        .control-btn:hover {
-            background: var(--border);
-        }
+    .icon-button:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
 
-        /* Tabs */
-        .tabs {
-            display: flex;
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 0.25rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-sm);
-        }
+    /* School Info Banner */
+    .school-info {
+      padding: 16px;
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
 
-        .tab {
-            flex: 1;
-            padding: 0.75rem;
-            text-align: center;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            transition: var(--transition);
-            border-radius: calc(var(--radius) - 0.125rem);
-            font-weight: 500;
-            color: var(--text-light);
-        }
+    .school-info strong {
+      color: var(--text);
+    }
 
-        .tab.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: var(--shadow-sm);
-        }
+    .contact-link {
+      color: var(--primary);
+      text-decoration: none;
+    }
 
-        /* Forms */
-        .form-container {
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 1.5rem;
-        }
+    .contact-link:hover {
+      text-decoration: underline;
+    }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      max-width: 520px;
+      margin: 0 auto;
+      width: 100%;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text);
-        }
+    .login-card {
+      background-color: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      margin-top: 16px;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            background: var(--surface);
-            color: var(--text);
-        }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
-        }
+    .tab {
+      padding: 16px 20px;
+      flex: 1;
+      text-align: center;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
 
-        .btn {
-            width: 100%;
-            padding: 0.875rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-        }
+    .tab.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
 
-        .btn:hover {
-            background: var(--primary-dark);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-1px);
-        }
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--primary);
+      border-radius: 3px 3px 0 0;
+    }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+    /* Forms */
+    .form-container {
+      padding: 20px;
+      display: none;
+    }
 
-        .gsi-btn {
-            background: white;
-            color: #3c4043;
-            border: 1px solid #dadce0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
+    .form-container.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
 
-        .gsi-btn:hover {
-            background: #f8f9fa;
-            box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .error {
-            color: var(--error);
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
+    .form-group {
+      margin-bottom: 16px;
+    }
 
-        .error.show {
-            display: block;
-        }
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--surface);
-            color: var(--text);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-            z-index: 1000;
-            max-width: 90vw;
-        }
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background-color: var(--surface);
+      color: var(--text);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+    }
 
-        .toast.success {
-            border-left: 4px solid var(--success);
-        }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
 
-        .toast.error {
-            border-left: 4px solid var(--error);
-        }
+    .btn:hover {
+      background-color: var(--primary-dark);
+    }
 
-        /* Hidden menu */
-        .hidden-menu {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            background: var(--surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            padding: 0.5rem;
-            display: none;
-            z-index: 100;
-        }
+    .btn:disabled {
+      background-color: var(--text-secondary);
+      cursor: not-allowed;
+    }
 
-        .hidden-menu.show {
-            display: block;
-        }
+    .google-btn {
+      background-color: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-weight: 500;
+    }
 
-        .menu-dots {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            z-index: 99;
-        }
+    .google-btn:hover {
+      background-color: var(--surface-light);
+    }
 
-        /* Responsive */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 400px;
-            }
-        }
-    </style>
+    .error-text {
+      color: #d93025;
+      font-size: 0.8125rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .error-text.show {
+      display: block;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 80px;
+      right: 16px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 320px;
+    }
+
+    .toast {
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: white;
+      background-color: #333;
+      box-shadow: var(--shadow-lg);
+      animation: slideIn 0.3s ease-out;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.success {
+      background-color: #07a787;
+    }
+
+    .toast.error {
+      background-color: #d93025;
+    }
+
+    .toast.info {
+      background-color: #1a73e8;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Theme & Language Toggle */
+    .toggle-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .toggle-btn {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      color: var(--text-secondary);
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .toggle-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Three Dots Menu (Hidden by default) */
+    .dots-menu {
+      position: absolute;
+      top: 60px;
+      right: 16px;
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      min-width: 180px;
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .dots-menu.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+
+    .dots-menu-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      color: var(--text);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dots-menu-item:hover {
+      background-color: var(--surface-light);
+    }
+
+    .dots-menu-item i {
+      font-size: 1rem;
+      width: 18px;
+      text-align: center;
+    }
+
+    /* Install App Banner (Hidden by default) */
+    .install-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .install-banner.show {
+      display: flex;
+    }
+
+    .install-text {
+      font-size: 0.9rem;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .install-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .btn-sm {
+      padding: 8px 12px;
+      font-size: 0.875rem;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--surface-light);
+    }
+
+    /* Responsive Adjustments */
+    @media (min-width: 768px) {
+      .main-content {
+        margin: 32px auto;
+      }
+      .app-bar {
+        padding: 16px 24px;
+      }
+      .app-title {
+        font-size: 1.25rem;
+      }
+      .app-logo {
+        height: 44px;
+        width: 44px;
+      }
+    }
+
+    /* Hidden 3-dots menu trigger */
+    .dots-trigger {
+      font-size: 1.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo" class="logo">
-            <h1 class="school-name" data-i18n="schoolName">Milli Karwaan Public School Balrampur</h1>
-            <div class="school-details">
-                <div data-i18n="address">Boluha Police Chowki, Balrampur</div>
-                <div>📞 <a href="tel:9758919151" style="color: var(--text-light); text-decoration: none;">9758919151</a></div>
-                <div>📧 <a href="mailto:madamsir066@gmail.com" style="color: var(--text-light); text-decoration: none;">madamsir066@gmail.com</a></div>
-            </div>
-        </header>
+  <div class="app-container">
+    <!-- Top App Bar -->
+    <header class="app-bar">
+      <div class="app-bar-left">
+        <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo" class="app-logo" />
+        <div class="app-title">MKPS Balrampur</div>
+      </div>
+      <div class="app-bar-right">
+        <button id="langToggle" class="icon-button" aria-label="Switch Language">EN</button>
+        <button id="themeToggle" class="icon-button" aria-label="Toggle Theme">🌙</button>
+        <button id="bellBtn" class="icon-button" aria-label="Notifications">🔔</button>
+        <div class="dots-trigger" id="dotsMenuBtn" aria-label="Menu">⋮</div>
+      </div>
+    </header>
 
-        <!-- Controls -->
-        <div class="controls">
-            <button class="control-btn" onclick="toggleTheme()" data-i18n="themeToggle">🌓</button>
-            <button class="control-btn" onclick="toggleLanguage()">
-                <span data-i18n="langToggle">EN/HI</span>
-            </button>
-        </div>
+    <!-- School Info Banner -->
+    <div class="school-info">
+      <div><strong>Milli Karwaan Public School Balrampur</strong></div>
+      <div>Boluha Police Chowki, Balrampur | 
+        <a href="tel:9758919151" class="contact-link">Phone: 9758919151</a> | 
+        <a href="mailto:madamsir066@gmail.com" class="contact-link">Email: madamsir066@gmail.com</a>
+      </div>
+    </div>
 
-        <!-- Manual Login Tabs -->
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="login-card">
+        <!-- Login Tabs -->
         <div class="tabs">
-            <button class="tab active" data-tab="student" data-i18n="studentTab">Student</button>
-            <button class="tab" data-tab="parent" data-i18n="parentTab">Parent</button>
-            <button class="tab" data-tab="teacher" data-i18n="teacherTab">Teacher</button>
+          <div class="tab active" data-tab="student">Student</div>
+          <div class="tab" data-tab="parent">Parent</div>
+          <div class="tab" data-tab="teacher">Teacher</div>
         </div>
 
-        <!-- Student Form -->
-        <div class="form-container" id="student-form">
-            <form onsubmit="handleStudentLogin(event)">
-                <div class="form-group">
-                    <label for="studentName" data-i18n="studentName">Name</label>
-                    <input type="text" id="studentName" required>
-                </div>
-                <div class="form-group">
-                    <label for="parentName" data-i18n="parentName">Parent Name</label>
-                    <input type="text" id="parentName" required>
-                </div>
-                <div class="form-group">
-                    <label for="studentClass" data-i18n="class">Class</label>
-                    <select id="studentClass" required>
-                        <option value="" data-i18n="selectClass">Select Class</option>
-                        <option value="Nursery">Nursery</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn" data-i18n="login">Login</button>
-            </form>
-        </div>
-
-        <!-- Parent Form -->
-        <div class="form-container" id="parent-form" style="display: none;">
-            <form onsubmit="handleParentLogin(event)">
-                <div class="form-group">
-                    <label for="yourName" data-i18n="yourName">Your Name</label>
-                    <input type="text" id="yourName" required>
-                </div>
-                <div class="form-group">
-                    <label for="childName" data-i18n="childName">Child Name</label>
-                    <input type="text" id="childName" required>
-                </div>
-                <div class="form-group">
-                    <label for="childClass" data-i18n="childClass">Child Class</label>
-                    <select id="childClass" required>
-                        <option value="" data-i18n="selectClass">Select Class</option>
-                        <option value="Nursery">Nursery</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
-                <div class="error" id="parent-error" data-i18n="parentError">Your child is not registered</div>
-                <button type="submit" class="btn" data-i18n="login">Login</button>
-            </form>
-        </div>
-
-        <!-- Teacher Form -->
-        <div class="form-container" id="teacher-form" style="display: none;">
-            <form onsubmit="handleTeacherLogin(event)">
-                <div class="form-group">
-                    <label for="teacherName" data-i18n="teacherName">Name</label>
-                    <input type="text" id="teacherName" required>
-                </div>
-                <div class="form-group">
-                    <label for="teacherPassword" data-i18n="password">Password</label>
-                    <input type="password" id="teacherPassword" required>
-                </div>
-                <div class="error" id="teacher-error" data-i18n="teacherError">Invalid password</div>
-                <button type="submit" class="btn" data-i18n="login">Login</button>
-            </form>
-        </div>
-
-        <!-- Google Sign-In -->
-        <div class="form-container">
-            <div id="g_id_onload" 
-                 data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
-                 data-callback="handleGoogleSignIn"
-                 data-auto_prompt="false">
+        <!-- Student Login Form -->
+        <div class="form-container active" id="studentForm">
+          <form id="studentLoginForm">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" id="studentName" required />
+              <div class="error-text" id="studentNameError">Please enter your name</div>
             </div>
-            <div class="g_id_signin" 
-                 data-type="standard" 
-                 data-size="large" 
-                 data-theme="outline" 
-                 data-text="sign_in_with"
-                 data-shape="rectangular"
-                 data-width="100%">
+            <div class="form-group">
+              <label class="form-label">Parent's Name</label>
+              <input type="text" class="form-input" id="parentName" required />
+              <div class="error-text" id="parentNameError">Please enter parent's name</div>
             </div>
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select class="form-select" id="studentClass" required>
+                <option value="">Select Class</option>
+                <option value="Nursery">Nursery</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+              </select>
+              <div class="error-text" id="studentClassError">Please select a class</div>
+            </div>
+            <button type="submit" class="btn">Login as Student</button>
+          </form>
+
+          <button id="googleSignInStudent" class="btn google-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M15.98 33.02c-1.84 0-3.56-.62-4.98-1.69l-7.73 6.02C6.51 39.62 14.62 45 24 45c11.43 0 20.8-7.08 23.02-16.44l-7.98-6.19c-2.52 6.64-9.46 11.17-17.06 11.17z"/>
+              <path fill="#34A853" d="M24 45c-6.48 0-11.91-2.38-15.98-6.44l-7.73 6.02C6.51 39.62 14.62 45 24 45z"/>
+              <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            Sign in with Google
+          </button>
         </div>
+
+        <!-- Parent Login Form -->
+        <div class="form-container" id="parentForm">
+          <form id="parentLoginForm">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" id="parentYourName" required />
+              <div class="error-text" id="parentYourNameError">Please enter your name</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Child's Name</label>
+              <input type="text" class="form-input" id="childName" required />
+              <div class="error-text" id="childNameError">Please enter child's name</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Class</label>
+              <select class="form-select" id="parentClass" required>
+                <option value="">Select Class</option>
+                <option value="Nursery">Nursery</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+              </select>
+              <div class="error-text" id="parentClassError">Please select a class</div>
+            </div>
+            <div class="error-text" id="parentValidationError" style="margin-top: 8px;"></div>
+            <button type="submit" class="btn">Login as Parent</button>
+          </form>
+
+          <button id="googleSignInParent" class="btn google-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M15.98 33.02c-1.84 0-3.56-.62-4.98-1.69l-7.73 6.02C6.51 39.62 14.62 45 24 45c11.43 0 20.8-7.08 23.02-16.44l-7.98-6.19c-2.52 6.64-9.46 11.17-17.06 11.17z"/>
+              <path fill="#34A853" d="M24 45c-6.48 0-11.91-2.38-15.98-6.44l-7.73 6.02C6.51 39.62 14.62 45 24 45z"/>
+              <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            Sign in with Google
+          </button>
+        </div>
+
+        <!-- Teacher Login Form -->
+        <div class="form-container" id="teacherForm">
+          <form id="teacherLoginForm">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" id="teacherName" required />
+              <div class="error-text" id="teacherNameError">Please enter your name</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-input" id="teacherPassword" required />
+              <div class="error-text" id="teacherPasswordError">Incorrect password</div>
+            </div>
+            <button type="submit" class="btn">Login as Teacher</button>
+          </form>
+
+          <button id="googleSignInTeacher" class="btn google-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M15.98 33.02c-1.84 0-3.56-.62-4.98-1.69l-7.73 6.02C6.51 39.62 14.62 45 24 45c11.43 0 20.8-7.08 23.02-16.44l-7.98-6.19c-2.52 6.64-9.46 11.17-17.06 11.17z"/>
+              <path fill="#34A853" d="M24 45c-6.48 0-11.91-2.38-15.98-6.44l-7.73 6.02C6.51 39.62 14.62 45 24 45z"/>
+              <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            Sign in with Google
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Hidden 3-dots Menu -->
+    <div class="dots-menu" id="dotsMenu">
+      <div class="dots-menu-item" data-action="profile">👤 Profile</div>
+      <div class="dots-menu-item" data-action="homework">📝 Homework</div>
+      <div class="dots-menu-item" data-action="timetable">📅 Timetable</div>
+      <div class="dots-menu-item" data-action="messages">💬 Messages</div>
+      <div class="dots-menu-item" data-action="logout">🚪 Logout</div>
     </div>
 
-    <!-- Hidden Menu -->
-    <div class="menu-dots" onclick="toggleMenu()">⋮</div>
-    <div class="hidden-menu" id="hidden-menu">
-        <button class="control-btn" onclick="clearAllData()" data-i18n="clearData">Clear All Data</button>
+    <!-- Install App Banner -->
+    <div class="install-banner" id="installBanner">
+      <div class="install-text">Install Milli Karwaan School App for better experience</div>
+      <div class="install-actions">
+        <button class="btn btn-sm btn-outline" id="installCancel">Not Now</button>
+        <button class="btn btn-sm" id="installAccept">Install</button>
+      </div>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+  </div>
 
-    <script>
-        // Storage Utility
-        const StorageUtil = {
-            namespace: 'mkps_',
-            get(key) {
-                try {
-                    return JSON.parse(localStorage.getItem(this.namespace + key));
-                } catch {
-                    return null;
-                }
-            },
-            set(key, value) {
-                localStorage.setItem(this.namespace + key, JSON.stringify(value));
-            },
-            remove(key) {
-                localStorage.removeItem(this.namespace + key);
-            }
-        };
+  <script>
+    // Storage Utility with namespace
+    const StorageUtil = {
+      prefix: 'mkps_',
+      
+      get(key) {
+        try {
+          const item = localStorage.getItem(this.prefix + key);
+          return item ? JSON.parse(item) : null;
+        } catch (e) {
+          console.warn('Storage get error:', e);
+          return null;
+        }
+      },
+      
+      set(key, value) {
+        try {
+          localStorage.setItem(this.prefix + key, JSON.stringify(value));
+          // Dispatch storage event for cross-tab communication
+          window.dispatchEvent(new StorageEvent('storage', {
+            key: this.prefix + key,
+            newValue: JSON.stringify(value),
+            storageArea: localStorage
+          }));
+        } catch (e) {
+          console.warn('Storage set error:', e);
+        }
+      },
+      
+      remove(key) {
+        try {
+          localStorage.removeItem(this.prefix + key);
+          window.dispatchEvent(new StorageEvent('storage', {
+            key: this.prefix + key,
+            oldValue: localStorage.getItem(this.prefix + key),
+            newValue: null,
+            storageArea: localStorage
+          }));
+        } catch (e) {
+          console.warn('Storage remove error:', e);
+        }
+      }
+    };
 
-        // Event Bus
-        window.addEventListener('storage', (e) => {
-            if (e.key && e.key.startsWith('mkps_')) {
-                // Handle cross-tab sync
-                console.log('Data synced:', e.key);
-            }
+    // i18n Engine
+    const i18n = {
+      lang: 'en',
+      dict: {
+        en: {
+          student: 'Student',
+          parent: 'Parent',
+          teacher: 'Teacher',
+          name: 'Name',
+          parentName: "Parent's Name",
+          yourName: 'Your Name',
+          childName: "Child's Name",
+          class: 'Class',
+          password: 'Password',
+          login: 'Login',
+          signInWithGoogle: 'Sign in with Google',
+          noStudentFound: 'No student found. Please log in as student first.',
+          childNotRegistered: 'Your child is not registered',
+          incorrectPassword: 'Incorrect password',
+          pleaseEnter: 'Please enter',
+          pleaseSelect: 'Please select',
+          success: 'Success',
+          error: 'Error',
+          info: 'Information',
+          theme: 'Theme',
+          language: 'Language',
+          installApp: 'Install App',
+          notNow: 'Not Now',
+          messages: 'Messages',
+          profile: 'Profile',
+          logout: 'Logout'
+        },
+        hi: {
+          student: 'छात्र',
+          parent: 'अभिभावक',
+          teacher: 'शिक्षक',
+          name: 'नाम',
+          parentName: 'अभिभावक का नाम',
+          yourName: 'आपका नाम',
+          childName: 'बच्चे का नाम',
+          class: 'कक्षा',
+          password: 'पासवर्ड',
+          login: 'लॉगिन',
+          signInWithGoogle: 'गूगल के साथ साइन इन करें',
+          noStudentFound: 'कोई छात्र नहीं मिला। कृपया पहले छात्र के रूप में लॉगिन करें।',
+          childNotRegistered: 'आपका बच्चा पंजीकृत नहीं है',
+          incorrectPassword: 'गलत पासवर्ड',
+          pleaseEnter: 'कृपया दर्ज करें',
+          pleaseSelect: 'कृपया चुनें',
+          success: 'सफलता',
+          error: 'त्रुटि',
+          info: 'जानकारी',
+          theme: 'थीम',
+          language: 'भाषा',
+          installApp: 'ऐप स्थापित करें',
+          notNow: 'अभी नहीं',
+          messages: 'संदेश',
+          profile: 'प्रोफ़ाइल',
+          logout: 'लॉग आउट'
+        }
+      },
+      
+      setLang(lang) {
+        if (this.dict[lang]) {
+          this.lang = lang;
+          StorageUtil.set('language', lang);
+          this.updateUI();
+          // Dispatch event for other components
+          window.dispatchEvent(new CustomEvent('languageChange', { detail: lang }));
+        }
+      },
+      
+      t(key) {
+        return this.dict[this.lang]?.[key] || key;
+      },
+      
+      updateUI() {
+        // This would update text content in a real app
+        // For now, we'll just update the toggle button
+        document.getElementById('langToggle').textContent = this.lang === 'en' ? 'EN' : 'हिं';
+      }
+    };
+
+    // Date Utility
+    const DateUtil = {
+      formatDate(date) {
+        const d = new Date(date);
+        return d.toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
         });
+      }
+    };
 
-        // i18n
-        const translations = {
-            en: {
-                schoolName: 'Milli Karwaan Public School Balrampur',
-                address: 'Boluha Police Chowki, Balrampur',
-                themeToggle: '🌓',
-                langToggle: 'EN/HI',
-                studentTab: 'Student',
-                parentTab: 'Parent',
-                teacherTab: 'Teacher',
-                studentName: 'Name',
-                parentName: 'Parent Name',
-                class: 'Class',
-                selectClass: 'Select Class',
-                login: 'Login',
-                yourName: 'Your Name',
-                childName: 'Child Name',
-                childClass: 'Child Class',
-                teacherName: 'Name',
-                password: 'Password',
-                parentError: 'Your child is not registered',
-                teacherError: 'Invalid password',
-                clearData: 'Clear All Data',
-                welcome: 'Welcome',
-                noStudentData: 'No student data found. Please log in as student first.'
-            },
-            hi: {
-                schoolName: 'मिल्ली कारवाँ पब्लिक स्कूल बलरामपुर',
-                address: 'बोलुहा पुलिस चौकी, बलरामपुर',
-                themeToggle: '🌓',
-                langToggle: 'EN/HI',
-                studentTab: 'छात्र',
-                parentTab: 'अभिभावक',
-                teacherTab: 'शिक्षक',
-                studentName: 'नाम',
-                parentName: 'अभिभावक का नाम',
-                class: 'कक्षा',
-                selectClass: 'कक्षा चुनें',
-                login: 'लॉगिन',
-                yourName: 'आपका नाम',
-                childName: 'बच्चे का नाम',
-                childClass: 'बच्चे की कक्षा',
-                teacherName: 'नाम',
-                password: 'पासवर्ड',
-                parentError: 'आपका बच्चा पंजीकृत नहीं है',
-                teacherError: 'गलत पासवर्ड',
-                clearData: 'सभी डेटा हटाएं',
-                welcome: 'स्वागत है',
-                noStudentData: 'कोई छात्र डेटा नहीं मिला। कृपया पहले छात्र के रूप में लॉगिन करें।'
+    // Toast Notification System
+    class Toast {
+      static show(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${message}</span>`;
+        
+        const container = document.getElementById('toastContainer');
+        container.appendChild(toast);
+        
+        // Auto-remove after duration
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => {
+            if (container.contains(toast)) {
+              container.removeChild(toast);
             }
-        };
+          }, 300);
+        }, duration);
+      }
+    }
 
-        let currentLang = StorageUtil.get('lang') || 'en';
+    // App State
+    const AppState = {
+      currentRole: null,
+      currentUser: null,
+      theme: 'light'
+    };
 
-        function t(key) {
-            return translations[currentLang][key] || translations.en[key];
-        }
+    // Initialize App
+    function initApp() {
+      // Check saved theme
+      const savedTheme = StorageUtil.get('theme') || 'light';
+      setTheme(savedTheme);
+      
+      // Check saved language
+      const savedLang = StorageUtil.get('language') || 'en';
+      i18n.setLang(savedLang);
+      
+      // Check install banner preference
+      if (!StorageUtil.get('installBannerDismissed')) {
+        // Show install banner after 3 seconds
+        setTimeout(() => {
+          document.getElementById('installBanner').classList.add('show');
+        }, 3000);
+      }
+      
+      // Setup event listeners
+      setupEventListeners();
+      
+      // Load Google Sign-In SDK if available
+      loadGoogleSignIn();
+    }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'hi' : 'en';
-            StorageUtil.set('lang', currentLang);
-            updateUI();
-        }
-
-        function updateUI() {
-            // Update all data-i18n elements
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    if (el.tagName === 'INPUT' && el.type !== 'submit') {
-                        el.placeholder = t(key);
-                    } else {
-                        el.textContent = t(key);
-                    }
-                }
-            });
-        }
-
-        // Theme
-        function initTheme() {
-            const saved = StorageUtil.get('theme');
-            if (saved) {
-                document.documentElement.setAttribute('data-theme', saved);
-            }
-        }
-
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            StorageUtil.set('theme', newTheme);
-        }
-
-        // Tab switching
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.form-container').forEach(f => f.style.display = 'none');
-            
-            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-            document.getElementById(`${tab}-form`).style.display = 'block';
-        }
-
-        // Toast
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type}`;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Form handlers
-        function handleStudentLogin(e) {
-            e.preventDefault();
-            
-            const student = {
-                name: document.getElementById('studentName').value.trim(),
-                parentName: document.getElementById('parentName').value.trim(),
-                class: document.getElementById('studentClass').value,
-                role: 'student',
-                timestamp: Date.now()
-            };
-
-            // Save student
-            let students = StorageUtil.get('students') || [];
-            students.push(student);
-            StorageUtil.set('students', students);
-
-            // Set current user
-            StorageUtil.set('currentUser', student);
-            
-            showToast(`${t('welcome')}, ${student.name}!`);
-            setTimeout(() => window.location.href = 'dashboard.html', 1000);
-        }
-
-        function handleParentLogin(e) {
-            e.preventDefault();
-            
-            const students = StorageUtil.get('students') || [];
-            if (students.length === 0) {
-                showToast(t('noStudentData'), 'error');
-                return;
-            }
-
-            const yourName = document.getElementById('yourName').value.trim();
-            const childName = document.getElementById('childName').value.trim();
-            const childClass = document.getElementById('childClass').value;
-
-            const matchingStudent = students.find(student => {
-                let matches = 0;
-                if (student.name === childName) matches++;
-                if (student.parentName === yourName) matches++;
-                if (student.class === childClass) matches++;
-                return matches >= 2;
-            });
-
-            if (!matchingStudent) {
-                document.getElementById('parent-error').classList.add('show');
-                return;
-            }
-
-            const parent = {
-                name: yourName,
-                childName: childName,
-                childClass: childClass,
-                role: 'parent',
-                timestamp: Date.now()
-            };
-
-            StorageUtil.set('currentUser', parent);
-            showToast(`${t('welcome')}, ${parent.name}!`);
-            setTimeout(() => window.location.href = 'parent.html', 1000);
-        }
-
-        function handleTeacherLogin(e) {
-            e.preventDefault();
-            
-            const password = document.getElementById('teacherPassword').value;
-            if (password !== 'Abutalha') {
-                document.getElementById('teacher-error').classList.add('show');
-                return;
-            }
-
-            const teacher = {
-                name: document.getElementById('teacherName').value.trim(),
-                role: 'teacher',
-                timestamp: Date.now()
-            };
-
-            StorageUtil.set('currentUser', teacher);
-            showToast(`${t('welcome')}, ${teacher.name}!`);
-            setTimeout(() => window.location.href = 'teacher.html', 1000);
-        }
-
-        // Google Sign-In
-        function handleGoogleSignIn(response) {
-            const credential = response.credential;
-            const payload = JSON.parse(atob(credential.split('.')[1]));
-            
-            const user = {
-                googleId: payload.sub,
-                email: payload.email,
-                name: payload.name,
-                picture: payload.picture,
-                timestamp: Date.now()
-            };
-            
-            // Show role selection
-            const role = prompt('Select your role: student, parent, or teacher');
-            if (!['student', 'parent', 'teacher'].includes(role)) {
-                showToast('Invalid role selected', 'error');
-                return;
-            }
-            
-            user.role = role;
-            
-            if (role === 'student') {
-                user.class = prompt('Enter your class (Nursery-8):');
-                user.parentName = prompt('Enter parent name:');
-            } else if (role === 'parent') {
-                user.childName = prompt('Enter child name:');
-                user.childClass = prompt('Enter child class:');
-            }
-            
-            StorageUtil.set('currentUser', user);
-            showToast(`${t('welcome')}, ${user.name}!`);
-            setTimeout(() => window.location.href = `${role}.html`, 1000);
-        }
-
-        // Menu
-        function toggleMenu() {
-            const menu = document.getElementById('hidden-menu');
-            menu.classList.toggle('show');
-        }
-
-        function clearAllData() {
-            if (confirm('Are you sure you want to clear all data?')) {
-                localStorage.clear();
-                showToast('All data cleared');
-                location.reload();
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            updateUI();
-            
-            // Tab events
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-            });
-            
-            // Hide menu on outside click
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.menu-dots') && !e.target.closest('.hidden-menu')) {
-                    document.getElementById('hidden-menu').classList.remove('show');
-                }
-            });
-            
-            // Clear errors on input
-            document.querySelectorAll('input, select').forEach(input => {
-                input.addEventListener('input', () => {
-                    input.parentElement.querySelector('.error')?.classList.remove('show');
-                });
-            });
+    function setupEventListeners() {
+      // Tab switching
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const role = tab.dataset.tab;
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+          
+          tab.classList.add('active');
+          document.getElementById(`${role}Form`).classList.add('active');
         });
-    </script>
+      });
+
+      // Theme toggle
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const newTheme = AppState.theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+      });
+
+      // Language toggle
+      document.getElementById('langToggle').addEventListener('click', () => {
+        const newLang = i18n.lang === 'en' ? 'hi' : 'en';
+        i18n.setLang(newLang);
+      });
+
+      // Dots menu
+      document.getElementById('dotsMenuBtn').addEventListener('click', () => {
+        const menu = document.getElementById('dotsMenu');
+        menu.classList.toggle('active');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        const menu = document.getElementById('dotsMenu');
+        const btn = document.getElementById('dotsMenuBtn');
+        if (!menu.contains(e.target) && e.target !== btn) {
+          menu.classList.remove('active');
+        }
+      });
+
+      // Menu item actions
+      document.querySelectorAll('.dots-menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const action = item.dataset.action;
+          document.getElementById('dotsMenu').classList.remove('active');
+          
+          if (action === 'logout') {
+            handleLogout();
+          } else {
+            Toast.show(`Feature not implemented: ${action}`);
+          }
+        });
+      });
+
+      // Install banner
+      document.getElementById('installCancel').addEventListener('click', () => {
+        document.getElementById('installBanner').classList.remove('show');
+        StorageUtil.set('installBannerDismissed', true);
+      });
+
+      document.getElementById('installAccept').addEventListener('click', () => {
+        Toast.show('Install functionality would be implemented in PWA version', 'info');
+        document.getElementById('installBanner').classList.remove('show');
+        StorageUtil.set('installBannerDismissed', true);
+      });
+
+      // Form submissions
+      document.getElementById('studentLoginForm').addEventListener('submit', handleStudentLogin);
+      document.getElementById('parentLoginForm').addEventListener('submit', handleParentLogin);
+      document.getElementById('teacherLoginForm').addEventListener('submit', handleTeacherLogin);
+    }
+
+    function setTheme(theme) {
+      AppState.theme = theme;
+      StorageUtil.set('theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+
+    function validateForm(formData, requiredFields) {
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        const element = document.getElementById(field);
+        const errorElement = document.getElementById(`${field}Error`);
+        
+        if (!formData[field] || formData[field].trim() === '') {
+          errorElement.classList.add('show');
+          isValid = false;
+        } else {
+          errorElement.classList.remove('show');
+        }
+      });
+      
+      return isValid;
+    }
+
+    function handleStudentLogin(e) {
+      e.preventDefault();
+      
+      const studentData = {
+        name: document.getElementById('studentName').value.trim(),
+        parentName: document.getElementById('parentName').value.trim(),
+        class: document.getElementById('studentClass').value
+      };
+      
+      const isValid = validateForm(studentData, ['studentName', 'parentName', 'studentClass']);
+      
+      if (isValid) {
+        // Save student data
+        const userData = {
+          role: 'student',
+          ...studentData,
+          loginTime: new Date().toISOString(),
+          id: `student_${Date.now()}`
+        };
+        
+        // Store in students list
+        const students = StorageUtil.get('students') || [];
+        students.push(userData);
+        StorageUtil.set('students', students);
+        
+        // Save current user
+        StorageUtil.set('currentUser', userData);
+        
+        // Redirect
+        window.location.href = 'dashboard.html';
+      }
+    }
+
+    function handleParentLogin(e) {
+      e.preventDefault();
+      
+      const parentData = {
+        yourName: document.getElementById('parentYourName').value.trim(),
+        childName: document.getElementById('childName').value.trim(),
+        class: document.getElementById('parentClass').value
+      };
+      
+      const isValid = validateForm(parentData, ['parentYourName', 'childName', 'parentClass']);
+      
+      if (!isValid) return;
+      
+      // Check if any student exists
+      const students = StorageUtil.get('students') || [];
+      
+      if (students.length === 0) {
+        document.getElementById('parentValidationError').textContent = i18n.t('noStudentFound');
+        document.getElementById('parentValidationError').classList.add('show');
+        return;
+      }
+      
+      // Count matching fields (2 out of 3 must match)
+      let matchCount = 0;
+      let matchedStudent = null;
+      
+      for (const student of students) {
+        matchCount = 0;
+        
+        if (student.name.toLowerCase() === parentData.childName.toLowerCase()) matchCount++;
+        if (student.parentName.toLowerCase() === parentData.yourName.toLowerCase()) matchCount++;
+        if (student.class === parentData.class) matchCount++;
+        
+        if (matchCount >= 2) {
+          matchedStudent = student;
+          break;
+        }
+      }
+      
+      if (matchedStudent) {
+        const userData = {
+          role: 'parent',
+          yourName: parentData.yourName,
+          childName: parentData.childName,
+          class: parentData.class,
+          linkedStudentId: matchedStudent.id,
+          loginTime: new Date().toISOString()
+        };
+        
+        StorageUtil.set('currentUser', userData);
+        window.location.href = 'parent.html';
+      } else {
+        document.getElementById('parentValidationError').textContent = i18n.t('childNotRegistered');
+        document.getElementById('parentValidationError').classList.add('show');
+      }
+    }
+
+    function handleTeacherLogin(e) {
+      e.preventDefault();
+      
+      const teacherData = {
+        name: document.getElementById('teacherName').value.trim(),
+        password: document.getElementById('teacherPassword').value
+      };
+      
+      const isValid = validateForm(teacherData, ['teacherName', 'teacherPassword']);
+      
+      if (!isValid) return;
+      
+      // Validate password
+      if (teacherData.password === 'Abutalha') {
+        const userData = {
+          role: 'teacher',
+          name: teacherData.name,
+          email: null, // Will be set by Google Sign-In
+          loginTime: new Date().toISOString()
+        };
+        
+        StorageUtil.set('currentUser', userData);
+        window.location.href = 'teacher.html';
+      } else {
+        document.getElementById('teacherPasswordError').classList.add('show');
+      }
+    }
+
+    function handleLogout() {
+      StorageUtil.remove('currentUser');
+      Toast.show('Logged out successfully');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+
+    function loadGoogleSignIn() {
+      // Only load if GSI script is not already present
+      if (window.google) return;
+      
+      // Create script element
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = initializeGoogleSignIn;
+      script.onerror = () => {
+        console.warn('Failed to load Google Sign-In SDK');
+        // Disable Google buttons
+        document.querySelectorAll('[id^="googleSignIn"]').forEach(btn => {
+          btn.disabled = true;
+          btn.style.opacity = '0.6';
+        });
+      };
+      
+      document.head.appendChild(script);
+    }
+
+    function initializeGoogleSignIn() {
+      if (!window.google) return;
+      
+      // Render Google Sign-In buttons
+      const clientID = '529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com';
+      
+      // Student Google Sign-In
+      window.google.accounts.id.initialize({
+        client_id: clientID,
+        callback: handleGoogleCredentialResponse
+      });
+      
+      // We'll use the same callback for all roles - it will prompt for role and missing info
+      document.querySelectorAll('[id^="googleSignIn"]').forEach(btn => {
+        const role = btn.id.replace('googleSignIn', '').toLowerCase();
+        window.google.accounts.id.renderButton(document.getElementById(btn.id), {
+          theme: 'outline',
+          size: 'large',
+          text: 'signin_with',
+          shape: 'rectangular',
+          logo_alignment: 'center'
+        });
+        
+        // Store role on button for later use
+        btn.dataset.role = role;
+      });
+    }
+
+    async function handleGoogleCredentialResponse(response) {
+      try {
+        // Decode the credential
+        const payload = decodeJwtResponse(response.credential);
+        
+        const googleUser = {
+          name: payload.name,
+          email: payload.email,
+          imageUrl: payload.picture,
+          googleId: payload.sub
+        };
+        
+        // Prompt for role selection and missing fields
+        const role = prompt('Select your role: student, parent, or teacher');
+        if (!role || !['student', 'parent', 'teacher'].includes(role)) {
+          Toast.show('Invalid role selected', 'error');
+          return;
+        }
+        
+        // Handle role-specific data collection
+        switch (role) {
+          case 'student':
+            await handleGoogleStudentLogin(googleUser);
+            break;
+          case 'parent':
+            await handleGoogleParentLogin(googleUser);
+            break;
+          case 'teacher':
+            await handleGoogleTeacherLogin(googleUser);
+            break;
+        }
+        
+      } catch (error) {
+        console.error('Google Sign-In error:', error);
+        Toast.show('Google Sign-In failed', 'error');
+      }
+    }
+
+    function decodeJwtResponse(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      
+      return JSON.parse(jsonPayload);
+    }
+
+    async function handleGoogleStudentLogin(googleUser) {
+      const name = prompt('Your Name:', googleUser.name) || '';
+      const parentName = prompt('Parent\'s Name:') || '';
+      const classOptions = ['Nursery', '1', '2', '3', '4', '5', '6', '7', '8'];
+      const classSelected = prompt(`Class:\n${classOptions.map((c,i) => `${i+1}. ${c}`).join('\n')}`) || '';
+      
+      const classMap = {
+        '1': 'Nursery', '2': '1', '3': '2', '4': '3', '5': '4', 
+        '6': '5', '7': '6', '8': '7', '9': '8'
+      };
+      
+      const studentClass = classMap[classSelected] || classSelected;
+      
+      if (!name || !parentName || !studentClass) {
+        Toast.show('All fields are required', 'error');
+        return;
+      }
+      
+      const userData = {
+        role: 'student',
+        name,
+        parentName,
+        class: studentClass,
+        email: googleUser.email,
+        imageUrl: googleUser.imageUrl,
+        googleId: googleUser.googleId,
+        loginTime: new Date().toISOString(),
+        id: `student_${Date.now()}`
+      };
+      
+      // Save to students list
+      const students = StorageUtil.get('students') || [];
+      students.push(userData);
+      StorageUtil.set('students', students);
+      
+      StorageUtil.set('currentUser', userData);
+      window.location.href = 'dashboard.html';
+    }
+
+    async function handleGoogleParentLogin(googleUser) {
+      const yourName = prompt('Your Name:', googleUser.name) || '';
+      const childName = prompt('Child\'s Name:') || '';
+      const classOptions = ['Nursery', '1', '2', '3', '4', '5', '6', '7', '8'];
+      const classSelected = prompt(`Class:\n${classOptions.map((c,i) => `${i+1}. ${c}`).join('\n')}`) || '';
+      
+      const classMap = {
+        '1': 'Nursery', '2': '1', '3': '2', '4': '3', '5': '4', 
+        '6': '5', '7': '6', '8': '7', '9': '8'
+      };
+      
+      const parentClass = classMap[classSelected] || classSelected;
+      
+      if (!yourName || !childName || !parentClass) {
+        Toast.show('All fields are required', 'error');
+        return;
+      }
+      
+      // Validate against existing students
+      const students = StorageUtil.get('students') || [];
+      
+      if (students.length === 0) {
+        Toast.show(i18n.t('noStudentFound'), 'error');
+        return;
+      }
+      
+      let matchCount = 0;
+      let matchedStudent = null;
+      
+      for (const student of students) {
+        matchCount = 0;
+        
+        if (student.name.toLowerCase() === childName.toLowerCase()) matchCount++;
+        if (student.parentName.toLowerCase() === yourName.toLowerCase()) matchCount++;
+        if (student.class === parentClass) matchCount++;
+        
+        if (matchCount >= 2) {
+          matchedStudent = student;
+          break;
+        }
+      }
+      
+      if (matchedStudent) {
+        const userData = {
+          role: 'parent',
+          yourName,
+          childName,
+          class: parentClass,
+          linkedStudentId: matchedStudent.id,
+          email: googleUser.email,
+          imageUrl: googleUser.imageUrl,
+          googleId: googleUser.googleId,
+          loginTime: new Date().toISOString()
+        };
+        
+        StorageUtil.set('currentUser', userData);
+        window.location.href = 'parent.html';
+      } else {
+        Toast.show(i18n.t('childNotRegistered'), 'error');
+      }
+    }
+
+    async function handleGoogleTeacherLogin(googleUser) {
+      const name = prompt('Your Name:', googleUser.name) || '';
+      const password = prompt('Password:') || '';
+      
+      if (!name) {
+        Toast.show('Name is required', 'error');
+        return;
+      }
+      
+      if (password !== 'Abutalha') {
+        Toast.show(i18n.t('incorrectPassword'), 'error');
+        return;
+      }
+      
+      const userData = {
+        role: 'teacher',
+        name,
+        email: googleUser.email,
+        imageUrl: googleUser.imageUrl,
+        googleId: googleUser.googleId,
+        loginTime: new Date().toISOString()
+      };
+      
+      StorageUtil.set('currentUser', userData);
+      window.location.href = 'teacher.html';
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initApp);
+
+    // Listen for storage changes (cross-tab sync)
+    window.addEventListener('storage', (event) => {
+      // Handle storage events for cross-tab communication
+      console.log('Storage changed:', event.key, event.newValue);
+    });
+  </script>
 </body>
 </html>
