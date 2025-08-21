@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MKPS Student">
   <title>Student Dashboard | Milli Karwaan Public School</title>
   <link rel="icon" type="image/png" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1LUFMgU3R1ZGVudCBQb3J0YWwiLAogICJzaG9ydF9uYW1lIjogIk1LUFNTIiwKICAidGhlbWVfY29sb3IiOiAiIzBkNmVmZCIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgInN0YXJ0X3VybCI6ICIuLi9pbmRleC5odG1sIiwKICAibWFudWZlc3Rfc3RhbmRhbG9uZSI6IHRydWUsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vaS5wb3N0aW1nLmNjL3J5R3g0OVRCL2VyYXNlYmdfdHJhbnNmb3JtZWQucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmc7IGJhc2U2NCw0SUlRUkFEek1BSUNHUUNJQWdJQkFRRUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnUUFnSUNBcUJnU......" />
   <style>
     /* Reset & Base Styles */
     * {
@@ -12,6 +18,7 @@
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+      -webkit-overflow-scrolling: touch;
     }
 
     :root {
@@ -80,6 +87,7 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+      overscroll-behavior: none;
     }
 
     /* Layout */
@@ -103,6 +111,7 @@
       transition: var(--transition);
       box-shadow: var(--shadow-md);
       overflow-y: auto;
+      transform: translateZ(0);
     }
 
     .sidebar.open {
@@ -137,6 +146,7 @@
       cursor: pointer;
       transition: var(--transition);
       color: var(--text-secondary);
+      position: relative;
     }
 
     .sidebar-item:hover {
@@ -154,6 +164,23 @@
       font-size: 1.2rem;
     }
 
+    .sidebar-item::after {
+      content: '';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: transparent;
+      transition: var(--transition);
+    }
+
+    .sidebar-item.unread::after {
+      background: var(--danger);
+    }
+
     /* Header */
     header {
       height: var(--header-height);
@@ -167,6 +194,7 @@
       align-items: center;
       padding: 0 1rem;
       justify-content: space-between;
+      touch-action: manipulation;
     }
 
     .header-left {
@@ -261,6 +289,8 @@
       flex: 1;
       margin-left: 0;
       transition: margin-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
     }
 
     main.sidebar-open {
@@ -269,11 +299,25 @@
 
     .welcome-section {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       padding: 1.5rem;
       background: linear-gradient(135deg, var(--accent-light) 0%, var(--bg-tertiary) 100%);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: rotate(30deg);
+      pointer-events: none;
     }
 
     .welcome-title {
@@ -281,6 +325,8 @@
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: var(--accent-dark);
+      position: relative;
+      z-index: 1;
     }
 
     [data-theme="dark"] .welcome-title {
@@ -289,25 +335,33 @@
 
     .welcome-subtitle {
       color: var(--text-secondary);
-      font-size: 1rem;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
     }
 
     .quick-stats {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
       overflow-x: auto;
       padding-bottom: 0.5rem;
-      scrollbar-width: thin;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .quick-stats::-webkit-scrollbar {
+      display: none;
     }
 
     .stat-card {
-      min-width: 180px;
+      min-width: 140px;
       background: var(--bg-secondary);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       padding: 1rem;
       border: 1px solid var(--border);
+      flex: 1;
     }
 
     .stat-value {
@@ -325,8 +379,8 @@
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     /* Cards */
@@ -338,10 +392,11 @@
       transition: var(--transition);
       border: 1px solid var(--border);
       position: relative;
+      touch-action: manipulation;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
     }
 
@@ -404,6 +459,7 @@
     .timetable {
       width: 100%;
       border-collapse: collapse;
+      font-size: 0.95rem;
     }
 
     .timetable th {
@@ -418,7 +474,6 @@
     .timetable td {
       padding: 0.7rem 0.5rem;
       border-bottom: 1px solid var(--border-light);
-      font-size: 0.95rem;
     }
 
     .subject {
@@ -669,6 +724,7 @@
 
     .message-unread {
       background: var(--accent-light);
+      font-weight: 500;
     }
 
     /* AI Assistant */
@@ -689,6 +745,19 @@
       font-size: 1.2rem;
       margin: 0 auto 1rem;
       box-shadow: var(--shadow);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+      }
     }
 
     .ai-message {
@@ -699,6 +768,24 @@
       font-size: 0.95rem;
       margin-bottom: 1rem;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-message::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
     [data-theme="dark"] .ai-message {
@@ -994,6 +1081,7 @@
       opacity: 0;
       visibility: hidden;
       transition: var(--transition);
+      touch-action: manipulation;
     }
 
     .modal.open {
@@ -1010,6 +1098,7 @@
       overflow-y: auto;
       box-shadow: var(--shadow-xl);
       border: 1px solid var(--border);
+      touch-action: auto;
     }
 
     .modal-header {
@@ -1112,6 +1201,7 @@
       transform: translateX(120%);
       transition: transform 0.4s ease;
       border-left: 4px solid var(--accent);
+      touch-action: manipulation;
     }
 
     .toast.show {
@@ -1134,8 +1224,15 @@
     .filters {
       display: flex;
       gap: 0.8rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
       flex-wrap: wrap;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
     }
 
     .filter-btn {
@@ -1176,6 +1273,7 @@
       z-index: 100;
       border: 1px solid var(--border);
       animation: slideUp 0.5s ease;
+      touch-action: manipulation;
     }
 
     .pwa-prompt.hidden {
@@ -1193,6 +1291,40 @@
       }
     }
 
+    /* Swipe gestures */
+    .swipe-left, .swipe-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .swipe-left {
+      left: 10px;
+    }
+
+    .swipe-right {
+      right: 10px;
+    }
+
+    main:hover .swipe-left, main:hover .swipe-right {
+      opacity: 0.5;
+    }
+
+    main:active .swipe-left, main:active .swipe-right {
+      opacity: 1;
+    }
+
     /* Responsive */
     @media (max-width: 992px) {
       :root {
@@ -1207,6 +1339,7 @@
     @media (max-width: 768px) {
       :root {
         --sidebar-width: 100%;
+        --header-height: 56px;
       }
       
       .dashboard-grid {
@@ -1273,17 +1406,24 @@
       }
       
       .stat-card {
-        min-width: 140px;
+        min-width: 120px;
       }
       
       .stat-value {
         font-size: 1.5rem;
       }
-    }
-
-    @media (max-width: 480px) {
-      .header-actions {
-        gap: 0.5rem;
+      
+      header {
+        height: var(--header-height);
+      }
+      
+      .logo {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .school-title {
+        font-size: 1rem;
       }
       
       .notification-btn, .profile-btn, .theme-toggle {
@@ -1296,13 +1436,49 @@
         height: 36px;
       }
       
+      .card-header {
+        padding: 1rem 1.2rem;
+      }
+      
+      .card-title {
+        font-size: 1rem;
+      }
+      
+      .card-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+      }
+      
+      .bottom-nav {
+        height: 56px;
+      }
+      
+      .nav-item {
+        padding: 0.6rem 0;
+      }
+      
+      .nav-item i {
+        font-size: 1.1rem;
+      }
+      
+      .nav-item span {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-actions {
+        gap: 0.5rem;
+      }
+      
       .quick-stats {
         gap: 0.3rem;
       }
       
       .stat-card {
-        min-width: 120px;
-        padding: 0.8rem;
+        min-width: 100px;
+        padding: 0.7rem;
       }
       
       .stat-value {
@@ -1310,17 +1486,99 @@
       }
       
       .stat-label {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
       }
       
       .filters {
-        gap: 0.5rem;
+        gap: 0.4rem;
       }
       
       .filter-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+      }
+      
+      .welcome-section {
+        margin-bottom: 1rem;
+      }
+      
+      main {
+        padding: 1rem 0;
+      }
+      
+      .container {
+        padding: 0 0.8rem;
+      }
+      
+      .dashboard-grid {
+        gap: 1rem;
+      }
+      
+      .card-body {
+        padding: 1rem;
+      }
+      
+      .upload-area {
+        padding: 1.2rem;
+      }
+      
+      .upload-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .pwa-prompt {
+        bottom: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .pwa-prompt div {
+        font-size: 0.9rem;
+      }
+      
+      .pwa-prompt button {
         padding: 0.4rem 0.8rem;
         font-size: 0.8rem;
       }
+      
+      .toast {
+        top: 10px;
+        right: 10px;
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .modal-content {
+        width: 95%;
+        margin: 0 0.5rem;
+      }
+      
+      .modal-header, .modal-body, .modal-footer {
+        padding: 1rem;
+      }
+      
+      .modal-title {
+        font-size: 1.1rem;
+      }
+      
+      .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Touch feedback */
+    .btn:active, .card:active, .nav-item:active, .sidebar-item:active, .homework-item:active, .message:active, .filter-btn:active {
+      opacity: 0.7;
+      transform: scale(0.98);
+    }
+
+    /* Prevent zoom on focus */
+    input:focus, textarea:focus, select:focus {
+      font-size: 16px;
     }
   </style>
 </head>
@@ -1347,6 +1605,14 @@
       <div class="sidebar-item">
         <i>📊</i>
         <span>Progress</span>
+      </div>
+      <div class="sidebar-item">
+        <i>✅</i>
+        <span>Attendance</span>
+      </div>
+      <div class="sidebar-item">
+        <i>📖</i>
+        <span>Resources</span>
       </div>
       <div class="sidebar-item">
         <i>👤</i>
@@ -1377,7 +1643,7 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="theme-toggle" id="theme-toggle">🌓</button>
+      <button class="theme-toggle" id="theme-toggle">🌙</button>
       <button class="notification-btn" id="notification-btn">
         <i>🔔</i>
         <div class="notification-badge">3</div>
@@ -2204,6 +2470,9 @@
 
       // Initialize filters
       initFilters();
+
+      // Initialize swipe gestures
+      initSwipeGestures();
     }
 
     function updateTimetable(classLevel) {
@@ -2531,6 +2800,35 @@
       
       const themeToggle = document.getElementById('theme-toggle');
       themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function initSwipeGestures() {
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      document.querySelector('main').addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      
+      document.querySelector('main').addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }, { passive: true });
+      
+      function handleSwipeGesture() {
+        const minSwipeDistance = 50;
+        if (touchStartX - touchEndX > minSwipeDistance) {
+          // Swipe left - open sidebar
+          document.querySelector('.sidebar').classList.add('open');
+          document.querySelector('main').classList.add('sidebar-open');
+        }
+        
+        if (touchEndX - touchStartX > minSwipeDistance) {
+          // Swipe right - close sidebar
+          document.querySelector('.sidebar').classList.remove('open');
+          document.querySelector('main').classList.remove('sidebar-open');
+        }
+      }
     }
 
     function setupEventListeners() {
@@ -2867,6 +3165,18 @@
         main.classList.remove('sidebar-open');
       }
     });
+
+    // Prevent default behavior for touch events to improve performance
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // Disable pull-to-refresh
+    document.body.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, { passive: false });
   </script>
 </body>
 </html>
