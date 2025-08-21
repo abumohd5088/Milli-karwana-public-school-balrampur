@@ -5,26 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Milli Karwaan Public School Balrampur</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
     <style>
         :root {
             --primary: #1a5fb4;
             --primary-dark: #144aad;
+            --primary-light: #e3f2fd;
             --secondary: #009688;
+            --secondary-dark: #00796b;
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
             --light-gray: #e9ecef;
-            --border-radius: 12px;
-            --shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            --transition: all 0.3s ease;
+            --danger: #d32f2f;
+            --success: #2e7d32;
+            --border-radius: 16px;
+            --shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease;
+            --elevation-1: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --elevation-2: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         }
 
         body {
@@ -35,126 +42,222 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background-attachment: fixed;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             overflow: hidden;
             position: relative;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .container:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
         }
 
         .school-header {
-            background: var(--primary);
+            background: linear-gradient(120deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 20px;
+            padding: 30px 25px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .school-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://i.postimg.cc/ryGx49TB/erasebg-transformed.png') no-repeat center;
+            background-size: 25%;
+            opacity: 0.1;
+            z-index: 1;
         }
 
         .school-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
             border-radius: 50%;
             object-fit: contain;
             background: white;
-            padding: 8px;
+            padding: 10px;
+            box-shadow: var(--elevation-2);
+            position: relative;
+            z-index: 2;
+            border: 3px solid rgba(255, 255, 255, 0.3);
         }
 
         .school-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
             line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
         }
 
         .school-address,
         .school-contact {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            opacity: 0.95;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-contact {
+            margin-top: 4px;
         }
 
         .role-tabs {
             display: flex;
             background: var(--light);
             border-bottom: 1px solid var(--light-gray);
+            position: relative;
+            z-index: 3;
         }
 
         .role-tab {
             flex: 1;
-            padding: 15px;
+            padding: 18px 15px;
             text-align: center;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition);
             color: var(--gray);
             border-bottom: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
         }
 
         .role-tab.active {
             color: var(--primary);
-            border-bottom: 3px solid var(--primary);
+            font-weight: 700;
+        }
+
+        .role-tab.active::after {
+            width: 100%;
+        }
+
+        .role-tab:hover:not(.active) {
+            color: var(--primary);
             background: rgba(26, 95, 180, 0.05);
         }
 
         .form-container {
-            padding: 25px;
+            padding: 35px 30px;
         }
 
         .form-section {
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
         }
 
         .form-section.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.5s ease forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 22px;
+            position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
             color: var(--dark);
             font-weight: 500;
+            transition: var(--transition-fast);
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 1rem;
             transition: var(--transition);
+            background: white;
+            color: var(--dark);
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2);
+            box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder,
+        .form-group select::placeholder {
+            color: #aaa;
+            opacity: 1;
         }
 
         .google-signin-container {
-            margin: 20px 0;
+            margin: 25px 0 30px;
             text-align: center;
-            padding: 15px 0;
+            padding: 20px 0;
             border-top: 1px solid var(--light-gray);
             border-bottom: 1px solid var(--light-gray);
+            background: var(--primary-light);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .google-signin-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+            pointer-events: none;
         }
 
         .g_id_signin {
@@ -164,46 +267,100 @@
 
         .g_id_signin > div {
             width: 100% !important;
-            max-width: 300px !important;
+            max-width: 320px !important;
+            box-shadow: var(--elevation-1) !important;
+            border-radius: 8px !important;
+            overflow: hidden;
         }
 
         .submit-btn {
-            background: var(--primary);
+            background: linear-gradient(120deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            padding: 14px 20px;
+            padding: 16px 24px;
             width: 100%;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
             margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--elevation-2);
         }
 
         .submit-btn:hover {
-            background: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            background: linear-gradient(120deg, var(--primary-dark), #10458a);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
         }
 
         .submit-btn:disabled {
             background: var(--light-gray);
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 100%;
+            transform: scale(1) translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .submit-btn:focus:not(:active)::after {
+            transform: scale(0) translate(-50%, -50%);
+            opacity: 0;
+        }
+
+        .submit-btn:active::after {
+            transform: scale(100) translate(-50%, -50%);
+            opacity: 0;
         }
 
         .error-message {
-            color: #d32f2f;
+            color: var(--danger);
             font-size: 0.85rem;
             margin-top: 6px;
             display: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .error-message::before {
+            content: '⚠️';
+            font-size: 0.9em;
         }
 
         .success-message {
-            color: #2e7d32;
+            color: var(--success);
             font-size: 0.85rem;
             margin-top: 6px;
             display: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .success-message::before {
+            content: '✓';
+            font-size: 0.9em;
         }
 
         .hidden {
@@ -212,11 +369,12 @@
 
         .footer {
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             background: var(--light);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--gray);
             border-top: 1px solid var(--light-gray);
+            font-weight: 500;
         }
 
         .loader {
@@ -224,10 +382,14 @@
             border: 3px solid #f3f3f3;
             border-top: 3px solid var(--primary);
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             animation: spin 1s linear infinite;
             margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         @keyframes spin {
@@ -235,12 +397,57 @@
             100% { transform: rotate(360deg); }
         }
 
+        .input-success {
+            border-color: var(--success) !important;
+        }
+
+        .input-error {
+            border-color: var(--danger) !important;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--dark);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
         @media (max-width: 480px) {
             .container {
                 border-radius: 0;
+                margin: 0;
+                max-width: 100%;
             }
             .form-container {
-                padding: 20px;
+                padding: 25px 20px;
+            }
+            .school-header {
+                padding: 25px 20px;
+            }
+            .school-name {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .school-name {
+                font-size: 1.2rem;
+            }
+            .school-logo {
+                width: 80px;
+                height: 80px;
             }
         }
     </style>
@@ -294,8 +501,10 @@
                     </select>
                     <div class="error-message" id="studentClassError">Please select your class</div>
                 </div>
-                <button type="button" class="submit-btn" id="studentSubmit">Continue to Dashboard</button>
-                <div class="loader" id="studentLoader"></div>
+                <button type="button" class="submit-btn" id="studentSubmit">
+                    <span id="studentSubmitText">Continue to Dashboard</span>
+                    <div class="loader" id="studentLoader"></div>
+                </button>
             </div>
 
             <!-- Parent Form -->
@@ -331,8 +540,10 @@
                     </select>
                     <div class="error-message" id="parentClassError">Please select child's class</div>
                 </div>
-                <button type="button" class="submit-btn" id="parentSubmit">Access Parent Portal</button>
-                <div class="loader" id="parentLoader"></div>
+                <button type="button" class="submit-btn" id="parentSubmit">
+                    <span id="parentSubmitText">Access Parent Portal</span>
+                    <div class="loader" id="parentLoader"></div>
+                </button>
             </div>
 
             <!-- Teacher Form -->
@@ -350,8 +561,10 @@
                     <input type="password" id="teacherPassword" placeholder="Enter password" required />
                     <div class="error-message" id="teacherPasswordError">Please enter password</div>
                 </div>
-                <button type="button" class="submit-btn" id="teacherSubmit">Access Teacher Portal</button>
-                <div class="loader" id="teacherLoader"></div>
+                <button type="button" class="submit-btn" id="teacherSubmit">
+                    <span id="teacherSubmitText">Access Teacher Portal</span>
+                    <div class="loader" id="teacherLoader"></div>
+                </button>
             </div>
         </div>
 
@@ -360,11 +573,13 @@
         </div>
     </div>
 
+    <div class="toast" id="toast"></div>
+
     <script>
         // Set current year
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Role tab switching
+        // Role tab switching with smooth animation
         const roleTabs = document.querySelectorAll('.role-tab');
         const formSections = document.querySelectorAll('.form-section');
 
@@ -372,40 +587,62 @@
             tab.addEventListener('click', () => {
                 const role = tab.getAttribute('data-role');
                 
+                // Remove active class from all tabs and forms
                 roleTabs.forEach(t => t.classList.remove('active'));
-                formSections.forEach(f => f.classList.remove('active'));
+                formSections.forEach(f => {
+                    f.classList.remove('active');
+                    f.style.display = 'none';
+                });
                 
-                tab.classList.add('active');
-                document.getElementById(`${role}-form`).classList.add('active');
+                // Add active class with delay for smooth transition
+                setTimeout(() => {
+                    tab.classList.add('active');
+                    const activeForm = document.getElementById(`${role}-form`);
+                    activeForm.style.display = 'block';
+                    setTimeout(() => {
+                        activeForm.classList.add('active');
+                    }, 50);
+                }, 200);
             });
         });
 
-        // Form validation functions
+        // Form validation functions with real-time feedback
         function validateStudentForm() {
             let isValid = true;
             const name = document.getElementById('studentName').value.trim();
             const parent = document.getElementById('parentName').value.trim();
             const cls = document.getElementById('studentClass').value;
 
+            // Reset styles
+            document.getElementById('studentName').classList.remove('input-error', 'input-success');
+            document.getElementById('parentName').classList.remove('input-error', 'input-success');
+            document.getElementById('studentClass').classList.remove('input-error', 'input-success');
+
             if (!name) {
                 document.getElementById('studentNameError').style.display = 'block';
+                document.getElementById('studentName').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('studentNameError').style.display = 'none';
+                document.getElementById('studentName').classList.add('input-success');
             }
 
             if (!parent) {
                 document.getElementById('parentNameError').style.display = 'block';
+                document.getElementById('parentName').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('parentNameError').style.display = 'none';
+                document.getElementById('parentName').classList.add('input-success');
             }
 
             if (!cls) {
                 document.getElementById('studentClassError').style.display = 'block';
+                document.getElementById('studentClass').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('studentClassError').style.display = 'none';
+                document.getElementById('studentClass').classList.add('input-success');
             }
 
             return isValid;
@@ -417,25 +654,36 @@
             const childName = document.getElementById('childName').value.trim();
             const cls = document.getElementById('parentClass').value;
 
+            // Reset styles
+            document.getElementById('yourName').classList.remove('input-error', 'input-success');
+            document.getElementById('childName').classList.remove('input-error', 'input-success');
+            document.getElementById('parentClass').classList.remove('input-error', 'input-success');
+
             if (!yourName) {
                 document.getElementById('yourNameError').style.display = 'block';
+                document.getElementById('yourName').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('yourNameError').style.display = 'none';
+                document.getElementById('yourName').classList.add('input-success');
             }
 
             if (!childName) {
                 document.getElementById('childNameError').style.display = 'block';
+                document.getElementById('childName').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('childNameError').style.display = 'none';
+                document.getElementById('childName').classList.add('input-success');
             }
 
             if (!cls) {
                 document.getElementById('parentClassError').style.display = 'block';
+                document.getElementById('parentClass').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('parentClassError').style.display = 'none';
+                document.getElementById('parentClass').classList.add('input-success');
             }
 
             return isValid;
@@ -446,48 +694,106 @@
             const name = document.getElementById('teacherName').value.trim();
             const password = document.getElementById('teacherPassword').value;
 
+            // Reset styles
+            document.getElementById('teacherName').classList.remove('input-error', 'input-success');
+            document.getElementById('teacherPassword').classList.remove('input-error', 'input-success');
+
             if (!name) {
                 document.getElementById('teacherNameError').style.display = 'block';
+                document.getElementById('teacherName').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('teacherNameError').style.display = 'none';
+                document.getElementById('teacherName').classList.add('input-success');
             }
 
             if (!password) {
                 document.getElementById('teacherPasswordError').style.display = 'block';
+                document.getElementById('teacherPassword').classList.add('input-error');
                 isValid = false;
             } else {
                 document.getElementById('teacherPasswordError').style.display = 'none';
+                document.getElementById('teacherPassword').classList.add('input-success');
             }
 
             return isValid;
         }
 
-        // Google Sign-In initialization
+        // Show toast notification
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.backgroundColor = isError ? var(--danger) : '#333';
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Google Sign-In initialization with enhanced styling
         function initializeGoogleSignIn() {
             try {
-                // Student Google Sign-In
                 if (window.google && google.accounts) {
                     google.accounts.id.initialize({
                         client_id: "529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com",
-                        callback: handleGoogleSignIn
+                        callback: handleGoogleSignIn,
+                        auto_select: false,
+                        cancel_on_tap_outside: true
                     });
 
-                    google.accounts.id.renderButton(
-                        document.getElementById("google-signin-button-student"),
-                        { theme: "filled_blue", size: "large", text: "signin_with", shape: "rectangular", width: 300 }
-                    );
-
-                    // Clone for parent and teacher
-                    const parentBtn = document.getElementById("google-signin-button-parent");
-                    const teacherBtn = document.getElementById("google-signin-button-teacher");
-                    
-                    parentBtn.appendChild(document.getElementById("google-signin-button-student").firstChild.cloneNode(true));
-                    teacherBtn.appendChild(document.getElementById("google-signin-button-student").firstChild.cloneNode(true));
+                    // Create buttons with custom styling
+                    createGoogleButton('google-signin-button-student', 'Continue with Google');
+                    createGoogleButton('google-signin-button-parent', 'Continue with Google');
+                    createGoogleButton('google-signin-button-teacher', 'Continue with Google');
                 }
             } catch (error) {
                 console.error("Google Sign-In initialization failed:", error);
+                showToast("Authentication service temporarily unavailable", true);
             }
+        }
+
+        function createGoogleButton(containerId, text) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            // Clear existing content
+            container.innerHTML = '';
+
+            // Create custom Google button
+            const button = document.createElement('div');
+            button.innerHTML = `
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: white;
+                    border: 1px solid #dadce0;
+                    border-radius: 8px;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                    width: 100%;
+                    max-width: 320px;
+                ">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/20px-Google_%22G%22_Logo.svg.png" 
+                         alt="Google" 
+                         style="margin-right: 12px;">
+                    <span style="
+                        color: #3c4043;
+                        font-size: 15px;
+                        font-weight: 500;
+                    ">${text}</span>
+                </div>
+            `;
+            
+            container.appendChild(button);
+            
+            // Add event listener
+            button.addEventListener('click', () => {
+                google.accounts.id.prompt();
+            });
         }
 
         // Handle Google Sign-In response
@@ -502,20 +808,29 @@
                     googleId: payload.sub,
                     email: payload.email,
                     name: payload.name,
-                    picture: payload.picture
+                    picture: payload.picture,
+                    verified: payload.email_verified
                 };
 
-                // Auto-fill name fields based on role
-                if (activeRole === 'student') {
-                    document.getElementById('studentName').value = payload.name;
-                } else if (activeRole === 'parent') {
-                    document.getElementById('yourName').value = payload.name;
-                } else if (activeRole === 'teacher') {
-                    document.getElementById('teacherName').value = payload.name;
+                // Auto-fill name fields based on role with animation
+                const nameField = {
+                    'student': document.getElementById('studentName'),
+                    'parent': document.getElementById('yourName'),
+                    'teacher': document.getElementById('teacherName')
+                }[activeRole];
+
+                if (nameField && !nameField.value) {
+                    nameField.value = payload.name;
+                    // Trigger input event for validation
+                    nameField.dispatchEvent(new Event('input'));
                 }
 
+                // Show success feedback
+                showToast(`Signed in as ${payload.name}`);
+                
             } catch (error) {
                 console.error("Error handling Google sign-in:", error);
+                showToast("Authentication failed. Please try again.", true);
             }
         }
 
@@ -529,59 +844,141 @@
             return JSON.parse(jsonPayload);
         }
 
-        // Submit handlers
+        // Real-time validation as user types
+        document.getElementById('studentName').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('studentNameError').style.display = 'none';
+            }
+        });
+
+        document.getElementById('parentName').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('parentNameError').style.display = 'none';
+            }
+        });
+
+        document.getElementById('studentClass').addEventListener('change', function() {
+            if (this.value) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('studentClassError').style.display = 'none';
+            }
+        });
+
+        // Similar event listeners for parent form
+        document.getElementById('yourName').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('yourNameError').style.display = 'none';
+            }
+        });
+
+        document.getElementById('childName').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('childNameError').style.display = 'none';
+            }
+        });
+
+        document.getElementById('parentClass').addEventListener('change', function() {
+            if (this.value) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('parentClassError').style.display = 'none';
+            }
+        });
+
+        // Teacher form real-time validation
+        document.getElementById('teacherName').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('teacherNameError').style.display = 'none';
+            }
+        });
+
+        document.getElementById('teacherPassword').addEventListener('input', function() {
+            if (this.value) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+                document.getElementById('teacherPasswordError').style.display = 'none';
+            }
+        });
+
+        // Submit handlers with enhanced UX
         document.getElementById('studentSubmit').addEventListener('click', async () => {
-            if (!validateStudentForm()) return;
+            if (!validateStudentForm()) {
+                showToast("Please fill all required fields", true);
+                return;
+            }
 
             const submitBtn = document.getElementById('studentSubmit');
+            const submitText = document.getElementById('studentSubmitText');
             const loader = document.getElementById('studentLoader');
             
             submitBtn.disabled = true;
+            submitText.style.display = 'none';
             loader.style.display = 'block';
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Simulate API call with realistic timing
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
             // Store student data
             window.currentUser = {
                 ...window.currentUser,
                 role: 'student',
-                name: document.getElementById('studentName').value,
-                parentName: document.getElementById('parentName').value,
-                class: document.getElementById('studentClass').value
+                name: document.getElementById('studentName').value.trim(),
+                parentName: document.getElementById('parentName').value.trim(),
+                class: document.getElementById('studentClass').value,
+                loginTime: new Date().toISOString()
             };
 
-            // Redirect to dashboard
-            alert("Welcome to Milli Karwaan Public School Dashboard!");
-            // In real app: window.location.href = 'dashboard.html';
+            // Success feedback
+            showToast("Welcome to Milli Karwaan Public School!");
             
+            // In real app: window.location.href = 'dashboard.html';
             submitBtn.disabled = false;
+            submitText.style.display = 'block';
             loader.style.display = 'none';
         });
 
         document.getElementById('parentSubmit').addEventListener('click', async () => {
-            if (!validateParentForm()) return;
+            if (!validateParentForm()) {
+                showToast("Please fill all required fields", true);
+                return;
+            }
 
             const submitBtn = document.getElementById('parentSubmit');
+            const submitText = document.getElementById('parentSubmitText');
             const loader = document.getElementById('parentLoader');
             
             submitBtn.disabled = true;
+            submitText.style.display = 'none';
             loader.style.display = 'block';
 
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
             // In a real app, this would check against a database
-            // For demo, we'll simulate a match
-            const childName = document.getElementById('childName').value.toLowerCase();
+            // For demo, we'll simulate a match with more realistic data
+            const childName = document.getElementById('childName').value.trim().toLowerCase();
             const className = document.getElementById('parentClass').value;
-            const parentName = document.getElementById('yourName').value.toLowerCase();
+            const parentName = document.getElementById('yourName').value.trim().toLowerCase();
             
             // Simulated registered students (in real app, this would be from database)
             const registeredStudents = [
                 { name: 'abu talha', parent: 'siraj', class: 'Class 1' },
                 { name: 'maryam khan', parent: 'farida khan', class: 'Class 2' },
-                { name: 'aisha malik', parent: 'sana malik', class: 'Class 3' }
+                { name: 'aisha malik', parent: 'sana malik', class: 'Class 3' },
+                { name: 'ahmed raza', parent: 'imran raza', class: 'Class 4' },
+                { name: 'zainab fatima', parent: 'sadia fatima', class: 'Class 5' },
+                { name: 'hassan ali', parent: 'waseem ali', class: 'Class 6' }
             ];
 
             // Check if at least 2 out of 3 fields match
@@ -605,67 +1002,119 @@
                 window.currentUser = {
                     ...window.currentUser,
                     role: 'parent',
-                    yourName: document.getElementById('yourName').value,
-                    childName: document.getElementById('childName').value,
-                    class: document.getElementById('parentClass').value
+                    yourName: document.getElementById('yourName').value.trim(),
+                    childName: document.getElementById('childName').value.trim(),
+                    class: document.getElementById('parentClass').value,
+                    childId: matchedStudent.name.toLowerCase().replace(/\s+/g, '-'),
+                    loginTime: new Date().toISOString()
                 };
 
-                alert("Welcome to Parent Portal!");
+                showToast("Welcome to Parent Portal!");
                 // In real app: window.location.href = 'parent.html';
             } else {
-                alert("Your child is not registered with our school. Please contact administration.");
+                showToast("Your child is not registered with our school. Please contact administration.", true);
             }
 
             submitBtn.disabled = false;
+            submitText.style.display = 'block';
             loader.style.display = 'none';
         });
 
         document.getElementById('teacherSubmit').addEventListener('click', async () => {
-            if (!validateTeacherForm()) return;
+            if (!validateTeacherForm()) {
+                showToast("Please fill all required fields", true);
+                return;
+            }
 
             const submitBtn = document.getElementById('teacherSubmit');
+            const submitText = document.getElementById('teacherSubmitText');
             const loader = document.getElementById('teacherLoader');
             
             submitBtn.disabled = true;
+            submitText.style.display = 'none';
             loader.style.display = 'block';
 
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
-            const name = document.getElementById('teacherName').value;
+            const name = document.getElementById('teacherName').value.trim();
             const password = document.getElementById('teacherPassword').value;
 
-            // Check credentials (in real app, this would be secure server-side check)
-            if ((name.toLowerCase() === 'abutalha' || name.toLowerCase() === 'abu talha') && 
-                password === 'Abutalha') {
+            // Enhanced credential checking with more flexibility
+            const validNames = ['abutalha', 'abu talha', 'sir abutalha', 'mr abutalha'];
+            const validPassword = 'Abutalha';
+
+            if (validNames.some(n => name.toLowerCase().includes(n)) && password === validPassword) {
                 
                 // Store teacher data
                 window.currentUser = {
                     ...window.currentUser,
                     role: 'teacher',
                     name: name,
-                    authenticated: true
+                    authenticated: true,
+                    permissions: ['manage_students', 'assign_homework', 'manage_fees', 'send_notifications', 'view_reports'],
+                    loginTime: new Date().toISOString()
                 };
 
-                alert("Welcome to Teacher Portal!");
+                showToast("Welcome to Teacher Portal!");
                 // In real app: window.location.href = 'teacher.html';
             } else {
-                alert("Invalid credentials. Please try again.");
+                showToast("Invalid credentials. Please check your name and password.", true);
             }
 
             submitBtn.disabled = false;
+            submitText.style.display = 'block';
             loader.style.display = 'none';
         });
 
         // Initialize Google Sign-In when script loads
         window.onload = function() {
-            initializeGoogleSignIn();
+            // Add smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Initialize Google Sign-In
+            if (window.google) {
+                initializeGoogleSignIn();
+            } else {
+                // Handle case where Google script hasn't loaded
+                setTimeout(() => {
+                    if (window.google) {
+                        initializeGoogleSignIn();
+                    }
+                }, 1000);
+            }
+
+            // Add animation to form when page loads
+            document.querySelector('.form-section.active').style.opacity = '0';
+            document.querySelector('.form-section.active').style.transform = 'translateY(30px)';
+            setTimeout(() => {
+                document.querySelector('.form-section.active').style.opacity = '1';
+                document.querySelector('.form-section.active').style.transform = 'translateY(0)';
+            }, 100);
         };
 
         // Handle page visibility for Google API
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && (!window.google || !google.accounts)) {
                 initializeGoogleSignIn();
+            }
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const activeRole = document.querySelector('.role-tab.active').getAttribute('data-role');
+                const submitBtn = document.getElementById(`${activeRole}Submit`);
+                if (submitBtn && !submitBtn.disabled) {
+                    submitBtn.click();
+                }
             }
         });
     </script>
