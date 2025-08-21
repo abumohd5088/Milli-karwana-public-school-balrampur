@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Milli Karwaan Public School Balrampur - Excellence in Education">
+  <meta name="keywords" content="school, education, balrampur, milli karwaan, public school">
+  <meta name="author" content="Milli Karwaan Public School">
   <title>Milli Karwaan Public School | Balrampur</title>
   <link rel="icon" type="image/png" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MKPS">
   <style>
     /* Reset & Base Styles */
     * {
@@ -17,44 +26,91 @@
     :root {
       --bg-primary: #f8fafc;
       --bg-secondary: #ffffff;
-      --bg-gradient-start: #f0f9ff;
-      --bg-gradient-end: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --bg-quaternary: #f8fafc;
       --text-primary: #0f172a;
       --text-secondary: #475569;
+      --text-tertiary: #64748b;
       --accent: #0d6efd;
       --accent-light: #e3f2fd;
       --accent-dark: #0b5ed7;
+      --accent-darker: #0a58ca;
+      --success: #198754;
+      --success-light: #d1e7dd;
+      --warning: #ffc107;
+      --warning-light: #fff3cd;
+      --danger: #dc3545;
+      --danger-light: #f8d7da;
       --border: #e2e8f0;
-      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --border-light: #f1f5f9;
+      --border-dark: #cbd5e1;
+      --shadow-xs: 0 0 0 1px rgba(0, 0, 0, 0.05);
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      --radius: 20px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
+      --shadow-2xl: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+      --radius: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --radius-full: 9999px;
       --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       --glow: 0 0 30px rgba(13, 110, 253, 0.25);
+      --glow-strong: 0 0 40px rgba(13, 110, 253, 0.35);
       --animation-slow: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       --animation-fast: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      --header-height: 72px;
+      --bottom-nav-height: 68px;
+      --card-padding: 1.8rem;
+      --form-spacing: 1.8rem;
+      --font-size-xs: 0.75rem;
+      --font-size-sm: 0.875rem;
+      --font-size-base: 1rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.25rem;
+      --font-size-2xl: 1.5rem;
+      --font-size-3xl: 1.875rem;
+      --font-size-4xl: 2.25rem;
+      --font-weight-thin: 100;
+      --font-weight-light: 300;
+      --font-weight-normal: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      --font-weight-extrabold: 800;
+      --font-weight-black: 900;
     }
 
     [data-theme="dark"] {
       --bg-primary: #0f172a;
       --bg-secondary: #1e293b;
-      --bg-gradient-start: #0f172a;
-      --bg-gradient-end: #1e293b;
+      --bg-tertiary: #334155;
+      --bg-quaternary: #1e293b;
       --text-primary: #e2e8f0;
       --text-secondary: #94a3b8;
+      --text-tertiary: #cbd5e1;
       --accent: #3b82f6;
       --accent-light: #1e3a8a;
       --accent-dark: #2563eb;
+      --accent-darker: #1d4ed8;
+      --success: #15803d;
+      --success-light: #064e3b;
+      --warning: #d97706;
+      --warning-light: #7c2d12;
+      --danger: #b91c1c;
+      --danger-light: #7f1d1d;
       --border: #334155;
+      --border-light: #1e293b;
+      --border-dark: #475569;
       --glow: 0 0 35px rgba(59, 130, 246, 0.3);
+      --glow-strong: 0 0 45px rgba(59, 130, 246, 0.4);
     }
 
     body {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-quaternary) 100%);
       color: var(--text-primary);
       line-height: 1.7;
       transition: var(--transition);
@@ -69,181 +125,128 @@
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 2.2rem 1.8rem;
       flex: 1;
     }
 
     /* Header */
     header {
-      text-align: center;
-      padding: 2.8rem 1.5rem 2rem;
-      background: linear-gradient(135deg, var(--accent) 0%, #0b5ed7 100%);
+      height: var(--header-height);
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
       color: white;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-    }
-
-    header::before {
-      content: '';
-      position: absolute;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
-      pointer-events: none;
+      z-index: 50;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .header-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 300%;
-      height: 300%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      transform: translate(-50%, -50%);
-      animation: pulse 8s infinite alternate;
-      pointer-events: none;
-      z-index: 0;
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+      padding: 0 1.8rem;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-      100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
-    .school-logo {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      margin-bottom: 1rem;
+    .logo {
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
       animation: float 6s ease-in-out infinite;
-      position: relative;
-      z-index: 1;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(5deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
     }
 
-    .school-name {
-      font-size: 1.8rem;
-      font-weight: 700;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-      letter-spacing: -0.8px;
-      margin-bottom: 0.4rem;
-      position: relative;
-      z-index: 1;
+    .school-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      white-space: nowrap;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
-    .school-info {
-      font-size: 1rem;
-      opacity: 0.95;
-      margin-top: 0.3rem;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-
     .tagline {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      margin-top: 0.8rem;
+      font-size: var(--font-size-sm);
+      opacity: 0.9;
       font-style: italic;
-      letter-spacing: 0.5px;
-      position: relative;
-      z-index: 1;
+      letter-spacing: 0.3px;
+      margin-top: 0.2rem;
     }
 
-    /* Controls */
-    .controls {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.8rem;
+    .header-actions {
       display: flex;
-      gap: 1.4rem;
       align-items: center;
-      z-index: 10;
+      gap: 1.4rem;
     }
 
-    .toggle-group {
+    .theme-toggle, .lang-toggle {
       display: flex;
       border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
+      border-radius: var(--radius-full);
       overflow: hidden;
-      font-size: 0.95rem;
+      font-size: var(--font-size-sm);
       backdrop-filter: blur(12px);
       background: rgba(255, 255, 255, 0.1);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .toggle-btn {
-      padding: 0.5rem 1.1rem;
+      padding: 0.5rem 1.2rem;
       background: none;
       border: none;
       color: rgba(255, 255, 255, 0.85);
       cursor: pointer;
-      transition: var(--transition);
-      font-weight: 500;
-      font-size: 0.95rem;
+      transition: var(--transition-fast);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-sm);
     }
 
     .toggle-btn.active {
       background-color: rgba(255, 255, 255, 0.25);
       color: white;
       backdrop-filter: blur(12px);
-      font-weight: 600;
+      font-weight: var(--font-weight-semibold);
     }
 
     .toggle-btn:hover:not(.active) {
       background-color: rgba(255, 255, 255, 0.15);
     }
 
-    /* Main Card */
+    /* Main Content */
+    main {
+      padding: 2.5rem 0;
+      flex: 1;
+    }
+
+    /* Login Card */
     .login-card {
-      max-width: 540px;
-      margin: 2.8rem auto;
-      background-color: var(--bg-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+      background: var(--bg-secondary);
       border-radius: var(--radius);
-      box-shadow: var(--shadow-xl);
+      box-shadow: var(--shadow-2xl);
       overflow: hidden;
       transition: var(--transition);
-      transform: translateY(0);
       border: 1px solid var(--border);
       backdrop-filter: blur(10px);
       background: var(--bg-secondary);
       position: relative;
       z-index: 2;
-    }
-
-    .login-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(13, 110, 253, 0.08) 0%, transparent 70%);
-      opacity: 0;
-      transition: var(--transition);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .login-card:hover::before {
-      opacity: 1;
+      border-radius: var(--radius);
     }
 
     .card-glow {
@@ -252,11 +255,16 @@
       left: 50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(13, 110, 253, 0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(13, 110, 253, 0.08) 0%, transparent 70%);
       transform: translate(-50%, -50%);
       animation: pulse 6s infinite alternate-reverse;
       pointer-events: none;
       z-index: -1;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
     }
 
     /* Tabs */
@@ -280,15 +288,15 @@
     }
 
     .tab {
-      padding: 1.5rem 2rem;
+      padding: 1.6rem 2.2rem;
       flex: 1;
       text-align: center;
       cursor: pointer;
-      font-weight: 600;
-      color: var(--text-secondary);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-tertiary);
       transition: var(--transition);
       position: relative;
-      font-size: 1.1rem;
+      font-size: var(--font-size-lg);
       letter-spacing: -0.2px;
     }
 
@@ -316,9 +324,9 @@
 
     /* Tab Content */
     .tab-content {
-      padding: 3rem 2.8rem;
+      padding: var(--card-padding);
       display: none;
-      animation: fadeInUp 0.5s var(--animation-slow);
+      animation: fadeInUp 0.6s var(--animation-slow);
     }
 
     .tab-content.active {
@@ -326,48 +334,49 @@
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* Form Styles */
     .form-group {
-      margin-bottom: 1.6rem;
+      margin-bottom: var(--form-spacing);
     }
 
     label {
       display: block;
-      margin-bottom: 0.7rem;
-      font-weight: 500;
+      margin-bottom: 0.8rem;
+      font-weight: var(--font-weight-semibold);
       color: var(--text-primary);
-      font-size: 1.05rem;
+      font-size: var(--font-size-base);
       opacity: 0.9;
       letter-spacing: -0.1px;
     }
 
     input, select {
       width: 100%;
-      padding: 1rem 1.3rem;
+      padding: 1.1rem 1.4rem;
       border: 2px solid var(--border);
       border-radius: var(--radius-md);
       background-color: var(--bg-primary);
       color: var(--text-primary);
-      font-size: 1.08rem;
+      font-size: var(--font-size-base);
       transition: var(--transition);
       font-family: inherit;
       border-color: var(--border);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     input:focus, select:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: var(--glow);
+      box-shadow: var(--glow), inset 0 1px 2px rgba(0, 0, 0, 0.05);
       transform: translateY(-2px);
       z-index: 1;
     }
 
     input::placeholder, select {
-      color: var(--text-secondary);
+      color: var(--text-tertiary);
       opacity: 0.6;
       font-style: italic;
     }
@@ -376,29 +385,32 @@
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
       color: white;
       border: none;
-      padding: 1rem 2rem;
+      padding: 1.1rem 2.2rem;
       border-radius: var(--radius-md);
-      font-size: 1.15rem;
-      font-weight: 500;
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
       cursor: pointer;
       transition: var(--transition);
       width: 100%;
-      box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35);
+      box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
       position: relative;
       overflow: hidden;
       letter-spacing: -0.2px;
       font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.95rem;
     }
 
     button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(13, 110, 253, 0.45);
-      background: linear-gradient(135deg, var(--accent-dark) 0%, #0a58ca 100%);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 35px rgba(13, 110, 253, 0.45);
+      background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-darker) 100%);
     }
 
     button:active {
       transform: translateY(0);
-      box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+      box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
     }
 
     button::after {
@@ -423,6 +435,7 @@
       transform: none;
       box-shadow: none;
       opacity: 0.7;
+      color: var(--text-tertiary);
     }
 
     /* Google Sign-In */
@@ -430,35 +443,38 @@
       background: white;
       color: #333;
       border: 2px solid #e5e7eb;
-      padding: 0.9rem;
+      padding: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.8rem;
-      margin-top: 1.8rem;
+      gap: 1rem;
+      margin-top: 2rem;
       border-radius: var(--radius-md);
       transition: var(--transition);
-      font-weight: 500;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      font-weight: var(--font-weight-medium);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
       backdrop-filter: blur(10px);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 0.9rem;
     }
 
     .google-signin:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       border-color: #d1d5db;
     }
 
     .google-signin img {
-      height: 24px;
+      height: 26px;
     }
 
     /* Error Messages */
     .error {
       color: #dc2626;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
-      padding: 0.6rem 0.9rem;
+      font-size: var(--font-size-sm);
+      margin-top: 0.6rem;
+      padding: 0.7rem 1rem;
       background: rgba(220, 38, 38, 0.1);
       border-radius: var(--radius-sm);
       border-left: 4px solid #dc2626;
@@ -466,34 +482,45 @@
       height: 0;
       overflow: hidden;
       transition: all 0.3s ease;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .error.show {
       opacity: 1;
       height: auto;
-      padding: 0.6rem 0.9rem;
-      margin-top: 0.7rem;
+      padding: 0.7rem 1rem;
+      margin-top: 0.8rem;
+    }
+
+    .error-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
     /* Toast Notification */
     .toast {
       position: fixed;
-      top: 1.8rem;
-      right: 1.8rem;
-      padding: 1.2rem 1.8rem;
+      top: 2rem;
+      right: 2rem;
+      padding: 1.4rem 2rem;
       border-radius: var(--radius-md);
       background-color: #1e293b;
       color: white;
-      box-shadow: var(--shadow-xl);
+      box-shadow: var(--shadow-2xl);
       transform: translateX(160%);
-      transition: transform 0.5s var(--animation-slow);
+      transition: transform 0.6s var(--animation-slow);
       z-index: 1000;
-      max-width: 400px;
-      font-weight: 500;
+      max-width: 450px;
+      font-weight: var(--font-weight-medium);
       border-left: 5px solid var(--accent);
       backdrop-filter: blur(10px);
-      font-size: 1rem;
+      font-size: var(--font-size-base);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
     }
 
     .toast.show {
@@ -515,61 +542,76 @@
       border-left-color: #f97316;
     }
 
+    .toast-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
     /* Responsive */
-    @media (max-width: 480px) {
-      .controls {
-        flex-direction: column;
-        top: 1rem;
-        right: 1rem;
-        gap: 0.9rem;
-      }
-      
-      .toggle-group {
-        width: 100%;
-        margin-bottom: 0.6rem;
-      }
-      
-      .school-name {
-        font-size: 1.6rem;
-      }
-      
-      .school-logo {
-        width: 100px;
-        height: 100px;
+    @media (max-width: 768px) {
+      :root {
+        --card-padding: 1.5rem;
+        --form-spacing: 1.5rem;
       }
       
       .container {
-        padding: 1.2rem;
+        padding: 1.5rem;
       }
       
       .login-card {
-        margin: 2rem auto;
+        margin: 1.5rem auto;
         margin-bottom: 2.5rem;
+        border-radius: var(--radius-md);
       }
       
       .tab {
-        padding: 1.3rem 1.5rem;
-        font-size: 1rem;
+        padding: 1.4rem 1.8rem;
+        font-size: var(--font-size-base);
       }
       
       .tab-content {
-        padding: 2.2rem 1.8rem;
+        padding: 1.8rem 1.5rem;
       }
       
       button {
-        padding: 0.9rem 1.8rem;
-        font-size: 1.1rem;
+        padding: 1rem 2rem;
+        font-size: 0.95rem;
       }
       
       .toast {
-        top: 1rem;
-        right: 1rem;
+        top: 1.2rem;
+        right: 1.2rem;
         font-size: 0.95rem;
-        padding: 1rem 1.5rem;
+        padding: 1.2rem 1.6rem;
       }
       
-      .school-info {
-        font-size: 0.95rem;
+      .header-content {
+        padding: 0 1.2rem;
+      }
+      
+      .logo-section {
+        gap: 0.8rem;
+      }
+      
+      .school-title {
+        font-size: var(--font-size-base);
+      }
+      
+      .tagline {
+        font-size: var(--font-size-xs);
+      }
+      
+      .header-actions {
+        gap: 1rem;
+      }
+      
+      .toggle-btn {
+        padding: 0.5rem 1rem;
+        font-size: var(--font-size-xs);
+      }
+      
+      .container {
+        padding: 1.8rem 1.2rem;
       }
     }
 
@@ -580,160 +622,231 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 120px;
-      background: linear-gradient(180deg, rgba(13, 110, 253, 0.12) 0%, transparent 100%);
+      height: 140px;
+      background: linear-gradient(180deg, rgba(13, 110, 253, 0.15) 0%, transparent 100%);
       pointer-events: none;
       z-index: -1;
     }
 
     [data-theme="dark"] body::before {
-      background: linear-gradient(180deg, rgba(59, 130, 246, 0.18) 0%, transparent 100%);
+      background: linear-gradient(180deg, rgba(59, 130, 246, 0.2) 0%, transparent 100%);
     }
 
     /* Subtle animation on scroll */
     @media (prefers-reduced-motion: no-preference) {
       .login-card {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
       }
       
       .login-card.animate {
         opacity: 1;
         transform: translateY(0);
-        transition: all 0.8s var(--animation-slow);
+        transition: all 0.9s var(--animation-slow);
       }
+    }
+
+    /* Loading animation */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .loading.fade {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 5px solid var(--border-light);
+      border-top: 5px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loading" id="loading">
+    <div class="loader"></div>
+  </div>
+
   <!-- Header -->
   <header>
-    <div class="header-glow"></div>
-    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo" class="school-logo" />
-    <h1 class="school-name">Milli Karwaan Public School Balrampur</h1>
-    <div class="school-info">
-      Boluha Police Chowki, Balrampur<br />
-      Phone: 9758919151 | Email: madamsir066@gmail.com
-    </div>
-    <div class="tagline">"Shiksha ki Roshni, Bharat ki Pehchaan"</div>
-    <div class="controls">
-      <div class="toggle-group">
-        <button class="toggle-btn active" id="lang-en">EN</button>
-        <button class="toggle-btn" id="lang-hi">हिंदी</button>
+    <div class="header-content">
+      <div class="logo-section">
+        <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo" class="logo" />
+        <div>
+          <div class="school-title">Milli Karwaan Public School</div>
+          <div class="tagline">"Shiksha ki Roshni, Bharat ki Pehchaan"</div>
+        </div>
       </div>
-      <div class="toggle-group">
-        <button class="toggle-btn" id="theme-light">☀️</button>
-        <button class="toggle-btn active" id="theme-dark">🌙</button>
+      <div class="header-actions">
+        <div class="lang-toggle">
+          <button class="toggle-btn active" id="lang-en">EN</button>
+          <button class="toggle-btn" id="lang-hi">हिंदी</button>
+        </div>
+        <div class="theme-toggle">
+          <button class="toggle-btn" id="theme-light">☀️</button>
+          <button class="toggle-btn active" id="theme-dark">🌙</button>
+        </div>
       </div>
     </div>
   </header>
 
   <div class="container">
-    <div class="login-card">
-      <div class="card-glow"></div>
-      <!-- Tabs -->
-      <div class="tabs">
-        <div class="tab active" data-tab="student">Student</div>
-        <div class="tab" data-tab="parent">Parent</div>
-        <div class="tab" data-tab="teacher">Teacher</div>
-      </div>
+    <main>
+      <div class="login-card">
+        <div class="card-glow"></div>
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tab active" data-tab="student">Student</div>
+          <div class="tab" data-tab="parent">Parent</div>
+          <div class="tab" data-tab="teacher">Teacher</div>
+        </div>
 
-      <!-- Student Tab -->
-      <div class="tab-content active" id="student">
-        <form id="student-form">
-          <div class="form-group">
-            <label for="student-name">Full Name</label>
-            <input type="text" id="student-name" placeholder="Enter your full name" required />
-          </div>
-          <div class="form-group">
-            <label for="parent-name">Parent's Full Name</label>
-            <input type="text" id="parent-name" placeholder="Enter parent's full name" required />
-          </div>
-          <div class="form-group">
-            <label for="class">Class</label>
-            <select id="class" required>
-              <option value="">Select Class</option>
-              <option value="Nursery">Nursery</option>
-              <option value="1">Class 1</option>
-              <option value="2">Class 2</option>
-              <option value="3">Class 3</option>
-              <option value="4">Class 4</option>
-              <option value="5">Class 5</option>
-              <option value="6">Class 6</option>
-              <option value="7">Class 7</option>
-              <option value="8">Class 8</option>
-            </select>
-          </div>
-          <button type="submit">Login as Student</button>
-        </form>
-        <button class="google-signin" id="google-signin-student">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
-          <span>Continue with Google</span>
-        </button>
-      </div>
+        <!-- Student Tab -->
+        <div class="tab-content active" id="student">
+          <form id="student-form">
+            <div class="form-group">
+              <label for="student-name">Full Name</label>
+              <input type="text" id="student-name" placeholder="Enter your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="parent-name">Parent's Full Name</label>
+              <input type="text" id="parent-name" placeholder="Enter parent's full name" required />
+            </div>
+            <div class="form-group">
+              <label for="class">Class</label>
+              <select id="class" required>
+                <option value="">Select Class</option>
+                <option value="Nursery">Nursery</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+              </select>
+            </div>
+            <button type="submit">Login as Student</button>
+          </form>
+          <button class="google-signin" id="google-signin-student">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
+            <span>Continue with Google</span>
+          </button>
+        </div>
 
-      <!-- Parent Tab -->
-      <div class="tab-content" id="parent">
-        <form id="parent-form">
-          <div class="form-group">
-            <label for="parent-your-name">Your Full Name</label>
-            <input type="text" id="parent-your-name" placeholder="Enter your full name" required />
-          </div>
-          <div class="form-group">
-            <label for="child-name">Child's Full Name</label>
-            <input type="text" id="child-name" placeholder="Enter child's full name" required />
-          </div>
-          <div class="form-group">
-            <label for="parent-class">Class</label>
-            <select id="parent-class">
-              <option value="">Select Class</option>
-              <option value="Nursery">Nursery</option>
-              <option value="1">Class 1</option>
-              <option value="2">Class 2</option>
-              <option value="3">Class 3</option>
-              <option value="4">Class 4</option>
-              <option value="5">Class 5</option>
-              <option value="6">Class 6</option>
-              <option value="7">Class 7</option>
-              <option value="8">Class 8</option>
-            </select>
-          </div>
-          <div class="error" id="parent-error"></div>
-          <button type="submit">Login as Parent</button>
-        </form>
-        <button class="google-signin" id="google-signin-parent">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
-          <span>Continue with Google</span>
-        </button>
-      </div>
+        <!-- Parent Tab -->
+        <div class="tab-content" id="parent">
+          <form id="parent-form">
+            <div class="form-group">
+              <label for="parent-your-name">Your Full Name</label>
+              <input type="text" id="parent-your-name" placeholder="Enter your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="child-name">Child's Full Name</label>
+              <input type="text" id="child-name" placeholder="Enter child's full name" required />
+            </div>
+            <div class="form-group">
+              <label for="parent-class">Class</label>
+              <select id="parent-class">
+                <option value="">Select Class</option>
+                <option value="Nursery">Nursery</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+              </select>
+            </div>
+            <div class="error" id="parent-error"><span class="error-icon">⚠️</span><span class="error-text"></span></div>
+            <button type="submit">Login as Parent</button>
+          </form>
+          <button class="google-signin" id="google-signin-parent">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
+            <span>Continue with Google</span>
+          </button>
+        </div>
 
-      <!-- Teacher Tab -->
-      <div class="tab-content" id="teacher">
-        <form id="teacher-form">
-          <div class="form-group">
-            <label for="teacher-name">Full Name</label>
-            <input type="text" id="teacher-name" placeholder="Enter your full name" required />
-          </div>
-          <div class="form-group">
-            <label for="teacher-password">Password</label>
-            <input type="password" id="teacher-password" placeholder="Enter password" required />
-            <div class="error" id="teacher-error"></div>
-          </div>
-          <button type="submit">Login as Teacher</button>
-        </form>
-        <button class="google-signin" id="google-signin-teacher">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
-          <span>Continue with Google</span>
-        </button>
+        <!-- Teacher Tab -->
+        <div class="tab-content" id="teacher">
+          <form id="teacher-form">
+            <div class="form-group">
+              <label for="teacher-name">Full Name</label>
+              <input type="text" id="teacher-name" placeholder="Enter your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="teacher-password">Password</label>
+              <input type="password" id="teacher-password" placeholder="Enter password" required />
+              <div class="error" id="teacher-error"><span class="error-icon">⚠️</span><span class="error-text"></span></div>
+            </div>
+            <button type="submit">Login as Teacher</button>
+          </form>
+          <button class="google-signin" id="google-signin-teacher">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
+            <span>Continue with Google</span>
+          </button>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- Toast Notification -->
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast">
+    <span class="toast-icon">🔔</span>
+    <span class="toast-message"></span>
+  </div>
 
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Manifest.json for PWA -->
+  <script type="application/json" id="manifest-json">
+  {
+    "name": "Milli Karwaan Public School",
+    "short_name": "MKPS",
+    "description": "Official school portal for Milli Karwaan Public School Balrampur",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#0d6efd",
+    "theme_color": "#0d6efd",
+    "icons": [
+      {
+        "src": "https://i.postimg.cc/ryGx49TB/erasebg-transformed.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "https://i.postimg.cc/ryGx49TB/erasebg-transformed.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  </script>
 
   <script>
     // ========================
@@ -787,7 +900,10 @@
         selectClass: 'Select Class',
         welcome: 'Welcome',
         loginAs: 'Login as',
-        tagline: 'The Light of Education, India\'s Identity'
+        tagline: 'The Light of Education, India\'s Identity',
+        loading: 'Loading...',
+        systemInitializing: 'System Initializing',
+        pleaseWait: 'Please wait while we prepare your personalized learning experience.'
       },
       hi: {
         student: 'छात्र',
@@ -810,7 +926,10 @@
         selectClass: 'कक्षा चुनें',
         welcome: 'स्वागत है',
         loginAs: 'के रूप में लॉगिन करें',
-        tagline: 'शिक्षा की रोशनी, भारत की पहचान'
+        tagline: 'शिक्षा की रोशनी, भारत की पहचान',
+        loading: 'लोड हो रहा है...',
+        systemInitializing: 'सिस्टम आरंभ हो रहा है',
+        pleaseWait: 'कृपया प्रतीक्षा करें जब तक हम आपके व्यक्तिगत शिक्षण अनुभव की तैयारी करते हैं।'
       }
     };
 
@@ -826,10 +945,22 @@
       });
     };
 
+    const formatTimeAgo = (timestamp) => {
+      const now = new Date();
+      const time = new Date(timestamp);
+      const diffInHours = Math.floor((now - time) / (1000 * 60 * 60));
+      
+      if (diffInHours < 1) return currentLang === 'hi' ? 'अभी' : 'Just now';
+      if (diffInHours < 24) return `${diffInHours} ${currentLang === 'hi' ? 'घंटे पहले' : 'hour(s) ago'}`;
+      return formatDate(timestamp);
+    };
+
     // Toast Notification System
     function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
-      toast.textContent = message;
+      const toastMessage = toast.querySelector('.toast-message');
+      
+      toastMessage.textContent = message;
       toast.className = `toast ${type}`;
       toast.classList.add('show');
 
@@ -870,9 +1001,6 @@
       
       document.getElementById('lang-en').classList.toggle('active', lang === 'en');
       document.getElementById('lang-hi').classList.toggle('active', lang === 'hi');
-      
-      // Update tagline
-      document.querySelector('.tagline').textContent = i18n[lang].tagline;
     }
 
     function translatePage() {
@@ -937,7 +1065,7 @@
           
           // Add subtle animation
           const card = document.querySelector('.login-card');
-          card.style.transform = 'translateY(-3px)';
+          card.style.transform = 'translateY(-4px)';
           setTimeout(() => {
             card.style.transform = 'translateY(0)';
           }, 200);
@@ -969,7 +1097,8 @@
         role: 'student', 
         loginDate: new Date().toISOString(),
         id: Date.now().toString(),
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        lastLogin: new Date().toISOString()
       };
       StorageUtil.set('currentUser', studentData);
       
@@ -997,14 +1126,17 @@
       const classVal = document.getElementById('parent-class').value;
 
       if (!yourName || !childName || !classVal) {
-        showToast(i18n[currentLang].pleaseFillAllFields, 'error');
+        const error = document.getElementById('parent-error');
+        error.querySelector('.error-text').textContent = i18n[currentLang].pleaseFillAllFields;
+        error.classList.add('show');
+        setTimeout(() => error.classList.remove('show'), 5000);
         return;
       }
 
       const students = StorageUtil.get('students') || [];
       if (students.length === 0) {
         const error = document.getElementById('parent-error');
-        error.textContent = i18n[currentLang].noStudentFound;
+        error.querySelector('.error-text').textContent = i18n[currentLang].noStudentFound;
         error.classList.add('show');
         setTimeout(() => error.classList.remove('show'), 5000);
         return;
@@ -1033,7 +1165,8 @@
           role: 'parent', 
           loginDate: new Date().toISOString(),
           childId: matchedStudent.id,
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          lastLogin: new Date().toISOString()
         };
         StorageUtil.set('currentUser', parentData);
         StorageUtil.set('lastLogin', { role: 'parent', name: yourName, timestamp: Date.now() });
@@ -1043,7 +1176,7 @@
         }, 1200);
       } else {
         const error = document.getElementById('parent-error');
-        error.textContent = i18n[currentLang].childNotRegistered;
+        error.querySelector('.error-text').textContent = i18n[currentLang].childNotRegistered;
         error.classList.add('show');
         setTimeout(() => error.classList.remove('show'), 5000);
       }
@@ -1056,7 +1189,10 @@
       const password = document.getElementById('teacher-password').value;
 
       if (!name || !password) {
-        showToast(i18n[currentLang].pleaseFillAllFields, 'error');
+        const error = document.getElementById('teacher-error');
+        error.querySelector('.error-text').textContent = i18n[currentLang].pleaseFillAllFields;
+        error.classList.add('show');
+        setTimeout(() => error.classList.remove('show'), 5000);
         return;
       }
 
@@ -1066,7 +1202,8 @@
           role: 'teacher', 
           loginDate: new Date().toISOString(),
           id: 'teacher_' + Date.now(),
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          lastLogin: new Date().toISOString()
         };
         StorageUtil.set('currentUser', teacherData);
         StorageUtil.set('lastLogin', { role: 'teacher', name, timestamp: Date.now() });
@@ -1076,7 +1213,7 @@
         }, 1200);
       } else {
         const error = document.getElementById('teacher-error');
-        error.textContent = i18n[currentLang].invalidPassword;
+        error.querySelector('.error-text').textContent = i18n[currentLang].invalidPassword;
         error.classList.add('show');
         setTimeout(() => error.classList.remove('show'), 5000);
       }
@@ -1134,13 +1271,21 @@
     // Initialize Google Sign-In
     window.onload = function() {
       try {
-        // Initialize for student tab by default
+        // Create manifest file
+        const manifestBlob = new Blob([document.getElementById('manifest-json').textContent], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = manifestURL;
+        document.head.appendChild(manifestLink);
+
+        // Initialize Google Identity
         google.accounts.id.initialize({
           client_id: '529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com',
           callback: handleGoogleSignIn('student')
         });
 
-        // Render buttons (they're already in HTML, just attach listeners)
+        // Render buttons
         document.getElementById('google-signin-student').addEventListener('click', () => {
           google.accounts.id.prompt();
         });
@@ -1163,13 +1308,17 @@
       } catch (e) {
         console.warn('Google Identity Services not loaded yet.');
       }
+
+      // Hide loading screen
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('fade');
+      }, 1000);
     };
 
     // ========================
     // EVENT BUS (localStorage events)
     // ========================
     window.addEventListener('storage', function(e) {
-      // This will allow cross-tab communication in the future
       console.log('Storage event:', e.key, e.newValue);
     });
 
@@ -1182,19 +1331,12 @@
       initTabs();
       
       // Add entrance animation
-      document.body.style.opacity = '0';
-      setTimeout(() => {
-        document.body.style.transition = 'opacity 1s var(--animation-slow)';
-        document.body.style.opacity = '1';
-      }, 100);
-
-      // Add card animation
       setTimeout(() => {
         const card = document.querySelector('.login-card');
         if (card) {
           card.classList.add('animate');
         }
-      }, 300);
+      }, 500);
     });
 
     // Theme toggle
