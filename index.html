@@ -1,26 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="auto">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Milli Karwaan Public School Balrampur - Student Management System">
+    <title>Milli Karwaan Public School - Login</title>
+    <meta name="description" content="Login to Milli Karwaan Public School Balrampur">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563eb">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json,{"name":"MKPS Balrampur","short_name":"MKPS","start_url":"/","display":"standalone","background_color":"#ffffff","theme_color":"#2563eb","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==","sizes":"192x192","type":"image/png"}]}">
-    
-    <title>MKPS Balrampur - Login</title>
-    
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
@@ -32,10 +20,10 @@
             --border: #e2e8f0;
             --error: #ef4444;
             --success: #10b981;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --radius: 0.75rem;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --radius: 0.5rem;
+            --transition: 250ms ease;
         }
 
         [data-theme="dark"] {
@@ -44,196 +32,113 @@
             --text: #f1f5f9;
             --text-secondary: #94a3b8;
             --border: #334155;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--background);
             color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Splash Screen */
-        .splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary);
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s, visibility 0.5s;
+            flex-direction: column;
         }
 
-        .splash.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .splash-content {
-            text-align: center;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .splash-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .splash-logo img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Header */
         .header {
             background: var(--surface);
-            padding: 1rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
+            gap: 1rem;
         }
 
-        .school-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
         }
 
-        .school-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-        }
-
-        .school-logo img {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-        }
-
-        .school-details h1 {
+        .school-info h1 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text);
         }
 
-        .school-details p {
+        .school-info p {
             font-size: 0.875rem;
             color: var(--text-secondary);
         }
 
-        .header-actions {
+        .settings-bar {
             display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: transparent;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            color: var(--text);
-        }
-
-        .btn-icon:hover {
-            background: var(--border);
-        }
-
-        /* Main Content */
-        .main {
-            min-height: calc(100vh - 200px);
+            justify-content: flex-end;
+            gap: 1rem;
             padding: 1rem;
+            background: var(--surface);
+        }
+
+        .settings-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .settings-btn:hover {
+            background: var(--surface);
+        }
+
+        .login-container {
+            flex: 1;
             max-width: 400px;
-            margin: 0 auto;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            width: 100%;
         }
 
         .login-card {
             background: var(--surface);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
             padding: 2rem;
-            margin-top: 2rem;
+            box-shadow: var(--shadow-lg);
         }
 
-        .tabs {
+        .tab-nav {
             display: flex;
             margin-bottom: 2rem;
-            border-radius: var(--radius);
-            background: var(--border);
-            padding: 0.25rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .tab {
+        .tab-btn {
             flex: 1;
-            padding: 0.75rem 1rem;
-            text-align: center;
+            padding: 1rem;
+            background: none;
             border: none;
-            background: transparent;
             cursor: pointer;
-            border-radius: calc(var(--radius) - 0.25rem);
-            transition: var(--transition);
             font-weight: 500;
-            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
         }
 
-        .tab.active {
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
             background: var(--primary);
-            color: white;
-            box-shadow: var(--shadow);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .form-group {
@@ -244,7 +149,6 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--text);
         }
 
         input, select {
@@ -252,9 +156,9 @@
             padding: 0.75rem;
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            font-size: 1rem;
             background: var(--background);
             color: var(--text);
+            font-size: 1rem;
             transition: var(--transition);
         }
 
@@ -264,347 +168,163 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .btn-primary {
+        .btn {
             width: 100%;
-            padding: 0.875rem;
+            padding: 0.75rem 1.5rem;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: var(--radius);
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 1rem;
         }
 
-        .btn-primary:hover {
+        .btn:hover {
             background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-lg);
         }
 
-        .btn-primary:disabled {
-            opacity: 0.6;
+        .btn:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
-        }
-
-        .google-signin {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
         }
 
         .google-btn {
-            width: 100%;
-            height: 48px;
-            border: none;
-            background: white;
-            color: var(--text);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .google-btn:hover {
-            box-shadow: var(--shadow-lg);
+            gap: 0.5rem;
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+            margin-top: 1rem;
         }
 
         .error {
             color: var(--error);
             font-size: 0.875rem;
-            margin-top: 0.5rem;
+            margin-top: 0.25rem;
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--text);
-            color: var(--background);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-            z-index: 1000;
+        .hidden {
+            display: none;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Install Prompt */
-        .install-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--surface);
-            padding: 1rem;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            transform: translateY(100%);
-            transition: var(--transition);
-            z-index: 99;
-        }
-
-        .install-banner.show {
-            transform: translateY(0);
-        }
-
-        .install-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .main {
-                padding: 0.5rem;
+        @media (max-width: 640px) {
+            .login-container {
+                margin: 1rem;
             }
             
             .login-card {
-                margin-top: 1rem;
                 padding: 1.5rem;
             }
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                transition: none !important;
-                animation: none !important;
-            }
-        }
-
-        /* Language Toggle */
-        .lang-toggle {
-            position: relative;
-        }
-
-        .lang-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            display: none;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
-
-        .lang-dropdown.show {
-            display: block;
-        }
-
-        .lang-option {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .lang-option:hover {
-            background: var(--border);
-        }
-
-        /* Hidden Menu */
-        .hidden-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            max-width: 300px;
-            height: 100%;
-            background: var(--surface);
-            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-            z-index: 200;
-            padding: 2rem;
-        }
-
-        .hidden-menu.show {
-            right: 0;
-        }
-
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 199;
-        }
-
-        .menu-overlay.show {
-            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div class="splash" id="splash">
-        <div class="splash-content">
-            <div class="splash-logo">
-                <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="MKPS Logo">
-            </div>
-            <h2 style="color: white;">Milli Karwaan Public School</h2>
-            <p style="color: rgba(255,255,255,0.8);">Balrampur</p>
+    <div class="header">
+        <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="School Logo" class="logo">
+        <div class="school-info">
+            <h1>Milli Karwaan Public School Balrampur</h1>
+            <p>Boluha Police Chowki, Balrampur • 9758919151 • madamsir066@gmail.com</p>
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="school-info">
-                <div class="school-logo">
-                    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="MKPS Logo">
-                </div>
-                <div class="school-details">
-                    <h1 data-i18n="school.name">Milli Karwaan Public School</h1>
-                    <p data-i18n="school.address">Boluha Police Chowki, Balrampur</p>
-                </div>
-            </div>
-            <div class="header-actions">
-                <button class="btn-icon" id="themeToggle" aria-label="Toggle theme">
-                    🌓
-                </button>
-                <div class="lang-toggle">
-                    <button class="btn-icon" id="langToggle" aria-label="Change language">
-                        🌐
-                    </button>
-                    <div class="lang-dropdown" id="langDropdown">
-                        <div class="lang-option" data-lang="en">English</div>
-                        <div class="lang-option" data-lang="hi">हिंदी</div>
-                    </div>
-                </div>
-                <button class="btn-icon" id="menuToggle" aria-label="Menu">
-                    ⋮
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hidden Menu -->
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="hidden-menu" id="hiddenMenu">
-        <h3 data-i18n="menu.title">Menu</h3>
-        <p style="color: var(--text-secondary); margin-top: 1rem;" data-i18n="menu.comingSoon">
-            More features coming soon...
-        </p>
+    <div class="settings-bar">
+        <button class="settings-btn" id="themeToggle" aria-label="Toggle theme">🌓</button>
+        <button class="settings-btn" id="langToggle" aria-label="Toggle language">EN/HI</button>
     </div>
 
-    <!-- Main Content -->
-    <main class="main">
+    <div class="login-container">
         <div class="login-card">
-            <div class="tabs">
-                <button class="tab active" data-tab="student" data-i18n="role.student">Student</button>
-                <button class="tab" data-tab="parent" data-i18n="role.parent">Parent</button>
-                <button class="tab" data-tab="teacher" data-i18n="role.teacher">Teacher</button>
+            <h2 style="text-align: center; margin-bottom: 1.5rem;">Welcome to MKPS</h2>
+            
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="manual">Manual Login</button>
+                <button class="tab-btn" data-tab="google">Google Sign-In</button>
             </div>
 
-            <!-- Student Login -->
-            <div class="tab-content active" id="student-tab">
-                <form id="studentForm">
+            <div id="manualTab">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-role="student">Student</button>
+                    <button class="tab-btn" data-role="parent">Parent</button>
+                    <button class="tab-btn" data-role="teacher">Teacher</button>
+                </div>
+
+                <form id="studentForm" class="role-form">
                     <div class="form-group">
-                        <label for="studentName" data-i18n="form.studentName">Student Name</label>
+                        <label for="studentName">Student Name</label>
                         <input type="text" id="studentName" required>
                     </div>
                     <div class="form-group">
-                        <label for="parentName" data-i18n="form.parentName">Parent Name</label>
+                        <label for="parentName">Parent Name</label>
                         <input type="text" id="parentName" required>
                     </div>
                     <div class="form-group">
-                        <label for="studentClass" data-i18n="form.class">Class</label>
+                        <label for="studentClass">Class</label>
                         <select id="studentClass" required>
-                            <option value="" data-i18n="form.selectClass">Select Class</option>
+                            <option value="">Select Class</option>
                             <option value="Nursery">Nursery</option>
-                            <option value="LKG">LKG</option>
-                            <option value="UKG">UKG</option>
-                            <option value="1">Class 1</option>
-                            <option value="2">Class 2</option>
-                            <option value="3">Class 3</option>
-                            <option value="4">Class 4</option>
-                            <option value="5">Class 5</option>
-                            <option value="6">Class 6</option>
-                            <option value="7">Class 7</option>
-                            <option value="8">Class 8</option>
+                            <option value="KG">KG</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-primary" data-i18n="btn.login">Login</button>
+                    <button type="submit" class="btn">Continue as Student</button>
                 </form>
-            </div>
 
-            <!-- Parent Login -->
-            <div class="tab-content" id="parent-tab">
-                <form id="parentForm">
+                <form id="parentForm" class="role-form hidden">
                     <div class="form-group">
-                        <label for="parentLoginName" data-i18n="form.yourName">Your Name</label>
-                        <input type="text" id="parentLoginName" required>
+                        <label for="yourName">Your Name</label>
+                        <input type="text" id="yourName" required>
                     </div>
                     <div class="form-group">
-                        <label for="childName" data-i18n="form.childName">Child Name</label>
+                        <label for="childName">Child's Name</label>
                         <input type="text" id="childName" required>
                     </div>
                     <div class="form-group">
-                        <label for="childClass" data-i18n="form.childClass">Child's Class</label>
+                        <label for="childClass">Child's Class</label>
                         <select id="childClass" required>
-                            <option value="" data-i18n="form.selectClass">Select Class</option>
+                            <option value="">Select Class</option>
                             <option value="Nursery">Nursery</option>
-                            <option value="LKG">LKG</option>
-                            <option value="UKG">UKG</option>
-                            <option value="1">Class 1</option>
-                            <option value="2">Class 2</option>
-                            <option value="3">Class 3</option>
-                            <option value="4">Class 4</option>
-                            <option value="5">Class 5</option>
-                            <option value="6">Class 6</option>
-                            <option value="7">Class 7</option>
-                            <option value="8">Class 8</option>
+                            <option value="KG">KG</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-primary" data-i18n="btn.login">Login</button>
-                    <div class="error" id="parentError" style="display: none;"></div>
+                    <button type="submit" class="btn">Continue as Parent</button>
                 </form>
-            </div>
 
-            <!-- Teacher Login -->
-            <div class="tab-content" id="teacher-tab">
-                <form id="teacherForm">
+                <form id="teacherForm" class="role-form hidden">
                     <div class="form-group">
-                        <label for="teacherName" data-i18n="form.teacherName">Teacher Name</label>
+                        <label for="teacherName">Teacher Name</label>
                         <input type="text" id="teacherName" required>
                     </div>
                     <div class="form-group">
-                        <label for="teacherPassword" data-i18n="form.password">Password</label>
+                        <label for="teacherPassword">Password</label>
                         <input type="password" id="teacherPassword" required>
                     </div>
-                    <button type="submit" class="btn-primary" data-i18n="btn.login">Login</button>
-                    <div class="error" id="teacherError" style="display: none;"></div>
+                    <button type="submit" class="btn">Continue as Teacher</button>
                 </form>
             </div>
 
-            <!-- Google Sign-In -->
-            <div class="google-signin">
+            <div id="googleTab" class="hidden">
                 <div id="g_id_onload"
                      data-client_id="529549341206-st52n2e42jkobemc9kenva0jf8ccmhf2.apps.googleusercontent.com"
-                     data-callback="handleGoogleSignIn"
-                     data-auto_prompt="false">
+                     data-callback="handleGoogleSignIn">
                 </div>
                 <div class="g_id_signin"
                      data-type="standard"
@@ -612,455 +332,289 @@
                      data-theme="outline"
                      data-text="sign_in_with"
                      data-shape="rectangular"
-                     data-logo_alignment="left"
-                     data-width="100%">
+                     data-logo_alignment="left">
                 </div>
+                <form id="googleContinueForm" class="hidden" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label for="googleRole">I am a:</label>
+                        <select id="googleRole" required>
+                            <option value="">Select Role</option>
+                            <option value="student">Student</option>
+                            <option value="parent">Parent</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                    </div>
+                    <div id="googleFields"></div>
+                    <button type="submit" class="btn">Continue</button>
+                </form>
             </div>
-        </div>
-    </main>
-
-    <!-- Install Banner -->
-    <div class="install-banner" id="installBanner">
-        <div class="install-content">
-            <div>
-                <strong data-i18n="install.title">Install MKPS App</strong>
-                <p style="font-size: 0.875rem; color: var(--text-secondary);" data-i18n="install.desc">
-                    Get faster access and offline features
-                </p>
-            </div>
-            <button class="btn-primary" id="installBtn" style="width: auto; margin: 0;" data-i18n="btn.install">
-                Install 📲
-            </button>
         </div>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithCredential, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, query, where, getDocs, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-    <script>
-        // Storage Utility
-        const StorageUtil = {
-            set: (key, value) => localStorage.setItem(`mkps_${key}`, JSON.stringify(value)),
-            get: (key) => {
-                const item = localStorage.getItem(`mkps_${key}`);
-                return item ? JSON.parse(item) : null;
-            },
-            remove: (key) => localStorage.removeItem(`mkps_${key}`),
-            clear: () => localStorage.clear()
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
+            authDomain: "mkps-balrampur.firebaseapp.com",
+            projectId: "mkps-balrampur",
+            storageBucket: "mkps-balrampur.firebasestorage.app",
+            messagingSenderId: "469227187804",
+            appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
+            measurementId: "G-TYKBNS9SX2"
         };
 
-        // Event Bus
-        const EventBus = {
-            emit: (event, data) => {
-                localStorage.setItem(`mkps_event_${event}`, JSON.stringify({data, timestamp: Date.now()}));
-                localStorage.removeItem(`mkps_event_${event}`);
-            },
-            on: (event, callback) => {
-                window.addEventListener('storage', (e) => {
-                    if (e.key === `mkps_event_${event}` && e.newValue) {
-                        const {data} = JSON.parse(e.newValue);
-                        callback(data);
-                    }
-                });
-            }
-        };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // i18n
-        const i18n = {
+        // Language dictionary
+        const translations = {
             en: {
-                'school.name': 'Milli Karwaan Public School',
-                'school.address': 'Boluha Police Chowki, Balrampur',
-                'role.student': 'Student',
-                'role.parent': 'Parent',
-                'role.teacher': 'Teacher',
-                'form.studentName': 'Student Name',
-                'form.parentName': 'Parent Name',
-                'form.class': 'Class',
-                'form.selectClass': 'Select Class',
-                'form.yourName': 'Your Name',
-                'form.childName': 'Child Name',
-                'form.childClass': 'Child\'s Class',
-                'form.teacherName': 'Teacher Name',
-                'form.password': 'Password',
-                'btn.login': 'Login',
-                'btn.install': 'Install 📲',
-                'install.title': 'Install MKPS App',
-                'install.desc': 'Get faster access and offline features',
-                'menu.title': 'Menu',
-                'menu.comingSoon': 'More features coming soon...',
-                'error.noStudents': 'No students found. Please register a student first.',
-                'error.invalidCredentials': 'Invalid credentials',
-                'success.login': 'Login successful!',
-                'toast.autoLogout': 'Logged out due to inactivity'
+                welcome: 'Welcome to MKPS',
+                student: 'Student',
+                parent: 'Parent',
+                teacher: 'Teacher',
+                name: 'Name',
+                class: 'Class',
+                continue: 'Continue',
+                invalidPassword: 'Invalid password',
+                childNotFound: 'Your child is not registered',
+                noStudents: 'No students found. Please log in as student first.'
             },
             hi: {
-                'school.name': 'मिल्ली कारवां पब्लिक स्कूल',
-                'school.address': 'बोलूहा पुलिस चौकी, बलरामपुर',
-                'role.student': 'छात्र',
-                'role.parent': 'अभिभावक',
-                'role.teacher': 'शिक्षक',
-                'form.studentName': 'छात्र का नाम',
-                'form.parentName': 'अभिभावक का नाम',
-                'form.class': 'कक्षा',
-                'form.selectClass': 'कक्षा चुनें',
-                'form.yourName': 'आपका नाम',
-                'form.childName': 'बच्चे का नाम',
-                'form.childClass': 'बच्चे की कक्षा',
-                'form.teacherName': 'शिक्षक का नाम',
-                'form.password': 'पासवर्ड',
-                'btn.login': 'लॉगिन करें',
-                'btn.install': 'इंस्टॉल करें 📲',
-                'install.title': 'MKPS ऐप इंस्टॉल करें',
-                'install.desc': 'तेज़ पहुंच और ऑफ़लाइन सुविधाएं प्राप्त करें',
-                'menu.title': 'मेन्यू',
-                'menu.comingSoon': 'और सुविधाएं जल्द आ रही हैं...',
-                'error.noStudents': 'कोई छात्र नहीं मिला। कृपया पहले छात्र पंजीकृत करें।',
-                'error.invalidCredentials': 'अमान्य क्रेडेंशियल',
-                'success.login': 'लॉगिन सफल!',
-                'toast.autoLogout': 'निष्क्रियता के कारण लॉग आउट किया गया'
+                welcome: 'एमकेपीएस में आपका स्वागत है',
+                student: 'छात्र',
+                parent: 'अभिभावक',
+                teacher: 'शिक्षक',
+                name: 'नाम',
+                class: 'कक्षा',
+                continue: 'आगे बढ़ें',
+                invalidPassword: 'गलत पासवर्ड',
+                childNotFound: 'आपका बच्चा पंजीकृत नहीं है',
+                noStudents: 'कोई छात्र नहीं मिला। कृपया पहले छात्र के रूप में लॉगिन करें।'
             }
         };
 
-        // Date Utility
-        const DateUtil = {
-            format: (date) => new Intl.DateTimeFormat(navigator.language).format(date),
-            getToday: () => new Date().toISOString().split('T')[0]
-        };
-
-        // Toast Utility
-        const Toast = {
-            show: (message, duration = 3000) => {
-                const toast = document.getElementById('toast');
-                toast.textContent = message;
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), duration);
-            }
-        };
-
-        // Theme Management
-        const ThemeManager = {
-            init() {
-                const saved = StorageUtil.get('theme') || 'auto';
-                this.set(saved);
-                
-                document.getElementById('themeToggle').addEventListener('click', () => {
-                    const current = document.documentElement.getAttribute('data-theme');
-                    const next = current === 'dark' ? 'light' : 
-                                current === 'light' ? 'auto' : 'dark';
-                    this.set(next);
-                });
-            },
-            
-            set(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                StorageUtil.set('theme', theme);
-                
-                if (theme === 'auto') {
-                    const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                    document.documentElement.setAttribute('data-theme', prefers);
-                }
-            }
-        };
-
-        // Language Management
-        const LanguageManager = {
-            init() {
-                const saved = StorageUtil.get('language') || 'en';
-                this.set(saved);
-                
-                document.getElementById('langToggle').addEventListener('click', () => {
-                    document.getElementById('langDropdown').classList.toggle('show');
-                });
-                
-                document.querySelectorAll('.lang-option').forEach(option => {
-                    option.addEventListener('click', () => {
-                        this.set(option.dataset.lang);
-                        document.getElementById('langDropdown').classList.remove('show');
-                    });
-                });
-            },
-            
-            set(lang) {
-                document.documentElement.lang = lang;
-                StorageUtil.set('language', lang);
-                
-                document.querySelectorAll('[data-i18n]').forEach(el => {
-                    const key = el.getAttribute('data-i18n');
-                    if (i18n[lang][key]) {
-                        el.textContent = i18n[lang][key];
-                    }
-                });
-            }
-        };
-
-        // Install Prompt
-        const InstallManager = {
-            init() {
-                window.addEventListener('beforeinstallprompt', (e) => {
-                    e.preventDefault();
-                    this.deferredPrompt = e;
-                    document.getElementById('installBanner').classList.add('show');
-                });
-                
-                document.getElementById('installBtn').addEventListener('click', () => {
-                    this.install();
-                });
-            },
-            
-            async install() {
-                if (!this.deferredPrompt) return;
-                
-                this.deferredPrompt.prompt();
-                const { outcome } = await this.deferredPrompt.userChoice;
-                
-                if (outcome === 'accepted') {
-                    document.getElementById('installBanner').classList.remove('show');
-                }
-                
-                this.deferredPrompt = null;
-            }
-        };
-
-        // Authentication
-        const AuthManager = {
-            init() {
-                // Check existing session
-                const user = StorageUtil.get('currentUser');
-                if (user) {
-                    this.redirect(user.role);
-                    return;
-                }
-                
-                // Setup forms
-                this.setupStudentForm();
-                this.setupParentForm();
-                this.setupTeacherForm();
-                
-                // Auto logout
-                this.setupAutoLogout();
-            },
-            
-            setupStudentForm() {
-                document.getElementById('studentForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    const student = {
-                        name: document.getElementById('studentName').value.trim(),
-                        parentName: document.getElementById('parentName').value.trim(),
-                        class: document.getElementById('studentClass').value,
-                        role: 'student',
-                        id: Date.now().toString()
-                    };
-                    
-                    // Save student
-                    const students = StorageUtil.get('students') || [];
-                    students.push(student);
-                    StorageUtil.set('students', students);
-                    
-                    // Set current user
-                    StorageUtil.set('currentUser', student);
-                    EventBus.emit('user-login', student);
-                    
-                    Toast.show(i18n[document.documentElement.lang]['success.login']);
-                    this.redirect('student');
-                });
-            },
-            
-            setupParentForm() {
-                document.getElementById('parentForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    const students = StorageUtil.get('students') || [];
-                    if (students.length === 0) {
-                        const errorEl = document.getElementById('parentError');
-                        errorEl.textContent = i18n[document.documentElement.lang]['error.noStudents'];
-                        errorEl.style.display = 'block';
-                        return;
-                    }
-                    
-                    const parentName = document.getElementById('parentLoginName').value.trim();
-                    const childName = document.getElementById('childName').value.trim();
-                    const childClass = document.getElementById('childClass').value;
-                    
-                    const matchingStudent = students.find(s => 
-                        (s.parentName === parentName || s.name === childName || s.class === childClass) &&
-                        [s.parentName, s.name, s.class].filter(Boolean).length >= 2
-                    );
-                    
-                    if (matchingStudent) {
-                        const parent = {
-                            name: parentName,
-                            childName,
-                            childClass,
-                            role: 'parent',
-                            studentId: matchingStudent.id
-                        };
-                        
-                        StorageUtil.set('currentUser', parent);
-                        EventBus.emit('user-login', parent);
-                        
-                        Toast.show(i18n[document.documentElement.lang]['success.login']);
-                        this.redirect('parent');
-                    } else {
-                        const errorEl = document.getElementById('parentError');
-                        errorEl.textContent = i18n[document.documentElement.lang]['error.invalidCredentials'];
-                        errorEl.style.display = 'block';
-                    }
-                });
-            },
-            
-            setupTeacherForm() {
-                document.getElementById('teacherForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    const name = document.getElementById('teacherName').value.trim();
-                    const password = document.getElementById('teacherPassword').value;
-                    
-                    if (password === 'Abutalha') {
-                        const teacher = {
-                            name,
-                            role: 'teacher',
-                            id: Date.now().toString()
-                        };
-                        
-                        StorageUtil.set('currentUser', teacher);
-                        EventBus.emit('user-login', teacher);
-                        
-                        Toast.show(i18n[document.documentElement.lang]['success.login']);
-                        this.redirect('teacher');
-                    } else {
-                        const errorEl = document.getElementById('teacherError');
-                        errorEl.textContent = i18n[document.documentElement.lang]['error.invalidCredentials'];
-                        errorEl.style.display = 'block';
-                    }
-                });
-            },
-            
-            redirect(role) {
-                const routes = {
-                    student: 'dashboard.html',
-                    parent: 'parent.html',
-                    teacher: 'teacher.html'
-                };
-                
-                if (routes[role]) {
-                    window.location.href = routes[role];
-                }
-            },
-            
-            setupAutoLogout() {
-                let timeout;
-                const resetTimer = () => {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => {
-                        StorageUtil.remove('currentUser');
-                        Toast.show(i18n[document.documentElement.lang]['toast.autoLogout']);
-                        setTimeout(() => window.location.reload(), 2000);
-                    }, 15 * 60 * 1000); // 15 minutes
-                };
-                
-                ['mousedown', 'keydown', 'touchstart'].forEach(evt => {
-                    window.addEventListener(evt, resetTimer, true);
-                });
-                
-                resetTimer();
-            }
-        };
-
-        // Tab Navigation
-        const TabManager = {
-            init() {
-                document.querySelectorAll('.tab').forEach(tab => {
-                    tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
-                });
-            },
-            
-            switchTab(tabName) {
-                // Update active tab
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-                
-                // Update content
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                document.getElementById(`${tabName}-tab`).classList.add('active');
-            }
-        };
-
-        // Back Button Handler
-        const BackHandler = {
-            init() {
-                window.addEventListener('popstate', (e) => {
-                    e.preventDefault();
-                    if (confirm('Do you want to exit the app?')) {
-                        window.close();
-                    }
-                });
-                
-                // Push initial state
-                window.history.pushState(null, null, window.location.href);
-            }
-        };
-
-        // Google Sign-In Handler
-        function handleGoogleSignIn(response) {
-            const credential = response.credential;
-            const payload = JSON.parse(atob(credential.split('.')[1]));
-            
-            const user = {
-                name: payload.name,
-                email: payload.email,
-                picture: payload.picture,
-                role: null, // Will be set after role selection
-                googleId: payload.sub
-            };
-            
-            // Show role selection
-            const role = prompt('Select your role: student, parent, or teacher');
-            if (['student', 'parent', 'teacher'].includes(role)) {
-                user.role = role;
-                StorageUtil.set('currentUser', user);
-                EventBus.emit('user-login', user);
-                AuthManager.redirect(role);
-            }
+        let currentLang = localStorage.getItem('mkps_lang') || 'en';
+        
+        function t(key) {
+            return translations[currentLang][key] || translations.en[key];
         }
 
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', () => {
-            // Hide splash after 2.5 seconds
-            setTimeout(() => {
-                document.getElementById('splash').classList.add('hide');
-            }, 2500);
-            
-            ThemeManager.init();
-            LanguageManager.init();
-            InstallManager.init();
-            TabManager.init();
-            AuthManager.init();
-            BackHandler.init();
-            
-            // Close menus when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.lang-toggle')) {
-                    document.getElementById('langDropdown').classList.remove('show');
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('mkps_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('mkps_theme', newTheme);
+        });
+
+        // Language toggle
+        const langToggle = document.getElementById('langToggle');
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            localStorage.setItem('mkps_lang', currentLang);
+            location.reload();
+        });
+
+        // Tab navigation
+        document.querySelectorAll('[data-tab]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tab = e.target.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                if (tab === 'manual') {
+                    document.getElementById('manualTab').classList.remove('hidden');
+                    document.getElementById('googleTab').classList.add('hidden');
+                } else {
+                    document.getElementById('manualTab').classList.add('hidden');
+                    document.getElementById('googleTab').classList.remove('hidden');
                 }
-            });
-            
-            // Menu toggle
-            document.getElementById('menuToggle').addEventListener('click', () => {
-                document.getElementById('hiddenMenu').classList.add('show');
-                document.getElementById('menuOverlay').classList.add('show');
-            });
-            
-            document.getElementById('menuOverlay').addEventListener('click', () => {
-                document.getElementById('hiddenMenu').classList.remove('show');
-                document.getElementById('menuOverlay').classList.remove('show');
             });
         });
 
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:text/javascript,console.log("Service Worker Registered")');
+        // Role navigation
+        document.querySelectorAll('[data-role]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const role = e.target.dataset.role;
+                document.querySelectorAll('[data-role]').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.role-form').forEach(f => f.classList.add('hidden'));
+                e.target.classList.add('active');
+                document.getElementById(`${role}Form`).classList.remove('hidden');
+            });
+        });
+
+        // Utility functions
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 2rem;
+                background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#3b82f6'};
+                color: white;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
+
+        async function saveUserSession(userData) {
+            localStorage.setItem('mkps_session', JSON.stringify(userData));
+            
+            // Save to Firestore
+            if (userData.role === 'student') {
+                const studentRef = doc(db, 'students', userData.id || userData.name);
+                await setDoc(studentRef, {
+                    name: userData.name,
+                    parentName: userData.parentName,
+                    class: userData.class,
+                    email: userData.email || null,
+                    createdAt: new Date(),
+                    lastActive: new Date()
+                }, { merge: true });
+            }
+        }
+
+        // Student form
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const studentData = {
+                role: 'student',
+                name: document.getElementById('studentName').value.trim(),
+                parentName: document.getElementById('parentName').value.trim(),
+                class: document.getElementById('studentClass').value
+            };
+            
+            await saveUserSession(studentData);
+            window.location.href = 'dashboard.html';
+        });
+
+        // Parent form
+        document.getElementById('parentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const yourName = document.getElementById('yourName').value.trim();
+            const childName = document.getElementById('childName').value.trim();
+            const childClass = document.getElementById('childClass').value;
+
+            // Check if student exists
+            const studentsRef = collection(db, 'students');
+            const q = query(studentsRef, where('class', '==', childClass));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                showToast(t('noStudents'), 'error');
+                return;
+            }
+
+            let match = null;
+            let matchCount = 0;
+
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                let count = 0;
+                if (data.name === childName) count++;
+                if (data.class === childClass) count++;
+                
+                if (count >= 2) {
+                    match = { id: doc.id, ...data };
+                    matchCount = count;
+                }
+            });
+
+            if (!match) {
+                showToast(t('childNotFound'), 'error');
+                return;
+            }
+
+            const parentData = {
+                role: 'parent',
+                yourName,
+                childName: match.name,
+                class: match.class,
+                studentId: match.id
+            };
+            
+            await saveUserSession(parentData);
+            window.location.href = 'parent.html';
+        });
+
+        // Teacher form
+        document.getElementById('teacherForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('teacherPassword').value;
+            
+            // WARNING: This is client-side only - implement server-side validation in production
+            if (password !== 'Abutalha') {
+                showToast(t('invalidPassword'), 'error');
+                return;
+            }
+
+            const teacherData = {
+                role: 'teacher',
+                name: document.getElementById('teacherName').value.trim()
+            };
+            
+            await saveUserSession(teacherData);
+            window.location.href = 'teacher.html';
+        });
+
+        // Google Sign-In
+        window.handleGoogleSignIn = async (response) => {
+            const credential = GoogleAuthProvider.credential(response.credential);
+            const userCredential = await signInWithCredential(auth, credential);
+            const user = userCredential.user;
+            
+            document.getElementById('googleContinueForm').classList.remove('hidden');
+            
+            document.getElementById('googleContinueForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const role = document.getElementById('googleRole').value;
+                
+                let userData = {
+                    role,
+                    name: user.displayName,
+                    email: user.email,
+                    id: user.uid
+                };
+
+                if (role === 'student') {
+                    userData.parentName = document.getElementById('googleParentName').value.trim();
+                    userData.class = document.getElementById('googleStudentClass').value;
+                } else if (role === 'parent') {
+                    // Similar validation as manual parent login
+                    userData.yourName = document.getElementById('googleYourName').value.trim();
+                    userData.childName = document.getElementById('googleChildName').value.trim();
+                    userData.class = document.getElementById('googleChildClass').value;
+                }
+                
+                await saveUserSession(userData);
+                window.location.href = `${role}.html`;
+            });
+        };
+
+        // Load Google Sign-In script
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        document.head.appendChild(script);
     </script>
 </body>
 </html>
