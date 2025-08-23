@@ -1,374 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Student Dashboard – MKPS</title>
-  <meta name="theme-color" content="#ffffff"/>
-  <link rel="manifest" href="manifest.json"/>
-  <style>
-    :root{
-      --primary:#0a558c;--primary-light:#0f73bf;
-      --bg:#ffffff;--text:#111;--card:#f7f9fc;--border:#e1e5eb;
-      --success:#2e7d32;--error:#d93025;--radius:12px;--shadow:0 4px 12px rgba(0,0,0,.08);
-      font-size:16px;
-    }
-    [data-theme="dark"]{
-      --bg:#121212;--text:#eee;--card:#1e1e1e;--border:#333;--shadow:0 4px 12px rgba(0,0,0,.4);
-    }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,Arial}
-    body{background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh}
-    header{position:sticky;top:0;z-index:30;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-    header img{height:34px;border-radius:50%}
-    header h1{font-size:1.1rem;font-weight:600;margin-left:.5rem}
-    .top-actions{display:flex;gap:.5rem;align-items:center}
-    .top-actions button{background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer}
-    main{flex:1;display:flex;flex-direction:column}
-    .page{flex:1;padding:1rem;display:none;animation:fadeIn .3s}
-    .page.active{display:block}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:1rem;box-shadow:var(--shadow)}
-    .card h3{margin-bottom:.5rem;font-size:1.05rem}
-    .chip{display:inline-block;background:var(--primary);color:#fff;font-size:.75rem;padding:.25rem .6rem;border-radius:20px;margin-right:.3rem;margin-bottom:.3rem}
-    .badge{position:absolute;top:-6px;right:-6px;background:var(--error);color:#fff;border-radius:50%;font-size:.7rem;width:18px;height:18px;display:grid;place-items:center}
-    .tab-bar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:.35rem 0}
-    .tab-bar button{background:none;border:none;font-size:.7rem;color:var(--text);display:flex;flex-direction:column;align-items:center;cursor:pointer}
-    .tab-bar button.active{color:var(--primary)}
-    .tab-bar button span{font-size:1.4rem}
-    #toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:.7rem 1rem;border-radius:6px;font-size:.9rem;z-index:100;opacity:0;transition:opacity .3s}
-    #toast.show{opacity:1}
-    .hidden{display:none}
-    .list-item{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)}
-    .list-item:last-child{border:none}
-    .list-item .title{font-weight:600}
-    .list-item .subtitle{font-size:.8rem;opacity:.8}
-    .expandable{cursor:pointer}
-    .expandable-content{display:none;padding:.4rem 0;font-size:.9rem;color:var(--text)}
-    .expandable.open .expandable-content{display:block}
-    .btn-small{background:var(--primary);color:#fff;border:none;border-radius:4px;padding:.4rem .7rem;font-size:.8rem;cursor:pointer}
-    .btn-small.danger{background:var(--error)}
-    .floating-btn{position:fixed;bottom:70px;right:15px;background:var(--primary);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:1.8rem;box-shadow:var(--shadow);cursor:pointer}
-    input,textarea,select{width:100%;padding:.5rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text)}
-    textarea{resize:vertical;min-height:80px}
-    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:200}
-    .modal.active{display:flex}
-    .modal-content{background:var(--card);border-radius:var(--radius);padding:1rem;max-width:90%;width:400px;max-height:85vh;overflow-y:auto}
-    .modal header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
-    .modal header button{background:none;border:none;font-size:1.3rem;color:var(--text);cursor:pointer}
-    @media(max-width:600px){.card{margin:.5rem}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Milli Karwaan Public School</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --error: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --radius: 0.5rem;
+            --transition: 250ms ease;
+        }
+
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            padding-bottom: 80px;
+        }
+
+        .app-bar {
+            background: var(--surface);
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-small {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius);
+        }
+
+        .app-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-card h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-content {
+            padding: 1rem;
+        }
+
+        .homework-item, .note-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .homework-item:last-child, .note-item:last-child {
+            border-bottom: none;
+        }
+
+        .homework-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .status-pending {
+            background: var(--warning);
+            color: white;
+        }
+
+        .status-completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            display: flex;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item span {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 100px;
+            right: 1rem;
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 99;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            height: 20px;
+            border-radius: var(--radius);
+            margin: 0.5rem 0;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @media (max-width: 640px) {
+            .content {
+                padding: 0.5rem;
+            }
+            
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <div style="display:flex;align-items:center">
-    <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo"/>
-    <h1>MKPS Student</h1>
-  </div>
-  <div class="top-actions">
-    <button id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <button id="bellBtn" aria-label="Notifications">🔔</button>
-    <button id="threeDotBtn" aria-label="More">⋮</button>
-  </div>
-</header>
-
-<main>
-  <!-- HOME -->
-  <section id="homePage" class="page active">
-    <div class="card">
-      <h3 data-lang-key="welcome">Welcome</h3>
-      <p><span id="stuName"></span> • <span id="stuClass"></span></p>
-    </div>
-
-    <div class="card">
-      <h3>Timetable</h3>
-      <div id="timetableToday"></div>
-    </div>
-
-    <div class="card">
-      <h3>Homework</h3>
-      <div id="hwToday"></div>
-    </div>
-
-    <div class="card">
-      <h3>Attendance</h3>
-      <p id="attendanceSummary">Loading…</p>
-    </div>
-
-    <div class="card">
-      <h3>Latest Result</h3>
-      <p id="latestResult">Loading…</p>
-    </div>
-  </section>
-
-  <!-- HOMEWORK -->
-  <section id="hwPage" class="page">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2>Homework</h2>
-      <select id="hwFilter">
-        <option value="all">All</option>
-        <option value="pending">Pending</option>
-        <option value="submitted">Submitted</option>
-      </select>
-    </div>
-    <div id="hwList"></div>
-  </section>
-
-  <!-- TIMETABLE -->
-  <section id="timePage" class="page">
-    <h2>Timetable</h2>
-    <div id="timetableFull"></div>
-  </section>
-
-  <!-- NOTES -->
-  <section id="notesPage" class="page">
-    <h2>Notes</h2>
-    <div id="notesList"></div>
-  </section>
-
-  <!-- MESSAGES -->
-  <section id="msgPage" class="page">
-    <h2>Messages</h2>
-    <div id="msgList"></div>
-    <div style="margin-top:1rem">
-      <textarea id="msgInput" placeholder="Type message…"></textarea>
-      <button class="btn-small" onclick="sendMessage()">Send</button>
-    </div>
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profilePage" class="page">
-    <h2>Profile</h2>
-    <div class="card">
-      <label>Name</label>
-      <input id="profileName" type="text"/>
-      <label>Parent Name</label>
-      <input id="profileParent" type="text"/>
-      <label>Class</label>
-      <select id="profileClass">
-        <option>Nursery</option><option>1</option><option>2</option><option>3</option><option>4</option>
-        <option>5</option><option>6</option><option>7</option><option>8</option>
-      </select>
-      <label>Email</label>
-      <input id="profileEmail" type="email" readonly/>
-      <button class="btn-small" onclick="saveProfile()">Save</button>
-    </div>
-  </section>
-</main>
-
-<!-- Bottom Nav -->
-<nav class="tab-bar">
-  <button class="tab-btn active" data-page="homePage"><span>🏠</span><small>Home</small></button>
-  <button class="tab-btn" data-page="hwPage"><span>📚</span><small>HW</small></button>
-  <button class="tab-btn" data-page="timePage"><span>🕒</span><small>Time</small></button>
-  <button class="tab-btn" data-page="notesPage"><span>📝</span><small>Notes</small></button>
-  <button class="tab-btn" data-page="msgPage"><span>💬</span><small>Msgs</small></button>
-</nav>
-
-<!-- Modals -->
-<div class="modal" id="uploadModal">
-  <div class="modal-content">
-    <header>
-      <h3>Upload HW</h3>
-      <button onclick="closeModal('uploadModal')">✖</button>
+    <header class="app-bar">
+        <div class="app-bar-left">
+            <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" class="logo-small">
+            <span>Dashboard</span>
+        </div>
+        <div class="app-bar-right">
+            <button class="icon-btn" id="notificationsBtn" aria-label="Notifications">
+                🔔
+                <span class="badge hidden" id="notificationBadge">0</span>
+            </button>
+            <button class="icon-btn" id="logoutBtn" aria-label="Logout">🚪</button>
+        </div>
     </header>
-    <form id="uploadForm">
-      <label>Title</label>
-      <input id="uploadTitle" required/>
-      <label>Description</label>
-      <textarea id="uploadDesc"></textarea>
-      <label>Attachment (img/pdf)</label>
-      <input type="file" id="uploadFile" accept="image/*,application/pdf"/>
-      <button class="btn-small" type="submit">Upload</button>
-    </form>
-  </div>
-</div>
 
-<div id="toast"></div>
-
-<script>
-  /* ====== Utilities ====== */
-  const StorageUtil = {
-    prefix:'mkps_',
-    get(k){return JSON.parse(localStorage.getItem(this.prefix+k)||'null')},
-    set(k,v){localStorage.setItem(this.prefix+k,JSON.stringify(v))},
-    remove(k){localStorage.removeItem(this.prefix+k)}
-  };
-  const i18n = {
-    dict:{
-      en:{welcome:'Welcome'},hi:{welcome:'स्वागत'}
-    },
-    lang:'en',
-    t(k){return this.dict[this.lang]?.[k]||k},
-    setLang(l){this.lang=l;StorageUtil.set('lang',l);}
-  };
-  i18n.setLang(StorageUtil.get('lang')||'en');
-  const toast = (msg)=>{
-    const el=document.getElementById('toast');
-    el.textContent=msg;el.classList.add('show');
-    setTimeout(()=>el.classList.remove('show'),3000);
-  };
-  const applyTheme=()=>{
-    const t=StorageUtil.get('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-    document.documentElement.setAttribute('data-theme',t);
-    document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
-  };
-  applyTheme();
-  document.getElementById('themeToggle').onclick=()=>{
-    const newTheme=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
-    StorageUtil.set('theme',newTheme);applyTheme();
-  };
-
-  /* ====== Navigation ====== */
-  const pages=document.querySelectorAll('.page');
-  const tabBtns=document.querySelectorAll('.tab-btn');
-  const showPage=id=>{
-    pages.forEach(p=>p.classList.remove('active'));
-    tabBtns.forEach(b=>b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelector(`[data-page="${id}"]`).classList.add('active');
-  };
-  tabBtns.forEach(btn=>btn.onclick=()=>showPage(btn.dataset.page));
-
-  /* ====== Current User ====== */
-  const user=StorageUtil.get('currentUser');
-  if(!user || user.role!=='student'){location.href='index.html';}
-  document.getElementById('stuName').textContent=user.name;
-  document.getElementById('stuClass').textContent=user.cls;
-
-  /* ====== Data Helpers ====== */
-  const getData=(key,def=[])=>StorageUtil.get(key)||def;
-  const saveData=(key,val)=>StorageUtil.set(key,val);
-
-  /* ====== Timetable ====== */
-  const renderTimetableToday=()=>{
-    const tt=getData('timetable')[user.cls]||[];
-    const today=new Date().toLocaleString('en-us',{weekday:'long'});
-    const day=tt.find(d=>d.day===today);
-    const container=document.getElementById('timetableToday');
-    if(!day){container.innerHTML='No classes today';return;}
-    container.innerHTML=day.periods.map(p=>`<div class="chip">${p.subject} ${p.time}</div>`).join('');
-  };
-  const renderTimetableFull=()=>{
-    const tt=getData('timetable')[user.cls]||[];
-    const container=document.getElementById('timetableFull');
-    container.innerHTML=tt.map(d=>`<div class="card"><b>${d.day}</b>${d.periods.map(p=>`<div class="list-item"><span>${p.subject}</span><span>${p.time}</span></div>`).join('')}</div>`).join('');
-  };
-
-  /* ====== Homework ====== */
-  const renderHW=()=>{
-    const hwList=getData('homework').filter(h=>h.cls===user.cls);
-    const filter=document.getElementById('hwFilter').value;
-    let list=hwList;
-    if(filter==='pending')list=hwList.filter(h=>!h.submitted);
-    if(filter==='submitted')list=hwList.filter(h=>h.submitted);
-    const container=document.getElementById('hwList');
-    container.innerHTML=list.map(h=>`
-      <div class="card expandable ${h.submitted?'submitted':''}" data-id="${h.id}">
-        <div class="expandable-header">
-          <div class="title">${h.title}</div>
-          <div class="subtitle">${h.dueDate}</div>
+    <main class="content">
+        <div class="profile-card">
+            <h2 id="welcomeText">Welcome, Student</h2>
+            <div class="profile-info">
+                <div class="info-item">
+                    <span class="info-label">Name</span>
+                    <span id="profileName">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Class</span>
+                    <span id="profileClass">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Parent Name</span>
+                    <span id="profileParent">-</span>
+                </div>
+                <div class="info-item" id="emailItem" style="display: none;">
+                    <span class="info-label">Email</span>
+                    <span id="profileEmail">-</span>
+                </div>
+            </div>
         </div>
-        <div class="expandable-content">
-          <p>${h.desc}</p>
-          ${h.attachment?`<a href="${h.attachment}" target="_blank">📎 View Attachment</a>`:''}
-          ${h.submitted?'<p style="color:var(--success)">✅ Submitted</p>':`<button class="btn-small" onclick="markSubmitted('${h.id}')">Mark Submitted</button>`}
+
+        <div class="section">
+            <div class="section-header">
+                <h3>Today's Timetable</h3>
+                <button class="icon-btn" onclick="window.location.href='timetable.html'">📅</button>
+            </div>
+            <div class="section-content" id="timetableContent">
+                <div class="skeleton" style="width: 100%; height: 60px;"></div>
+            </div>
         </div>
-      </div>
-    `).join('');
-    document.querySelectorAll('.expandable').forEach(el=>{
-      el.querySelector('.expandable-header').onclick=()=>el.classList.toggle('open');
-    });
-  };
-  document.getElementById('hwFilter').onchange=renderHW;
 
-  const markSubmitted=id=>{
-    const hw=getData('homework');
-    const h=hw.find(x=>x.id===id);
-    if(h){h.submitted=true;saveData('homework',hw);renderHW();toast('Marked submitted');}
-  };
+        <div class="section">
+            <div class="section-header">
+                <h3>Homework</h3>
+                <button class="icon-btn" onclick="window.location.href='homework.html'">📚</button>
+            </div>
+            <div class="section-content" id="homeworkContent">
+                <div class="skeleton" style="width: 100%; height: 60px;"></div>
+            </div>
+        </div>
 
-  /* ====== Notes ====== */
-  const renderNotes=()=>{
-    const notes=getData('notes').filter(n=>n.cls===user.cls);
-    document.getElementById('notesList').innerHTML=notes.map(n=>`<div class="card"><b>${n.title}</b><p>${n.content}</p></div>`).join('');
-  };
+        <div class="section">
+            <div class="section-header">
+                <h3>Notes</h3>
+                <button class="icon-btn" onclick="window.location.href='notices.html'">📝</button>
+            </div>
+            <div class="section-content" id="notesContent">
+                <div class="skeleton" style="width: 100%; height: 60px;"></div>
+            </div>
+        </div>
+    </main>
 
-  /* ====== Messages ====== */
-  const renderMessages=()=>{
-    const msgs=getData('messages').filter(m=>m.to==='student'||m.from===user.name);
-    const container=document.getElementById('msgList');
-    container.innerHTML=msgs.map(m=>`<div class="card" style="margin-bottom:.5rem"><b>${m.from}</b><p>${m.text}</p><small>${new Date(m.time).toLocaleString()}</small></div>`).join('');
-  };
-  const sendMessage=()=>{
-    const txt=document.getElementById('msgInput').value.trim();
-    if(!txt)return;
-    const msgs=getData('messages');
-    msgs.push({from:user.name,to:'teacher',text:txt,time:Date.now()});
-    saveData('messages',msgs);
-    document.getElementById('msgInput').value='';
-    renderMessages();
-  };
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item active">
+            <span>🏠</span>
+            <small>Home</small>
+        </a>
+        <a href="homework.html" class="nav-item">
+            <span>📚</span>
+            <small>Homework</small>
+        </a>
+        <a href="notices.html" class="nav-item">
+            <span>📝</span>
+            <small>Notes</small>
+        </a>
+        <a href="timetable.html" class="nav-item">
+            <span>📅</span>
+            <small>Timetable</small>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <span>💬</span>
+            <small>Messages</small>
+        </a>
+    </nav>
 
-  /* ====== Attendance & Results ====== */
-  const renderSummary=()=>{
-    const att=getData('attendance')[user.cls]?.[user.name]||{present:0,total:0};
-    document.getElementById('attendanceSummary').textContent=`${att.present}/${att.total} days`;
-    const res=getData('results')[user.cls]?.[user.name]||[];
-    const latest=res[res.length-1];
-    document.getElementById('latestResult').textContent=latest?`${latest.exam}: ${latest.marks}%`:'No results yet';
-  };
+    <button class="fab" id="aiFab" aria-label="AI Assistant">🤖</button>
 
-  /* ====== Profile ====== */
-  const loadProfile=()=>{
-    document.getElementById('profileName').value=user.name;
-    document.getElementById('profileParent').value=user.parentName;
-    document.getElementById('profileClass').value=user.cls;
-    document.getElementById('profileEmail').value=user.email||'';
-  };
-  const saveProfile=()=>{
-    user.name=document.getElementById('profileName').value;
-    user.parentName=document.getElementById('profileParent').value;
-    user.cls=document.getElementById('profileClass').value;
-    saveData('currentUser',user);
-    toast('Saved');
-  };
+    <div class="modal" id="aiModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>AI Assistant</h3>
+                <button class="close-btn" onclick="closeModal('aiModal')">×</button>
+            </div>
+            <div id="aiChat" style="height: 400px; overflow-y: auto; border: 1px solid var(--border); padding: 1rem; margin-bottom: 1rem;">
+                <div class="message ai-message">
+                    Hello! I'm your AI assistant. How can I help you today?
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="aiInput" placeholder="Ask me anything..." style="flex: 1; padding: 0.5rem;">
+                <button class="btn" onclick="sendAIMessage()">Send</button>
+            </div>
+        </div>
+    </div>
 
-  /* ====== Upload HW Modal ====== */
-  document.getElementById('uploadForm').onsubmit=e=>{
-    e.preventDefault();
-    const title=document.getElementById('uploadTitle').value;
-    const desc=document.getElementById('uploadDesc').value;
-    const file=document.getElementById('uploadFile').files[0];
-    const hw=getData('homework');
-    const id='hw_'+Date.now();
-    let attachment='';
-    if(file){
-      const reader=new FileReader();
-      reader.onload=()=>{
-        attachment=reader.result;
-        hw.unshift({id,cls:user.cls,title,desc,dueDate:new Date().toLocaleDateString(),submitted:false,attachment});
-        saveData('homework',hw);
-        renderHW();closeModal('uploadModal');
-      };
-      reader.readAsDataURL(file);
-    }else{
-      hw.unshift({id,cls:user.cls,title,desc,dueDate:new Date().toLocaleDateString(),submitted:false});
-      saveData('homework',hw);
-      renderHW();closeModal('uploadModal');
-    }
-  };
-  const closeModal=id=>document.getElementById(id).classList.remove('active');
-  document.querySelector('.floating-btn').onclick=()=>document.getElementById('uploadModal').classList.add('active');
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-  /* ====== Realtime sync ====== */
-  window.addEventListener('storage',e=>{
-    if(e.key.startsWith('mkps_')){
-      renderTimetableToday();renderHW();renderNotes();renderMessages();
-    }
-  });
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
+            authDomain: "mkps-balrampur.firebaseapp.com",
+            projectId: "mkps-balrampur",
+            storageBucket: "mkps-balrampur.firebasestorage.app",
+            messagingSenderId: "469227187804",
+            appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
+            measurementId: "G-TYKBNS9SX2"
+        };
 
-  /* ====== Initial renders ====== */
-  renderTimetableToday();renderTimetableFull();renderHW();renderNotes();renderMessages();renderSummary();loadProfile();
-</script>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check session
+        const session = JSON.parse(localStorage.getItem('mkps_session') || '{}');
+        if (!session.role || session.role !== 'student') {
+            window.location.href = 'index.html';
+        }
+
+        // Update profile
+        document.getElementById('welcomeText').textContent = `Welcome, ${session.name}`;
+        document.getElementById('profileName').textContent = session.name;
+        document.getElementById('profileClass').textContent = session.class;
+        document.getElementById('profileParent').textContent = session.parentName;
+        if (session.email) {
+            document.getElementById('profileEmail').textContent = session.email;
+            document.getElementById('emailItem').style.display = 'block';
+        }
+
+        // Update presence
+        const updatePresence = async () => {
+            if (session.id) {
+                const studentRef = doc(db, 'students', session.id);
+                await updateDoc(studentRef, {
+                    lastActive: serverTimestamp()
+                });
+            }
+        };
+        setInterval(updatePresence, 60000);
+
+        // Load data
+        const loadTimetable = () => {
+            const q = query(collection(db, 'classes', session.class, 'timetable'));
+            onSnapshot(q, (snapshot) => {
+                const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+                const todayTimetable = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .filter(item => item.day === today)
+                    .sort((a, b) => a.time.localeCompare(b.time));
+
+                const content = document.getElementById('timetableContent');
+                if (todayTimetable.length === 0) {
+                    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No classes scheduled today</p>';
+                } else {
+                    content.innerHTML = todayTimetable.map(item => `
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem;">
+                            <span>${item.subject}</span>
+                            <span style="color: var(--text-secondary);">${item.time}</span>
+                        </div>
+                    `).join('');
+                }
+            });
+        };
+
+        const loadHomework = () => {
+            const q = query(collection(db, 'classes', session.class, 'homework'));
+            onSnapshot(q, (snapshot) => {
+                const homework = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => a.dueTimestamp.toDate() - b.dueTimestamp.toDate())
+                    .slice(0, 3);
+
+                const content = document.getElementById('homeworkContent');
+                if (homework.length === 0) {
+                    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No homework assigned</p>';
+                } else {
+                    content.innerHTML = homework.map(hw => {
+                        const isCompleted = hw.completion && hw.completion[session.id || session.name];
+                        return `
+                            <div class="homework-item">
+                                <div>
+                                    <strong>${hw.title}</strong>
+                                    <p style="font-size: 0.875rem; color: var(--text-secondary);">${hw.subject}</p>
+                                </div>
+                                <span class="homework-status ${isCompleted ? 'status-completed' : 'status-pending'}">
+                                    ${isCompleted ? 'Done' : 'Pending'}
+                                </span>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            });
+        };
+
+        const loadNotes = () => {
+            const q = query(collection(db, 'classes', session.class, 'notes'));
+            onSnapshot(q, (snapshot) => {
+                const notes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate())
+                    .slice(0, 3);
+
+                const content = document.getElementById('notesContent');
+                if (notes.length === 0) {
+                    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No notes available</p>';
+                } else {
+                    content.innerHTML = notes.map(note => `
+                        <div class="note-item">
+                            <div>
+                                <strong>${note.title}</strong>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                                    ${note.content.substring(0, 50)}${note.content.length > 50 ? '...' : ''}
+                                </p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            });
+        };
+
+        // Load notifications
+        const loadNotifications = () => {
+            const q = query(collection(db, 'classes', session.class, 'notifications'));
+            onSnapshot(q, (snapshot) => {
+                const unread = snapshot.docs.filter(doc => !doc.data().readBy?.includes(session.id || session.name)).length;
+                const badge = document.getElementById('notificationBadge');
+                if (unread > 0) {
+                    badge.textContent = unread;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            });
+        };
+
+        // Initialize
+        loadTimetable();
+        loadHomework();
+        loadNotes();
+        loadNotifications();
+
+        // AI Assistant
+        document.getElementById('aiFab').addEventListener('click', () => {
+            document.getElementById('aiModal').style.display = 'flex';
+        });
+
+        window.closeModal = (modalId) => {
+            document.getElementById(modalId).style.display = 'none';
+        };
+
+        // Gemini AI Integration
+        async function callGemini(prompt, context = '') {
+            // WARNING: Client-side API key exposure is insecure. Implement server-side proxy in production.
+            const API_KEY = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `Context: Student of ${session.class} class, ${session.parentName}'s child. ${context}\n\nQuestion: ${prompt}`
+                            }]
+                        }]
+                    })
+                });
+                
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error('AI Error:', error);
+                return 'Sorry, I encountered an error. Please try again.';
+            }
+        }
+
+        async function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const chat = document.getElementById('aiChat');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            chat.innerHTML += `<div class="message user-message" style="text-align: right; margin: 0.5rem 0;">
+                <div style="background: var(--primary); color: white; padding: 0.5rem; border-radius: var(--radius); display: inline-block;">
+                    ${message}
+                </div>
+            </div>`;
+            
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+            
+            // Add typing indicator
+            chat.innerHTML += `<div class="message ai-message" id="typingIndicator">
+                <div style="color: var(--text-secondary);">AI is typing...</div>
+            </div>`;
+            chat.scrollTop = chat.scrollHeight;
+            
+            // Get AI response
+            const response = await callGemini(message);
+            
+            // Remove typing indicator and add response
+            document.getElementById('typingIndicator').remove();
+            chat.innerHTML += `<div class="message ai-message">
+                <div style="background: var(--surface); padding: 0.5rem; border-radius: var(--radius);">
+                    ${response}
+                </div>
+            </div>`;
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirm('Are you sure you want to logout?')) {
+                // Sign out Firebase Auth
+                try {
+                    await auth.signOut();
+                } catch (e) {
+                    console.log('Auth sign out error:', e);
+                }
+                
+                // Clear all storage
+                localStorage.removeItem('mkps_session');
+                localStorage.removeItem('mkps_theme');
+                localStorage.removeItem('mkps_lang');
+                
+                // Redirect to index
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Close modals on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
