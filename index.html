@@ -589,6 +589,34 @@
         .hidden {
             display: none !important;
         }
+
+        /* Error Message */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dark-mode .error-message {
+            color: #f87171;
+        }
+
+        /* Info Message */
+        .info-message {
+            color: #007bff;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dark-mode .info-message {
+            color: #60a5fa;
+        }
     </style>
 </head>
 <body>
@@ -655,6 +683,10 @@
                 <div class="form-group">
                     <label for="rollNumber">Roll Number</label>
                     <input type="text" id="rollNumber" placeholder="Enter roll number" required />
+                    <div class="info-message">
+                        <i class="material-icons" style="font-size: 16px;">info</i>
+                        Example: MKPS08A01
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -665,6 +697,10 @@
                 <div class="form-group">
                     <label for="studentEmail">Email Address</label>
                     <input type="email" id="studentEmail" placeholder="parent@example.com" required />
+                    <div class="info-message">
+                        <i class="material-icons" style="font-size: 16px;">info</i>
+                        Use parent's email for communication
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -717,6 +753,10 @@
                 <div class="form-group">
                     <label for="parentEmail">Email Address</label>
                     <input type="email" id="parentEmail" placeholder="you@example.com" required />
+                    <div class="info-message">
+                        <i class="material-icons" style="font-size: 16px;">info</i>
+                        This will be your login ID
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -746,6 +786,10 @@
                 <div class="form-group">
                     <label for="teacherEmail">Email Address</label>
                     <input type="email" id="teacherEmail" placeholder="teacher@example.com" required />
+                    <div class="info-message">
+                        <i class="material-icons" style="font-size: 16px;">info</i>
+                        Use official school email if available
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -822,16 +866,42 @@
         };
 
         // Initialize Firebase only if not already initialized
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        } else {
-            firebase.app();
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            } else {
+                firebase.app();
+            }
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+            // Show user-friendly error message
+            document.addEventListener('DOMContentLoaded', function() {
+                const container = document.getElementById('loginContainer');
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #dc3545;">
+                        <i class="material-icons" style="font-size: 48px; margin-bottom: 20px;">error</i>
+                        <h2>Connection Error</h2>
+                        <p style="margin: 20px 0;">We're having trouble connecting to our authentication system.</p>
+                        <p>Please check your internet connection and try again.</p>
+                        <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            Retry Connection
+                        </button>
+                    </div>
+                `;
+            });
+            throw error;
         }
 
         // Firestore and Auth references
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const storage = firebase.storage();
+        let db, auth, storage;
+        
+        try {
+            db = firebase.firestore();
+            auth = firebase.auth();
+            storage = firebase.storage();
+        } catch (error) {
+            console.error("Firebase services error:", error);
+        }
 
         // DOM Elements
         const roleSelector = document.getElementById('roleSelector');
@@ -968,22 +1038,29 @@
             loginBtnStudent.disabled = true;
 
             try {
+                // Check if Firebase is available
+                if (!auth) {
+                    throw new Error("Authentication system is not available. Please check your connection.");
+                }
+
                 // Create user with email/password
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
                 // Save user data to Firestore
-                await db.collection('users').doc(user.uid).set({
-                    name,
-                    class: className,
-                    rollNumber,
-                    parentName,
-                    email,
-                    role: 'student',
-                    uid: user.uid,
-                    createdAt: new Date().toISOString(),
-                    lastLogin: new Date().toISOString()
-                });
+                if (db) {
+                    await db.collection('users').doc(user.uid).set({
+                        name,
+                        class: className,
+                        rollNumber,
+                        parentName,
+                        email,
+                        role: 'student',
+                        uid: user.uid,
+                        createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString()
+                    });
+                }
 
                 // Save to localStorage with mkps_ namespace
                 localStorage.setItem('mkps_user', JSON.stringify({
@@ -1004,42 +1081,30 @@
 
             } catch (error) {
                 console.error('Student login error:', error);
-                if (error.code === 'auth/email-already-in-use') {
-                    // Try to sign in instead
-                    try {
-                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                        const user = userCredential.user;
-                        const doc = await db.collection('users').doc(user.uid).get();
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            if (userData.role === 'student') {
-                                localStorage.setItem('mkps_user', JSON.stringify({
-                                    uid: user.uid,
-                                    name: userData.name,
-                                    class: userData.class,
-                                    rollNumber: userData.rollNumber,
-                                    parentName: userData.parentName,
-                                    email: userData.email,
-                                    role: userData.role
-                                }));
-                                showToast('Signed in successfully!', 2000);
-                                setTimeout(() => {
-                                    window.location.href = 'dashboard.html';
-                                }, 1000);
-                            } else {
-                                showToast('This email is registered as a different role.', 4000, true);
-                            }
-                        }
-                    } catch (signInError) {
-                        showToast(signInError.message, 4000, true);
-                    }
-                } else if (error.code === 'auth/invalid-email') {
-                    showToast('Please enter a valid email address.', 3000, true);
-                } else if (error.code === 'auth/weak-password') {
-                    showToast('Password should be at least 6 characters long.', 3000, true);
-                } else {
-                    showToast(error.message, 4000, true);
+                
+                let errorMessage = "An error occurred. Please try again.";
+                
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = "This email is already registered. Try logging in instead.";
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = "Please enter a valid email address.";
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = "Password should be at least 6 characters long.";
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = "Network error. Please check your internet connection.";
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = "Too many attempts. Please try again later.";
+                        break;
+                    default:
+                        errorMessage = error.message || "An error occurred. Please try again.";
                 }
+                
+                showToast(errorMessage, 4000, true);
             } finally {
                 loaderStudent.style.display = 'none';
                 loginTextStudent.textContent = 'Sign In as Student';
@@ -1080,21 +1145,28 @@
             loginBtnParent.disabled = true;
 
             try {
+                // Check if Firebase is available
+                if (!auth) {
+                    throw new Error("Authentication system is not available. Please check your connection.");
+                }
+
                 // Create user with email/password
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
                 // Save user data to Firestore
-                await db.collection('users').doc(user.uid).set({
-                    childName,
-                    class: childClass,
-                    yourName,
-                    email,
-                    role: 'parent',
-                    uid: user.uid,
-                    createdAt: new Date().toISOString(),
-                    lastLogin: new Date().toISOString()
-                });
+                if (db) {
+                    await db.collection('users').doc(user.uid).set({
+                        childName,
+                        class: childClass,
+                        yourName,
+                        email,
+                        role: 'parent',
+                        uid: user.uid,
+                        createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString()
+                    });
+                }
 
                 // Save to localStorage with mkps_ namespace
                 localStorage.setItem('mkps_user', JSON.stringify({
@@ -1114,36 +1186,27 @@
 
             } catch (error) {
                 console.error('Parent login error:', error);
-                if (error.code === 'auth/email-already-in-use') {
-                    try {
-                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                        const user = userCredential.user;
-                        const doc = await db.collection('users').doc(user.uid).get();
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            if (userData.role === 'parent') {
-                                localStorage.setItem('mkps_user', JSON.stringify({
-                                    uid: user.uid,
-                                    childName: userData.childName,
-                                    class: userData.class,
-                                    yourName: userData.yourName,
-                                    email: userData.email,
-                                    role: userData.role
-                                }));
-                                showToast('Signed in successfully!', 2000);
-                                setTimeout(() => {
-                                    window.location.href = 'parent.html';
-                                }, 1000);
-                            } else {
-                                showToast('This email is registered as a different role.', 4000, true);
-                            }
-                        }
-                    } catch (signInError) {
-                        showToast(signInError.message, 4000, true);
-                    }
-                } else {
-                    showToast(error.message, 4000, true);
+                
+                let errorMessage = "An error occurred. Please try again.";
+                
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = "This email is already registered. Try logging in instead.";
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = "Please enter a valid email address.";
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = "Password should be at least 6 characters long.";
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = "Network error. Please check your internet connection.";
+                        break;
+                    default:
+                        errorMessage = error.message || "An error occurred. Please try again.";
                 }
+                
+                showToast(errorMessage, 4000, true);
             } finally {
                 loaderParent.style.display = 'none';
                 loginTextParent.textContent = 'Sign In as Parent';
@@ -1189,20 +1252,27 @@
             loginBtnTeacher.disabled = true;
 
             try {
+                // Check if Firebase is available
+                if (!auth) {
+                    throw new Error("Authentication system is not available. Please check your connection.");
+                }
+
                 // Create user with email/password
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
                 // Save user data to Firestore
-                await db.collection('users').doc(user.uid).set({
-                    name,
-                    email,
-                    department: department || 'Not Specified',
-                    role: 'teacher',
-                    uid: user.uid,
-                    createdAt: new Date().toISOString(),
-                    lastLogin: new Date().toISOString()
-                });
+                if (db) {
+                    await db.collection('users').doc(user.uid).set({
+                        name,
+                        email,
+                        department: department || 'Not Specified',
+                        role: 'teacher',
+                        uid: user.uid,
+                        createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString()
+                    });
+                }
 
                 // Save to localStorage with mkps_ namespace
                 localStorage.setItem('mkps_user', JSON.stringify({
@@ -1221,35 +1291,27 @@
 
             } catch (error) {
                 console.error('Teacher login error:', error);
-                if (error.code === 'auth/email-already-in-use') {
-                    try {
-                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                        const user = userCredential.user;
-                        const doc = await db.collection('users').doc(user.uid).get();
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            if (userData.role === 'teacher') {
-                                localStorage.setItem('mkps_user', JSON.stringify({
-                                    uid: user.uid,
-                                    name: userData.name,
-                                    email: userData.email,
-                                    department: userData.department,
-                                    role: userData.role
-                                }));
-                                showToast('Signed in successfully!', 2000);
-                                setTimeout(() => {
-                                    window.location.href = 'teacher.html';
-                                }, 1000);
-                            } else {
-                                showToast('This email is registered as a different role.', 4000, true);
-                            }
-                        }
-                    } catch (signInError) {
-                        showToast(signInError.message, 4000, true);
-                    }
-                } else {
-                    showToast(error.message, 4000, true);
+                
+                let errorMessage = "An error occurred. Please try again.";
+                
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = "This email is already registered. Try logging in instead.";
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = "Please enter a valid email address.";
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = "Password should be at least 6 characters long.";
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = "Network error. Please check your internet connection.";
+                        break;
+                    default:
+                        errorMessage = error.message || "An error occurred. Please try again.";
                 }
+                
+                showToast(errorMessage, 4000, true);
             } finally {
                 loaderTeacher.style.display = 'none';
                 loginTextTeacher.textContent = 'Sign In as Teacher';
@@ -1265,6 +1327,12 @@
         googleSignInTeacher.addEventListener('click', () => handleGoogleSignIn('teacher'));
 
         async function handleGoogleSignIn(role) {
+            // Check if Firebase is available
+            if (!auth) {
+                showToast("Authentication system is not available. Please check your connection.", 4000, true);
+                return;
+            }
+
             const provider = new firebase.auth.GoogleAuthProvider();
             let loader, loginText, form;
 
@@ -1293,81 +1361,84 @@
             try {
                 const result = await auth.signInWithPopup(provider);
                 const user = result.user;
-                const docRef = db.collection('users').doc(user.uid);
-                const doc = await docRef.get();
+                
+                if (db) {
+                    const docRef = db.collection('users').doc(user.uid);
+                    const doc = await docRef.get();
 
-                if (doc.exists) {
-                    const userData = doc.data();
-                    if (userData.role !== role) {
-                        showToast(`This account is registered as a ${userData.role}. Please use the correct role.`, 5000, true);
-                        return;
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        if (userData.role !== role) {
+                            showToast(`This account is registered as a ${userData.role}. Please use the correct role.`, 5000, true);
+                            return;
+                        }
+                        // Update last login
+                        await docRef.update({
+                            lastLogin: new Date().toISOString()
+                        });
+                    } else {
+                        // First time login - save to Firestore with role
+                        let userData = {};
+                        switch(role) {
+                            case 'student':
+                                userData = {
+                                    name: user.displayName || user.email.split('@')[0],
+                                    class: 'Unknown',
+                                    rollNumber: 'N/A',
+                                    parentName: 'Not Specified',
+                                    email: user.email,
+                                    role: 'student',
+                                    uid: user.uid,
+                                    photoURL: user.photoURL,
+                                    createdAt: new Date().toISOString(),
+                                    lastLogin: new Date().toISOString()
+                                };
+                                break;
+                            case 'parent':
+                                userData = {
+                                    childName: 'Not Specified',
+                                    class: 'Unknown',
+                                    yourName: user.displayName || user.email.split('@')[0],
+                                    email: user.email,
+                                    role: 'parent',
+                                    uid: user.uid,
+                                    photoURL: user.photoURL,
+                                    createdAt: new Date().toISOString(),
+                                    lastLogin: new Date().toISOString()
+                                };
+                                break;
+                            case 'teacher':
+                                userData = {
+                                    name: user.displayName || user.email.split('@')[0],
+                                    email: user.email,
+                                    department: 'Not Specified',
+                                    role: 'teacher',
+                                    uid: user.uid,
+                                    photoURL: user.photoURL,
+                                    createdAt: new Date().toISOString(),
+                                    lastLogin: new Date().toISOString()
+                                };
+                                break;
+                        }
+                        await docRef.set(userData);
                     }
-                    // Update last login
-                    await docRef.update({
-                        lastLogin: new Date().toISOString()
-                    });
-                } else {
-                    // First time login - save to Firestore with role
-                    let userData = {};
-                    switch(role) {
-                        case 'student':
-                            userData = {
-                                name: user.displayName || user.email.split('@')[0],
-                                class: 'Unknown',
-                                rollNumber: 'N/A',
-                                parentName: 'Not Specified',
-                                email: user.email,
-                                role: 'student',
-                                uid: user.uid,
-                                photoURL: user.photoURL,
-                                createdAt: new Date().toISOString(),
-                                lastLogin: new Date().toISOString()
-                            };
-                            break;
-                        case 'parent':
-                            userData = {
-                                childName: 'Not Specified',
-                                class: 'Unknown',
-                                yourName: user.displayName || user.email.split('@')[0],
-                                email: user.email,
-                                role: 'parent',
-                                uid: user.uid,
-                                photoURL: user.photoURL,
-                                createdAt: new Date().toISOString(),
-                                lastLogin: new Date().toISOString()
-                            };
-                            break;
-                        case 'teacher':
-                            userData = {
-                                name: user.displayName || user.email.split('@')[0],
-                                email: user.email,
-                                department: 'Not Specified',
-                                role: 'teacher',
-                                uid: user.uid,
-                                photoURL: user.photoURL,
-                                createdAt: new Date().toISOString(),
-                                lastLogin: new Date().toISOString()
-                            };
-                            break;
-                    }
-                    await docRef.set(userData);
+
+                    // Save to localStorage
+                    const userData = doc.exists ? doc.data() : {};
+                    localStorage.setItem('mkps_user', JSON.stringify({
+                        uid: user.uid,
+                        name: userData.name || user.displayName,
+                        class: userData.class || 'Unknown',
+                        rollNumber: userData.rollNumber || 'N/A',
+                        parentName: userData.parentName || 'Not Specified',
+                        childName: userData.childName || 'Not Specified',
+                        yourName: userData.yourName || user.displayName,
+                        email: user.email,
+                        role: role,
+                        photoURL: user.photoURL,
+                        department: userData.department || 'Not Specified'
+                    }));
                 }
-
-                // Save to localStorage
-                const userData = doc.exists ? doc.data() : {};
-                localStorage.setItem('mkps_user', JSON.stringify({
-                    uid: user.uid,
-                    name: userData.name || user.displayName,
-                    class: userData.class || 'Unknown',
-                    rollNumber: userData.rollNumber || 'N/A',
-                    parentName: userData.parentName || 'Not Specified',
-                    childName: userData.childName || 'Not Specified',
-                    yourName: userData.yourName || user.displayName,
-                    email: user.email,
-                    role: role,
-                    photoURL: user.photoURL,
-                    department: userData.department || 'Not Specified'
-                }));
 
                 // Redirect based on role
                 const redirectPages = {
@@ -1382,7 +1453,27 @@
 
             } catch (error) {
                 console.error('Google sign-in error:', error);
-                showToast(error.message, 4000, true);
+                
+                let errorMessage = "An error occurred. Please try again.";
+                
+                switch(error.code) {
+                    case 'auth/popup-blocked':
+                        errorMessage = "Popup was blocked. Please allow popups for this site.";
+                        break;
+                    case 'auth/cancelled-popup-request':
+                        errorMessage = "Sign in request was cancelled. Please try again.";
+                        break;
+                    case 'auth/popup-closed-by-user':
+                        errorMessage = "Popup was closed before completing sign in.";
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = "Network error. Please check your internet connection.";
+                        break;
+                    default:
+                        errorMessage = error.message || "An error occurred. Please try again.";
+                }
+                
+                showToast(errorMessage, 4000, true);
             } finally {
                 loader.style.display = 'none';
                 loginText.textContent = role === 'student' ? 'Sign In as Student' : 
@@ -1416,25 +1507,28 @@
             loadSavedTheme();
             
             // Check if user is already logged in
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    const savedUser = localStorage.getItem('mkps_user');
-                    if (savedUser) {
-                        const { role } = JSON.parse(savedUser);
-                        const redirectPages = {
-                            'student': 'dashboard.html',
-                            'parent': 'parent.html',
-                            'teacher': 'teacher.html'
-                        };
-                        if (redirectPages[role]) {
-                            // showToast('You are already logged in. Redirecting...', 2000);
-                            setTimeout(() => {
-                                window.location.href = redirectPages[role];
-                            }, 500);
+            if (auth) {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        const savedUser = localStorage.getItem('mkps_user');
+                        if (savedUser) {
+                            const { role } = JSON.parse(savedUser);
+                            const redirectPages = {
+                                'student': 'dashboard.html',
+                                'parent': 'parent.html',
+                                'teacher': 'teacher.html'
+                            };
+                            if (redirectPages[role]) {
+                                setTimeout(() => {
+                                    window.location.href = redirectPages[role];
+                                }, 500);
+                            }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                console.warn("Firebase Auth not available");
+            }
         });
 
         // ———————————————————————————————————————
@@ -1499,7 +1593,7 @@
         // Use a server-side proxy endpoint (e.g., /api/gemini) to forward requests.
         // const GEMINI_API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
 
-        console.log('MKPS Professional Login Page Loaded Successfully with Firebase Integration.');
+        console.log('MKPS Professional Login Page Loaded Successfully with Enhanced Error Handling.');
     </script>
 </body>
 </html>
