@@ -1,399 +1,1168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MKPS Student Hub – Professional</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard - MKPS</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root{
-      --primary:#667eea;
-      --secondary:#764ba2;
-      --bg:#f5f7fa;
-      --card:#ffffff;
-      --text:#333333;
-      --muted:#777777;
-      --success:#2e7d32;
-      --warning:#ef6c00;
-      --danger:#c62828;
-      --shadow:0 4px 20px rgba(0,0,0,.08);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-    body{background:var(--bg);color:var(--text);min-height:100vh;scroll-behavior:smooth}
-    /* Header */
-    .header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000}
-    .header h2{font-size:22px;font-weight:600}
-    .logout{background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:20px;padding:8px 12px;font-size:12px}
-    /* Welcome */
-    .welcome{background:var(--card);margin:12px 16px;border-radius:22px;padding:20px;text-align:center;box-shadow:var(--shadow)}
-    .welcome h3{font-size:18px;font-weight:600}
-    /* Stats Grid */
-    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 16px}
-    .stat-card{background:var(--card);border-radius:18px;padding:15px;text-align:center;box-shadow:var(--shadow)}
-    .stat-card b{font-size:20px;color:var(--primary)}
-    /* Section */
-    .section{margin:25px 0}
-    .section-title{display:flex;justify-content:space-between;align-items:center;padding:0 20px 12px;font-size:16px;font-weight:600}
-    .section-title a{color:var(--primary);font-size:11px;text-decoration:none}
-    .scroll{display:flex;gap:12px;padding:0 20px;overflow-x:auto;scroll-snap-type:x mandatory}
-    .card{flex:0 0 85%;background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);scroll-snap-align:start}
-    .card h4{font-size:15px;font-weight:600;margin-bottom:6px}
-    .card p{font-size:13px;color:var(--muted)}
-    .small{font-size:11px;color:var(--muted)}
-    /* Status Pills */
-    .pill{display:inline-block;padding:4px 10px;border-radius:12px;font-size:11px;margin-top:6px}
-    .pending{background:#fff3cd;color:#856404}
-    .completed{background:#d1e7dd;color:#0f5132}
-    .overdue{background:#f8d7da;color:#721c24}
-    /* Tables */
-    .table-wrap{margin:0 20px;background:var(--card);border-radius:18px;overflow:hidden}
-    table{width:100%;font-size:13px;border-collapse:collapse}
-    th,td{padding:12px 5px;text-align:center;border-bottom:1px solid #eee}
-    /* Bottom Navigation */
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;border-top:1px solid #eee;height:60px}
-    .nav-item{flex:1;text-align:center;padding-top:8px;font-size:11px;color:var(--muted);cursor:pointer;transition:.2s}
-    .nav-item.active{color:var(--primary);font-weight:600}
-    .nav-item i{font-size:20px;margin-bottom:2px}
-    /* FAB */
-    .fab{position:fixed;bottom:80px;right:20px;background:var(--primary);color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 15px rgba(0,0,0,.25);z-index:1000}
-    /* Modal */
-    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center}
-    .modal.show{display:flex}
-    .modal-content{background:var(--card);border-radius:20px;padding:20px;width:90%;max-height:80%;overflow-y:auto}
-    .close{float:right;font-size:24px;cursor:pointer;color:var(--muted)}
-    /* Empty / Loading */
-    .empty{text-align:center;padding:40px;color:var(--muted)}
-    .loading{text-align:center;padding:30px;color:var(--primary)}
-    /* Chart Container */
-    .chart-container{position:relative;height:160px;margin:0 20px}
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8f9ff;
+      color: #333;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #1e3c72;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      color: #4facfe;
+    }
+
+    .profile-icon {
+      background: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1e3c72;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      background: #f0f4ff;
+      position: relative;
+    }
+
+    .welcome-card {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.2);
+    }
+
+    .welcome-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .student-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .student-class {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin: 0 auto 8px;
+    }
+
+    .attendance-icon { background: #d4edda; color: #155724; }
+    .fees-icon { background: #fff3cd; color: #856404; }
+    .homework-icon { background: #d1ecf1; color: #0c5460; }
+
+    .stat-title {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .stat-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 5px 0;
+    }
+
+    .tabs {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      overflow: auto;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      background: #2575fc;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1e3c72;
+      margin: 20px 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title i {
+      background: #e6f0ff;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2575fc;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .item {
+      padding: 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .subject, .title, .period {
+      font-weight: 600;
+      color: #1e3c72;
+    }
+
+    .date, .time, .teacher {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .description, .content {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #555;
+      margin: 8px 0;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    .status-paid { background: #d4edda; color: #155724; }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-overdue { background: #f8d7da; color: #721c24; }
+
+    .timetable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .timetable th {
+      background: #1e3c72;
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .timetable td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .timetable tr:nth-child(even) {
+      background: #f8f9ff;
+    }
+
+    .timetable .time-col {
+      width: 80px;
+      font-weight: 600;
+      color: #1e3c72;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: #ddd;
+      margin-bottom: 15px;
+    }
+
+    .empty-state p {
+      margin: 10px 0;
+    }
+
+    .ai-assistant {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .ai-assistant:hover {
+      transform: scale(1.1);
+      background: #2575fc;
+    }
+
+    .ai-assistant i {
+      font-size: 1.5rem;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: space-around;
+      background: white;
+      padding: 12px 0;
+      border-top: 1px solid #eee;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #666;
+      font-size: 0.85rem;
+      transition: color 0.3s;
+    }
+
+    .menu-item.active {
+      color: #2575fc;
+    }
+
+    .menu-item i {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .skeleton {
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .skeleton-header {
+      height: 80px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      background: #f8f9fa;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .skeleton:nth-child(1) { height: 60px; }
+    .skeleton:nth-child(2) { height: 60px; }
+    .skeleton:nth-child(3) { height: 60px; }
+    .skeleton:nth-child(4) { height: 100px; }
+    .skeleton:nth-child(5) { height: 80px; }
+
+    @keyframes pulse {
+      0% { opacity: 0.8; }
+      50% { opacity: 0.5; }
+      100% { opacity: 0.8; }
+    }
+
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #2575fc;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1e3c72;
+    }
+
+    .close-btn {
+      background: #f8f9fa;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .modal-body {
+      margin-bottom: 20px;
+    }
+
+    .note-content {
+      line-height: 1.6;
+      color: #555;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 480px) {
+      .quick-stats {
+        grid-template-columns: 1fr;
+      }
+      
+      .welcome-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .profile-avatar {
+        margin-top: 10px;
+      }
+      
+      .tabs {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-school"></i>
+        <span>MKPS Balrampur</span>
+      </div>
+      <div class="profile-icon" id="profileBtn">A</div>
+    </header>
 
-<!-- Header -->
-<header>
-  <h2><i class="fas fa-user-graduate"></i> Welcome, <span id="stuName">Student</span></h2>
-  <button class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
-</header>
+    <main id="mainContent">
+      <div class="skeleton-header"></div>
+      
+      <div class="quick-stats">
+        <div class="stat-card">
+          <div class="stat-icon attendance-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3 class="stat-title">Attendance</h3>
+          <p class="stat-value">Loading...</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon homework-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <h3 class="stat-title">Homework</h3>
+          <p class="stat-value">Loading...</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon fees-icon">
+            <i class="fas fa-rupee-sign"></i>
+          </div>
+          <h3 class="stat-title">Fees</h3>
+          <p class="stat-value">Loading...</p>
+        </div>
+      </div>
 
-<!-- Personalized Welcome -->
-<div class="welcome">
-  <h3>Hi, <span id="stuFull">--</span> 👋</h3>
-  <p>Class: <b id="stuClass">--</b> | Roll: <b id="stuRoll">--</b></p>
-</div>
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-tab="homework">
+          <i class="fas fa-book"></i> Homework
+        </div>
+        <div class="tab" data-tab="notes">
+          <i class="fas fa-sticky-note"></i> Notes
+        </div>
+        <div class="tab" data-tab="timetable">
+          <i class="fas fa-clock"></i> Timetable
+        </div>
+        <div class="tab" data-tab="announcements">
+          <i class="fas fa-bullhorn"></i> Announcements
+        </div>
+      </div>
 
-<!-- Quick Stats Grid -->
-<div class="stats">
-  <div class="stat-card"><b id="attPer">--</b><br>Attendance</div>
-  <div class="stat-card"><b id="hwPen">--</b><br>Pending HW</div>
-  <div class="stat-card"><b id="notesCnt">--</b><br>Notes</div>
-  <div class="stat-card"><b id="events">--</b><br>Events</div>
-</div>
+      <div id="content">
+        <!-- Homework Tab -->
+        <div class="tab-content active" id="homework">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
 
-<!-- Homework -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-book"></i> Today's Homework</span><a href="#" onclick="openModal('hw')">View All</a></div>
-  <div class="scroll" id="homework-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+        <!-- Notes Tab -->
+        <div class="tab-content" id="notes">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
 
-<!-- Notes -->
-<section class="section">
-  <div class="section-title">
-    <span><i class="fas fa-sticky-note"></i> Notes</span>
-    <label style="color:var(--primary);cursor:pointer"><i class="fas fa-upload"></i> Upload<input type="file" accept="image/*,.pdf" style="display:none" onchange="uploadNote(this)"></label>
+        <!-- Timetable Tab -->
+        <div class="tab-content" id="timetable">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+
+        <!-- Announcements Tab -->
+        <div class="tab-content" id="announcements">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <div style="margin-top:10px; font-size:0.9rem; color:#555;">Loading dashboard...</div>
+      </div>
+    </main>
+
+    <div class="menu">
+      <div class="menu-item active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-book"></i>
+        <span>Homework</span>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-file-alt"></i>
+        <span>Notes</span>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-comments"></i>
+        <span>Messages</span>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </div>
+    </div>
+
+    <div class="ai-assistant" id="aiBtn">
+      <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Note Modal -->
+    <div class="modal" id="noteModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Note Details</h3>
+          <button class="close-btn" id="closeNoteModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h4 id="noteTitle" style="margin-bottom: 10px; color: #1e3c72;"></h4>
+          <p id="noteDate" style="color: #666; font-size: 0.9rem; margin-bottom: 15px;"></p>
+          <div class="note-content" id="noteContent"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="scroll" id="notes-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
 
-<!-- Timetable -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-calendar-alt"></i> Timetable</span><a href="#" onclick="downloadPDF()">PDF</a></div>
-  <div class="table-wrap">
-    <table id="timetable">
-      <thead><tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
+      authDomain: "mkps-balrampur.firebaseapp.com",
+      projectId: "mkps-balrampur",
+      storageBucket: "mkps-balrampur.firebasestorage.app",
+      messagingSenderId: "469227187804",
+      appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
+      measurementId: "G-TYKBNS9SX2"
+    };
 
-<!-- Attendance -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-calendar-check"></i> Attendance</span></div>
-  <div class="scroll" id="attendance-log"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
 
-<!-- Events -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-calendar-day"></i> Upcoming Events</span></div>
-  <div class="scroll" id="events-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // DOM Elements
+    const mainContent = document.getElementById('mainContent');
+    const loader = document.getElementById('loader');
+    const profileBtn = document.getElementById('profileBtn');
+    const aiBtn = document.getElementById('aiBtn');
+    const tabs = document.getElementById('tabs');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const noteModal = document.getElementById('noteModal');
+    const closeNoteModal = document.getElementById('closeNoteModal');
 
-<!-- Achievements -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-trophy"></i> Achievements</span></div>
-  <div class="scroll" id="achievements-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Student Data
+    let studentData = null;
+    let homeworkData = [];
+    let notesData = [];
+    let timetableData = {};
+    let announcementData = [];
 
-<!-- Library Books -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-book-open"></i> Library Books</span></div>
-  <div class="scroll" id="library-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Timetable configuration by class
+    const timetableConfig = {
+      'Nursery': {
+        '09:00': ['Rhymes', 'Art & Craft', 'Play Time'],
+        '10:00': ['Story Time', 'Math', 'English'],
+        '11:00': ['Moral Science', 'Free Period', 'Lunch']
+      },
+      'LKG': {
+        '09:00': ['English', 'Math', 'EVS'],
+        '10:00': ['Hindi', 'Art & Craft', 'Music'],
+        '11:00': ['Games', 'Story Time', 'Lunch']
+      },
+      'UKG': {
+        '09:00': ['English', 'Math', 'EVS'],
+        '10:00': ['Hindi', 'Art & Craft', 'Music'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '1': {
+        '09:00': ['English', 'Math', 'EVS'],
+        '10:00': ['Hindi', 'Art & Craft', 'Music'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '2': {
+        '09:00': ['English', 'Math', 'EVS'],
+        '10:00': ['Hindi', 'Art & Craft', 'Music'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '3': {
+        '09:00': ['English', 'Math', 'Science'],
+        '10:00': ['Hindi', 'Social Studies', 'Art'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '4': {
+        '09:00': ['English', 'Math', 'Science'],
+        '10:00': ['Hindi', 'Social Studies', 'Art'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '5': {
+        '09:00': ['English', 'Math', 'Science'],
+        '10:00': ['Hindi', 'Social Studies', 'Art'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '6': {
+        '09:00': ['English', 'Math', 'Science'],
+        '10:00': ['Hindi', 'Social Studies', 'Sanskrit'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '7': {
+        '09:00': ['English', 'Math', 'Science'],
+        '10:00': ['Hindi', 'Social Studies', 'Sanskrit'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      },
+      '8': {
+        '09:00': ['English', 'Math', 'Science'],
+        '10:00': ['Hindi', 'Social Studies', 'Sanskrit'],
+        '11:00': ['Games', 'Computer', 'Lunch']
+      }
+    };
 
-<!-- Sports Schedule -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-running"></i> Sports Schedule</span></div>
-  <div class="scroll" id="sports-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Show Loader
+    function showLoader(show) {
+      loader.style.display = show ? 'block' : 'none';
+    }
 
-<!-- Exam Timetable -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-clipboard-list"></i> Exam Timetable</span></div>
-  <div class="table-wrap">
-    <table id="exam-table">
-      <thead><tr><th>Date</th><th>Subject</th><th>Time</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
+    // Get Session Data
+    function getSession() {
+      const session = localStorage.getItem('mkps_session');
+      if (!session) {
+        alert('No session found. Please login first.');
+        window.location.href = 'index.html';
+        return null;
+      }
+      return JSON.parse(session);
+    }
 
-<!-- Holidays -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-sun"></i> Holidays</span></div>
-  <div class="scroll" id="holidays-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Format Date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'short',
+        year: '2-digit'
+      });
+    }
 
-<!-- Birthdays -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-birthday-cake"></i> Birthdays</span></div>
-  <div class="scroll" id="birthday-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Format Date for display
+    function formatDateTime(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'short',
+        year: '2-digit'
+      }) + ' ' + date.toLocaleTimeString('en-IN', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
 
-<!-- Compliments -->
-<section class="section">
-  <div class="section-title"><span><i class="fas fa-heart"></i> Compliments</span></div>
-  <div class="scroll" id="compliments-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
-</section>
+    // Load Student Data
+    async function loadStudentData() {
+      const session = getSession();
+      if (!session || session.role !== 'student') return;
 
-<!-- AI FAB -->
-<button class="fab" onclick="openAI()" title="AI Assistant"><i class="fas fa-magic"></i></button>
+      studentData = session.data;
+      
+      // Update profile
+      document.querySelector('.student-name').textContent = studentData.name;
+      document.querySelector('.student-class').textContent = `Class ${studentData.class}`;
+      
+      // Update profile avatar
+      const firstLetter = studentData.name.charAt(0).toUpperCase();
+      document.getElementById('profileAvatar').textContent = firstLetter;
+      document.getElementById('profileBtn').textContent = firstLetter;
 
-<script>
-  /* ===== Firebase ===== */
-  firebase.initializeApp({
-    apiKey:"AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
-    authDomain:"mkps-balrampur.firebaseapp.com",
-    projectId:"mkps-balrampur",
-    storageBucket:"mkps-balrampur.firebasestorage.app"
-  });
-  const db=firebase.firestore(),storage=firebase.storage();
+      // Mock attendance data
+      const totalDays = 100;
+      const presentDays = Math.floor(Math.random() * 20) + 80; // 80-100%
+      const attendanceRate = Math.round((presentDays / totalDays) * 100);
+      document.querySelector('.stat-value:nth-child(1)').textContent = `${attendanceRate}%`;
 
-  /* ===== Auth & Profile ===== -->
-  const sid=localStorage.getItem('studentId');
-  const sname=localStorage.getItem('studentName');
-  const sclass=localStorage.getItem('studentClass');
-  const roll=localStorage.getItem('studentClassRoll');
-  if(!sid)location.href='index.html';
-  document.getElementById('stuName').textContent=sname;
-  document.getElementById('stuFull').textContent=sname;
-  document.getElementById('stuClass').textContent=sclass;
-  document.getElementById('stuRoll').textContent=roll;
+      // Load homework
+      await loadHomework();
+      
+      // Load notes
+      await loadNotes();
+      
+      // Load timetable
+      loadTimetable();
+      
+      // Load announcements
+      await loadAnnouncements();
+    }
 
-  /* ===== Teacher-Manageable Data ===== -->
-  const staticData={
-    Nursery:{
-      homework:[{subject:'Art',desc:'Draw 3 fruits',date:new Date(),status:'pending'}],
-      notes:[{title:'Alphabet A',content:'Write A 5 times'}],
-      timetable:[{time:'09-09:30',Mon:'Rhymes',Tue:'Art',Wed:'Story',Thu:'Play',Fri:'Music'}],
-      attendance:[{date:new Date(),present:true}],
-      events:[{title:'Colouring Competition',date:'2025-09-01'}],
-      achievements:[{title:'Best Handwriting',date:'2025-08-20'}],
-      library:[{title:'My First Book',author:'ABC',due:'2025-09-01'}],
-      sports:[{sport:'Yoga',day:'Mon',time:'09:45-10:15'}],
-      exams:[{date:'2025-09-05',subject:'Rhymes',time:'10:00-10:30'}],
-      holidays:[{date:'2025-08-26',name:'Raksha Bandhan'}],
-      birthdays:[{name:'Aarav',date:'2025-08-26'}],
-      compliments:[{text:'Great participation!',teacher:'Ms. Rita'}]
-    },
-    LKG:{
-      homework:[{subject:'English',desc:'A-C 5 times',status:'pending'}],
-      timetable:[{time:'08:30-09:15',Mon:'English',Tue:'Math',Wed:'Art',Thu:'Music',Fri:'Play'}],
-      events:[{title:'Tell-a-Tale',date:'2025-09-02'}],
-      library:[{title:'ABC Book',author:'XYZ',due:'2025-09-10'}],
-      sports:[{sport:'Dance',day:'Wed',time:'09:45-10:15'}],
-      exams:[{date:'2025-09-10',subject:'English',time:'09:00-09:45'}],
-      holidays:[{date:'2025-09-02',name:'Teacher’s Day'}],
-      birthdays:[{name:'Anaya',date:'2025-09-05'}],
-      compliments:[{text:'Very polite!',teacher:'Ms. Neha'}]
-    },
-    '1':{
-      homework:[{subject:'Hindi',desc:'वर्णमाला',status:'pending'}],
-      timetable:[{time:'08:30-09:15',Mon:'Hindi',Tue:'Math',Wed:'English',Thu:'Art',Fri:'EVS'}],
-      events:[{title:'Story Day',date:'2025-09-01'}],
-      library:[{title:'Primer Hindi',author:'NCERT',due:'2025-09-15'}],
-      sports:[{sport:'Karate',day:'Fri',time:'08:00-08:30'}],
-      exams:[{date:'2025-09-15',subject:'Math',time:'09:00-09:45'}],
-      holidays:[{date:'2025-09-12',name:'Gandhi Jayanti'}],
-      birthdays:[{name:'Rohan',date:'2025-09-18'}],
-      compliments:[{text:'Quick learner!',teacher:'Mr. Ajay'}]
-    },
-    '2':{homework:[{subject:'English',desc:'My School 5 lines',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'English',Tue:'Math',Wed:'Hindi',Thu:'EVS',Fri:'Art'}]},
-    '3':{homework:[{subject:'English',desc:'Paragraph 8 lines',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'English',Tue:'Math',Wed:'EVS',Thu:'Hindi',Fri:'Science'}]},
-    '4':{homework:[{subject:'Science',desc:'Plant diagram',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'Science',Tue:'Math',Wed:'English',Thu:'Hindi',Fri:'SST'}]},
-    '5':{homework:[{subject:'SST',desc:'India map',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'SST',Tue:'Math',Wed:'Science',Thu:'English',Fri:'Hindi'}]},
-    '6':{homework:[{subject:'Hindi',desc:'संज्ञा अभ्यास',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'Hindi',Tue:'Math',Wed:'Science',Thu:'SST',Fri:'English'}]},
-    '7':{homework:[{subject:'Science',desc:'Digestive system',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'Science',Tue:'Math',Wed:'English',Thu:'Hindi',Fri:'SST'}]},
-    '8':{homework:[{subject:'SST',desc:'Constitution essay',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'SST',Tue:'Math',Wed:'Science',Thu:'English',Fri:'Hindi'}]}
-  };
+    // Load Homework
+    async function loadHomework() {
+      try {
+        const homeworkRef = await db.collection('homework')
+          .where('class', '==', studentData.class)
+          .orderBy('date', 'desc')
+          .limit(10)
+          .get();
 
-  /* ===== Push Static Data (Teacher-manageable) ===== -->
-  async function pushStaticData(){
-    const cols=['homework','notes','timetable','attendance','events','achievements','library','sports','exams','holidays','birthdays','compliments'];
-    for (const col of cols){
-      const snap=await db.collection(col).where('class','==',sclass).get();
-      if(snap.empty){
-        const batch=db.batch();
-        staticData[sclass][col].forEach(item=>batch.set(db.collection(col).doc(),{...item,class:sclass}));
-        await batch.commit();
+        const homeworkList = document.getElementById('homework');
+        homeworkList.innerHTML = '';
+
+        if (homeworkRef.empty) {
+          // Add some mock homework if none in database
+          const mockHomework = [
+            { subject: 'Math', description: 'Complete exercise 3.2 on fractions', date: new Date().toISOString() },
+            { subject: 'English', description: 'Write a paragraph about your favorite book', date: new Date(Date.now() - 86400000).toISOString() },
+            { subject: 'Science', description: 'Draw and label the parts of a plant', date: new Date(Date.now() - 172800000).toISOString() }
+          ];
+
+          mockHomework.forEach(hw => {
+            const homeworkItem = document.createElement('div');
+            homeworkItem.className = 'card';
+            homeworkItem.innerHTML = `
+              <div class="item">
+                <div class="item-header">
+                  <span class="subject">${hw.subject}</span>
+                  <span class="date">${formatDate(hw.date)}</span>
+                </div>
+                <p class="description">${hw.description}</p>
+              </div>
+            `;
+            homeworkList.appendChild(homeworkItem);
+          });
+
+          document.querySelector('.stat-value:nth-child(2)').textContent = mockHomework.length;
+          return;
+        }
+
+        homeworkData = [];
+        let count = 0;
+        homeworkRef.forEach(doc => {
+          const data = doc.data();
+          homeworkData.push({ id: doc.id, ...data });
+          
+          const homeworkItem = document.createElement('div');
+          homeworkItem.className = 'card';
+          homeworkItem.innerHTML = `
+            <div class="item">
+              <div class="item-header">
+                <span class="subject">${data.subject}</span>
+                <span class="date">${formatDate(data.date)}</span>
+              </div>
+              <p class="description">${data.description}</p>
+            </div>
+          `;
+          homeworkList.appendChild(homeworkItem);
+          count++;
+        });
+
+        document.querySelector('.stat-value:nth-child(2)').textContent = count;
+      } catch (error) {
+        console.error('Error loading homework:', error);
+        document.getElementById('homework').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading homework</p>
+          </div>
+        `;
       }
     }
-  }
 
-  /* ===== Load All Data ===== -->
-  async function loadAll(){
-    await pushStaticData();
-    // homework
-    const hwSnap=await db.collection('homework').where('class','==',sclass).orderBy('date','desc').limit(6).get();
-    const hwDiv=document.getElementById('homework-list');
-    hwDiv.innerHTML='';
-    hwSnap.forEach(d=>{
-      const h=d.data();
-      hwDiv.innerHTML+=`<div class="card">
-        <h4>${h.subject}</h4><p>${h.desc}</p><small>${h.date.toDate().toLocaleDateString('en-IN')}</small>
-        <span class="pill ${h.status}">${h.status}</span>
-      </div>`;
-    });
-    // notes
-    const noteSnap=await db.collection('notes').where('class','==',sclass).orderBy('createdAt','desc').limit(6).get();
-    const noteDiv=document.getElementById('notes-list');
-    noteDiv.innerHTML='';
-    noteSnap.forEach(d=>{
-      const n=d.data();
-      noteDiv.innerHTML+=`<div class="card"><h4>${n.title}</h4><p>${n.content}</p>${n.imageUrl?'<img src="'+n.imageUrl+'" style="width:100%;border-radius:8px;margin-top:6px">':''}</div>`;
-    });
-    // timetable
-    const ttSnap=await db.collection('timetable').where('class','==',sclass).get();
-    const tbody=document.querySelector('#timetable tbody');
-    tbody.innerHTML='';
-    ttSnap.forEach(d=>{
-      const t=d.data();
-      tbody.innerHTML+=`<tr><td>${t.time}</td><td>${t.Mon||'-'}</td><td>${t.Tue||'-'}</td><td>${t.Wed||'-'}</td><td>${t.Thu||'-'}</td><td>${t.Fri||'-'}</td></tr>`;
-    });
-    // attendance
-    const attSnap=await db.collection('attendance').where('class','==',sclass).orderBy('date','desc').limit(5).get();
-    const attDiv=document.getElementById('attendance-log');
-    attDiv.innerHTML='';
-    attSnap.forEach(d=>{
-      const a=d.data();
-      attDiv.innerHTML+=`<div class="card"><p>${a.date.toDate().toLocaleDateString()}: <b>${a.present?'Present':'Absent'}</b></p></div>`;
-    });
-    // events
-    const evSnap=await db.collection('events').where('class','==',sclass).orderBy('date','asc').limit(5).get();
-    const evDiv=document.getElementById('events-list');
-    evDiv.innerHTML='';
-    evSnap.forEach(d=>{
-      const e=d.data();
-      evDiv.innerHTML+=`<div class="card"><h4>${e.title}</h4><small>${e.date}</small></div>`;
-    });
-    // achievements
-    const achSnap=await db.collection('achievements').where('class','==',sclass).orderBy('date','desc').limit(5).get();
-    const achDiv=document.getElementById('achievements-list');
-    achDiv.innerHTML='';
-    achSnap.forEach(d=>{
-      const a=d.data();
-      achDiv.innerHTML+=`<div class="card"><h4>${a.title}</h4><small>${a.date}</small></div>`;
-    });
-    // library
-    const libSnap=await db.collection('library').where('class','==',sclass).limit(5).get();
-    const libDiv=document.getElementById('library-list');
-    libDiv.innerHTML='';
-    libSnap.forEach(d=>{
-      const l=d.data();
-      libDiv.innerHTML+=`<div class="card"><h4>${l.title}</h4><small>Due: ${l.due}</small></div>`;
-    });
-    // sports
-    const sprSnap=await db.collection('sports').where('class','==',sclass).limit(5).get();
-    const sprDiv=document.getElementById('sports-list');
-    sprDiv.innerHTML='';
-    sprSnap.forEach(d=>{
-      const s=d.data();
-      sprDiv.innerHTML+=`<div class="card"><h4>${s.sport}</h4><small>${s.day} ${s.time}</small></div>`;
-    });
-    // exams
-    const exSnap=await db.collection('exams').where('class','==',sclass).limit(5).get();
-    const exDiv=document.querySelector('#exam-table tbody');
-    exDiv.innerHTML='';
-    exSnap.forEach(d=>{
-      const e=d.data();
-      exDiv.innerHTML+=`<tr><td>${e.date}</td><td>${e.subject}</td><td>${e.time}</td></tr>`;
-    });
-    // holidays
-    const holSnap=await db.collection('holidays').limit(5).get();
-    const holDiv=document.getElementById('holidays-list');
-    holDiv.innerHTML='';
-    holSnap.forEach(d=>{
-      const h=d.data();
-      holDiv.innerHTML+=`<div class="card"><h4>${h.name}</h4><small>${h.date}</small></div>`;
-    });
-    // birthdays
-    const bdaySnap=await db.collection('birthdays').where('class','==',sclass).limit(5).get();
-    const bdayDiv=document.getElementById('birthday-list');
-    bdayDiv.innerHTML='';
-    bdaySnap.forEach(d=>{
-      const b=d.data();
-      bdayDiv.innerHTML+=`<div class="card"><h4>${b.name}</h4><small>${b.date}</small></div>`;
-    });
-    // compliments
-    const compSnap=await db.collection('compliments').where('class','==',sclass).limit(5).get();
-    const compDiv=document.getElementById('compliments-list');
-    compDiv.innerHTML='';
-    compSnap.forEach(d=>{
-      const c=d.data();
-      compDiv.innerHTML+=`<div class="card"><p><b>“${c.text}”</b><br><small>- ${c.teacher}</small></p></div>`;
+    // Load Notes
+    async function loadNotes() {
+      try {
+        const notesRef = await db.collection('notes')
+          .where('class', '==', studentData.class)
+          .orderBy('date', 'desc')
+          .limit(10)
+          .get();
+
+        const notesList = document.getElementById('notes');
+        notesList.innerHTML = '';
+
+        if (notesRef.empty) {
+          // Add some mock notes if none in database
+          const mockNotes = [
+            { title: 'Math - Fractions', content: 'A fraction represents a part of a whole. Numerator is the top number, denominator is the bottom number.', date: new Date().toISOString() },
+            { title: 'English - Tenses', content: 'There are three main tenses: Present, Past, and Future. Each has simple, continuous, perfect, and perfect continuous forms.', date: new Date(Date.now() - 86400000).toISOString() },
+            { title: 'Science - Plants', content: 'Plants make their own food through photosynthesis. They need sunlight, water, and carbon dioxide to survive.', date: new Date(Date.now() - 172800000).toISOString() }
+          ];
+
+          mockNotes.forEach(note => {
+            const noteItem = document.createElement('div');
+            noteItem.className = 'card';
+            noteItem.innerHTML = `
+              <div class="item" data-note='${JSON.stringify(note)}'>
+                <div class="item-header">
+                  <span class="title">${note.title}</span>
+                  <span class="date">${formatDate(note.date)}</span>
+                </div>
+                <p class="content">${note.content.substring(0, 100)}${note.content.length > 100 ? '...' : ''}</p>
+              </div>
+            `;
+            noteItem.querySelector('.item').addEventListener('click', () => {
+              openNoteModal(note);
+            });
+            notesList.appendChild(noteItem);
+          });
+          return;
+        }
+
+        notesData = [];
+        notesRef.forEach(doc => {
+          const data = doc.data();
+          notesData.push({ id: doc.id, ...data });
+          
+          const noteItem = document.createElement('div');
+          noteItem.className = 'card';
+          noteItem.innerHTML = `
+            <div class="item" data-note='${JSON.stringify(data)}'>
+              <div class="item-header">
+                <span class="title">${data.title}</span>
+                <span class="date">${formatDate(data.date)}</span>
+              </div>
+              <p class="content">${data.content.substring(0, 100)}${data.content.length > 100 ? '...' : ''}</p>
+            </div>
+          `;
+          noteItem.querySelector('.item').addEventListener('click', () => {
+            openNoteModal(data);
+          });
+          notesList.appendChild(noteItem);
+        });
+      } catch (error) {
+        console.error('Error loading notes:', error);
+        document.getElementById('notes').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading notes</p>
+          </div>
+        `;
+      }
+    }
+
+    // Open Note Modal
+    function openNoteModal(note) {
+      document.getElementById('noteTitle').textContent = note.title;
+      document.getElementById('noteDate').textContent = `Posted on ${formatDateTime(note.date)}`;
+      document.getElementById('noteContent').textContent = note.content;
+      noteModal.style.display = 'flex';
+    }
+
+    // Load Timetable
+    function loadTimetable() {
+      const timetableList = document.getElementById('timetable');
+      timetableList.innerHTML = '';
+
+      const classTimetable = timetableConfig[studentData.class] || timetableConfig['1'];
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+      
+      const table = document.createElement('table');
+      table.className = 'timetable';
+      
+      // Header
+      let headerRow = '<tr><th>Time</th>';
+      days.forEach(day => {
+        headerRow += `<th>${day}</th>`;
+      });
+      headerRow += '</tr>';
+      table.innerHTML = headerRow;
+
+      // Content
+      Object.keys(classTimetable).forEach(time => {
+        let row = `<tr><td class="time-col">${time}</td>`;
+        classTimetable[time].forEach(subject => {
+          row += `<td>${subject}</td>`;
+        });
+        row += '</tr>';
+        table.innerHTML += row;
+      });
+
+      timetableList.appendChild(table);
+    }
+
+    // Load Announcements
+    async function loadAnnouncements() {
+      try {
+        const announcementRef = await db.collection('announcements')
+          .orderBy('date', 'desc')
+          .limit(5)
+          .get();
+
+        const announcementList = document.getElementById('announcements');
+        announcementList.innerHTML = '';
+
+        if (announcementRef.empty) {
+          // Add some mock announcements if none in database
+          const mockAnnouncements = [
+            { message: 'School will remain closed on Monday for Diwali celebrations.', date: new Date().toISOString() },
+            { message: 'Parent-Teacher meeting scheduled for next Friday at 3 PM.', date: new Date(Date.now() - 86400000).toISOString() },
+            { message: 'New library books have arrived. Students can borrow from tomorrow.', date: new Date(Date.now() - 172800000).toISOString() }
+          ];
+
+          mockAnnouncements.forEach(ann => {
+            const announcementItem = document.createElement('div');
+            announcementItem.className = 'card';
+            announcementItem.innerHTML = `
+              <div class="item">
+                <div class="item-header">
+                  <span class="subject">Announcement</span>
+                  <span class="date">${formatDate(ann.date)}</span>
+                </div>
+                <p class="description">${ann.message}</p>
+              </div>
+            `;
+            announcementList.appendChild(announcementItem);
+          });
+          return;
+        }
+
+        announcementData = [];
+        announcementRef.forEach(doc => {
+          const data = doc.data();
+          announcementData.push({ id: doc.id, ...data });
+          
+          const announcementItem = document.createElement('div');
+          announcementItem.className = 'card';
+          announcementItem.innerHTML = `
+            <div class="item">
+              <div class="item-header">
+                <span class="subject">Announcement</span>
+                <span class="date">${formatDate(data.date)}</span>
+              </div>
+              <p class="description">${data.message}</p>
+            </div>
+          `;
+          announcementList.appendChild(announcementItem);
+        });
+      } catch (error) {
+        console.error('Error loading announcements:', error);
+        document.getElementById('announcements').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading announcements</p>
+          </div>
+        `;
+      }
+    }
+
+    // Mock fees data
+    function loadFees() {
+      const feesAmount = 5000;
+      const paidAmount = Math.random() > 0.3 ? 3000 : 0; // 70% chance of partial payment
+      const feesPercentage = (paidAmount / feesAmount) * 100;
+      document.querySelector('.stat-value:nth-child(3)').textContent = `₹${feesAmount.toLocaleString()}`;
+      
+      const feesStatusEl = document.createElement('span');
+      feesStatusEl.className = 'status';
+      if (paidAmount === 0) {
+        feesStatusEl.textContent = 'Overdue';
+        feesStatusEl.classList.add('status-overdue');
+      } else if (paidAmount < feesAmount) {
+        feesStatusEl.textContent = 'Pending';
+        feesStatusEl.classList.add('status-pending');
+      } else {
+        feesStatusEl.textContent = 'Paid';
+        feesStatusEl.classList.add('status-paid');
+      }
+      
+      const feesCard = document.querySelector('.stat-card:nth-child(3)');
+      const existingStatus = feesCard.querySelector('.status');
+      if (existingStatus) {
+        existingStatus.remove();
+      }
+      feesCard.appendChild(feesStatusEl);
+    }
+
+    // Tab Switching
+    tabs.addEventListener('click', (e) => {
+      if (e.target.closest('.tab')) {
+        const tab = e.target.closest('.tab');
+        const tabName = tab.getAttribute('data-tab');
+        
+        // Update active tab
+        document.querySelectorAll('.tab').forEach(t => {
+          t.classList.remove('active');
+        });
+        tab.classList.add('active');
+        
+        // Show active content
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        document.getElementById(tabName).classList.add('active');
+      }
     });
 
-    // counters
-    const hwPenCnt=await db.collection('homework').where('class','==',sclass).where('status','==','pending').count().get();
-    document.getElementById('hwPen').textContent=hwPenCnt.data().count||0;
-    document.getElementById('notesCnt').textContent=noteSnap.size;
-    document.getElementById('events').textContent=evSnap.size;
-  }
+    // Initialize App
+    async function initApp() {
+      showLoader(true);
 
-  /* ===== Upload Note ===== -->
-  async function uploadNote(input){
-    const file=input.files[0];if(!file)return;
-    const path=`notes/${sid}/${Date.now()}_${file.name}`;
-    const snap=await storage.ref(path).put(file);
-    const url=await snap.ref.getDownloadURL();
-    await db.collection('notes').add({class:sclass,title:'My Upload',content:'Student uploaded',imageUrl:url,createdAt:new Date()});
-    loadAll();
-  }
+      try {
+        await loadStudentData();
+        loadFees(); // Load fees data
+        
+        // Hide skeletons and show content
+        document.querySelector('.skeleton-header').style.display = 'none';
+        document.querySelectorAll('.skeleton').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        showLoader(false);
+      } catch (error) {
+        console.error('Error initializing app:', error);
+        showLoader(false);
+        alert('Error loading dashboard: ' + error.message);
+      }
+    }
 
-  /* ===== Utilities ===== -->
-  function openModal(type){document.getElementById('modal').classList.add('show');document.getElementById('modalBody').innerHTML=`Full ${type} list coming soon...`;}
-  function closeModal(){document.getElementById('modal').classList.remove('show');}
-  function downloadPDF(){alert('PDF generator coming soon!');}
-  function openAI(){location.href='ai.html';}
-  function logout(){localStorage.clear();location.href='index.html';}
+    // Event Listeners
+    profileBtn.addEventListener('click', () => {
+      if (confirm('Do you want to logout?')) {
+        localStorage.removeItem('mkps_session');
+        window.location.href = 'index.html';
+      }
+    });
 
-  /* ===== On Load ===== -->
-  loadAll();
-</script>
+    aiBtn.addEventListener('click', () => {
+      window.location.href = 'ai.html';
+    });
+
+    closeNoteModal.addEventListener('click', () => {
+      noteModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === noteModal) {
+        noteModal.style.display = 'none';
+      }
+    });
+
+    // Check if user is logged in
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = getSession();
+      if (!session || session.role !== 'student') {
+        window.location.href = 'index.html';
+        return;
+      }
+      
+      initApp();
+    });
+
+    // Mock Gemini AI Integration
+    window.geminiAI = {
+      async askQuestion(question) {
+        const apiKey = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
+        try {
+          // This would be the actual API call
+          const responses = [
+            "I understand your question about homework. Let me explain this concept clearly with examples from your textbook...",
+            "Based on your class level, here's a simple explanation using real-life examples you can relate to...",
+            "This is an important concept in your curriculum. Let me break it down step by step with a diagram...",
+            "Great question! Here's how this applies to your studies, with some practice problems to try...",
+            "I can help you with that! Let me provide a detailed explanation with emojis to make it more engaging 🌟📚✏️"
+          ];
+          return responses[Math.floor(Math.random() * responses.length)];
+        } catch (error) {
+          return "I'm having trouble connecting to the AI service right now. Please try again later.";
+        }
+      }
+    };
+  </script>
 </body>
 </html>
