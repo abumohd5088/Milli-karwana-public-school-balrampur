@@ -1,196 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Milli Karwaan Public School</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2563eb">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="MKPS Student Dashboard - School Management System"/>
+    <meta name="theme-color" content="#667eea"/>
+    <title>MKPS | Student Dashboard</title>
+
+    <!-- Google Fonts: Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <!-- Inline Styles -->
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --background: #ffffff;
-            --surface: #f8fafc;
-            --text: #1e293b;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --error: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --shadow: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-            --radius: 0.5rem;
-            --transition: 250ms ease;
-        }
-
-        [data-theme="dark"] {
-            --background: #0f172a;
-            --surface: #1e293b;
-            --text: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --border: #334155;
-        }
-
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--background);
-            color: var(--text);
-            padding-bottom: 80px;
-        }
-
-        .app-bar {
-            background: var(--surface);
-            padding: 1rem;
-            box-shadow: var(--shadow);
+            font-family: 'Roboto', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
         }
 
-        .app-bar-left {
+        body.dark-mode {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        /* Layout */
+        .app-container {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-small {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--radius);
-        }
-
-        .app-bar-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 100vw;
+            margin: 0 auto;
             position: relative;
         }
 
-        .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--error);
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #667eea;
             color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode .header {
+            background: #1e3a8a;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.75rem;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
 
-        .content {
-            padding: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
+        /* Search Bar */
+        .search-container {
+            padding: 12px 16px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        body.dark-mode .search-container {
+            background: #1f1f1f;
+            border-bottom: 1px solid #333;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f0f0f0;
+            border-radius: 24px;
+            padding: 8px 16px;
+            width: 100%;
+            transition: box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .search-box {
+            background: #2d2d2d;
+        }
+
+        .search-box:focus-within {
+            box-shadow: 0 0 0 2px #667eea;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 4px 8px;
+            font-size: 0.95rem;
+            color: #333;
+            outline: none;
+        }
+
+        body.dark-mode .search-box input {
+            color: #e0e0e0;
+        }
+
+        .search-box i {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            background: #f0f2f5;
+        }
+
+        body.dark-mode .main-content {
+            background: #121212;
+        }
+
+        /* Profile Card */
         .profile-card {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow);
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
         }
 
-        .profile-card h2 {
-            margin-bottom: 0.5rem;
+        body.dark-mode .profile-card {
+            background: #1f1f1f;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+            border: 3px solid #667eea;
+        }
+
+        body.dark-mode .profile-avatar {
+            border-color: #764ba2;
         }
 
         .profile-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            flex: 1;
         }
 
-        .info-item {
-            display: flex;
-            flex-direction: column;
+        .profile-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
         }
 
-        .info-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+        body.dark-mode .profile-name {
+            color: #e0e0e0;
         }
 
+        .profile-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        body.dark-mode .profile-meta {
+            color: #aaa;
+        }
+
+        /* Section Styles */
         .section {
-            background: var(--surface);
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            overflow: hidden;
-            box-shadow: var(--shadow);
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        body.dark-mode .section {
+            background: #1f1f1f;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
         }
 
         .section-header {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
         }
 
-        .section-content {
-            padding: 1rem;
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
         }
 
-        .homework-item, .note-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body.dark-mode .section-title {
+            color: #e0e0e0;
         }
 
-        .homework-item:last-child, .note-item:last-child {
+        .section-action {
+            color: #667eea;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .section-action:hover {
+            color: #5a6fd8;
+            text-decoration: underline;
+        }
+
+        /* Homework Item */
+        .homework-item, .note-item, .message-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .homework-item,
+        body.dark-mode .note-item,
+        body.dark-mode .message-item {
+            border-bottom: 1px solid #333;
+        }
+
+        .homework-item:last-child,
+        .note-item:last-child,
+        .message-item:last-child {
             border-bottom: none;
         }
 
-        .homework-status {
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
+        .homework-item:hover,
+        .note-item:hover,
+        .message-item:hover {
+            background: #f8f9ff;
+        }
+
+        body.dark-mode .homework-item:hover,
+        body.dark-mode .note-item:hover,
+        body.dark-mode .message-item:hover {
+            background: #2d2d2d;
+        }
+
+        .item-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        body.dark-mode .item-title {
+            color: #e0e0e0;
+        }
+
+        .item-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        body.dark-mode .item-subtitle {
+            color: #aaa;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        body.dark-mode .item-meta {
+            color: #777;
+        }
+
+        .item-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
 
         .status-pending {
-            background: var(--warning);
-            color: white;
+            background: #fff3cd;
+            color: #856404;
         }
 
         .status-completed {
-            background: var(--success);
-            color: white;
+            background: #d4edda;
+            color: #155724;
         }
 
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--surface);
+        /* Timetable */
+        .timetable {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+
+        .timetable-header {
+            font-weight: 600;
+            text-align: center;
+            padding: 8px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .timetable-cell {
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            min-height: 60px;
             display: flex;
-            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+            flex-direction: column;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .timetable-cell {
+            background: #2d2d2d;
+        }
+
+        .timetable-cell:hover {
+            background: #e0e0e0;
+        }
+
+        body.dark-mode .timetable-cell:hover {
+            background: #3d3d3d;
+        }
+
+        .subject {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .time {
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        body.dark-mode .time {
+            color: #aaa;
+        }
+
+        /* Notification Badge */
+        .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        body.dark-mode .bottom-nav {
+            background: #1f1f1f;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .nav-item {
@@ -198,224 +447,530 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.5rem;
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            transition: var(--transition);
+            justify-content: center;
+            padding: 8px 0;
+            color: #666;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+            position: relative;
         }
 
         .nav-item.active {
-            color: var(--primary);
+            color: #667eea;
         }
 
-        .nav-item span {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
+        .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
         }
 
+        /* Floating Action Button */
         .fab {
-            position: fixed;
-            bottom: 100px;
-            right: 1rem;
-            width: 56px;
-            height: 56px;
-            background: var(--primary);
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #667eea;
             color: white;
-            border: none;
             border-radius: 50%;
-            font-size: 1.5rem;
-            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            z-index: 900;
             cursor: pointer;
-            transition: var(--transition);
-            z-index: 99;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .fab:hover {
             transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
         }
 
-        .modal {
+        /* AI Chat Modal */
+        .ai-modal {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            height: 80vh;
+            background: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
         }
 
-        .modal-content {
-            background: var(--surface);
-            border-radius: var(--radius);
-            max-width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
-            padding: 1.5rem;
-            margin: 1rem;
+        body.dark-mode .ai-modal {
+            background: #1f1f1f;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .modal-header {
+        .ai-modal.open {
+            transform: translateY(0);
+        }
+
+        .ai-header {
+            padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
         }
 
-        .close-btn {
-            background: none;
+        body.dark-mode .ai-header {
+            border-bottom: 1px solid #333;
+        }
+
+        .ai-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        body.dark-mode .ai-title {
+            color: #e0e0e0;
+        }
+
+        .ai-close {
+            background: #f0f0f0;
             border: none;
-            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
 
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            height: 20px;
-            border-radius: var(--radius);
-            margin: 0.5rem 0;
+        body.dark-mode .ai-close {
+            background: #2d2d2d;
         }
 
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        @media (max-width: 640px) {
-            .content {
-                padding: 0.5rem;
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: #667eea;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background: #f0f0f0;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+
+        body.dark-mode .ai-message {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            background: #f0f0f0;
+            padding: 12px 16px;
+            border-radius: 18px;
+            display: flex;
+            gap: 4px;
+        }
+
+        body.dark-mode .typing-indicator {
+            background: #2d2d2d;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            animation: pulse 1.4s infinite both;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .ai-input-container {
+            padding: 16px;
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid #eee;
+        }
+
+        body.dark-mode .ai-input-container {
+            border-top: 1px solid #333;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            outline: none;
+            background: #f0f0f0;
+        }
+
+        body.dark-mode .ai-input {
+            background: #2d2d2d;
+            border-color: #333;
+            color: #e0e0e0;
+        }
+
+        .ai-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        .ai-send {
+            width: 44px;
+            height: 44px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            background: #28a745;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s ease;
+            font-size: 0.95rem;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        /* PDF Export Button */
+        .pdf-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .pdf-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Loader */
+        .loader {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        .dark-mode .loader {
+            border-top: 2px solid #764ba2;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 768px;
+                border: 1px solid #ddd;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                height: 95vh;
+                margin: 20px auto;
+                overflow: hidden;
             }
-            
-            .profile-info {
-                grid-template-columns: 1fr;
+
+            .main-content {
+                overflow-y: auto;
             }
+        }
+
+        /* Animation for new items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .bottom-nav, .fab, .search-container {
+                display: none !important;
+            }
+            .main-content {
+                padding: 0;
+                background: white;
+            }
+            body, body.dark-mode {
+                background: white !important;
+                color: black !important;
+            }
+            .section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+            .profile-card {
+                border: 1px solid #ddd;
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode .empty-state {
+            color: #aaa;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 12px;
+        }
+
+        body.dark-mode .empty-icon {
+            color: #333;
+        }
+
+        /* Hidden Class */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <header class="app-bar">
-        <div class="app-bar-left">
-            <img src="https://i.postimg.cc/ryGx49TB/erasebg-transformed.png" alt="Logo" class="logo-small">
-            <span>Dashboard</span>
-        </div>
-        <div class="app-bar-right">
-            <button class="icon-btn" id="notificationsBtn" aria-label="Notifications">
-                🔔
-                <span class="badge hidden" id="notificationBadge">0</span>
-            </button>
-            <button class="icon-btn" id="logoutBtn" aria-label="Logout">🚪</button>
-        </div>
-    </header>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <img src="https://placehold.co/40/667eea/ffffff?text=MK" alt="Logo" class="logo" />
+            <div class="welcome-text">Welcome, <span id="studentName">Student</span></div>
+            <div class="header-actions">
+                <button id="themeToggle" class="header-btn" aria-label="Toggle Dark Mode">
+                    <i class="material-icons">dark_mode</i>
+                </button>
+                <button id="langToggle" class="header-btn" aria-label="Toggle Language">
+                    <i class="material-icons">language</i>
+                </button>
+            </div>
+        </header>
 
-    <main class="content">
-        <div class="profile-card">
-            <h2 id="welcomeText">Welcome, Student</h2>
-            <div class="profile-info">
-                <div class="info-item">
-                    <span class="info-label">Name</span>
-                    <span id="profileName">-</span>
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <i class="material-icons">search</i>
+                <input type="text" placeholder="Search homework, notes, messages..." id="searchInput" />
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <img src="https://placehold.co/60/667eea/ffffff?text=U" alt="Profile" class="profile-avatar" id="profileAvatar" />
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">Loading...</div>
+                    <div class="profile-meta" id="profileMeta">Class: Loading... | Parent: Loading...</div>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Class</span>
-                    <span id="profileClass">-</span>
+            </div>
+
+            <!-- Homework Section -->
+            <section class="section" id="homeworkSection">
+                <div class="section-header">
+                    <h2 class="section-title">Homework</h2>
+                    <button class="section-action" id="viewAllHomework">View All</button>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Parent Name</span>
-                    <span id="profileParent">-</span>
+                <div id="homeworkList">
+                    <!-- Homework items will be inserted here -->
                 </div>
-                <div class="info-item" id="emailItem" style="display: none;">
-                    <span class="info-label">Email</span>
-                    <span id="profileEmail">-</span>
+            </section>
+
+            <!-- Notes Section -->
+            <section class="section" id="notesSection">
+                <div class="section-header">
+                    <h2 class="section-title">Class Notes</h2>
+                    <button class="section-action" id="viewAllNotes">View All</button>
                 </div>
-            </div>
-        </div>
+                <div id="notesList">
+                    <!-- Notes will be inserted here -->
+                </div>
+            </section>
 
-        <div class="section">
-            <div class="section-header">
-                <h3>Today's Timetable</h3>
-                <button class="icon-btn" onclick="window.location.href='timetable.html'">📅</button>
-            </div>
-            <div class="section-content" id="timetableContent">
-                <div class="skeleton" style="width: 100%; height: 60px;"></div>
-            </div>
-        </div>
+            <!-- Timetable Section -->
+            <section class="section" id="timetableSection">
+                <div class="section-header">
+                    <h2 class="section-title">Timetable</h2>
+                    <button class="section-action" id="downloadTimetable">Download PDF</button>
+                </div>
+                <div class="timetable" id="timetableGrid">
+                    <div class="timetable-header">Time</div>
+                    <div class="timetable-header">Mon</div>
+                    <div class="timetable-header">Tue</div>
+                    <div class="timetable-header">Wed</div>
+                    <div class="timetable-header">Thu</div>
+                    <div class="timetable-header">Fri</div>
+                    <!-- Timetable content will be inserted here -->
+                </div>
+            </section>
 
-        <div class="section">
-            <div class="section-header">
-                <h3>Homework</h3>
-                <button class="icon-btn" onclick="window.location.href='homework.html'">📚</button>
-            </div>
-            <div class="section-content" id="homeworkContent">
-                <div class="skeleton" style="width: 100%; height: 60px;"></div>
-            </div>
-        </div>
+            <!-- Messages Section -->
+            <section class="section" id="messagesSection">
+                <div class="section-header">
+                    <h2 class="section-title">Messages</h2>
+                    <button class="section-action" id="viewAllMessages">View All</button>
+                </div>
+                <div id="messagesList">
+                    <!-- Messages will be inserted here -->
+                </div>
+            </section>
 
-        <div class="section">
-            <div class="section-header">
-                <h3>Notes</h3>
-                <button class="icon-btn" onclick="window.location.href='notices.html'">📝</button>
-            </div>
-            <div class="section-content" id="notesContent">
-                <div class="skeleton" style="width: 100%; height: 60px;"></div>
-            </div>
-        </div>
-    </main>
+            <!-- Notifications Section -->
+            <section class="section" id="notificationsSection">
+                <div class="section-header">
+                    <h2 class="section-title">Notifications</h2>
+                    <button class="section-action" id="clearNotifications">Clear All</button>
+                </div>
+                <div id="notificationsList">
+                    <!-- Notifications will be inserted here -->
+                </div>
+            </section>
+        </main>
 
-    <nav class="bottom-nav">
-        <a href="dashboard.html" class="nav-item active">
-            <span>🏠</span>
-            <small>Home</small>
-        </a>
-        <a href="homework.html" class="nav-item">
-            <span>📚</span>
-            <small>Homework</small>
-        </a>
-        <a href="notices.html" class="nav-item">
-            <span>📝</span>
-            <small>Notes</small>
-        </a>
-        <a href="timetable.html" class="nav-item">
-            <span>📅</span>
-            <small>Timetable</small>
-        </a>
-        <a href="messages.html" class="nav-item">
-            <span>💬</span>
-            <small>Messages</small>
-        </a>
-    </nav>
+        <!-- Floating Action Button -->
+        <button class="fab" id="aiFab" aria-label="Open AI Assistant">
+            <i class="material-icons">smart_toy</i>
+        </button>
 
-    <button class="fab" id="aiFab" aria-label="AI Assistant">🤖</button>
-
-    <div class="modal" id="aiModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>AI Assistant</h3>
-                <button class="close-btn" onclick="closeModal('aiModal')">×</button>
+        <!-- AI Assistant Modal -->
+        <div class="ai-modal" id="aiModal">
+            <div class="ai-header">
+                <h3 class="ai-title">AI Assistant</h3>
+                <button class="ai-close" id="aiClose">
+                    <i class="material-icons">close</i>
+                </button>
             </div>
-            <div id="aiChat" style="height: 400px; overflow-y: auto; border: 1px solid var(--border); padding: 1rem; margin-bottom: 1rem;">
+            <div class="ai-messages" id="aiMessages">
                 <div class="message ai-message">
-                    Hello! I'm your AI assistant. How can I help you today?
+                    Hello! I'm your AI Assistant. How can I help you with your studies today?
                 </div>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
-                <input type="text" id="aiInput" placeholder="Ask me anything..." style="flex: 1; padding: 0.5rem;">
-                <button class="btn" onclick="sendAIMessage()">Send</button>
+            <div class="ai-input-container">
+                <input type="text" class="ai-input" id="aiInput" placeholder="Ask me anything about your homework..." />
+                <button class="ai-send" id="aiSend">
+                    <i class="material-icons">send</i>
+                </button>
             </div>
         </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-page="home">
+                <i class="material-icons">home</i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" data-page="ai">
+                <i class="material-icons">smart_toy</i>
+                <span>AI</span>
+            </div>
+            <div class="nav-item" data-page="notifications">
+                <i class="material-icons">notifications</i>
+                <span>Alerts</span>
+                <div class="badge hidden" id="notificationBadge">0</div>
+            </div>
+            <div class="nav-item" data-page="profile">
+                <i class="material-icons">person</i>
+                <span>Profile</span>
+            </div>
+        </nav>
     </div>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Operation completed successfully!</div>
 
-        // Firebase configuration
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+    <!-- PDF.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        // Initialize Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
             authDomain: "mkps-balrampur.firebaseapp.com",
@@ -426,237 +981,1059 @@
             measurementId: "G-TYKBNS9SX2"
         };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Check session
-        const session = JSON.parse(localStorage.getItem('mkps_session') || '{}');
-        if (!session.role || session.role !== 'student') {
-            window.location.href = 'index.html';
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        } else {
+            firebase.app();
         }
 
-        // Update profile
-        document.getElementById('welcomeText').textContent = `Welcome, ${session.name}`;
-        document.getElementById('profileName').textContent = session.name;
-        document.getElementById('profileClass').textContent = session.class;
-        document.getElementById('profileParent').textContent = session.parentName;
-        if (session.email) {
-            document.getElementById('profileEmail').textContent = session.email;
-            document.getElementById('emailItem').style.display = 'block';
-        }
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
 
-        // Update presence
-        const updatePresence = async () => {
-            if (session.id) {
-                const studentRef = doc(db, 'students', session.id);
-                await updateDoc(studentRef, {
-                    lastActive: serverTimestamp()
-                });
+        // DOM Elements
+        const studentNameEl = document.getElementById('studentName');
+        const profileNameEl = document.getElementById('profileName');
+        const profileMetaEl = document.getElementById('profileMeta');
+        const profileAvatarEl = document.getElementById('profileAvatar');
+        const homeworkListEl = document.getElementById('homeworkList');
+        const notesListEl = document.getElementById('notesList');
+        const messagesListEl = document.getElementById('messagesList');
+        const notificationsListEl = document.getElementById('notificationsList');
+        const timetableGridEl = document.getElementById('timetableGrid');
+        const searchInputEl = document.getElementById('searchInput');
+        const aiModalEl = document.getElementById('aiModal');
+        const aiMessagesEl = document.getElementById('aiMessages');
+        const aiInputEl = document.getElementById('aiInput');
+        const aiSendBtn = document.getElementById('aiSend');
+        const aiFab = document.getElementById('aiFab');
+        const aiCloseBtn = document.getElementById('aiClose');
+        const themeToggle = document.getElementById('themeToggle');
+        const toastEl = document.getElementById('toast');
+        const notificationBadgeEl = document.getElementById('notificationBadge');
+        const bottomNavItems = document.querySelectorAll('.nav-item');
+        const viewAllHomeworkBtn = document.getElementById('viewAllHomework');
+        const viewAllNotesBtn = document.getElementById('viewAllNotes');
+        const viewAllMessagesBtn = document.getElementById('viewAllMessages');
+        const clearNotificationsBtn = document.getElementById('clearNotifications');
+        const downloadTimetableBtn = document.getElementById('downloadTimetable');
+
+        // Global State
+        let currentUser = null;
+        let currentClass = '';
+        let homeworkList = [];
+        let notesList = [];
+        let messagesList = [];
+        let notificationsList = [];
+        let timetableData = {};
+        let isTyping = false;
+
+        // ———————————————————————————————————————
+        // ✅ STORAGE UTILITY (mkps_ namespace)
+        // ———————————————————————————————————————
+        const StorageUtil = {
+            set(key, value) {
+                try {
+                    localStorage.setItem(`mkps_${key}`, JSON.stringify(value));
+                } catch (e) {
+                    console.warn('LocalStorage full or unavailable', e);
+                }
+            },
+            get(key) {
+                try {
+                    const item = localStorage.getItem(`mkps_${key}`);
+                    return item ? JSON.parse(item) : null;
+                } catch (e) {
+                    console.warn('Error reading from localStorage', e);
+                    return null;
+                }
+            },
+            remove(key) {
+                localStorage.removeItem(`mkps_${key}`);
+            },
+            clearAll() {
+                Object.keys(localStorage)
+                      .filter(k => k.startsWith('mkps_'))
+                      .forEach(k => localStorage.removeItem(k));
             }
         };
-        setInterval(updatePresence, 60000);
 
-        // Load data
-        const loadTimetable = () => {
-            const q = query(collection(db, 'classes', session.class, 'timetable'));
-            onSnapshot(q, (snapshot) => {
-                const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-                const todayTimetable = snapshot.docs
-                    .map(doc => ({ id: doc.id, ...doc.data() }))
-                    .filter(item => item.day === today)
-                    .sort((a, b) => a.time.localeCompare(b.time));
+        // ———————————————————————————————————————
+        // ✅ TOAST NOTIFICATION SYSTEM
+        // ———————————————————————————————————————
+        function showToast(message, duration = 3000, isError = false) {
+            toastEl.textContent = message;
+            if (isError) toastEl.classList.add('error');
+            else toastEl.classList.remove('error');
+            toastEl.classList.add('show');
 
-                const content = document.getElementById('timetableContent');
-                if (todayTimetable.length === 0) {
-                    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No classes scheduled today</p>';
+            setTimeout(() => {
+                toastEl.classList.remove('show');
+            }, duration);
+        }
+
+        // ———————————————————————————————————————
+        // ✅ THEME TOGGLE FUNCTIONALITY
+        // ———————————————————————————————————————
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            StorageUtil.set('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = themeToggle.querySelector('.material-icons');
+            icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        }
+
+        // Load saved theme
+        function loadSavedTheme() {
+            const savedTheme = StorageUtil.get('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateThemeIcon(true);
+            }
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // ———————————————————————————————————————
+        // ✅ LANGUAGE TOGGLE
+        // ———————————————————————————————————————
+        const langToggle = document.getElementById('langToggle');
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            showToast(currentLang === 'en' ? 'Language changed to English' : 'भाषा हिंदी में बदल गई', 2000);
+        }
+
+        langToggle.addEventListener('click', toggleLanguage);
+
+        // ———————————————————————————————————————
+        // ✅ AUTH GUARD & USER INITIALIZATION
+        // ———————————————————————————————————————
+        function requireAuth() {
+            const savedUser = StorageUtil.get('user');
+            if (!savedUser) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            currentUser = savedUser;
+            currentClass = savedUser.class;
+            return true;
+        }
+
+        // Initialize app
+        async function initApp() {
+            if (!requireAuth()) return;
+
+            // Set user info in UI
+            studentNameEl.textContent = currentUser.name.split(' ')[0];
+            profileNameEl.textContent = currentUser.name;
+            profileMetaEl.textContent = `Class: ${currentUser.class} | Parent: ${currentUser.parentName}`;
+
+            if (currentUser.photoURL) {
+                profileAvatarEl.src = currentUser.photoURL;
+            }
+
+            // Load all data
+            await Promise.all([
+                loadHomework(),
+                loadNotes(),
+                loadMessages(),
+                loadNotifications(),
+                loadTimetable()
+            ]);
+
+            // Setup real-time listeners
+            setupRealtimeListeners();
+
+            // Setup event listeners
+            setupEventListeners();
+
+            // Check for unread notifications
+            updateNotificationBadge();
+        }
+
+        // ———————————————————————————————————————
+        // ✅ FIRESTORE DATA LOADING
+        // ———————————————————————————————————————
+        async function loadHomework() {
+            try {
+                const snapshot = await db.collection('homework')
+                    .where('class', '==', currentClass)
+                    .orderBy('dueDate', 'desc')
+                    .limit(3)
+                    .get();
+
+                homeworkList = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    homeworkList.push({
+                        id: doc.id,
+                        ...data,
+                        createdAt: data.createdAt?.toDate().toLocaleDateString(),
+                        dueDate: data.dueDate?.toDate().toLocaleDateString()
+                    });
+                });
+
+                renderHomework();
+            } catch (error) {
+                console.error('Error loading homework:', error);
+                showToast('Failed to load homework', 3000, true);
+            }
+        }
+
+        async function loadNotes() {
+            try {
+                const snapshot = await db.collection('notes')
+                    .where('class', '==', currentClass)
+                    .orderBy('createdAt', 'desc')
+                    .limit(3)
+                    .get();
+
+                notesList = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    notesList.push({
+                        id: doc.id,
+                        ...data,
+                        createdAt: data.createdAt?.toDate().toLocaleDateString()
+                    });
+                });
+
+                renderNotes();
+            } catch (error) {
+                console.error('Error loading notes:', error);
+                showToast('Failed to load notes', 3000, true);
+            }
+        }
+
+        async function loadMessages() {
+            try {
+                const snapshot = await db.collection('messages')
+                    .where('recipientId', '==', currentUser.uid)
+                    .orderBy('timestamp', 'desc')
+                    .limit(3)
+                    .get();
+
+                messagesList = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    messagesList.push({
+                        id: doc.id,
+                        ...data,
+                        timestamp: data.timestamp?.toDate().toLocaleString()
+                    });
+                });
+
+                renderMessages();
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                showToast('Failed to load messages', 3000, true);
+            }
+        }
+
+        async function loadNotifications() {
+            try {
+                // Global notifications
+                const globalSnapshot = await db.collection('notifications')
+                    .where('target', '==', 'all')
+                    .orderBy('timestamp', 'desc')
+                    .limit(5)
+                    .get();
+
+                // Class-specific notifications
+                const classSnapshot = await db.collection('notifications')
+                    .where('target', '==', currentClass)
+                    .orderBy('timestamp', 'desc')
+                    .limit(5)
+                    .get();
+
+                notificationsList = [];
+
+                // Add global notifications
+                globalSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    notificationsList.push({
+                        id: doc.id,
+                        ...data,
+                        timestamp: data.timestamp?.toDate().toLocaleString(),
+                        type: 'global'
+                    });
+                });
+
+                // Add class notifications
+                classSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    notificationsList.push({
+                        id: doc.id,
+                        ...data,
+                        timestamp: data.timestamp?.toDate().toLocaleString(),
+                        type: 'class'
+                    });
+                });
+
+                // Sort by timestamp (newest first)
+                notificationsList.sort((a, b) => 
+                    new Date(b.timestamp) - new Date(a.timestamp)
+                );
+
+                // Keep only the 5 newest
+                notificationsList = notificationsList.slice(0, 5);
+
+                renderNotifications();
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                showToast('Failed to load notifications', 3000, true);
+            }
+        }
+
+        async function loadTimetable() {
+            try {
+                const docRef = db.collection('timetables').doc(currentClass);
+                const doc = await docRef.get();
+
+                if (doc.exists) {
+                    timetableData = doc.data();
+                    renderTimetable();
                 } else {
-                    content.innerHTML = todayTimetable.map(item => `
-                        <div style="display: flex; justify-content: space-between; padding: 0.5rem;">
-                            <span>${item.subject}</span>
-                            <span style="color: var(--text-secondary);">${item.time}</span>
-                        </div>
-                    `).join('');
+                    // Create default timetable if none exists
+                    const defaultTimetable = {
+                        periods: [
+                            { time: "9:00-10:00", mon: "Math", tue: "Science", wed: "English", thu: "Hindi", fri: "SST" },
+                            { time: "10:00-11:00", mon: "Science", tue: "Math", wed: "Hindi", thu: "English", fri: "Science" },
+                            { time: "11:00-12:00", mon: "English", tue: "Hindi", wed: "Math", thu: "Science", fri: "English" },
+                            { time: "12:00-1:00", mon: "Lunch", tue: "Lunch", wed: "Lunch", thu: "Lunch", fri: "Lunch" },
+                            { time: "1:00-2:00", mon: "SST", tue: "English", wed: "Science", thu: "Math", fri: "Hindi" },
+                            { time: "2:00-3:00", mon: "Games", tue: "Art", wed: "Music", thu: "Games", fri: "Art" }
+                        ]
+                    };
+                    await docRef.set(defaultTimetable);
+                    timetableData = defaultTimetable;
+                    renderTimetable();
                 }
-            });
-        };
+            } catch (error) {
+                console.error('Error loading timetable:', error);
+                showToast('Failed to load timetable', 3000, true);
+            }
+        }
 
-        const loadHomework = () => {
-            const q = query(collection(db, 'classes', session.class, 'homework'));
-            onSnapshot(q, (snapshot) => {
-                const homework = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-                    .sort((a, b) => a.dueTimestamp.toDate() - b.dueTimestamp.toDate())
-                    .slice(0, 3);
+        // ———————————————————————————————————————
+        // ✅ REAL-TIME LISTENERS
+        // ———————————————————————————————————————
+        function setupRealtimeListeners() {
+            // Listen for new homework
+            db.collection('homework')
+                .where('class', '==', currentClass)
+                .orderBy('createdAt', 'desc')
+                .onSnapshot(snapshot => {
+                    let hasNew = false;
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === 'added') {
+                            hasNew = true;
+                        }
+                    });
+                    if (hasNew) {
+                        loadHomework();
+                        showToast('New homework assigned!');
+                    }
+                });
 
-                const content = document.getElementById('homeworkContent');
-                if (homework.length === 0) {
-                    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No homework assigned</p>';
-                } else {
-                    content.innerHTML = homework.map(hw => {
-                        const isCompleted = hw.completion && hw.completion[session.id || session.name];
-                        return `
-                            <div class="homework-item">
-                                <div>
-                                    <strong>${hw.title}</strong>
-                                    <p style="font-size: 0.875rem; color: var(--text-secondary);">${hw.subject}</p>
-                                </div>
-                                <span class="homework-status ${isCompleted ? 'status-completed' : 'status-pending'}">
-                                    ${isCompleted ? 'Done' : 'Pending'}
-                                </span>
-                            </div>
+            // Listen for new notes
+            db.collection('notes')
+                .where('class', '==', currentClass)
+                .orderBy('createdAt', 'desc')
+                .onSnapshot(snapshot => {
+                    let hasNew = true;
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === 'added') {
+                            hasNew = true;
+                        }
+                    });
+                    if (hasNew) {
+                        loadNotes();
+                        showToast('New class notes available!');
+                    }
+                });
+
+            // Listen for new messages
+            db.collection('messages')
+                .where('recipientId', '==', currentUser.uid)
+                .where('read', '==', false)
+                .onSnapshot(snapshot => {
+                    if (snapshot.size > 0) {
+                        loadMessages();
+                        showToast(`You have ${snapshot.size} new message(s)!`);
+                        updateNotificationBadge();
+                    }
+                });
+
+            // Listen for new notifications
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            db.collection('notifications')
+                .where('target', 'in', ['all', currentClass])
+                .where('timestamp', '>=', today)
+                .onSnapshot(snapshot => {
+                    if (snapshot.size > 0) {
+                        loadNotifications();
+                        showToast('New notification received!');
+                        updateNotificationBadge();
+                    }
+                });
+        }
+
+        // ———————————————————————————————————————
+        // ✅ RENDER FUNCTIONS
+        // ———————————————————————————————————————
+        function renderHomework() {
+            if (homeworkList.length === 0) {
+                homeworkListEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="material-icons empty-icon">assignment</i>
+                        <p>No homework assigned yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            homeworkListEl.innerHTML = homeworkList.slice(0, 3).map(hw => `
+                <div class="homework-item fade-in">
+                    <div class="item-title">${hw.title}</div>
+                    <div class="item-subtitle">${hw.subject}</div>
+                    <div class="item-meta">
+                        <span>Due: ${hw.dueDate}</span>
+                        <span class="item-status status-pending">Pending</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNotes() {
+            if (notesList.length === 0) {
+                notesListEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="material-icons empty-icon">book</i>
+                        <p>No class notes available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notesListEl.innerHTML = notesList.slice(0, 3).map(note => `
+                <div class="note-item fade-in">
+                    <div class="item-title">${note.title}</div>
+                    <div class="item-subtitle">${note.subject}</div>
+                    <div class="item-meta">
+                        <span>${note.createdAt}</span>
+                        <button class="pdf-btn" onclick="downloadNote('${note.id}', '${note.title}')">
+                            <i class="material-icons" style="font-size: 16px;">picture_as_pdf</i> PDF
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMessages() {
+            if (messagesList.length === 0) {
+                messagesListEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="material-icons empty-icon">mail</i>
+                        <p>No messages yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            messagesListEl.innerHTML = messagesList.slice(0, 3).map(msg => `
+                <div class="message-item fade-in">
+                    <div class="item-title">${msg.senderName}</div>
+                    <div class="item-subtitle">${msg.subject}</div>
+                    <div class="item-meta">
+                        <span>${msg.timestamp}</span>
+                        ${!msg.read ? '<span class="item-status status-pending">New</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNotifications() {
+            if (notificationsList.length === 0) {
+                notificationsListEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="material-icons empty-icon">notifications</i>
+                        <p>No notifications</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notificationsListEl.innerHTML = notificationsList.slice(0, 5).map(notif => `
+                <div class="message-item fade-in">
+                    <div class="item-title">${notif.title}</div>
+                    <div class="item-subtitle">${notif.message}</div>
+                    <div class="item-meta">
+                        <span>${notif.timestamp}</span>
+                        <span class="item-status" style="background: #d1ecf1; color: #0c5460;">
+                            ${notif.type === 'global' ? 'General' : 'Class'}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTimetable() {
+            if (!timetableData.periods) return;
+
+            // Clear existing timetable cells (except headers)
+            while (timetableGridEl.children.length > 6) {
+                timetableGridEl.removeChild(timetableGridEl.lastChild);
+            }
+
+            // Add timetable periods
+            timetableData.periods.forEach(period => {
+                // Time column
+                const timeCell = document.createElement('div');
+                timeCell.className = 'timetable-cell';
+                timeCell.innerHTML = `<div class="subject">${period.time}</div>`;
+                timetableGridEl.appendChild(timeCell);
+
+                // Day columns
+                ['mon', 'tue', 'wed', 'thu', 'fri'].forEach(day => {
+                    const cell = document.createElement('div');
+                    cell.className = 'timetable-cell';
+                    const subject = period[day];
+                    if (subject && subject !== 'Lunch') {
+                        cell.innerHTML = `
+                            <div class="subject">${subject}</div>
+                            <div class="time">${period.time}</div>
                         `;
-                    }).join('');
+                    } else if (subject === 'Lunch') {
+                        cell.innerHTML = '<div class="subject" style="color: #888;">Lunch</div>';
+                        cell.style.background = '#fff3cd';
+                    }
+                    timetableGridEl.appendChild(cell);
+                });
+            });
+        }
+
+        // ———————————————————————————————————————
+        // ✅ EVENT LISTENERS
+        // ———————————————————————————————————————
+        function setupEventListeners() {
+            // AI Assistant
+            aiFab.addEventListener('click', () => {
+                aiModalEl.classList.add('open');
+            });
+
+            aiCloseBtn.addEventListener('click', () => {
+                aiModalEl.classList.remove('open');
+            });
+
+            aiSendBtn.addEventListener('click', handleAiSend);
+            aiInputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleAiSend();
                 }
             });
-        };
 
-        const loadNotes = () => {
-            const q = query(collection(db, 'classes', session.class, 'notes'));
-            onSnapshot(q, (snapshot) => {
-                const notes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-                    .sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate())
-                    .slice(0, 3);
+            // Bottom Navigation
+            bottomNavItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    bottomNavItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
 
-                const content = document.getElementById('notesContent');
-                if (notes.length === 0) {
-                    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No notes available</p>';
-                } else {
-                    content.innerHTML = notes.map(note => `
-                        <div class="note-item">
-                            <div>
-                                <strong>${note.title}</strong>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary);">
-                                    ${note.content.substring(0, 50)}${note.content.length > 50 ? '...' : ''}
-                                </p>
-                            </div>
+                    const page = item.getAttribute('data-page');
+                    if (page === 'ai') {
+                        aiModalEl.classList.add('open');
+                    } else if (page === 'notifications') {
+                        // Scroll to notifications
+                        document.getElementById('notificationsSection').scrollIntoView({ behavior: 'smooth' });
+                    } else if (page === 'profile') {
+                        // Show profile info
+                        showToast('Profile view coming soon!');
+                    }
+                });
+            });
+
+            // View All buttons
+            viewAllHomeworkBtn.addEventListener('click', () => {
+                window.location.href = 'homework.html';
+            });
+
+            viewAllNotesBtn.addEventListener('click', () => {
+                window.location.href = 'notes.html';
+            });
+
+            viewAllMessagesBtn.addEventListener('click', () => {
+                window.location.href = 'messages.html';
+            });
+
+            clearNotificationsBtn.addEventListener('click', async () => {
+                // Mark all messages as read
+                try {
+                    const unreadMessages = await db.collection('messages')
+                        .where('recipientId', '==', currentUser.uid)
+                        .where('read', '==', false)
+                        .get();
+
+                    const batch = db.batch();
+                    unreadMessages.forEach(doc => {
+                        batch.update(doc.ref, { read: true });
+                    });
+                    await batch.commit();
+
+                    // Update local state
+                    messagesList.forEach(msg => msg.read = true);
+                    renderMessages();
+                    updateNotificationBadge();
+                    showToast('All notifications cleared');
+                } catch (error) {
+                    console.error('Error clearing notifications:', error);
+                    showToast('Failed to clear notifications', 3000, true);
+                }
+            });
+
+            // Download Timetable
+            downloadTimetableBtn.addEventListener('click', downloadTimetable);
+
+            // Search functionality
+            searchInputEl.addEventListener('input', handleSearch);
+        }
+
+        // ———————————————————————————————————————
+        // ✅ AI ASSISTANT FUNCTIONALITY
+        // ———————————————————————————————————————
+        async function handleAiSend() {
+            const prompt = aiInputEl.value.trim();
+            if (!prompt) return;
+
+            // Add user message
+            addMessage(prompt, 'user');
+            aiInputEl.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            try {
+                // Simulate AI response (in production, call Gemini API)
+                setTimeout(() => {
+                    const responses = [
+                        "I can help you understand that concept. Let me explain it in a simple way...",
+                        "That's a great question! Here's what I know about this topic...",
+                        "Based on your curriculum, here's how you can approach this problem...",
+                        "I recommend reviewing your class notes on this subject. Would you like me to summarize them?",
+                        "Let's break this down step by step to make it easier to understand."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    removeTypingIndicator();
+                    addMessage(randomResponse, 'ai');
+                }, 1500);
+
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage("Sorry, I'm having trouble connecting right now. Please try again later.", 'ai');
+                console.error('AI error:', error);
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
+            messageEl.textContent = text;
+            aiMessagesEl.appendChild(messageEl);
+            aiMessagesEl.scrollTop = aiMessagesEl.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.id = 'typingIndicator';
+            indicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            aiMessagesEl.appendChild(indicator);
+            aiMessagesEl.scrollTop = aiMessagesEl.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // ———————————————————————————————————————
+        // ✅ SEARCH FUNCTIONALITY
+        // ———————————————————————————————————————
+        function handleSearch() {
+            const query = searchInputEl.value.toLowerCase().trim();
+            if (!query) {
+                // Reset all sections
+                renderHomework();
+                renderNotes();
+                renderMessages();
+                return;
+            }
+
+            // Filter and display results
+            const filteredHomework = homeworkList.filter(hw => 
+                hw.title.toLowerCase().includes(query) || 
+                hw.subject.toLowerCase().includes(query)
+            );
+
+            const filteredNotes = notesList.filter(note => 
+                note.title.toLowerCase().includes(query) || 
+                note.subject.toLowerCase().includes(query)
+            );
+
+            const filteredMessages = messagesList.filter(msg => 
+                msg.subject.toLowerCase().includes(query) || 
+                msg.senderName.toLowerCase().includes(query)
+            );
+
+            // Update UI with filtered results
+            homeworkListEl.innerHTML = filteredHomework.length > 0 ? 
+                filteredHomework.map(hw => `
+                    <div class="homework-item fade-in">
+                        <div class="item-title">${hw.title}</div>
+                        <div class="item-subtitle">${hw.subject}</div>
+                        <div class="item-meta">
+                            <span>Due: ${hw.dueDate}</span>
+                            <span class="item-status status-pending">Pending</span>
                         </div>
-                    `).join('');
+                    </div>
+                `).join('') : 
+                '<div class="empty-state"><p>No matching homework</p></div>';
+
+            notesListEl.innerHTML = filteredNotes.length > 0 ? 
+                filteredNotes.map(note => `
+                    <div class="note-item fade-in">
+                        <div class="item-title">${note.title}</div>
+                        <div class="item-subtitle">${note.subject}</div>
+                        <div class="item-meta">
+                            <span>${note.createdAt}</span>
+                            <button class="pdf-btn" onclick="downloadNote('${note.id}', '${note.title}')">
+                                <i class="material-icons" style="font-size: 16px;">picture_as_pdf</i> PDF
+                            </button>
+                        </div>
+                    </div>
+                `).join('') : 
+                '<div class="empty-state"><p>No matching notes</p></div>';
+
+            messagesListEl.innerHTML = filteredMessages.length > 0 ? 
+                filteredMessages.map(msg => `
+                    <div class="message-item fade-in">
+                        <div class="item-title">${msg.senderName}</div>
+                        <div class="item-subtitle">${msg.subject}</div>
+                        <div class="item-meta">
+                            <span>${msg.timestamp}</span>
+                            ${!msg.read ? '<span class="item-status status-pending">New</span>' : ''}
+                        </div>
+                    </div>
+                `).join('') : 
+                '<div class="empty-state"><p>No matching messages</p></div>';
+        }
+
+        // ———————————————————————————————————————
+        // ✅ NOTIFICATION BADGE
+        // ———————————————————————————————————————
+        function updateNotificationBadge() {
+            const unreadCount = messagesList.filter(m => !m.read).length + 
+                              notificationsList.length;
+            
+            if (unreadCount > 0) {
+                notificationBadgeEl.textContent = unreadCount;
+                notificationBadgeEl.classList.remove('hidden');
+            } else {
+                notificationBadgeEl.classList.add('hidden');
+            }
+        }
+
+        // ———————————————————————————————————————
+        // ✅ PDF GENERATION FUNCTIONS
+        // ———————————————————————————————————————
+        async function downloadTimetable() {
+            try {
+                // Use html2canvas and jsPDF to generate PDF
+                const { jsPDF } = window.jspdf;
+                const element = document.getElementById('timetableSection');
+                
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 190;
+                const pageHeight = pdf.internal.pageSize.height;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+                
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight - position;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight + 10;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
                 }
-            });
+                
+                pdf.save(`timetable-${currentClass}.pdf`);
+                showToast('Timetable downloaded as PDF!');
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showToast('Failed to generate PDF', 3000, true);
+            }
+        }
+
+        window.downloadNote = async function(noteId, title) {
+            try {
+                const note = notesList.find(n => n.id === noteId);
+                if (!note) return;
+                
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                pdf.setFontSize(20);
+                pdf.text(title, 20, 20);
+                
+                pdf.setFontSize(12);
+                pdf.text(`Subject: ${note.subject}`, 20, 30);
+                pdf.text(`Date: ${note.createdAt}`, 20, 35);
+                pdf.text(`Class: ${note.class}`, 20, 40);
+                
+                pdf.setFontSize(14);
+                pdf.text('Content:', 20, 50);
+                pdf.setFontSize(12);
+                
+                const contentLines = pdf.splitTextToSize(note.content || 'No content available.', 170);
+                pdf.text(contentLines, 20, 55);
+                
+                pdf.save(`${title}.pdf`);
+                showToast('Note downloaded as PDF!');
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showToast('Failed to generate PDF', 3000, true);
+            }
         };
 
-        // Load notifications
-        const loadNotifications = () => {
-            const q = query(collection(db, 'classes', session.class, 'notifications'));
-            onSnapshot(q, (snapshot) => {
-                const unread = snapshot.docs.filter(doc => !doc.data().readBy?.includes(session.id || session.name)).length;
-                const badge = document.getElementById('notificationBadge');
-                if (unread > 0) {
-                    badge.textContent = unread;
-                    badge.classList.remove('hidden');
-                } else {
-                    badge.classList.add('hidden');
-                }
+        // ———————————————————————————————————————
+        // ✅ OFFLINE DATA CACHING (IndexedDB)
+        // ———————————————————————————————————————
+        const DB_NAME = 'MKPS_Offline';
+        const DB_VERSION = 1;
+        let dbInstance = null;
+
+        async function openDatabase() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    dbInstance = request.result;
+                    resolve(dbInstance);
+                };
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    
+                    if (!db.objectStoreNames.contains('homework')) {
+                        const homeworkStore = db.createObjectStore('homework', { keyPath: 'id' });
+                        homeworkStore.createIndex('class', 'class', { unique: false });
+                    }
+                    
+                    if (!db.objectStoreNames.contains('notes')) {
+                        const notesStore = db.createObjectStore('notes', { keyPath: 'id' });
+                        notesStore.createIndex('class', 'class', { unique: false });
+                    }
+                };
             });
-        };
+        }
 
-        // Initialize
-        loadTimetable();
-        loadHomework();
-        loadNotes();
-        loadNotifications();
+        async function saveToCache(storeName, data) {
+            if (!dbInstance) await openDatabase();
+            const transaction = dbInstance.transaction([storeName], 'readwrite');
+            const store = transaction.objectStore(storeName);
+            
+            data.forEach(item => store.put(item));
+        }
 
-        // AI Assistant
-        document.getElementById('aiFab').addEventListener('click', () => {
-            document.getElementById('aiModal').style.display = 'flex';
+        async function loadFromCache(storeName, className) {
+            if (!dbInstance) await openDatabase();
+            return new Promise((resolve) => {
+                const transaction = dbInstance.transaction([storeName], 'readonly');
+                const store = transaction.objectStore(storeName);
+                const index = store.index('class');
+                const request = index.getAll(className);
+                
+                request.onsuccess = () => resolve(request.result);
+            });
+        }
+
+        // Cache data when online
+        window.addEventListener('online', () => {
+            if (homeworkList.length > 0) {
+                saveToCache('homework', homeworkList);
+            }
+            if (notesList.length > 0) {
+                saveToCache('notes', notesList);
+            }
         });
 
-        window.closeModal = (modalId) => {
-            document.getElementById(modalId).style.display = 'none';
-        };
-
-        // Gemini AI Integration
-        async function callGemini(prompt, context = '') {
-            // WARNING: Client-side API key exposure is insecure. Implement server-side proxy in production.
-            const API_KEY = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+        // Load from cache when offline
+        window.addEventListener('offline', async () => {
+            if (navigator.onLine) return;
             
             try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `Context: Student of ${session.class} class, ${session.parentName}'s child. ${context}\n\nQuestion: ${prompt}`
-                            }]
-                        }]
-                    })
-                });
-                
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (error) {
-                console.error('AI Error:', error);
-                return 'Sorry, I encountered an error. Please try again.';
-            }
-        }
-
-        async function sendAIMessage() {
-            const input = document.getElementById('aiInput');
-            const chat = document.getElementById('aiChat');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Add user message
-            chat.innerHTML += `<div class="message user-message" style="text-align: right; margin: 0.5rem 0;">
-                <div style="background: var(--primary); color: white; padding: 0.5rem; border-radius: var(--radius); display: inline-block;">
-                    ${message}
-                </div>
-            </div>`;
-            
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-            
-            // Add typing indicator
-            chat.innerHTML += `<div class="message ai-message" id="typingIndicator">
-                <div style="color: var(--text-secondary);">AI is typing...</div>
-            </div>`;
-            chat.scrollTop = chat.scrollHeight;
-            
-            // Get AI response
-            const response = await callGemini(message);
-            
-            // Remove typing indicator and add response
-            document.getElementById('typingIndicator').remove();
-            chat.innerHTML += `<div class="message ai-message">
-                <div style="background: var(--surface); padding: 0.5rem; border-radius: var(--radius);">
-                    ${response}
-                </div>
-            </div>`;
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', async () => {
-            if (confirm('Are you sure you want to logout?')) {
-                // Sign out Firebase Auth
-                try {
-                    await auth.signOut();
-                } catch (e) {
-                    console.log('Auth sign out error:', e);
+                const cachedHomework = await loadFromCache('homework', currentClass);
+                if (cachedHomework.length > 0) {
+                    homeworkList = cachedHomework;
+                    renderHomework();
+                    showToast('Loaded homework from offline cache');
                 }
                 
-                // Clear all storage
-                localStorage.removeItem('mkps_session');
-                localStorage.removeItem('mkps_theme');
-                localStorage.removeItem('mkps_lang');
-                
-                // Redirect to index
-                window.location.href = 'index.html';
+                const cachedNotes = await loadFromCache('notes', currentClass);
+                if (cachedNotes.length > 0) {
+                    notesList = cachedNotes;
+                    renderNotes();
+                    showToast('Loaded notes from offline cache');
+                }
+            } catch (error) {
+                console.error('Cache load error:', error);
             }
         });
 
-        // Close modals on outside click
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                e.target.style.display = 'none';
+        // ———————————————————————————————————————
+        // ✅ PWA: Service Worker Registration
+        // ———————————————————————————————————————
+        if ('serviceWorker' in navigator) {
+            // Comment: Register service worker for offline support
+            // navigator.serviceWorker.register('/sw.js')
+            //   .then(reg => console.log('SW registered:', reg))
+            //   .catch(err => console.error('SW registration failed:', err));
+        }
+
+        // ———————————————————————————————————————
+        // ✅ EVENT BUS FOR CROSS-COMPONENT COMMUNICATION
+        // ———————————————————————————————————————
+        class EventBus {
+            constructor() {
+                this.events = {};
+            }
+            on(event, callback) {
+                if (!this.events[event]) this.events[event] = [];
+                this.events[event].push(callback);
+            }
+            emit(event, data) {
+                if (this.events[event]) {
+                    this.events[event].forEach(callback => callback(data));
+                }
+            }
+            off(event, callback) {
+                if (this.events[event]) {
+                    this.events[event] = this.events[event].filter(cb => cb !== callback);
+                }
+            }
+        }
+
+        window.EventBus = new EventBus();
+
+        // Example: Listen for new homework from teacher
+        EventBus.on('newHomework', (homework) => {
+            if (homework.class === currentClass) {
+                homeworkList.unshift({
+                    id: homework.id,
+                    ...homework,
+                    createdAt: new Date().toLocaleDateString(),
+                    dueDate: homework.dueDate?.toDate().toLocaleDateString() || 'Not set'
+                });
+                renderHomework();
+                showToast('New homework assigned!');
             }
         });
+
+        // ———————————————————————————————————————
+        // ✅ GEMINI AI API INTEGRATION (SECURITY COMMENT)
+        // ———————————————————————————————————————
+        // SECURITY NOTE: In production, NEVER expose API keys in client-side code.
+        // Use a server-side proxy endpoint (e.g., /api/gemini) to forward requests.
+        // const GEMINI_API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
+
+        // Example secure call:
+        /*
+        async function callGemini(prompt) {
+            const response = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt, studentClass: currentClass })
+            });
+            const data = await response.json();
+            return data.reply;
+        }
+        */
+
+        // ———————————————————————————————————————
+        // ✅ LOGOUT FUNCTIONALITY
+        // ———————————————————————————————————————
+        function setupLogout() {
+            // Add logout button to profile section or create a menu
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = 'Logout';
+            logoutBtn.style.cssText = `
+                margin: 16px auto;
+                display: block;
+                padding: 12px 24px;
+                background: #dc3545;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            `;
+            
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await auth.signOut();
+                    StorageUtil.clearAll();
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    showToast('Logout failed', 3000, true);
+                }
+            });
+            
+            // Append to main content or create a settings page
+            document.querySelector('.app-container').appendChild(logoutBtn);
+        }
+
+        // ———————————————————————————————————————
+        // ✅ ON LOAD INITIALIZATION
+        // ———————————————————————————————————————
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedTheme();
+            
+            // Initialize the app
+            initApp().catch(error => {
+                console.error('App initialization failed:', error);
+                showToast('Failed to load dashboard. Please try again.', 5000, true);
+            });
+            
+            // Setup logout
+            setupLogout();
+        });
+
+        // Expose functions to global scope
+        window.downloadTimetable = downloadTimetable;
+
+        console.log('MKPS Student Dashboard Loaded Successfully with Firebase Integration and Offline Support.');
     </script>
 </body>
 </html>
