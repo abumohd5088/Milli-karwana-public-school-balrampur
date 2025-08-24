@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -23,125 +23,277 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary: #1e3c72;
+            --primary-light: #2575fc;
+            --primary-dark: #1a3a6a;
+            --secondary: #6a11cb;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border: #dee2e6;
+            --shadow: 0 10px 30px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
             overflow: hidden;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
         }
         
         .header {
-            background: #667eea;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
-            padding: 30px 20px;
+            padding: 40px 30px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
         }
         
         .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
         }
         
         .header p {
             opacity: 0.9;
-            font-size: 14px;
+            font-size: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .school-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
         }
         
         .role-selector {
             display: flex;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
+            background: #f8f9ff;
         }
         
         .role-btn {
             flex: 1;
-            padding: 15px;
+            padding: 20px 15px;
             border: none;
-            background: #f8f9fa;
+            background: transparent;
             cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
         
         .role-btn.active {
-            background: #667eea;
+            background: var(--primary-light);
             color: white;
         }
         
+        .role-btn i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .role-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
         .form-container {
-            padding: 30px 20px;
+            padding: 40px 30px;
+            position: relative;
+        }
+        
+        .form-title {
+            text-align: center;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 3px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 500;
-            color: #333;
+            color: var(--primary-dark);
+            font-size: 15px;
+        }
+        
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-light);
+            z-index: 2;
         }
         
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: var(--transition);
+            background: #f8f9ff;
+            font-family: 'Poppins', sans-serif;
         }
         
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
+            background: white;
         }
         
         .submit-btn {
             width: 100%;
-            padding: 15px;
-            background: #667eea;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
         }
         
         .submit-btn:hover {
-            background: #5a6fd8;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
+        }
+        
+        .submit-btn i {
+            margin-right: 8px;
         }
         
         .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             text-align: center;
+            border: 1px solid #f5c6cb;
             display: none;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-message::before {
+            content: '⚠️';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         .success-message {
-            background: #efe;
-            color: #3c3;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: #d4edda;
+            color: #155724;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             text-align: center;
+            border: 1px solid #c3e6cb;
             display: none;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .success-message::before {
+            content: '✅';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         .hidden {
@@ -149,7 +301,7 @@
         }
         
         .google-signin {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
         }
         
@@ -158,60 +310,149 @@
             align-items: center;
             background: white;
             border: 1px solid #ddd;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 12px 25px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-weight: 500;
         }
         
         .google-btn:hover {
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
         }
         
-        .google-btn img {
-            width: 20px;
+        .google-btn i {
+            color: #ea4335;
+            font-size: 20px;
             margin-right: 10px;
         }
         
         .loading {
             text-align: center;
-            padding: 20px;
-            color: #667eea;
+            padding: 30px;
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .loading i {
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .contact-btn {
             background: none;
             border: none;
-            color: #667eea;
+            color: var(--primary);
             text-decoration: underline;
             cursor: pointer;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: block;
+            text-align: center;
         }
         
+        .contact-btn:hover {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .divider span {
+            padding: 0 10px;
+            background: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Responsive design */
         @media (max-width: 480px) {
             .container {
-                margin: 10px;
-                border-radius: 15px;
+                margin: 15px;
+                border-radius: 20px;
+            }
+            
+            .header {
+                padding: 35px 25px 25px;
             }
             
             .header h1 {
-                font-size: 20px;
+                font-size: 24px;
             }
+            
+            .form-container {
+                padding: 35px 25px;
+            }
+            
+            .role-btn {
+                padding: 18px 10px;
+                font-size: 15px;
+            }
+            
+            .school-icon {
+                font-size: 32px;
+            }
+        }
+        
+        /* Animation for form switching */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .role-form {
+            animation: slideIn 0.4s ease;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-graduation-cap"></i> Mili Karwaan Public School</h1>
-            <p>Balrampur - Excellence in Education</p>
+            <div class="school-icon">
+                <i class="fas fa-school"></i>
+            </div>
+            <h1>Mili Karwaan Public School</h1>
+            <p>Boluha Police Chowki, Balrampur | 9758919151</p>
         </div>
         
         <div class="role-selector">
-            <button class="role-btn active" data-role="student">Student</button>
-            <button class="role-btn" data-role="parent">Parent</button>
-            <button class="role-btn" data-role="teacher">Teacher</button>
+            <button class="role-btn active" data-role="student">
+                <i class="fas fa-user-graduate"></i> Student
+            </button>
+            <button class="role-btn" data-role="parent">
+                <i class="fas fa-users"></i> Parent
+            </button>
+            <button class="role-btn" data-role="teacher">
+                <i class="fas fa-chalkboard-teacher"></i> Teacher
+            </button>
         </div>
         
         <div class="form-container">
@@ -220,13 +461,14 @@
             
             <!-- Student Form -->
             <form id="student-form" class="role-form">
+                <h2 class="form-title">Student Access</h2>
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> Student Name</label>
-                    <input type="text" id="student-name" required>
+                    <input type="text" id="student-name" placeholder="Enter your full name" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-user-tie"></i> Parent Name</label>
-                    <input type="text" id="parent-name" required>
+                    <input type="text" id="parent-name" placeholder="Enter parent's name" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-chalkboard"></i> Class</label>
@@ -247,15 +489,19 @@
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-hashtag"></i> Roll Number</label>
-                    <input type="text" id="roll-number" required>
+                    <input type="text" id="roll-number" placeholder="Enter your roll number" required>
                 </div>
                 <button type="submit" class="submit-btn">
                     <i class="fas fa-sign-in-alt"></i> Enter Dashboard
                 </button>
                 
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
                 <div class="google-signin">
                     <div class="google-btn" onclick="signInWithGoogle()">
-                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+                        <i class="fab fa-google"></i>
                         Sign in with Google
                     </div>
                 </div>
@@ -263,13 +509,14 @@
             
             <!-- Parent Form -->
             <form id="parent-form" class="role-form hidden">
+                <h2 class="form-title">Parent Verification</h2>
                 <div class="form-group">
                     <label><i class="fas fa-user-tie"></i> Parent Name</label>
-                    <input type="text" id="parent-name-verify" required>
+                    <input type="text" id="parent-name-verify" placeholder="Enter your name" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> Child Name</label>
-                    <input type="text" id="child-name" required>
+                    <input type="text" id="child-name" placeholder="Enter child's name" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-chalkboard"></i> Child Class</label>
@@ -291,6 +538,7 @@
                 <button type="submit" class="submit-btn">
                     <i class="fas fa-sign-in-alt"></i> Access Parent Portal
                 </button>
+                
                 <button type="button" class="contact-btn" onclick="contactSchool()">
                     <i class="fas fa-envelope"></i> Contact School Administration
                 </button>
@@ -298,21 +546,33 @@
             
             <!-- Teacher Form -->
             <form id="teacher-form" class="role-form hidden">
+                <h2 class="form-title">Teacher Login</h2>
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> Teacher Name</label>
-                    <input type="text" id="teacher-name" required>
+                    <input type="text" id="teacher-name" placeholder="Enter your name" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="teacher-password" required>
+                    <input type="password" id="teacher-password" placeholder="Enter password" required>
                 </div>
                 <button type="submit" class="submit-btn">
                     <i class="fas fa-sign-in-alt"></i> Login as Teacher
                 </button>
+                
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <div class="google-signin">
+                    <div class="google-btn" onclick="signInWithGoogle()">
+                        <i class="fab fa-google"></i>
+                        Sign in with Google
+                    </div>
+                </div>
             </form>
             
             <div id="loading" class="loading hidden">
-                <i class="fas fa-spinner fa-spin"></i> Please wait...
+                <i class="fas fa-spinner"></i> Please wait, verifying your credentials...
             </div>
         </div>
     </div>
@@ -350,6 +610,9 @@
                 forms.forEach(form => form.classList.add('hidden'));
                 document.getElementById(`${role}-form`).classList.remove('hidden');
                 
+                // Reset form
+                document.getElementById(`${role}-form`).reset();
+                
                 // Clear messages
                 hideMessages();
             });
@@ -365,12 +628,14 @@
         function showLoading() {
             document.getElementById('loading').classList.remove('hidden');
             document.querySelectorAll('.submit-btn').forEach(btn => btn.disabled = true);
+            document.querySelectorAll('.google-btn').forEach(btn => btn.style.opacity = '0.7');
         }
 
         // Hide loading
         function hideLoading() {
             document.getElementById('loading').classList.add('hidden');
             document.querySelectorAll('.submit-btn').forEach(btn => btn.disabled = false);
+            document.querySelectorAll('.google-btn').forEach(btn => btn.style.opacity = '1');
         }
 
         // Show error
@@ -378,6 +643,9 @@
             const errorDiv = document.getElementById('error-message');
             errorDiv.textContent = message;
             errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
         }
 
         // Show success
@@ -385,6 +653,17 @@
             const successDiv = document.getElementById('success-message');
             successDiv.textContent = message;
             successDiv.style.display = 'block';
+        }
+
+        // Save session data
+        function saveSession(role, data) {
+            const session = { 
+                role, 
+                data, 
+                timestamp: new Date().getTime(),
+                isLoggedIn: true
+            };
+            localStorage.setItem('mkps_session', JSON.stringify(session));
         }
 
         // Student form submission
@@ -399,6 +678,12 @@
                 rollNo: document.getElementById('roll-number').value.trim(),
                 createdAt: new Date()
             };
+            
+            if (!studentData.name || !studentData.parentName || !studentData.class || !studentData.rollNo) {
+                showError('Please fill all fields');
+                hideLoading();
+                return;
+            }
             
             try {
                 // Check if student already exists
@@ -419,10 +704,14 @@
                     studentId = existingStudent.docs[0].id;
                 }
                 
-                // Save to localStorage
-                localStorage.setItem('studentId', studentId);
-                localStorage.setItem('studentName', studentData.name);
-                localStorage.setItem('studentClass', studentData.class);
+                // Save to session
+                saveSession('student', { 
+                    id: studentId,
+                    name: studentData.name,
+                    parentName: studentData.parentName,
+                    class: studentData.class,
+                    rollNo: studentData.rollNo
+                });
                 
                 showSuccess('Welcome! Redirecting to dashboard...');
                 setTimeout(() => {
@@ -446,6 +735,12 @@
             const childName = document.getElementById('child-name').value.trim();
             const childClass = document.getElementById('child-class').value;
             
+            if (!parentName || !childName || !childClass) {
+                showError('Please fill all fields');
+                hideLoading();
+                return;
+            }
+            
             try {
                 // Query students collection
                 const studentsRef = db.collection('students');
@@ -454,13 +749,15 @@
                     .get();
                 
                 let matchingStudent = null;
+                let matchCount = 0;
                 
                 querySnapshot.forEach(doc => {
                     const student = doc.data();
-                    let matchCount = 0;
+                    matchCount = 0;
                     
                     if (student.name.toLowerCase() === childName.toLowerCase()) matchCount++;
                     if (student.parentName.toLowerCase() === parentName.toLowerCase()) matchCount++;
+                    if (student.class === childClass) matchCount++;
                     
                     if (matchCount >= 2) {
                         matchingStudent = { id: doc.id, ...student };
@@ -468,10 +765,13 @@
                 });
                 
                 if (matchingStudent) {
-                    // Save to localStorage
-                    localStorage.setItem('parentStudentId', matchingStudent.id);
-                    localStorage.setItem('parentStudentName', matchingStudent.name);
-                    localStorage.setItem('parentStudentClass', matchingStudent.class);
+                    // Save to session
+                    saveSession('parent', { 
+                        studentId: matchingStudent.id,
+                        childName: matchingStudent.name,
+                        class: matchingStudent.class,
+                        parentName: parentName
+                    });
                     
                     showSuccess('Access granted! Redirecting...');
                     setTimeout(() => {
@@ -496,9 +796,13 @@
             const teacherName = document.getElementById('teacher-name').value.trim();
             const teacherPassword = document.getElementById('teacher-password').value;
             
-            if (teacherName === 'Abutalha' && teacherPassword === 'Secret123') {
-                localStorage.setItem('teacherLoggedIn', 'true');
-                localStorage.setItem('teacherName', teacherName);
+            if (teacherName.toLowerCase() === 'abutalha' && teacherPassword === 'Secret123') {
+                // Save to session
+                saveSession('teacher', { 
+                    name: 'Abutalha',
+                    role: 'teacher'
+                });
+                
                 showSuccess('Welcome Teacher! Redirecting...');
                 setTimeout(() => {
                     window.location.href = 'teacher.html';
@@ -510,23 +814,36 @@
 
         // Google Sign-In
         function signInWithGoogle() {
+            showLoading();
             const provider = new firebase.auth.GoogleAuthProvider();
+            
             auth.signInWithPopup(provider)
                 .then((result) => {
                     const user = result.user;
+                    const role = document.querySelector('.role-btn.active').dataset.role;
                     
                     // Save user info
-                    localStorage.setItem('studentName', user.displayName);
-                    localStorage.setItem('studentEmail', user.email);
-                    localStorage.setItem('googleUser', 'true');
+                    saveSession(role, { 
+                        name: user.displayName,
+                        email: user.email,
+                        photo: user.photoURL,
+                        uid: user.uid,
+                        provider: 'google'
+                    });
                     
-                    // Redirect to complete profile
-                    showSuccess('Welcome! Please complete your profile...');
+                    showSuccess(`Welcome ${user.displayName}! Redirecting...`);
                     setTimeout(() => {
-                        window.location.href = 'dashboard.html';
+                        if (role === 'student') {
+                            window.location.href = 'dashboard.html';
+                        } else if (role === 'parent') {
+                            window.location.href = 'parent.html';
+                        } else if (role === 'teacher') {
+                            window.location.href = 'teacher.html';
+                        }
                     }, 1500);
                 })
                 .catch((error) => {
+                    hideLoading();
                     showError('Google sign-in failed. Please try again.');
                     console.error('Google sign-in error:', error);
                 });
@@ -534,17 +851,47 @@
 
         // Contact school
         function contactSchool() {
-            window.location.href = 'mailto:madamsir066@gmail.com?subject=School Registration Query';
+            window.location.href = 'mailto:madamsir066@gmail.com?subject=School Registration Query&body=Dear School Administration,';
         }
 
         // Check if already logged in
         window.addEventListener('load', () => {
-            if (localStorage.getItem('studentId') && localStorage.getItem('studentName')) {
-                window.location.href = 'dashboard.html';
-            } else if (localStorage.getItem('parentStudentId')) {
-                window.location.href = 'parent.html';
-            } else if (localStorage.getItem('teacherLoggedIn')) {
-                window.location.href = 'teacher.html';
+            const session = localStorage.getItem('mkps_session');
+            if (session) {
+                try {
+                    const parsedSession = JSON.parse(session);
+                    if (parsedSession.isLoggedIn) {
+                        if (parsedSession.role === 'student') {
+                            window.location.href = 'dashboard.html';
+                        } else if (parsedSession.role === 'parent') {
+                            window.location.href = 'parent.html';
+                        } else if (parsedSession.role === 'teacher') {
+                            window.location.href = 'teacher.html';
+                        }
+                    }
+                } catch (e) {
+                    console.log('Invalid session data');
+                }
+            }
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const activeForm = document.querySelector('.role-form:not(.hidden)');
+                if (activeForm) {
+                    const submitBtn = activeForm.querySelector('.submit-btn');
+                    submitBtn.click();
+                }
+            }
+            
+            // Role switching with number keys
+            if (e.key >= '1' && e.key <= '3') {
+                const index = parseInt(e.key) - 1;
+                const buttons = document.querySelectorAll('.role-btn');
+                if (buttons[index]) {
+                    buttons[index].click();
+                }
             }
         });
     </script>
