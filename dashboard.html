@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Student Dashboard - MKPS</title>
+  <title>Student Dashboard - MKPS Balrampur</title>
   <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <!-- Font Awesome Icons -->
@@ -19,6 +19,22 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --primary: #1e3c72;
+      --primary-light: #2575fc;
+      --primary-dark: #1a3a6a;
+      --secondary: #6a11cb;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --info: #17a2b8;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --gray: #6c757d;
+      --border: #dee2e6;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       background: #f8f9ff;
@@ -26,6 +42,7 @@
       min-height: 100vh;
       padding: 0;
       margin: 0;
+      overflow-x: hidden;
     }
 
     .container {
@@ -38,12 +55,16 @@
     }
 
     header {
-      background: #1e3c72;
+      background: var(--primary);
       color: #fff;
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
     }
 
     .logo {
@@ -66,10 +87,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #1e3c72;
+      color: var(--primary);
       font-weight: 600;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.05);
     }
 
     main {
@@ -80,12 +106,26 @@
     }
 
     .welcome-card {
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary-light) 100%);
       color: white;
       border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.2);
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(37, 117, 252, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transform: translateY(-50%) translateX(50%);
     }
 
     .welcome-header {
@@ -93,58 +133,87 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
     }
 
     .student-name {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
 
     .student-class {
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
+      background: rgba(255,255,255,0.25);
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       display: inline-block;
-      margin-top: 5px;
+      margin-top: 6px;
+      backdrop-filter: blur(10px);
     }
 
     .profile-avatar {
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       background: rgba(255,255,255,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 1.7rem;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
     }
 
     .quick-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 15px;
+      margin-bottom: 25px;
     }
 
     .stat-card {
       background: white;
-      border-radius: 12px;
-      padding: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      text-align: center;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--primary-light);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
     .stat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      margin: 0 auto 8px;
+      font-size: 1.4rem;
     }
 
     .attendance-icon { background: #d4edda; color: #155724; }
@@ -152,83 +221,120 @@
     .homework-icon { background: #d1ecf1; color: #0c5460; }
 
     .stat-title {
-      font-size: 0.9rem;
-      color: #666;
+      font-size: 0.95rem;
+      color: var(--gray);
       margin: 0;
     }
 
     .stat-value {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      margin: 5px 0;
+      margin: 0;
+      color: var(--primary-dark);
     }
 
     .tabs {
       display: flex;
       background: white;
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      overflow: auto;
+      border-radius: 14px;
+      padding: 5px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
     }
 
     .tab {
       flex: 1;
       text-align: center;
-      padding: 12px 16px;
-      border-radius: 8px;
+      padding: 14px 18px;
+      border-radius: 10px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       white-space: nowrap;
+      position: relative;
+      color: var(--gray);
     }
 
     .tab.active {
-      background: #2575fc;
+      background: var(--primary-light);
       color: white;
+      font-weight: 600;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--primary-light);
+      border-radius: 50%;
     }
 
     .tab-content {
       display: none;
+      animation: fadeIn 0.5s ease;
     }
 
     .tab-content.active {
       display: block;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .section-title {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      color: #1e3c72;
-      margin: 20px 0 15px 0;
+      color: var(--primary-dark);
+      margin: 25px 0 20px 0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      padding-left: 12px;
+      border-left: 4px solid var(--primary-light);
     }
 
     .section-title i {
       background: #e6f0ff;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #2575fc;
+      color: var(--primary-light);
     }
 
     .card {
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
       overflow: hidden;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
 
     .item {
-      padding: 16px;
+      padding: 18px;
       border-bottom: 1px solid #f0f0f0;
+      position: relative;
     }
 
     .item:last-child {
@@ -238,33 +344,47 @@
     .item-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .subject, .title, .period {
       font-weight: 600;
-      color: #1e3c72;
+      color: var(--primary-dark);
+      font-size: 1.1rem;
     }
 
-    .date, .time, .teacher {
+    .date, .time, .teacher, .subject-tag {
       font-size: 0.85rem;
-      color: #666;
+      color: var(--gray);
+      margin: 2px 0;
+    }
+
+    .subject-tag {
+      background: #e6f0ff;
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: 500;
+      margin-right: 8px;
     }
 
     .description, .content {
-      font-size: 0.95rem;
-      line-height: 1.5;
+      font-size: 1rem;
+      line-height: 1.6;
       color: #555;
-      margin: 8px 0;
+      margin: 10px 0;
+      word-wrap: break-word;
     }
 
     .status {
       display: inline-block;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 14px;
+      font-size: 0.85rem;
       font-weight: 500;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .status-paid { background: #d4edda; color: #155724; }
@@ -274,18 +394,20 @@
     .timetable {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 10px;
     }
 
     .timetable th {
-      background: #1e3c72;
+      background: var(--primary);
       color: white;
-      padding: 12px;
+      padding: 14px;
       text-align: left;
+      font-weight: 600;
     }
 
     .timetable td {
-      padding: 12px;
-      border-bottom: 1px solid #eee;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
     }
 
     .timetable tr:nth-child(even) {
@@ -293,103 +415,145 @@
     }
 
     .timetable .time-col {
-      width: 80px;
+      width: 90px;
       font-weight: 600;
-      color: #1e3c72;
+      color: var(--primary-dark);
+      background: #e6f0ff;
+    }
+
+    .subject-cell {
+      font-weight: 600;
+      color: var(--primary-dark);
     }
 
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
-      color: #666;
+      padding: 60px 20px;
+      color: var(--gray);
     }
 
     .empty-state i {
-      font-size: 3rem;
+      font-size: 4rem;
       color: #ddd;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
     }
 
     .empty-state p {
-      margin: 10px 0;
+      margin: 8px 0;
+      line-height: 1.5;
     }
 
     .ai-assistant {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #1e3c72;
+      bottom: 25px;
+      right: 25px;
+      background: var(--primary);
       color: white;
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
       cursor: pointer;
-      z-index: 100;
-      transition: all 0.3s ease;
+      z-index: 1000;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 117, 252, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 117, 252, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 117, 252, 0); }
     }
 
     .ai-assistant:hover {
-      transform: scale(1.1);
-      background: #2575fc;
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
 
     .ai-assistant i {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
+      transition: transform 0.3s;
+    }
+
+    .ai-assistant:hover i {
+      transform: rotate(15deg);
     }
 
     .menu {
       display: flex;
       justify-content: space-around;
       background: white;
-      padding: 12px 0;
-      border-top: 1px solid #eee;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
     }
 
     .menu-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #666;
+      color: var(--gray);
       font-size: 0.85rem;
-      transition: color 0.3s;
+      transition: all 0.3s;
+      position: relative;
     }
 
     .menu-item.active {
-      color: #2575fc;
+      color: var(--primary-light);
     }
 
     .menu-item i {
-      font-size: 1.3rem;
-      margin-bottom: 4px;
+      font-size: 1.4rem;
+      margin-bottom: 5px;
     }
 
     .skeleton {
       background: #f8f9fa;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      animation: pulse 1.5s infinite ease-in-out;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      animation: pulseSkeleton 1.5s infinite ease-in-out;
     }
 
     .skeleton-header {
-      height: 80px;
+      height: 90px;
       border-radius: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       background: #f8f9fa;
-      animation: pulse 1.5s infinite ease-in-out;
+      animation: pulseSkeleton 1.5s infinite ease-in-out;
     }
 
-    .skeleton:nth-child(1) { height: 60px; }
-    .skeleton:nth-child(2) { height: 60px; }
-    .skeleton:nth-child(3) { height: 60px; }
-    .skeleton:nth-child(4) { height: 100px; }
-    .skeleton:nth-child(5) { height: 80px; }
+    .skeleton-quick {
+      height: 70px;
+      border-radius: 14px;
+    }
 
-    @keyframes pulse {
+    .skeleton-tab {
+      height: 50px;
+      border-radius: 14px;
+      margin-bottom: 25px;
+    }
+
+    .skeleton-card {
+      height: 110px;
+      border-radius: 14px;
+    }
+
+    .skeleton-timetable {
+      height: 200px;
+      border-radius: 14px;
+    }
+
+    @keyframes pulseSkeleton {
       0% { opacity: 0.8; }
       50% { opacity: 0.5; }
       100% { opacity: 0.8; }
@@ -398,15 +562,23 @@
     .loader {
       display: none;
       text-align: center;
-      padding: 20px;
+      padding: 30px;
+      background: rgba(255,255,255,0.8);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      backdrop-filter: blur(5px);
     }
 
     .spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #2575fc;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary-light);
       border-radius: 50%;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       animation: spin 1s linear infinite;
       margin: 0 auto;
     }
@@ -414,6 +586,12 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      margin-top: 15px;
+      color: var(--primary-dark);
+      font-weight: 500;
     }
 
     .modal {
@@ -427,42 +605,64 @@
       z-index: 1000;
       justify-content: center;
       align-items: center;
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .modal-content {
       background: white;
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 25px;
       width: 90%;
-      max-width: 500px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      max-width: 550px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlideIn 0.4s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
     }
 
     .modal-title {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 600;
-      color: #1e3c72;
+      color: var(--primary-dark);
     }
 
     .close-btn {
       background: #f8f9fa;
       border: none;
-      width: 30px;
-      height: 30px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1.2rem;
-      color: #666;
+      font-size: 1.3rem;
+      color: var(--gray);
+      transition: all 0.3s;
+    }
+
+    .close-btn:hover {
+      background: #e9ecef;
+      transform: rotate(90deg);
     }
 
     .modal-body {
@@ -470,9 +670,151 @@
     }
 
     .note-content {
-      line-height: 1.6;
+      line-height: 1.8;
       color: #555;
       white-space: pre-wrap;
+      font-size: 1.05rem;
+    }
+
+    .homework-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .btn-complete {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .btn-ai {
+      background: #e6f0ff;
+      color: var(--primary);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+
+    .badge-new {
+      background: var(--primary-light);
+      color: white;
+    }
+
+    .badge-urgent {
+      background: var(--danger);
+      color: white;
+    }
+
+    .announcement-item {
+      border-left: 4px solid var(--primary-light);
+    }
+
+    .announcement-item.announcement-urgent {
+      border-left-color: var(--danger);
+    }
+
+    .announcement-item.announcement-info {
+      border-left-color: var(--info);
+    }
+
+    .announcement-item.announcement-warning {
+      border-left-color: var(--warning);
+    }
+
+    .announcement-type {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .announcement-urgent .announcement-type {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .announcement-info .announcement-type {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .announcement-warning .announcement-type {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .timetable-responsive {
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .attendance-bar { background: var(--success); }
+    .fees-bar { background: var(--warning); }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+
+    .homework-count {
+      background: var(--primary-light);
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
 
     @media (max-width: 480px) {
@@ -486,11 +828,44 @@
       }
       
       .profile-avatar {
-        margin-top: 10px;
+        margin-top: 15px;
       }
       
       .tabs {
         font-size: 0.9rem;
+      }
+      
+      .section-title {
+        font-size: 1.1rem;
+      }
+      
+      .item {
+        padding: 15px;
+      }
+      
+      .subject {
+        font-size: 1rem;
+      }
+      
+      .ai-assistant {
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 768px;
+        margin: 20px auto;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      }
+      
+      main {
+        padding: 30px;
       }
     }
   </style>
@@ -510,25 +885,49 @@
       
       <div class="quick-stats">
         <div class="stat-card">
-          <div class="stat-icon attendance-icon">
-            <i class="fas fa-check-circle"></i>
+          <div class="stat-header">
+            <div class="stat-icon attendance-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="stat-title">Attendance</h3>
           </div>
-          <h3 class="stat-title">Attendance</h3>
           <p class="stat-value">Loading...</p>
+          <div class="progress-container">
+            <div class="progress-bar attendance-bar" style="width: 0%"></div>
+          </div>
+          <div class="progress-label">
+            <span>Present</span>
+            <span id="attendance-present">0/0</span>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon homework-icon">
-            <i class="fas fa-book"></i>
+          <div class="stat-header">
+            <div class="stat-icon homework-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <h3 class="stat-title">Homework</h3>
           </div>
-          <h3 class="stat-title">Homework</h3>
           <p class="stat-value">Loading...</p>
+          <div class="progress-container">
+            <div class="progress-bar homework-bar" style="width: 0%"></div>
+          </div>
+          <div class="progress-label">
+            <span>Completed</span>
+            <span id="homework-completed">0/0</span>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon fees-icon">
-            <i class="fas fa-rupee-sign"></i>
+          <div class="stat-header">
+            <div class="stat-icon fees-icon">
+              <i class="fas fa-rupee-sign"></i>
+            </div>
+            <h3 class="stat-title">Fees Status</h3>
           </div>
-          <h3 class="stat-title">Fees</h3>
           <p class="stat-value">Loading...</p>
+          <div class="progress-container">
+            <div class="progress-bar fees-bar" style="width: 0%"></div>
+          </div>
+          <span class="status" id="feesStatus">Loading...</span>
         </div>
       </div>
 
@@ -545,40 +944,52 @@
         <div class="tab" data-tab="announcements">
           <i class="fas fa-bullhorn"></i> Announcements
         </div>
+        <div class="tab" data-tab="messages">
+          <i class="fas fa-comments"></i> Messages
+        </div>
       </div>
 
       <div id="content">
         <!-- Homework Tab -->
         <div class="tab-content active" id="homework">
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
+          <div class="skeleton skeleton-tab"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
         </div>
 
         <!-- Notes Tab -->
         <div class="tab-content" id="notes">
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
+          <div class="skeleton skeleton-tab"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
         </div>
 
         <!-- Timetable Tab -->
         <div class="tab-content" id="timetable">
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
+          <div class="skeleton skeleton-tab"></div>
+          <div class="skeleton skeleton-timetable"></div>
         </div>
 
         <!-- Announcements Tab -->
         <div class="tab-content" id="announcements">
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
+          <div class="skeleton skeleton-tab"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+
+        <!-- Messages Tab -->
+        <div class="tab-content" id="messages">
+          <div class="skeleton skeleton-tab"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
         </div>
       </div>
 
       <div class="loader" id="loader">
         <div class="spinner"></div>
-        <div style="margin-top:10px; font-size:0.9rem; color:#555;">Loading dashboard...</div>
+        <div class="loader-text">Loading your academic dashboard...</div>
       </div>
     </main>
 
@@ -613,13 +1024,65 @@
     <div class="modal" id="noteModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">Note Details</h3>
+          <h3 class="modal-title">Study Notes</h3>
           <button class="close-btn" id="closeNoteModal">&times;</button>
         </div>
         <div class="modal-body">
-          <h4 id="noteTitle" style="margin-bottom: 10px; color: #1e3c72;"></h4>
-          <p id="noteDate" style="color: #666; font-size: 0.9rem; margin-bottom: 15px;"></p>
+          <h4 id="noteTitle" style="margin-bottom: 12px; color: var(--primary-dark);"></h4>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <span id="noteSubject" class="subject-tag"></span>
+            <span id="noteDate" style="color: var(--gray); font-size: 0.9rem;"></span>
+          </div>
           <div class="note-content" id="noteContent"></div>
+          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
+            <button class="btn-action btn-ai" id="aiHelpBtn">
+              <i class="fas fa-robot"></i> AI Explanation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Homework Detail Modal -->
+    <div class="modal" id="homeworkModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Homework Details</h3>
+          <button class="close-btn" id="closeHomeworkModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h4 id="hwSubject" style="margin-bottom: 12px; color: var(--primary-dark);"></h4>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <span id="hwClass" class="subject-tag"></span>
+            <span id="hwDate" style="color: var(--gray); font-size: 0.9rem;"></span>
+          </div>
+          <div class="description" id="hwDescription"></div>
+          <div class="homework-actions">
+            <button class="btn-action btn-complete" id="completeBtn">
+              <i class="fas fa-check"></i> Mark Complete
+            </button>
+            <button class="btn-action btn-ai" id="aiHomeworkBtn">
+              <i class="fas fa-robot"></i> AI Help
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div class="modal" id="announcementModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">School Announcement</h3>
+          <button class="close-btn" id="closeAnnouncementModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <span id="annType" class="announcement-type">General</span>
+            <span id="annDate" style="color: var(--gray); font-size: 0.9rem;"></span>
+          </div>
+          <h4 id="annTitle" style="margin-bottom: 15px; color: var(--primary-dark);"></h4>
+          <div class="description" id="annMessage"></div>
         </div>
       </div>
     </div>
@@ -649,78 +1112,142 @@
     const aiBtn = document.getElementById('aiBtn');
     const tabs = document.getElementById('tabs');
     const tabContents = document.querySelectorAll('.tab-content');
+    
+    // Modals
     const noteModal = document.getElementById('noteModal');
     const closeNoteModal = document.getElementById('closeNoteModal');
+    const homeworkModal = document.getElementById('homeworkModal');
+    const closeHomeworkModal = document.getElementById('closeHomeworkModal');
+    const announcementModal = document.getElementById('announcementModal');
+    const closeAnnouncementModal = document.getElementById('closeAnnouncementModal');
+    
+    // Modal action buttons
+    const aiHelpBtn = document.getElementById('aiHelpBtn');
+    const aiHomeworkBtn = document.getElementById('aiHomeworkBtn');
+    const completeBtn = document.getElementById('completeBtn');
 
     // Student Data
     let studentData = null;
     let homeworkData = [];
     let notesData = [];
-    let timetableData = {};
     let announcementData = [];
+    let messageData = [];
+    let attendanceData = {};
+    let feesData = {};
 
-    // Timetable configuration by class
+    // Timetable configuration by class with detailed subjects
     const timetableConfig = {
       'Nursery': {
-        '09:00': ['Rhymes', 'Art & Craft', 'Play Time'],
-        '10:00': ['Story Time', 'Math', 'English'],
-        '11:00': ['Moral Science', 'Free Period', 'Lunch']
+        '09:00-09:40': ['Rhymes & Songs', 'Art & Craft', 'Play Time'],
+        '09:40-10:20': ['Story Time', 'Basic Math', 'English Rhymes'],
+        '10:20-11:00': ['Moral Science', 'Free Period', 'Lunch Break'],
+        '11:00-11:40': ['Dance & Music', 'Yoga', 'Revision'],
+        '11:40-12:20': ['Outdoor Play', 'Homework Help', 'Dismissal']
       },
       'LKG': {
-        '09:00': ['English', 'Math', 'EVS'],
-        '10:00': ['Hindi', 'Art & Craft', 'Music'],
-        '11:00': ['Games', 'Story Time', 'Lunch']
+        '09:00-09:40': ['English', 'Math', 'EVS'],
+        '09:40-10:20': ['Hindi', 'Art & Craft', 'Music'],
+        '10:20-11:00': ['Games', 'Story Time', 'Lunch Break'],
+        '11:00-11:40': ['Computer Basics', 'Yoga', 'Revision'],
+        '11:40-12:20': ['Outdoor Activities', 'Homework', 'Dismissal']
       },
       'UKG': {
-        '09:00': ['English', 'Math', 'EVS'],
-        '10:00': ['Hindi', 'Art & Craft', 'Music'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:40': ['English', 'Math', 'EVS'],
+        '09:40-10:20': ['Hindi', 'Art & Craft', 'Music'],
+        '10:20-11:00': ['Games', 'Computer', 'Lunch Break'],
+        '11:00-11:40': ['General Knowledge', 'Yoga', 'Revision'],
+        '11:40-12:20': ['Outdoor Activities', 'Homework', 'Dismissal']
       },
       '1': {
-        '09:00': ['English', 'Math', 'EVS'],
-        '10:00': ['Hindi', 'Art & Craft', 'Music'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:40': ['English', 'Math', 'EVS'],
+        '09:40-10:20': ['Hindi', 'Art & Craft', 'Music'],
+        '10:20-11:00': ['Games', 'Computer', 'Lunch Break'],
+        '11:00-11:40': ['General Knowledge', 'Yoga', 'Revision'],
+        '11:40-12:20': ['Library', 'Homework', 'Dismissal']
       },
       '2': {
-        '09:00': ['English', 'Math', 'EVS'],
-        '10:00': ['Hindi', 'Art & Craft', 'Music'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:40': ['English', 'Math', 'EVS'],
+        '09:40-10:20': ['Hindi', 'Art & Craft', 'Music'],
+        '10:20-11:00': ['Games', 'Computer', 'Lunch Break'],
+        '11:00-11:40': ['General Knowledge', 'Yoga', 'Revision'],
+        '11:40-12:20': ['Library', 'Homework', 'Dismissal']
       },
       '3': {
-        '09:00': ['English', 'Math', 'Science'],
-        '10:00': ['Hindi', 'Social Studies', 'Art'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:50': ['English', 'Math', 'Science'],
+        '09:50-10:40': ['Hindi', 'Social Studies', 'Art'],
+        '10:40-11:00': ['Tea Break'],
+        '11:00-11:50': ['Games', 'Computer', 'Lunch Break'],
+        '11:50-12:40': ['General Knowledge', 'Yoga', 'Revision']
       },
       '4': {
-        '09:00': ['English', 'Math', 'Science'],
-        '10:00': ['Hindi', 'Social Studies', 'Art'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:50': ['English', 'Math', 'Science'],
+        '09:50-10:40': ['Hindi', 'Social Studies', 'Art'],
+        '10:40-11:00': ['Tea Break'],
+        '11:00-11:50': ['Games', 'Computer', 'Lunch Break'],
+        '11:50-12:40': ['General Knowledge', 'Yoga', 'Revision']
       },
       '5': {
-        '09:00': ['English', 'Math', 'Science'],
-        '10:00': ['Hindi', 'Social Studies', 'Art'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:50': ['English', 'Math', 'Science'],
+        '09:50-10:40': ['Hindi', 'Social Studies', 'Art'],
+        '10:40-11:00': ['Tea Break'],
+        '11:00-11:50': ['Games', 'Computer', 'Lunch Break'],
+        '11:50-12:40': ['General Knowledge', 'Yoga', 'Revision']
       },
       '6': {
-        '09:00': ['English', 'Math', 'Science'],
-        '10:00': ['Hindi', 'Social Studies', 'Sanskrit'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:50': ['English', 'Math', 'Science'],
+        '09:50-10:40': ['Hindi', 'Social Studies', 'Sanskrit'],
+        '10:40-11:00': ['Tea Break'],
+        '11:00-11:50': ['Games', 'Computer', 'Lunch Break'],
+        '11:50-12:40': ['General Knowledge', 'Yoga', 'Revision']
       },
       '7': {
-        '09:00': ['English', 'Math', 'Science'],
-        '10:00': ['Hindi', 'Social Studies', 'Sanskrit'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:50': ['English', 'Math', 'Science'],
+        '09:50-10:40': ['Hindi', 'Social Studies', 'Sanskrit'],
+        '10:40-11:00': ['Tea Break'],
+        '11:00-11:50': ['Games', 'Computer', 'Lunch Break'],
+        '11:50-12:40': ['General Knowledge', 'Yoga', 'Revision']
       },
       '8': {
-        '09:00': ['English', 'Math', 'Science'],
-        '10:00': ['Hindi', 'Social Studies', 'Sanskrit'],
-        '11:00': ['Games', 'Computer', 'Lunch']
+        '09:00-09:50': ['English', 'Math', 'Science'],
+        '09:50-10:40': ['Hindi', 'Social Studies', 'Sanskrit'],
+        '10:40-11:00': ['Tea Break'],
+        '11:00-11:50': ['Games', 'Computer', 'Lunch Break'],
+        '11:50-12:40': ['General Knowledge', 'Yoga', 'Revision']
       }
+    };
+
+    // Subject colors for visual distinction
+    const subjectColors = {
+      'English': '#4CAF50',
+      'Math': '#2196F3',
+      'Science': '#FF9800',
+      'Hindi': '#9C27B0',
+      'Social Studies': '#E91E63',
+      'EVS': '#00BCD4',
+      'Art & Craft': '#FF5722',
+      'Music': '#795548',
+      'Games': '#3F51B5',
+      'Computer': '#607D8B',
+      'General Knowledge': '#FFC107',
+      'Yoga': '#8BC34A',
+      'Rhymes & Songs': '#CDDC39',
+      'Story Time': '#009688',
+      'Moral Science': '#673AB7',
+      'Dance & Music': '#FFEB3B',
+      'Library': '#795548',
+      'Revision': '#9E9E9E',
+      'Tea Break': '#FFCDD2',
+      'Lunch Break': '#F8BBD0',
+      'Dismissal': '#BDBDBD',
+      'Homework': '#B3E5FC',
+      'Free Period': '#CFD8DC',
+      'Outdoor Play': '#81C784',
+      'Outdoor Activities': '#4DB6AC'
     };
 
     // Show Loader
     function showLoader(show) {
-      loader.style.display = show ? 'block' : 'none';
+      loader.style.display = show ? 'flex' : 'none';
     }
 
     // Get Session Data
@@ -757,6 +1284,19 @@
       });
     }
 
+    // Format time range
+    function formatTimeRange(timeRange) {
+      if (timeRange.includes('-')) {
+        return timeRange;
+      }
+      // Convert 24-hour to 12-hour format with AM/PM
+      const hour = parseInt(timeRange);
+      if (hour === 0) return '12 AM';
+      if (hour < 12) return `${hour} AM`;
+      if (hour === 12) return '12 PM';
+      return `${hour - 12} PM`;
+    }
+
     // Load Student Data
     async function loadStudentData() {
       const session = getSession();
@@ -773,23 +1313,18 @@
       document.getElementById('profileAvatar').textContent = firstLetter;
       document.getElementById('profileBtn').textContent = firstLetter;
 
-      // Mock attendance data
-      const totalDays = 100;
-      const presentDays = Math.floor(Math.random() * 20) + 80; // 80-100%
-      const attendanceRate = Math.round((presentDays / totalDays) * 100);
-      document.querySelector('.stat-value:nth-child(1)').textContent = `${attendanceRate}%`;
-
-      // Load homework
-      await loadHomework();
+      // Load all data
+      await Promise.all([
+        loadHomework(),
+        loadNotes(),
+        loadAnnouncements(),
+        loadMessages()
+      ]);
       
-      // Load notes
-      await loadNotes();
-      
-      // Load timetable
+      // Load dependent data
       loadTimetable();
-      
-      // Load announcements
-      await loadAnnouncements();
+      loadAttendance();
+      loadFees();
     }
 
     // Load Homework
@@ -805,63 +1340,198 @@
         homeworkList.innerHTML = '';
 
         if (homeworkRef.empty) {
-          // Add some mock homework if none in database
-          const mockHomework = [
-            { subject: 'Math', description: 'Complete exercise 3.2 on fractions', date: new Date().toISOString() },
-            { subject: 'English', description: 'Write a paragraph about your favorite book', date: new Date(Date.now() - 86400000).toISOString() },
-            { subject: 'Science', description: 'Draw and label the parts of a plant', date: new Date(Date.now() - 172800000).toISOString() }
-          ];
-
-          mockHomework.forEach(hw => {
+          // Add comprehensive mock homework by class
+          const mockHomework = generateMockHomework(studentData.class);
+          
+          mockHomework.forEach((hw, index) => {
             const homeworkItem = document.createElement('div');
             homeworkItem.className = 'card';
             homeworkItem.innerHTML = `
-              <div class="item">
+              <div class="item" data-homework='${JSON.stringify(hw)}'>
                 <div class="item-header">
-                  <span class="subject">${hw.subject}</span>
+                  <div>
+                    <span class="subject-tag" style="background: ${subjectColors[hw.subject] || '#2196F3'}; color: white;">${hw.subject}</span>
+                    ${hw.urgent ? '<span class="badge badge-urgent">Urgent</span>' : ''}
+                  </div>
                   <span class="date">${formatDate(hw.date)}</span>
                 </div>
                 <p class="description">${hw.description}</p>
+                ${index === 0 ? '<div class="homework-count">1</div>' : ''}
               </div>
             `;
+            homeworkItem.querySelector('.item').addEventListener('click', () => {
+              openHomeworkModal(hw);
+            });
             homeworkList.appendChild(homeworkItem);
           });
 
-          document.querySelector('.stat-value:nth-child(2)').textContent = mockHomework.length;
+          updateHomeworkStats(mockHomework);
           return;
         }
 
         homeworkData = [];
-        let count = 0;
+        let displayedCount = 0;
         homeworkRef.forEach(doc => {
           const data = doc.data();
-          homeworkData.push({ id: doc.id, ...data });
+          const hw = { id: doc.id, ...data };
+          homeworkData.push(hw);
           
           const homeworkItem = document.createElement('div');
           homeworkItem.className = 'card';
           homeworkItem.innerHTML = `
-            <div class="item">
+            <div class="item" data-homework='${JSON.stringify(hw)}'>
               <div class="item-header">
-                <span class="subject">${data.subject}</span>
+                <div>
+                  <span class="subject-tag" style="background: ${subjectColors[data.subject] || '#2196F3'}; color: white;">${data.subject}</span>
+                  ${isUrgentHomework(data.date) ? '<span class="badge badge-urgent">Urgent</span>' : ''}
+                </div>
                 <span class="date">${formatDate(data.date)}</span>
               </div>
               <p class="description">${data.description}</p>
+              ${displayedCount === 0 ? '<div class="homework-count">1</div>' : ''}
             </div>
           `;
+          homeworkItem.querySelector('.item').addEventListener('click', () => {
+            openHomeworkModal(hw);
+          });
           homeworkList.appendChild(homeworkItem);
-          count++;
+          displayedCount++;
         });
 
-        document.querySelector('.stat-value:nth-child(2)').textContent = count;
+        updateHomeworkStats(homeworkData);
       } catch (error) {
         console.error('Error loading homework:', error);
         document.getElementById('homework').innerHTML = `
           <div class="empty-state">
             <i class="fas fa-exclamation-triangle"></i>
-            <p>Error loading homework</p>
+            <h3>Connection Error</h3>
+            <p>Unable to load homework assignments. Please check your internet connection.</p>
           </div>
         `;
       }
+    }
+
+    // Generate mock homework based on class
+    function generateMockHomework(classLevel) {
+      const subjects = {
+        'Nursery': ['Rhymes', 'Art & Craft', 'Play Activities'],
+        'LKG': ['English', 'Math', 'EVS'],
+        'UKG': ['English', 'Math', 'EVS'],
+        '1': ['English', 'Math', 'EVS'],
+        '2': ['English', 'Math', 'EVS'],
+        '3': ['English', 'Math', 'Science'],
+        '4': ['English', 'Math', 'Science'],
+        '5': ['English', 'Math', 'Science'],
+        '6': ['English', 'Math', 'Science'],
+        '7': ['English', 'Math', 'Science'],
+        '8': ['English', 'Math', 'Science']
+      };
+
+      const descriptions = {
+        'English': [
+          'Write a paragraph about your favorite animal',
+          'Complete exercises 3.2 and 3.3 in your workbook',
+          'Read chapter 5 and answer the questions',
+          'Practice spelling words from list 7'
+        ],
+        'Math': [
+          'Solve problems 1-20 on page 45',
+          'Complete the multiplication worksheet',
+          'Work on fractions exercises 4.1 to 4.5',
+          'Practice word problems involving percentages'
+        ],
+        'Science': [
+          'Draw and label the parts of a plant',
+          'Write a report on the water cycle',
+          'Complete the experiment worksheet',
+          'Research and write about renewable energy sources'
+        ],
+        'EVS': [
+          'Draw a map of your neighborhood',
+          'Write about your family members',
+          'List the seasons and their characteristics',
+          'Draw and color different types of transportation'
+        ],
+        'Hindi': [
+          'Write a short story in Hindi',
+          'Complete the grammar exercises',
+          'Practice reading the given passage',
+          'Write 10 sentences using new vocabulary words'
+        ],
+        'Social Studies': [
+          'Create a timeline of important historical events',
+          'Research and present on a famous leader',
+          'Draw a map of India with all states labeled',
+          'Write about the importance of voting'
+        ],
+        'Art & Craft': [
+          'Create a collage using magazine cutouts',
+          'Make a paper craft of your favorite animal',
+          'Draw a landscape using watercolors',
+          'Create a greeting card for Teachers Day'
+        ],
+        'Rhymes': [
+          'Practice the new rhyme "Twinkle Twinkle"',
+          'Learn the actions for "If You Happy and You Know It"',
+          'Sing "Old MacDonald" with animal sounds',
+          'Practice "Baa Baa Black Sheep" with gestures'
+        ],
+        'Play Activities': [
+          'Bring your favorite toy for show and tell',
+          'Practice sharing during playtime',
+          'Learn new playground games',
+          'Practice teamwork activities'
+        ]
+      };
+
+      const currentSubjects = subjects[classLevel] || subjects['1'];
+      const homework = [];
+
+      // Generate 5-7 homework items
+      const count = Math.floor(Math.random() * 3) + 5;
+      
+      for (let i = 0; i < count; i++) {
+        const subject = currentSubjects[Math.floor(Math.random() * currentSubjects.length)];
+        const descList = descriptions[subject] || descriptions['English'];
+        const description = descList[Math.floor(Math.random() * descList.length)];
+        
+        // Random date within last 7 days to next 3 days
+        const dateOffset = Math.floor(Math.random() * 10) - 7;
+        const date = new Date();
+        date.setDate(date.getDate() + dateOffset);
+        
+        homework.push({
+          subject: subject,
+          description: description,
+          date: date.toISOString(),
+          class: classLevel,
+          urgent: dateOffset <= 1 && dateOffset >= 0
+        });
+      }
+
+      return homework;
+    }
+
+    // Check if homework is urgent (due today or tomorrow)
+    function isUrgentHomework(dateString) {
+      const dueDate = new Date(dateString);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      return dueDate >= today && dueDate <= tomorrow;
+    }
+
+    // Update homework statistics
+    function updateHomeworkStats(homeworkList) {
+      const total = homeworkList.length;
+      const completed = Math.floor(total * 0.6); // 60% completion rate
+      const urgent = homeworkList.filter(hw => isUrgentHomework(hw.date)).length;
+      
+      document.querySelector('.stat-value:nth-child(2)').textContent = `${total}`;
+      document.querySelector('#homework-completed').textContent = `${completed}/${total}`;
+      document.querySelector('.homework-bar').style.width = `${(completed/total) * 100}%`;
     }
 
     // Load Notes
@@ -877,23 +1547,22 @@
         notesList.innerHTML = '';
 
         if (notesRef.empty) {
-          // Add some mock notes if none in database
-          const mockNotes = [
-            { title: 'Math - Fractions', content: 'A fraction represents a part of a whole. Numerator is the top number, denominator is the bottom number.', date: new Date().toISOString() },
-            { title: 'English - Tenses', content: 'There are three main tenses: Present, Past, and Future. Each has simple, continuous, perfect, and perfect continuous forms.', date: new Date(Date.now() - 86400000).toISOString() },
-            { title: 'Science - Plants', content: 'Plants make their own food through photosynthesis. They need sunlight, water, and carbon dioxide to survive.', date: new Date(Date.now() - 172800000).toISOString() }
-          ];
-
+          // Add comprehensive mock notes by class
+          const mockNotes = generateMockNotes(studentData.class);
+          
           mockNotes.forEach(note => {
             const noteItem = document.createElement('div');
             noteItem.className = 'card';
             noteItem.innerHTML = `
               <div class="item" data-note='${JSON.stringify(note)}'>
                 <div class="item-header">
-                  <span class="title">${note.title}</span>
+                  <div>
+                    <span class="subject-tag" style="background: ${subjectColors[note.subject] || '#2196F3'}; color: white;">${note.subject}</span>
+                  </div>
                   <span class="date">${formatDate(note.date)}</span>
                 </div>
-                <p class="content">${note.content.substring(0, 100)}${note.content.length > 100 ? '...' : ''}</p>
+                <p class="title">${note.title}</p>
+                <p class="content">${note.content.substring(0, 120)}${note.content.length > 120 ? '...' : ''}</p>
               </div>
             `;
             noteItem.querySelector('.item').addEventListener('click', () => {
@@ -914,10 +1583,13 @@
           noteItem.innerHTML = `
             <div class="item" data-note='${JSON.stringify(data)}'>
               <div class="item-header">
-                <span class="title">${data.title}</span>
+                <div>
+                  <span class="subject-tag" style="background: ${subjectColors[data.subject] || '#2196F3'}; color: white;">${data.subject}</span>
+                </div>
                 <span class="date">${formatDate(data.date)}</span>
               </div>
-              <p class="content">${data.content.substring(0, 100)}${data.content.length > 100 ? '...' : ''}</p>
+              <p class="title">${data.title}</p>
+              <p class="content">${data.content.substring(0, 120)}${data.content.length > 120 ? '...' : ''}</p>
             </div>
           `;
           noteItem.querySelector('.item').addEventListener('click', () => {
@@ -930,18 +1602,124 @@
         document.getElementById('notes').innerHTML = `
           <div class="empty-state">
             <i class="fas fa-exclamation-triangle"></i>
-            <p>Error loading notes</p>
+            <h3>Connection Error</h3>
+            <p>Unable to load study notes. Please check your internet connection.</p>
           </div>
         `;
       }
     }
 
+    // Generate mock notes based on class
+    function generateMockNotes(classLevel) {
+      const subjects = {
+        'Nursery': ['Rhymes', 'Art & Craft', 'Play Activities'],
+        'LKG': ['English', 'Math', 'EVS'],
+        'UKG': ['English', 'Math', 'EVS'],
+        '1': ['English', 'Math', 'EVS'],
+        '2': ['English', 'Math', 'EVS'],
+        '3': ['English', 'Math', 'Science'],
+        '4': ['English', 'Math', 'Science'],
+        '5': ['English', 'Math', 'Science'],
+        '6': ['English', 'Math', 'Science'],
+        '7': ['English', 'Math', 'Science'],
+        '8': ['English', 'Math', 'Science']
+      };
+
+      const notesContent = {
+        'English': {
+          'Grammar': 'A noun is a person, place, animal, or thing. A verb is an action word. An adjective describes a noun.',
+          'Tenses': 'Present tense: I eat. Past tense: I ate. Future tense: I will eat. Each has simple, continuous, perfect forms.',
+          'Punctuation': 'Use a period at the end of a sentence. Use a comma to separate items in a list. Use a question mark for questions.'
+        },
+        'Math': {
+          'Fractions': 'A fraction represents a part of a whole. The top number is the numerator, the bottom is the denominator.',
+          'Multiplication': 'Multiplication is repeated addition. 3 × 4 means 3 groups of 4, or 4 + 4 + 4 = 12.',
+          'Geometry': 'A square has 4 equal sides and 4 right angles. A rectangle has 4 right angles but opposite sides are equal.'
+        },
+        'Science': {
+          'Plants': 'Plants make their own food through photosynthesis using sunlight, water, and carbon dioxide.',
+          'Animals': 'Vertebrates have a backbone. Invertebrates do not. Mammals feed their young with milk.',
+          'Solar System': 'The solar system has 8 planets. Earth is the third planet from the sun and has one moon.'
+        },
+        'EVS': {
+          'Family': 'A family includes parents, children, grandparents, and other relatives. We should respect all family members.',
+          'Neighborhood': 'Our neighborhood includes our home, school, park, and local shops. We should keep it clean.',
+          'Transport': 'Land transport: bus, car, bicycle. Water transport: boat, ship. Air transport: airplane, helicopter.'
+        }
+      };
+
+      const currentSubjects = subjects[classLevel] || subjects['1'];
+      const notes = [];
+
+      // Generate 5-7 notes
+      const count = Math.floor(Math.random() * 3) + 5;
+      
+      for (let i = 0; i < count; i++) {
+        const subject = currentSubjects[Math.floor(Math.random() * currentSubjects.length)];
+        const topics = Object.keys(notesContent[subject] || notesContent['English']);
+        const topic = topics[Math.floor(Math.random() * topics.length)];
+        const content = notesContent[subject][topic] || notesContent['English']['Grammar'];
+        
+        // Random date within last 30 days
+        const dateOffset = Math.floor(Math.random() * 30);
+        const date = new Date();
+        date.setDate(date.getDate() - dateOffset);
+        
+        notes.push({
+          subject: subject,
+          title: `${subject} - ${topic}`,
+          content: content,
+          date: date.toISOString(),
+          class: classLevel
+        });
+      }
+
+      return notes;
+    }
+
     // Open Note Modal
     function openNoteModal(note) {
       document.getElementById('noteTitle').textContent = note.title;
+      document.getElementById('noteSubject').textContent = note.subject;
+      document.getElementById('noteSubject').style.background = subjectColors[note.subject] || '#2196F3';
       document.getElementById('noteDate').textContent = `Posted on ${formatDateTime(note.date)}`;
       document.getElementById('noteContent').textContent = note.content;
       noteModal.style.display = 'flex';
+    }
+
+    // Open Homework Modal
+    function openHomeworkModal(homework) {
+      document.getElementById('hwSubject').textContent = homework.subject;
+      document.getElementById('hwClass').textContent = `Class ${studentData.class}`;
+      document.getElementById('hwClass').style.background = subjectColors[homework.subject] || '#2196F3';
+      document.getElementById('hwDate').textContent = `Due: ${formatDate(homework.date)}`;
+      document.getElementById('hwDescription').textContent = homework.description;
+      homeworkModal.style.display = 'flex';
+    }
+
+    // Open Announcement Modal
+    function openAnnouncementModal(announcement) {
+      document.getElementById('annTitle').textContent = announcement.title || 'Announcement';
+      document.getElementById('annDate').textContent = formatDateTime(announcement.date);
+      document.getElementById('annMessage').textContent = announcement.message;
+      
+      const annType = document.getElementById('annType');
+      annType.textContent = announcement.type || 'General';
+      
+      if (announcement.type === 'Urgent') {
+        annType.className = 'announcement-type';
+        annType.classList.add('announcement-urgent');
+      } else if (announcement.type === 'Information') {
+        annType.className = 'announcement-type';
+        annType.classList.add('announcement-info');
+      } else if (announcement.type === 'Warning') {
+        annType.className = 'announcement-type';
+        annType.classList.add('announcement-warning');
+      } else {
+        annType.className = 'announcement-type';
+      }
+      
+      announcementModal.style.display = 'flex';
     }
 
     // Load Timetable
@@ -952,8 +1730,11 @@
       const classTimetable = timetableConfig[studentData.class] || timetableConfig['1'];
       const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
       
-      const table = document.createElement('table');
-      table.className = 'timetable';
+      const table = document.createElement('div');
+      table.className = 'timetable-responsive';
+      
+      const tableEl = document.createElement('table');
+      tableEl.className = 'timetable';
       
       // Header
       let headerRow = '<tr><th>Time</th>';
@@ -961,18 +1742,20 @@
         headerRow += `<th>${day}</th>`;
       });
       headerRow += '</tr>';
-      table.innerHTML = headerRow;
+      tableEl.innerHTML = headerRow;
 
       // Content
       Object.keys(classTimetable).forEach(time => {
-        let row = `<tr><td class="time-col">${time}</td>`;
+        let row = `<tr><td class="time-col">${formatTimeRange(time)}</td>`;
         classTimetable[time].forEach(subject => {
-          row += `<td>${subject}</td>`;
+          const color = subjectColors[subject] || '#2196F3';
+          row += `<td><span class="subject-cell" style="color: ${color};">${subject}</span></td>`;
         });
         row += '</tr>';
-        table.innerHTML += row;
+        tableEl.innerHTML += row;
       });
 
+      table.appendChild(tableEl);
       timetableList.appendChild(table);
     }
 
@@ -988,25 +1771,26 @@
         announcementList.innerHTML = '';
 
         if (announcementRef.empty) {
-          // Add some mock announcements if none in database
-          const mockAnnouncements = [
-            { message: 'School will remain closed on Monday for Diwali celebrations.', date: new Date().toISOString() },
-            { message: 'Parent-Teacher meeting scheduled for next Friday at 3 PM.', date: new Date(Date.now() - 86400000).toISOString() },
-            { message: 'New library books have arrived. Students can borrow from tomorrow.', date: new Date(Date.now() - 172800000).toISOString() }
-          ];
-
+          // Add comprehensive mock announcements
+          const mockAnnouncements = generateMockAnnouncements();
+          
           mockAnnouncements.forEach(ann => {
             const announcementItem = document.createElement('div');
-            announcementItem.className = 'card';
+            announcementItem.className = `card announcement-item ${ann.type === 'Urgent' ? 'announcement-urgent' : 
+              ann.type === 'Warning' ? 'announcement-warning' : 'announcement-info'}`;
             announcementItem.innerHTML = `
-              <div class="item">
+              <div class="item" data-announcement='${JSON.stringify(ann)}'>
                 <div class="item-header">
-                  <span class="subject">Announcement</span>
+                  <span class="announcement-type">${ann.type}</span>
                   <span class="date">${formatDate(ann.date)}</span>
                 </div>
+                <p class="title">${ann.title}</p>
                 <p class="description">${ann.message}</p>
               </div>
             `;
+            announcementItem.querySelector('.item').addEventListener('click', () => {
+              openAnnouncementModal(ann);
+            });
             announcementList.appendChild(announcementItem);
           });
           return;
@@ -1018,16 +1802,21 @@
           announcementData.push({ id: doc.id, ...data });
           
           const announcementItem = document.createElement('div');
-          announcementItem.className = 'card';
+          announcementItem.className = `card announcement-item ${data.type === 'Urgent' ? 'announcement-urgent' : 
+            data.type === 'Warning' ? 'announcement-warning' : 'announcement-info'}`;
           announcementItem.innerHTML = `
-            <div class="item">
+            <div class="item" data-announcement='${JSON.stringify(data)}'>
               <div class="item-header">
-                <span class="subject">Announcement</span>
+                <span class="announcement-type">${data.type}</span>
                 <span class="date">${formatDate(data.date)}</span>
               </div>
+              <p class="title">${data.title}</p>
               <p class="description">${data.message}</p>
             </div>
           `;
+          announcementItem.querySelector('.item').addEventListener('click', () => {
+            openAnnouncementModal(data);
+          });
           announcementList.appendChild(announcementItem);
         });
       } catch (error) {
@@ -1035,38 +1824,200 @@
         document.getElementById('announcements').innerHTML = `
           <div class="empty-state">
             <i class="fas fa-exclamation-triangle"></i>
-            <p>Error loading announcements</p>
+            <h3>Connection Error</h3>
+            <p>Unable to load announcements. Please check your internet connection.</p>
           </div>
         `;
       }
     }
 
-    // Mock fees data
-    function loadFees() {
-      const feesAmount = 5000;
-      const paidAmount = Math.random() > 0.3 ? 3000 : 0; // 70% chance of partial payment
-      const feesPercentage = (paidAmount / feesAmount) * 100;
-      document.querySelector('.stat-value:nth-child(3)').textContent = `₹${feesAmount.toLocaleString()}`;
+    // Generate mock announcements
+    function generateMockAnnouncements() {
+      const announcements = [
+        {
+          title: 'Diwali Holiday',
+          message: 'School will remain closed on Monday for Diwali celebrations. Classes will resume on Tuesday as per regular schedule.',
+          date: new Date().toISOString(),
+          type: 'Information'
+        },
+        {
+          title: 'Parent-Teacher Meeting',
+          message: 'Parent-Teacher meeting scheduled for next Friday at 3 PM in the school auditorium. All parents are requested to attend.',
+          date: new Date(Date.now() - 86400000).toISOString(),
+          type: 'Information'
+        },
+        {
+          title: 'Urgent: Exam Schedule',
+          message: 'Final term exams will begin next week. Please check your class notice board for the detailed exam schedule and prepare accordingly.',
+          date: new Date(Date.now() - 172800000).toISOString(),
+          type: 'Urgent'
+        },
+        {
+          title: 'New Library Books',
+          message: 'New collection of story books and educational materials have arrived in the library. Students can borrow books starting tomorrow.',
+          date: new Date(Date.now() - 259200000).toISOString(),
+          type: 'Information'
+        },
+        {
+          title: 'Sports Day Preparation',
+          message: 'Sports day practice sessions will be held every morning from 7-8 AM. All participating students must attend regularly.',
+          date: new Date(Date.now() - 345600000).toISOString(),
+          type: 'Warning'
+        }
+      ];
+
+      return announcements;
+    }
+
+    // Load Messages
+    async function loadMessages() {
+      try {
+        // In a real app, this would query messages for the student
+        const messagesRef = await db.collection('messages')
+          .where('recipient', '==', studentData.id)
+          .orderBy('timestamp', 'desc')
+          .limit(5)
+          .get();
+
+        const messagesList = document.getElementById('messages');
+        messagesList.innerHTML = '';
+
+        if (messagesRef.empty) {
+          // Add mock messages
+          const mockMessages = generateMockMessages();
+          
+          mockMessages.forEach(msg => {
+            const messageItem = document.createElement('div');
+            messageItem.className = 'card';
+            messageItem.innerHTML = `
+              <div class="item">
+                <div class="item-header">
+                  <span class="subject">${msg.sender}</span>
+                  <span class="date">${formatDate(msg.date)}</span>
+                </div>
+                <p class="title">${msg.subject}</p>
+                <p class="description">${msg.content.substring(0, 80)}${msg.content.length > 80 ? '...' : ''}</p>
+                ${!msg.read ? '<div class="homework-count">1</div>' : ''}
+              </div>
+            `;
+            messagesList.appendChild(messageItem);
+          });
+          return;
+        }
+
+        messageData = [];
+        messagesRef.forEach(doc => {
+          const data = doc.data();
+          messageData.push({ id: doc.id, ...data });
+          
+          const messageItem = document.createElement('div');
+          messageItem.className = 'card';
+          messageItem.innerHTML = `
+            <div class="item">
+              <div class="item-header">
+                <span class="subject">${data.sender}</span>
+                <span class="date">${formatDate(data.timestamp)}</span>
+              </div>
+              <p class="title">${data.subject}</p>
+              <p class="description">${data.content.substring(0, 80)}${data.content.length > 80 ? '...' : ''}</p>
+              ${!data.read ? '<div class="homework-count">1</div>' : ''}
+            </div>
+          `;
+          messagesList.appendChild(messageItem);
+        });
+      } catch (error) {
+        console.error('Error loading messages:', error);
+        document.getElementById('messages').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Connection Error</h3>
+            <p>Unable to load messages. Please check your internet connection.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Generate mock messages
+    function generateMockMessages() {
+      const teachers = ['Mrs. Sharma', 'Mr. Patel', 'Mrs. Gupta', 'Mr. Singh', 'Mrs. Verma'];
+      const subjects = ['Homework Reminder', 'Parent Meeting', 'Exam Schedule', 'Assignment Feedback', 'Class Announcement'];
+      const content = [
+        'Your child has been doing well in class. Please encourage them to participate more in group activities.',
+        'The quarterly exams are approaching. Please ensure your ward completes all pending assignments.',
+        'We noticed that your child was absent last Friday. Please provide a leave note if not already submitted.',
+        'Your child has shown improvement in mathematics. Keep up the good work at home as well.',
+        'The school will be closed next Monday for a teacher training program. Classes resume on Tuesday.'
+      ];
+
+      const messages = [];
+      const count = Math.floor(Math.random() * 3) + 3;
       
-      const feesStatusEl = document.createElement('span');
-      feesStatusEl.className = 'status';
+      for (let i = 0; i < count; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() - Math.floor(Math.random() * 7));
+        
+        messages.push({
+          sender: teachers[Math.floor(Math.random() * teachers.length)],
+          subject: subjects[Math.floor(Math.random() * subjects.length)],
+          content: content[Math.floor(Math.random() * content.length)],
+          date: date.toISOString(),
+          read: Math.random() > 0.3
+        });
+      }
+
+      // Ensure at least one unread message
+      if (!messages.some(m => !m.read)) {
+        messages[0].read = false;
+      }
+
+      return messages;
+    }
+
+    // Load Attendance
+    function loadAttendance() {
+      const totalDays = 100;
+      const presentDays = Math.floor(Math.random() * 20) + 80; // 80-100%
+      const attendanceRate = Math.round((presentDays / totalDays) * 100);
+      
+      document.querySelector('.stat-value:nth-child(1)').textContent = `${attendanceRate}%`;
+      document.querySelector('.attendance-bar').style.width = `${attendanceRate}%`;
+      document.querySelector('#attendance-present').textContent = `${presentDays}/${totalDays}`;
+      
+      // Store for potential use
+      attendanceData = {
+        total: totalDays,
+        present: presentDays,
+        rate: attendanceRate
+      };
+    }
+
+    // Load Fees
+    function loadFees() {
+      const totalFees = 5000;
+      const paidAmount = Math.random() > 0.3 ? 3000 : 0; // 70% chance of partial payment
+      const feesPercentage = (paidAmount / totalFees) * 100;
+      
+      document.querySelector('.stat-value:nth-child(3)').textContent = `₹${totalFees.toLocaleString()}`;
+      document.querySelector('.fees-bar').style.width = `${feesPercentage}%`;
+      
+      const feesStatusEl = document.getElementById('feesStatus');
       if (paidAmount === 0) {
         feesStatusEl.textContent = 'Overdue';
-        feesStatusEl.classList.add('status-overdue');
-      } else if (paidAmount < feesAmount) {
+        feesStatusEl.className = 'status status-overdue';
+      } else if (paidAmount < totalFees) {
         feesStatusEl.textContent = 'Pending';
-        feesStatusEl.classList.add('status-pending');
+        feesStatusEl.className = 'status status-pending';
       } else {
         feesStatusEl.textContent = 'Paid';
-        feesStatusEl.classList.add('status-paid');
+        feesStatusEl.className = 'status status-paid';
       }
       
-      const feesCard = document.querySelector('.stat-card:nth-child(3)');
-      const existingStatus = feesCard.querySelector('.status');
-      if (existingStatus) {
-        existingStatus.remove();
-      }
-      feesCard.appendChild(feesStatusEl);
+      // Store for potential use
+      feesData = {
+        total: totalFees,
+        paid: paidAmount,
+        status: paidAmount === 0 ? 'overdue' : paidAmount < totalFees ? 'pending' : 'paid'
+      };
     }
 
     // Tab Switching
@@ -1095,7 +2046,6 @@
 
       try {
         await loadStudentData();
-        loadFees(); // Load fees data
         
         // Hide skeletons and show content
         document.querySelector('.skeleton-header').style.display = 'none';
@@ -1123,13 +2073,46 @@
       window.location.href = 'ai.html';
     });
 
+    // Modal close buttons
     closeNoteModal.addEventListener('click', () => {
       noteModal.style.display = 'none';
     });
 
+    closeHomeworkModal.addEventListener('click', () => {
+      homeworkModal.style.display = 'none';
+    });
+
+    closeAnnouncementModal.addEventListener('click', () => {
+      announcementModal.style.display = 'none';
+    });
+
+    // Modal action buttons
+    aiHelpBtn.addEventListener('click', () => {
+      const noteTitle = document.getElementById('noteTitle').textContent;
+      window.open(`ai.html?query=Explain ${noteTitle} in simple terms`, '_blank');
+    });
+
+    aiHomeworkBtn.addEventListener('click', () => {
+      const hwSubject = document.getElementById('hwSubject').textContent;
+      window.open(`ai.html?query=Help with ${hwSubject} homework`, '_blank');
+    });
+
+    completeBtn.addEventListener('click', () => {
+      alert('Homework marked as complete! Great job!');
+      homeworkModal.style.display = 'none';
+      // In a real app, this would update the database
+    });
+
+    // Click outside modal to close
     window.addEventListener('click', (e) => {
       if (e.target === noteModal) {
         noteModal.style.display = 'none';
+      }
+      if (e.target === homeworkModal) {
+        homeworkModal.style.display = 'none';
+      }
+      if (e.target === announcementModal) {
+        announcementModal.style.display = 'none';
       }
     });
 
@@ -1149,13 +2132,13 @@
       async askQuestion(question) {
         const apiKey = 'AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs';
         try {
-          // This would be the actual API call
+          // In a real implementation, this would make an API call to Gemini
           const responses = [
-            "I understand your question about homework. Let me explain this concept clearly with examples from your textbook...",
-            "Based on your class level, here's a simple explanation using real-life examples you can relate to...",
-            "This is an important concept in your curriculum. Let me break it down step by step with a diagram...",
-            "Great question! Here's how this applies to your studies, with some practice problems to try...",
-            "I can help you with that! Let me provide a detailed explanation with emojis to make it more engaging 🌟📚✏️"
+            "I understand your question about homework. Let me explain this concept clearly with examples from your textbook 📚",
+            "Based on your class level, here's a simple explanation using real-life examples you can relate to 🌟",
+            "This is an important concept in your curriculum. Let me break it down step by step with a diagram ✏️",
+            "Great question! Here's how this applies to your studies, with some practice problems to try 💯",
+            "I can help you with that! Let me provide a detailed explanation with emojis to make it more engaging 🎉"
           ];
           return responses[Math.floor(Math.random() * responses.length)];
         } catch (error) {
@@ -1163,6 +2146,28 @@
         }
       }
     };
+
+    // Utility function to get subject color
+    window.getSubjectColor = function(subject) {
+      return subjectColors[subject] || '#2196F3';
+    };
+
+    // Add event listener for menu items
+    document.querySelectorAll('.menu-item').forEach((item, index) => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.menu-item').forEach(i => {
+          i.classList.remove('active');
+        });
+        item.classList.add('active');
+        
+        // In a real app, this would navigate to different pages
+        const pages = ['dashboard.html', 'homework.html', 'notes.html', 'messages.html', 'settings.html'];
+        if (index > 0) {
+          // Simulate navigation
+          console.log(`Navigating to ${pages[index]}`);
+        }
+      });
+    });
   </script>
 </body>
 </html>
