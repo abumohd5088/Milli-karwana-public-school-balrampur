@@ -1,1599 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="MKPS School Management System - Login Portal" />
-    <title>MKPS Balrampur | School Login</title>
-
-    <!-- Google Fonts: Roboto -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
-    <!-- Inline Styles -->
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: background 0.5s ease;
-            padding: 20px;
-        }
-
-        body.dark-mode {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #eee;
-        }
-
-        /* Container */
-        .container {
-            width: 95%;
-            max-width: 440px;
-            padding: 32px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-            transform: translateY(0);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2);
-        }
-
-        .dark-mode .container {
-            background: rgba(30, 30, 40, 0.95);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .logo {
-            width: 90px;
-            height: 90px;
-            margin-bottom: 16px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #667eea;
-            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .dark-mode .logo {
-            border-color: #764ba2;
-            box-shadow: 0 6px 15px rgba(118, 75, 162, 0.4);
-        }
-
-        h1 {
-            font-size: 2rem;
-            color: #2d3748;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .dark-mode h1 {
-            color: #e2e8f0;
-        }
-
-        .subtitle {
-            font-weight: 400;
-            color: #4a5568;
-            font-size: 1rem;
-        }
-
-        .dark-mode .subtitle {
-            color: #a0aec0;
-        }
-
-        .school-name {
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .dark-mode .school-name {
-            color: #764ba2;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color: #2d3748;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-
-        .dark-mode label {
-            color: #e2e8f0;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background-color: #ffffff;
-            outline: none;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        .dark-mode input[type="text"],
-        .dark-mode input[type="email"],
-        .dark-mode input[type="password"],
-        .dark-mode select {
-            background-color: #2d3748;
-            border-color: #4a5568;
-            color: #e2e8f0;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-            transform: scale(1.02);
-        }
-
-        .dark-mode input:focus,
-        .dark-mode select:focus {
-            border-color: #764ba2;
-            box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.25);
-        }
-
-        /* Role Selector */
-        .role-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 28px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .role-selector {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .role-btn {
-            padding: 16px 12px;
-            text-align: center;
-            background: white;
-            border: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #4a5568;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dark-mode .role-btn {
-            background: #2d3748;
-            color: #e2e8f0;
-        }
-
-        .role-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .dark-mode .role-btn.active {
-            background: #764ba2;
-        }
-
-        .role-btn i {
-            font-size: 1.4rem;
-        }
-
-        .role-btn:hover:not(.active) {
-            background: #f7fafc;
-            transform: translateY(-2px);
-        }
-
-        .dark-mode .role-btn:hover:not(.active) {
-            background: #4a5568;
-        }
-
-        /* Form Sections - Dynamic Fields */
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Buttons */
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:hover {
-            background: #5a6fd8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.google {
-            background: white;
-            color: #4285f4;
-            border: 2px solid #dadce0;
-            margin-top: 16px;
-            font-weight: 500;
-        }
-
-        .btn.google:hover {
-            background: #f8f9fa;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn.google i {
-            font-size: 1.3rem;
-            margin-right: 10px;
-        }
-
-        .dark-mode .btn.google {
-            background: #1a1a2e;
-            color: #4285f4;
-            border-color: #4a5568;
-        }
-
-        .dark-mode .btn.google:hover {
-            background: #2d3748;
-        }
-
-        /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            color: #718096;
-            font-size: 0.9rem;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: #e2e8f0;
-        }
-
-        .dark-mode .divider-line {
-            background: #4a5568;
-        }
-
-        .divider-text {
-            padding: 0 15px;
-            background: inherit;
-        }
-
-        /* Footer Links */
-        .footer-links {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 0.9rem;
-        }
-
-        .footer-links a {
-            color: #667eea;
-            text-decoration: none;
-            margin: 0 12px;
-            transition: color 0.3s ease;
-            font-weight: 500;
-        }
-
-        .dark-mode .footer-links a {
-            color: #764ba2;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-            color: #5a6fd8;
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: #4a5568;
-            font-size: 1.6rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .dark-mode .theme-toggle {
-            color: #e2e8f0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
-        .dark-mode .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Language Selector */
-        .lang-selector {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: transparent;
-            border: none;
-            color: #4a5568;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 10px 14px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            font-weight: 500;
-        }
-
-        .dark-mode .lang-selector {
-            color: #e2e8f0;
-        }
-
-        .lang-selector:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .dark-mode .lang-selector:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 18px 24px;
-            background: #28a745;
-            color: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.5s ease;
-            font-size: 1rem;
-            font-weight: 500;
-            min-width: 280px;
-            text-align: center;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .toast.error {
-            background: #dc3545;
-        }
-
-        /* Loader */
-        .loader {
-            display: none;
-            width: 22px;
-            height: 22px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        .btn .loader {
-            border-top: 3px solid #ffffff;
-        }
-
-        .dark-mode .loader {
-            border-top: 3px solid #ffffff;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 480px) {
-            .container {
-                width: 95%;
-                padding: 24px;
-                margin: 10px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .role-selector {
-                grid-template-columns: 1fr;
-            }
-
-            .theme-toggle,
-            .lang-selector {
-                font-size: 1.4rem;
-                width: 45px;
-                height: 45px;
-            }
-
-            .logo {
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        /* Success Checkmark Animation */
-        .checkmark {
-            display: inline-block;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #28a745;
-            margin-right: 10px;
-            position: relative;
-        }
-
-        .checkmark:after {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 3px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 3px 3px 0;
-            transform: rotate(45deg);
-        }
-
-        /* Input Icons */
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #718096;
-            font-size: 1.1rem;
-            pointer-events: none;
-        }
-
-        .dark-mode .input-icon {
-            color: #a0aec0;
-        }
-
-        .input-with-icon {
-            padding-left: 48px;
-        }
-
-        /* Professional styling for inputs */
-        .form-group {
-            position: relative;
-        }
-
-        .form-group::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #667eea;
-            transition: width 0.3s ease;
-        }
-
-        .form-group:focus-within::after {
-            width: 100%;
-        }
-
-        /* Student-specific fields */
-        #studentFields .form-group,
-        #parentFields .form-group,
-        #teacherFields .form-group {
-            margin-bottom: 16px;
-        }
-
-        /* Special input for roll number */
-        #rollNumber {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Animation for form entrance */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            animation: slideIn 0.6s ease forwards;
-        }
-
-        /* Hidden class */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Error Message */
-        .error-message {
-            color: #dc3545;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .dark-mode .error-message {
-            color: #f87171;
-        }
-
-        /* Info Message */
-        .info-message {
-            color: #007bff;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .dark-mode .info-message {
-            color: #60a5fa;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Login | MKPS Balrampur</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      width: 360px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .links {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .links a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <!-- Theme Toggle Button -->
-    <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode">
-        <i class="material-icons">dark_mode</i>
-    </button>
+  <div class="container">
+    <h2>School Portal</h2>
 
-    <!-- Language Selector -->
-    <button id="langSelector" class="lang-selector" aria-label="Switch Language">EN</button>
-
-    <!-- Main Container -->
-    <div class="container" id="loginContainer">
-        <!-- Header -->
-        <div class="header">
-            <img src="https://placehold.co/90/667eea/ffffff?text=MKPS" alt="MKPS Logo" class="logo" />
-            <h1>Welcome to <span class="school-name">MKPS</span></h1>
-            <p class="subtitle">Balrampur Public School Management System</p>
-        </div>
-
-        <!-- Role Selection -->
-        <div class="role-selector" id="roleSelector">
-            <button class="role-btn active" data-role="student">
-                <i class="material-icons">school</i>
-                <span>Student</span>
-            </button>
-            <button class="role-btn" data-role="parent">
-                <i class="material-icons">family_restroom</i>
-                <span>Parent</span>
-            </button>
-            <button class="role-btn" data-role="teacher">
-                <i class="material-icons">person_pin</i>
-                <span>Teacher</span>
-            </button>
-        </div>
-
-        <!-- Login Forms Container -->
-        <div id="formsContainer">
-            <!-- Student Login Form -->
-            <form id="studentForm" class="login-form form-section active">
-                <div class="form-group">
-                    <label for="studentName">Student Full Name</label>
-                    <input type="text" id="studentName" placeholder="Enter student's full name" required autofocus />
-                </div>
-
-                <div class="form-group">
-                    <label for="studentClass">Class</label>
-                    <select id="studentClass" required>
-                        <option value="">Select Class</option>
-                        <option value="Nursery">Nursery</option>
-                        <option value="LKG">LKG</option>
-                        <option value="UKG">UKG</option>
-                        <option value="Class 1">Class 1</option>
-                        <option value="Class 2">Class 2</option>
-                        <option value="Class 3">Class 3</option>
-                        <option value="Class 4">Class 4</option>
-                        <option value="Class 5">Class 5</option>
-                        <option value="Class 6">Class 6</option>
-                        <option value="Class 7">Class 7</option>
-                        <option value="Class 8">Class 8</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="rollNumber">Roll Number</label>
-                    <input type="text" id="rollNumber" placeholder="Enter roll number" required />
-                    <div class="info-message">
-                        <i class="material-icons" style="font-size: 16px;">info</i>
-                        Example: MKPS08A01
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="parentName">Parent/Guardian Name</label>
-                    <input type="text" id="parentName" placeholder="Enter parent's full name" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="studentEmail">Email Address</label>
-                    <input type="email" id="studentEmail" placeholder="parent@example.com" required />
-                    <div class="info-message">
-                        <i class="material-icons" style="font-size: 16px;">info</i>
-                        Use parent's email for communication
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="studentPassword">Password</label>
-                    <input type="password" id="studentPassword" placeholder="Create a secure password" required />
-                </div>
-
-                <!-- Google Sign-In Button -->
-                <button type="button" id="googleSignInStudent" class="btn google">
-                    <i class="material-icons">login</i> Sign in with Google
-                </button>
-
-                <!-- Regular Login Button -->
-                <button type="submit" id="loginBtnStudent" class="btn">
-                    <span class="loader" id="loaderStudent"></span>
-                    <span id="loginTextStudent">Sign In as Student</span>
-                </button>
-            </form>
-
-            <!-- Parent Login Form -->
-            <form id="parentForm" class="login-form form-section">
-                <div class="form-group">
-                    <label for="childName">Child's Full Name</label>
-                    <input type="text" id="childName" placeholder="Enter child's full name" required autofocus />
-                </div>
-
-                <div class="form-group">
-                    <label for="childClass">Child's Class</label>
-                    <select id="childClass" required>
-                        <option value="">Select Class</option>
-                        <option value="Nursery">Nursery</option>
-                        <option value="LKG">LKG</option>
-                        <option value="UKG">UKG</option>
-                        <option value="Class 1">Class 1</option>
-                        <option value="Class 2">Class 2</option>
-                        <option value="Class 3">Class 3</option>
-                        <option value="Class 4">Class 4</option>
-                        <option value="Class 5">Class 5</option>
-                        <option value="Class 6">Class 6</option>
-                        <option value="Class 7">Class 7</option>
-                        <option value="Class 8">Class 8</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="yourName">Your Full Name</label>
-                    <input type="text" id="yourName" placeholder="Enter your full name" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="parentEmail">Email Address</label>
-                    <input type="email" id="parentEmail" placeholder="you@example.com" required />
-                    <div class="info-message">
-                        <i class="material-icons" style="font-size: 16px;">info</i>
-                        This will be your login ID
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="parentPassword">Password</label>
-                    <input type="password" id="parentPassword" placeholder="Create a secure password" required />
-                </div>
-
-                <!-- Google Sign-In Button -->
-                <button type="button" id="googleSignInParent" class="btn google">
-                    <i class="material-icons">login</i> Sign in with Google
-                </button>
-
-                <!-- Regular Login Button -->
-                <button type="submit" id="loginBtnParent" class="btn">
-                    <span class="loader" id="loaderParent"></span>
-                    <span id="loginTextParent">Sign In as Parent</span>
-                </button>
-            </form>
-
-            <!-- Teacher Login Form -->
-            <form id="teacherForm" class="login-form form-section">
-                <div class="form-group">
-                    <label for="teacherName">Teacher Full Name</label>
-                    <input type="text" id="teacherName" placeholder="Enter your full name" required autofocus />
-                </div>
-
-                <div class="form-group">
-                    <label for="teacherEmail">Email Address</label>
-                    <input type="email" id="teacherEmail" placeholder="teacher@example.com" required />
-                    <div class="info-message">
-                        <i class="material-icons" style="font-size: 16px;">info</i>
-                        Use official school email if available
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="teacherPassword">Password</label>
-                    <input type="password" id="teacherPassword" placeholder="Enter password" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="department">Department (Optional)</label>
-                    <select id="department">
-                        <option value="">Select Department</option>
-                        <option value="Science">Science</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="English">English</option>
-                        <option value="Hindi">Hindi</option>
-                        <option value="Social Studies">Social Studies</option>
-                        <option value="Physical Education">Physical Education</option>
-                        <option value="Computer Science">Computer Science</option>
-                    </select>
-                </div>
-
-                <!-- Google Sign-In Button -->
-                <button type="button" id="googleSignInTeacher" class="btn google">
-                    <i class="material-icons">login</i> Sign in with Google
-                </button>
-
-                <!-- Regular Login Button -->
-                <button type="submit" id="loginBtnTeacher" class="btn">
-                    <span class="loader" id="loaderTeacher"></span>
-                    <span id="loginTextTeacher">Sign In as Teacher</span>
-                </button>
-            </form>
-        </div>
-
-        <!-- Divider -->
-        <div class="divider">
-            <div class="divider-line"></div>
-            <div class="divider-text">OR</div>
-            <div class="divider-line"></div>
-        </div>
-
-        <!-- Footer Links -->
-        <div class="footer-links">
-            <a href="#" id="privacyLink">Privacy Policy</a>
-            <a href="#" id="supportLink">Support</a>
-            <a href="#" id="aboutLink">About MKPS</a>
-        </div>
+    <!-- Login Form -->
+    <div id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button onclick="loginUser()">Login</button>
+      <div class="links">
+        <a href="#" onclick="showSignup()">Sign Up</a> | 
+        <a href="#" onclick="showReset()">Forgot Password?</a>
+      </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">Operation completed successfully!</div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
-            authDomain: "mkps-balrampur.firebaseapp.com",
-            projectId: "mkps-balrampur",
-            storageBucket: "mkps-balrampur.firebasestorage.app",
-            messagingSenderId: "469227187804",
-            appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
-            measurementId: "G-TYKBNS9SX2"
-        };
-
-        // Initialize Firebase only if not already initialized
-        try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            } else {
-                firebase.app();
-            }
-        } catch (error) {
-            console.error("Firebase initialization error:", error);
-            // Show user-friendly error message
-            document.addEventListener('DOMContentLoaded', function() {
-                const container = document.getElementById('loginContainer');
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #dc3545;">
-                        <i class="material-icons" style="font-size: 48px; margin-bottom: 20px;">error</i>
-                        <h2>Connection Error</h2>
-                        <p style="margin: 20px 0;">We're having trouble connecting to our authentication system.</p>
-                        <p>Please check your internet connection and try again.</p>
-                        <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">
-                            Retry Connection
-                        </button>
-                    </div>
-                `;
-            });
-            throw error;
-        }
-
-        // Firestore and Auth references
-        let db, auth, storage;
-        
-        try {
-            db = firebase.firestore();
-            auth = firebase.auth();
-            storage = firebase.storage();
-        } catch (error) {
-            console.error("Firebase services error:", error);
-        }
-
-        // DOM Elements
-        const roleSelector = document.getElementById('roleSelector');
-        const roleButtons = document.querySelectorAll('.role-btn');
-        const formsContainer = document.getElementById('formsContainer');
-        const studentForm = document.getElementById('studentForm');
-        const parentForm = document.getElementById('parentForm');
-        const teacherForm = document.getElementById('teacherForm');
-        const googleSignInStudent = document.getElementById('googleSignInStudent');
-        const googleSignInParent = document.getElementById('googleSignInParent');
-        const googleSignInTeacher = document.getElementById('googleSignInTeacher');
-        const loginBtnStudent = document.getElementById('loginBtnStudent');
-        const loginBtnParent = document.getElementById('loginBtnParent');
-        const loginBtnTeacher = document.getElementById('loginBtnTeacher');
-        const loaderStudent = document.getElementById('loaderStudent');
-        const loaderParent = document.getElementById('loaderParent');
-        const loaderTeacher = document.getElementById('loaderTeacher');
-        const loginTextStudent = document.getElementById('loginTextStudent');
-        const loginTextParent = document.getElementById('loginTextParent');
-        const loginTextTeacher = document.getElementById('loginTextTeacher');
-        const themeToggle = document.getElementById('themeToggle');
-        const langSelector = document.getElementById('langSelector');
-        const toast = document.getElementById('toast');
-        const privacyLink = document.getElementById('privacyLink');
-        const supportLink = document.getElementById('supportLink');
-        const aboutLink = document.getElementById('aboutLink');
-
-        // Current Role State
-        let currentRole = 'student';
-
-        // ———————————————————————————————————————
-        // ✅ ROLE SELECTION HANDLER
-        // ———————————————————————————————————————
-        roleButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                roleButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentRole = btn.dataset.role;
-                console.log(`Selected role: ${currentRole}`);
-                
-                // Hide all forms
-                document.querySelectorAll('.form-section').forEach(form => {
-                    form.classList.remove('active');
-                });
-                
-                // Show selected form
-                document.getElementById(`${currentRole}Form`).classList.add('active');
-            });
-        });
-
-        // ———————————————————————————————————————
-        // ✅ THEME TOGGLE FUNCTIONALITY
-        // ———————————————————————————————————————
-        function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('mkps_theme', isDark ? 'dark' : 'light');
-            updateThemeIcon(isDark);
-        }
-
-        function updateThemeIcon(isDark) {
-            const icon = themeToggle.querySelector('.material-icons');
-            icon.textContent = isDark ? 'light_mode' : 'dark_mode';
-        }
-
-        // Load saved theme
-        function loadSavedTheme() {
-            const savedTheme = localStorage.getItem('mkps_theme') || 'light';
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                updateThemeIcon(true);
-            }
-        }
-
-        themeToggle.addEventListener('click', toggleTheme);
-
-        // ———————————————————————————————————————
-        // ✅ LANGUAGE SWITCHER
-        // ———————————————————————————————————————
-        let currentLang = 'en';
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'hi' : 'en';
-            langSelector.textContent = currentLang === 'en' ? 'EN' : 'हिं';
-            showToast(currentLang === 'en' ? 'Language changed!' : 'भाषा बदल दी गई!', 2000);
-        }
-
-        langSelector.addEventListener('click', toggleLanguage);
-
-        // ———————————————————————————————————————
-        // ✅ TOAST NOTIFICATION SYSTEM
-        // ———————————————————————————————————————
-        function showToast(message, duration = 3000, isError = false) {
-            toast.textContent = message;
-            if (isError) toast.classList.add('error');
-            else toast.classList.remove('error');
-            toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, duration);
-        }
-
-        // ———————————————————————————————————————
-        // ✅ FORM VALIDATION & SUBMISSION
-        // ———————————————————————————————————————
-        studentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('studentName').value.trim();
-            const className = document.getElementById('studentClass').value;
-            const rollNumber = document.getElementById('rollNumber').value.trim().toUpperCase();
-            const parentName = document.getElementById('parentName').value.trim();
-            const email = document.getElementById('studentEmail').value.trim();
-            const password = document.getElementById('studentPassword').value;
-
-            // Basic validation
-            if (!name || !className || !rollNumber || !parentName || !email || !password) {
-                showToast('Please fill all fields.', 3000, true);
-                return;
-            }
-
-            if (password.length < 6) {
-                showToast('Password must be at least 6 characters.', 3000, true);
-                return;
-            }
-
-            if (!email.includes('@')) {
-                showToast('Please enter a valid email address.', 3000, true);
-                return;
-            }
-
-            // Show loader
-            loaderStudent.style.display = 'inline-block';
-            loginTextStudent.textContent = 'Signing In...';
-            loginBtnStudent.disabled = true;
-
-            try {
-                // Check if Firebase is available
-                if (!auth) {
-                    throw new Error("Authentication system is not available. Please check your connection.");
-                }
-
-                // Create user with email/password
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Save user data to Firestore
-                if (db) {
-                    await db.collection('users').doc(user.uid).set({
-                        name,
-                        class: className,
-                        rollNumber,
-                        parentName,
-                        email,
-                        role: 'student',
-                        uid: user.uid,
-                        createdAt: new Date().toISOString(),
-                        lastLogin: new Date().toISOString()
-                    });
-                }
-
-                // Save to localStorage with mkps_ namespace
-                localStorage.setItem('mkps_user', JSON.stringify({
-                    uid: user.uid,
-                    name,
-                    class: className,
-                    rollNumber,
-                    parentName,
-                    email,
-                    role: 'student'
-                }));
-
-                // Redirect to student dashboard
-                showToast('Login successful! Redirecting...', 2000);
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-
-            } catch (error) {
-                console.error('Student login error:', error);
-                
-                let errorMessage = "An error occurred. Please try again.";
-                
-                switch(error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage = "This email is already registered. Try logging in instead.";
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = "Please enter a valid email address.";
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = "Password should be at least 6 characters long.";
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = "Network error. Please check your internet connection.";
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMessage = "Too many attempts. Please try again later.";
-                        break;
-                    default:
-                        errorMessage = error.message || "An error occurred. Please try again.";
-                }
-                
-                showToast(errorMessage, 4000, true);
-            } finally {
-                loaderStudent.style.display = 'none';
-                loginTextStudent.textContent = 'Sign In as Student';
-                loginBtnStudent.disabled = false;
-            }
-        });
-
-        // ———————————————————————————————————————
-        // ✅ PARENT FORM SUBMISSION
-        // ———————————————————————————————————————
-        parentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const childName = document.getElementById('childName').value.trim();
-            const childClass = document.getElementById('childClass').value;
-            const yourName = document.getElementById('yourName').value.trim();
-            const email = document.getElementById('parentEmail').value.trim();
-            const password = document.getElementById('parentPassword').value;
-
-            // Basic validation
-            if (!childName || !childClass || !yourName || !email || !password) {
-                showToast('Please fill all fields.', 3000, true);
-                return;
-            }
-
-            if (password.length < 6) {
-                showToast('Password must be at least 6 characters.', 3000, true);
-                return;
-            }
-
-            if (!email.includes('@')) {
-                showToast('Please enter a valid email address.', 3000, true);
-                return;
-            }
-
-            // Show loader
-            loaderParent.style.display = 'inline-block';
-            loginTextParent.textContent = 'Signing In...';
-            loginBtnParent.disabled = true;
-
-            try {
-                // Check if Firebase is available
-                if (!auth) {
-                    throw new Error("Authentication system is not available. Please check your connection.");
-                }
-
-                // Create user with email/password
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Save user data to Firestore
-                if (db) {
-                    await db.collection('users').doc(user.uid).set({
-                        childName,
-                        class: childClass,
-                        yourName,
-                        email,
-                        role: 'parent',
-                        uid: user.uid,
-                        createdAt: new Date().toISOString(),
-                        lastLogin: new Date().toISOString()
-                    });
-                }
-
-                // Save to localStorage with mkps_ namespace
-                localStorage.setItem('mkps_user', JSON.stringify({
-                    uid: user.uid,
-                    childName,
-                    class: childClass,
-                    yourName,
-                    email,
-                    role: 'parent'
-                }));
-
-                // Redirect to parent dashboard
-                showToast('Login successful! Redirecting...', 2000);
-                setTimeout(() => {
-                    window.location.href = 'parent.html';
-                }, 1500);
-
-            } catch (error) {
-                console.error('Parent login error:', error);
-                
-                let errorMessage = "An error occurred. Please try again.";
-                
-                switch(error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage = "This email is already registered. Try logging in instead.";
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = "Please enter a valid email address.";
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = "Password should be at least 6 characters long.";
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = "Network error. Please check your internet connection.";
-                        break;
-                    default:
-                        errorMessage = error.message || "An error occurred. Please try again.";
-                }
-                
-                showToast(errorMessage, 4000, true);
-            } finally {
-                loaderParent.style.display = 'none';
-                loginTextParent.textContent = 'Sign In as Parent';
-                loginBtnParent.disabled = false;
-            }
-        });
-
-        // ———————————————————————————————————————
-        // ✅ TEACHER FORM SUBMISSION
-        // ———————————————————————————————————————
-        teacherForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('teacherName').value.trim();
-            const email = document.getElementById('teacherEmail').value.trim();
-            const password = document.getElementById('teacherPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const department = document.getElementById('department').value;
-
-            // Basic validation
-            if (!name || !email || !password || !confirmPassword) {
-                showToast('Please fill all required fields.', 3000, true);
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showToast('Passwords do not match.', 3000, true);
-                return;
-            }
-
-            if (password.length < 6) {
-                showToast('Password must be at least 6 characters.', 3000, true);
-                return;
-            }
-
-            if (!email.includes('@')) {
-                showToast('Please enter a valid email address.', 3000, true);
-                return;
-            }
-
-            // Show loader
-            loaderTeacher.style.display = 'inline-block';
-            loginTextTeacher.textContent = 'Signing In...';
-            loginBtnTeacher.disabled = true;
-
-            try {
-                // Check if Firebase is available
-                if (!auth) {
-                    throw new Error("Authentication system is not available. Please check your connection.");
-                }
-
-                // Create user with email/password
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Save user data to Firestore
-                if (db) {
-                    await db.collection('users').doc(user.uid).set({
-                        name,
-                        email,
-                        department: department || 'Not Specified',
-                        role: 'teacher',
-                        uid: user.uid,
-                        createdAt: new Date().toISOString(),
-                        lastLogin: new Date().toISOString()
-                    });
-                }
-
-                // Save to localStorage with mkps_ namespace
-                localStorage.setItem('mkps_user', JSON.stringify({
-                    uid: user.uid,
-                    name,
-                    email,
-                    department: department || 'Not Specified',
-                    role: 'teacher'
-                }));
-
-                // Redirect to teacher dashboard
-                showToast('Login successful! Redirecting...', 2000);
-                setTimeout(() => {
-                    window.location.href = 'teacher.html';
-                }, 1500);
-
-            } catch (error) {
-                console.error('Teacher login error:', error);
-                
-                let errorMessage = "An error occurred. Please try again.";
-                
-                switch(error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage = "This email is already registered. Try logging in instead.";
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = "Please enter a valid email address.";
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = "Password should be at least 6 characters long.";
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = "Network error. Please check your internet connection.";
-                        break;
-                    default:
-                        errorMessage = error.message || "An error occurred. Please try again.";
-                }
-                
-                showToast(errorMessage, 4000, true);
-            } finally {
-                loaderTeacher.style.display = 'none';
-                loginTextTeacher.textContent = 'Sign In as Teacher';
-                loginBtnTeacher.disabled = false;
-            }
-        });
-
-        // ———————————————————————————————————————
-        // ✅ GOOGLE SIGN-IN FOR ALL ROLES
-        // ———————————————————————————————————————
-        googleSignInStudent.addEventListener('click', () => handleGoogleSignIn('student'));
-        googleSignInParent.addEventListener('click', () => handleGoogleSignIn('parent'));
-        googleSignInTeacher.addEventListener('click', () => handleGoogleSignIn('teacher'));
-
-        async function handleGoogleSignIn(role) {
-            // Check if Firebase is available
-            if (!auth) {
-                showToast("Authentication system is not available. Please check your connection.", 4000, true);
-                return;
-            }
-
-            const provider = new firebase.auth.GoogleAuthProvider();
-            let loader, loginText, form;
-
-            switch(role) {
-                case 'student':
-                    loader = loaderStudent;
-                    loginText = loginTextStudent;
-                    form = studentForm;
-                    break;
-                case 'parent':
-                    loader = loaderParent;
-                    loginText = loginTextParent;
-                    form = parentForm;
-                    break;
-                case 'teacher':
-                    loader = loaderTeacher;
-                    loginText = loginTextTeacher;
-                    form = teacherForm;
-                    break;
-            }
-
-            loader.style.display = 'inline-block';
-            loginText.textContent = 'Signing In...';
-            form.querySelector('button[type="button"]').disabled = true;
-
-            try {
-                const result = await auth.signInWithPopup(provider);
-                const user = result.user;
-                
-                if (db) {
-                    const docRef = db.collection('users').doc(user.uid);
-                    const doc = await docRef.get();
-
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        if (userData.role !== role) {
-                            showToast(`This account is registered as a ${userData.role}. Please use the correct role.`, 5000, true);
-                            return;
-                        }
-                        // Update last login
-                        await docRef.update({
-                            lastLogin: new Date().toISOString()
-                        });
-                    } else {
-                        // First time login - save to Firestore with role
-                        let userData = {};
-                        switch(role) {
-                            case 'student':
-                                userData = {
-                                    name: user.displayName || user.email.split('@')[0],
-                                    class: 'Unknown',
-                                    rollNumber: 'N/A',
-                                    parentName: 'Not Specified',
-                                    email: user.email,
-                                    role: 'student',
-                                    uid: user.uid,
-                                    photoURL: user.photoURL,
-                                    createdAt: new Date().toISOString(),
-                                    lastLogin: new Date().toISOString()
-                                };
-                                break;
-                            case 'parent':
-                                userData = {
-                                    childName: 'Not Specified',
-                                    class: 'Unknown',
-                                    yourName: user.displayName || user.email.split('@')[0],
-                                    email: user.email,
-                                    role: 'parent',
-                                    uid: user.uid,
-                                    photoURL: user.photoURL,
-                                    createdAt: new Date().toISOString(),
-                                    lastLogin: new Date().toISOString()
-                                };
-                                break;
-                            case 'teacher':
-                                userData = {
-                                    name: user.displayName || user.email.split('@')[0],
-                                    email: user.email,
-                                    department: 'Not Specified',
-                                    role: 'teacher',
-                                    uid: user.uid,
-                                    photoURL: user.photoURL,
-                                    createdAt: new Date().toISOString(),
-                                    lastLogin: new Date().toISOString()
-                                };
-                                break;
-                        }
-                        await docRef.set(userData);
-                    }
-
-                    // Save to localStorage
-                    const userData = doc.exists ? doc.data() : {};
-                    localStorage.setItem('mkps_user', JSON.stringify({
-                        uid: user.uid,
-                        name: userData.name || user.displayName,
-                        class: userData.class || 'Unknown',
-                        rollNumber: userData.rollNumber || 'N/A',
-                        parentName: userData.parentName || 'Not Specified',
-                        childName: userData.childName || 'Not Specified',
-                        yourName: userData.yourName || user.displayName,
-                        email: user.email,
-                        role: role,
-                        photoURL: user.photoURL,
-                        department: userData.department || 'Not Specified'
-                    }));
-                }
-
-                // Redirect based on role
-                const redirectPages = {
-                    'student': 'dashboard.html',
-                    'parent': 'parent.html',
-                    'teacher': 'teacher.html'
-                };
-                showToast('Signed in with Google!', 2000);
-                setTimeout(() => {
-                    window.location.href = redirectPages[role];
-                }, 1000);
-
-            } catch (error) {
-                console.error('Google sign-in error:', error);
-                
-                let errorMessage = "An error occurred. Please try again.";
-                
-                switch(error.code) {
-                    case 'auth/popup-blocked':
-                        errorMessage = "Popup was blocked. Please allow popups for this site.";
-                        break;
-                    case 'auth/cancelled-popup-request':
-                        errorMessage = "Sign in request was cancelled. Please try again.";
-                        break;
-                    case 'auth/popup-closed-by-user':
-                        errorMessage = "Popup was closed before completing sign in.";
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = "Network error. Please check your internet connection.";
-                        break;
-                    default:
-                        errorMessage = error.message || "An error occurred. Please try again.";
-                }
-                
-                showToast(errorMessage, 4000, true);
-            } finally {
-                loader.style.display = 'none';
-                loginText.textContent = role === 'student' ? 'Sign In as Student' : 
-                                     role === 'parent' ? 'Sign In as Parent' : 'Sign In as Teacher';
-                form.querySelector('button[type="button"]').disabled = false;
-            }
-        }
-
-        // ———————————————————————————————————————
-        // ✅ EVENT LISTENERS FOR SUPPORT LINKS
-        // ———————————————————————————————————————
-        privacyLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Privacy Policy:\n\nThis app collects basic user information for school management purposes. Data is stored securely in Firebase. We do not share personal data with third parties. Users can request data deletion at any time.');
-        });
-
-        supportLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('For support, contact admin@mkps.edu.in or call +91-1234567890 during school hours (9 AM - 5 PM, Monday to Saturday).');
-        });
-
-        aboutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('MKPS Balrampur\n\nEstablished in 1995, MKPS is one of the leading educational institutions in the region. We provide quality education from Nursery to Class 8 with a focus on holistic development.\n\nOur mission is to nurture young minds with academic excellence, moral values, and technological proficiency.');
-        });
-
-        // ———————————————————————————————————————
-        // ✅ ON LOAD INITIALIZATION
-        // ———————————————————————————————————————
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSavedTheme();
-            
-            // Check if user is already logged in
-            if (auth) {
-                auth.onAuthStateChanged((user) => {
-                    if (user) {
-                        const savedUser = localStorage.getItem('mkps_user');
-                        if (savedUser) {
-                            const { role } = JSON.parse(savedUser);
-                            const redirectPages = {
-                                'student': 'dashboard.html',
-                                'parent': 'parent.html',
-                                'teacher': 'teacher.html'
-                            };
-                            if (redirectPages[role]) {
-                                setTimeout(() => {
-                                    window.location.href = redirectPages[role];
-                                }, 500);
-                            }
-                        }
-                    }
-                });
-            } else {
-                console.warn("Firebase Auth not available");
-            }
-        });
-
-        // ———————————————————————————————————————
-        // ✅ STORAGE UTILITY (mkps_ namespace)
-        // ———————————————————————————————————————
-        const StorageUtil = {
-            set(key, value) {
-                try {
-                    localStorage.setItem(`mkps_${key}`, JSON.stringify(value));
-                } catch (e) {
-                    console.warn('LocalStorage full or unavailable', e);
-                }
-            },
-            get(key) {
-                try {
-                    const item = localStorage.getItem(`mkps_${key}`);
-                    return item ? JSON.parse(item) : null;
-                } catch (e) {
-                    console.warn('Error reading from localStorage', e);
-                    return null;
-                }
-            },
-            remove(key) {
-                localStorage.removeItem(`mkps_${key}`);
-            },
-            clearAll() {
-                Object.keys(localStorage)
-                      .filter(k => k.startsWith('mkps_'))
-                      .forEach(k => localStorage.removeItem(k));
-            }
-        };
-
-        // ———————————————————————————————————————
-        // ✅ EVENT BUS FOR CROSS-COMPONENT COMMUNICATION
-        // ———————————————————————————————————————
-        class EventBus {
-            constructor() {
-                this.events = {};
-            }
-            on(event, callback) {
-                if (!this.events[event]) this.events[event] = [];
-                this.events[event].push(callback);
-            }
-            emit(event, data) {
-                if (this.events[event]) {
-                    this.events[event].forEach(callback => callback(data));
-                }
-            }
-            off(event, callback) {
-                if (this.events[event]) {
-                    this.events[event] = this.events[event].filter(cb => cb !== callback);
-                }
-            }
-        }
-
-        window.EventBus = new EventBus();
-
-        // ———————————————————————————————————————
-        // ✅ SECURITY NOTES
-        // ———————————————————————————————————————
-        // SECURITY NOTE: In production, NEVER expose API keys in client-side code.
-        // Use a server-side proxy endpoint (e.g., /api/gemini) to forward requests.
-        // const GEMINI_API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
-
-        console.log('MKPS Professional Login Page Loaded Successfully with Enhanced Error Handling.');
-    </script>
+    <!-- Signup Form -->
+    <div id="signupForm" class="hidden">
+      <input type="text" id="signupName" placeholder="Full Name" required>
+      <input type="text" id="signupClass" placeholder="Class (e.g. 8th)" required>
+      <input type="email" id="signupEmail" placeholder="Email" required>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <button onclick="signupUser()">Sign Up</button>
+      <div class="links">
+        <a href="#" onclick="showLogin()">Back to Login</a>
+      </div>
+    </div>
+
+    <!-- Reset Password -->
+    <div id="resetForm" class="hidden">
+      <input type="email" id="resetEmail" placeholder="Enter your email" required>
+      <button onclick="resetPassword()">Send Reset Link</button>
+      <div class="links">
+        <a href="#" onclick="showLogin()">Back to Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    // Firebase SDK imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } 
+      from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
+      authDomain: "mkps-balrampur.firebaseapp.com",
+      projectId: "mkps-balrampur",
+      storageBucket: "mkps-balrampur.firebasestorage.app",
+      messagingSenderId: "469227187804",
+      appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
+      measurementId: "G-TYKBNS9SX2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Switch Forms
+    function showSignup() {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('signupForm').classList.remove('hidden');
+      document.getElementById('resetForm').classList.add('hidden');
+    }
+
+    function showLogin() {
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('signupForm').classList.add('hidden');
+      document.getElementById('resetForm').classList.add('hidden');
+    }
+
+    function showReset() {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('signupForm').classList.add('hidden');
+      document.getElementById('resetForm').classList.remove('hidden');
+    }
+
+    // Sign Up
+    async function signupUser() {
+      const name = document.getElementById('signupName').value;
+      const studentClass = document.getElementById('signupClass').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        localStorage.setItem('studentName', name);
+        localStorage.setItem('studentClass', studentClass);
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    // Login
+    async function loginUser() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // For demo, retrieve name from localStorage
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    // Reset Password
+    async function resetPassword() {
+      const email = document.getElementById('resetEmail').value;
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Reset link sent to your email!");
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  </script>
 </body>
 </html>
