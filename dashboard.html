@@ -1,2039 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="description" content="MKPS Student Dashboard - School Management System"/>
-    <meta name="theme-color" content="#667eea"/>
-    <title>MKPS | Student Dashboard</title>
-
-    <!-- Google Fonts: Roboto -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-
-    <!-- Inline Styles -->
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #f0f2f5;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease;
-        }
-
-        body.dark-mode {
-            background: #121212;
-            color: #e0e0e0;
-        }
-
-        /* Layout */
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            max-width: 100vw;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            background: #667eea;
-            color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            position: sticky;
-            top: 0;
-            transition: background-color 0.3s ease;
-        }
-
-        body.dark-mode .header {
-            background: #1e3a8a;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 12px;
-        }
-
-        .welcome-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-            flex: 1;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .header-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .header-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Search Bar */
-        .search-container {
-            padding: 12px 16px;
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        body.dark-mode .search-container {
-            background: #1f1f1f;
-            border-bottom: 1px solid #333;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: #f0f0f0;
-            border-radius: 24px;
-            padding: 8px 16px;
-            width: 100%;
-            transition: box-shadow 0.3s ease;
-        }
-
-        body.dark-mode .search-box {
-            background: #2d2d2d;
-        }
-
-        .search-box:focus-within {
-            box-shadow: 0 0 0 2px #667eea;
-        }
-
-        .search-box input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 4px 8px;
-            font-size: 0.95rem;
-            color: #333;
-            outline: none;
-        }
-
-        body.dark-mode .search-box input {
-            color: #e0e0e0;
-        }
-
-        .search-box i {
-            color: #667eea;
-            font-size: 1.1rem;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            background: #f0f2f5;
-        }
-
-        body.dark-mode .main-content {
-            background: #121212;
-        }
-
-        /* Profile Card */
-        .profile-card {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            margin-bottom: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        body.dark-mode .profile-card {
-            background: #1f1f1f;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .profile-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .profile-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 16px;
-            border: 3px solid #667eea;
-        }
-
-        body.dark-mode .profile-avatar {
-            border-color: #764ba2;
-        }
-
-        .profile-info {
-            flex: 1;
-        }
-
-        .profile-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        body.dark-mode .profile-name {
-            color: #e0e0e0;
-        }
-
-        .profile-meta {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        body.dark-mode .profile-meta {
-            color: #aaa;
-        }
-
-        /* Section Styles */
-        .section {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        body.dark-mode .section {
-            background: #1f1f1f;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .section:hover {
-            transform: translateY(-2px);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        body.dark-mode .section-title {
-            color: #e0e0e0;
-        }
-
-        .section-action {
-            color: #667eea;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .section-action:hover {
-            color: #5a6fd8;
-            text-decoration: underline;
-        }
-
-        /* Homework Item */
-        .homework-item, .note-item, .message-item {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            transition: background 0.3s ease;
-        }
-
-        body.dark-mode .homework-item,
-        body.dark-mode .note-item,
-        body.dark-mode .message-item {
-            border-bottom: 1px solid #333;
-        }
-
-        .homework-item:last-child,
-        .note-item:last-child,
-        .message-item:last-child {
-            border-bottom: none;
-        }
-
-        .homework-item:hover,
-        .note-item:hover,
-        .message-item:hover {
-            background: #f8f9ff;
-        }
-
-        body.dark-mode .homework-item:hover,
-        body.dark-mode .note-item:hover,
-        body.dark-mode .message-item:hover {
-            background: #2d2d2d;
-        }
-
-        .item-title {
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: #333;
-        }
-
-        body.dark-mode .item-title {
-            color: #e0e0e0;
-        }
-
-        .item-subtitle {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        body.dark-mode .item-subtitle {
-            color: #aaa;
-        }
-
-        .item-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        body.dark-mode .item-meta {
-            color: #777;
-        }
-
-        .item-status {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-completed {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        /* Timetable */
-        .timetable {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-        }
-
-        .timetable-header {
-            font-weight: 600;
-            text-align: center;
-            padding: 8px;
-            background: #667eea;
-            color: white;
-            border-radius: 8px;
-            font-size: 0.8rem;
-        }
-
-        .timetable-cell {
-            background: #f0f0f0;
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            min-height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: background 0.3s ease;
-        }
-
-        body.dark-mode .timetable-cell {
-            background: #2d2d2d;
-        }
-
-        .timetable-cell:hover {
-            background: #e0e0e0;
-        }
-
-        body.dark-mode .timetable-cell:hover {
-            background: #3d3d3d;
-        }
-
-        .subject {
-            font-weight: 500;
-            margin-bottom: 2px;
-        }
-
-        .time {
-            font-size: 0.7rem;
-            color: #666;
-        }
-
-        body.dark-mode .time {
-            color: #aaa;
-        }
-
-        /* Notification Badge */
-        .badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #dc3545;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            display: flex;
-            background: white;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            padding: 12px 0;
-            position: sticky;
-            bottom: 0;
-            z-index: 1000;
-        }
-
-        body.dark-mode .bottom-nav {
-            background: #1f1f1f;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 0;
-            color: #666;
-            font-size: 0.85rem;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-item.active {
-            color: #667eea;
-        }
-
-        .nav-item i {
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
-
-        /* Floating Action Button */
-        .fab {
-            position: absolute;
-            bottom: 80px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            z-index: 900;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-        }
-
-        /* AI Chat Modal */
-        .ai-modal {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80vh;
-            background: white;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-            z-index: 1100;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        body.dark-mode .ai-modal {
-            background: #1f1f1f;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .ai-modal.open {
-            transform: translateY(0);
-        }
-
-        .ai-header {
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        body.dark-mode .ai-header {
-            border-bottom: 1px solid #333;
-        }
-
-        .ai-title {
-            font-weight: 600;
-            color: #333;
-        }
-
-        body.dark-mode .ai-title {
-            color: #e0e0e0;
-        }
-
-        .ai-close {
-            background: #f0f0f0;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        body.dark-mode .ai-close {
-            background: #2d2d2d;
-        }
-
-        .ai-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            line-height: 1.4;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background: #667eea;
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background: #f0f0f0;
-            color: #333;
-            border-bottom-left-radius: 4px;
-        }
-
-        body.dark-mode .ai-message {
-            background: #2d2d2d;
-            color: #e0e0e0;
-        }
-
-        .typing-indicator {
-            align-self: flex-start;
-            background: #f0f0f0;
-            padding: 12px 16px;
-            border-radius: 18px;
-            display: flex;
-            gap: 4px;
-        }
-
-        body.dark-mode .typing-indicator {
-            background: #2d2d2d;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #666;
-            border-radius: 50%;
-            animation: pulse 1.4s infinite both;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes pulse {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-
-        .ai-input-container {
-            padding: 16px;
-            display: flex;
-            gap: 8px;
-            border-top: 1px solid #eee;
-        }
-
-        body.dark-mode .ai-input-container {
-            border-top: 1px solid #333;
-        }
-
-        .ai-input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 24px;
-            font-size: 0.95rem;
-            outline: none;
-            background: #f0f0f0;
-        }
-
-        body.dark-mode .ai-input {
-            background: #2d2d2d;
-            border-color: #333;
-            color: #e0e0e0;
-        }
-
-        .ai-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
-        }
-
-        .ai-send {
-            width: 44px;
-            height: 44px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 20px;
-            background: #28a745;
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 9999;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.4s ease;
-            font-size: 0.95rem;
-            pointer-events: none;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .toast.error {
-            background: #dc3545;
-        }
-
-        /* PDF Export Button */
-        .pdf-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .pdf-btn:hover {
-            background: #5a6268;
-        }
-
-        /* Loader */
-        .loader {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-        }
-
-        .dark-mode .loader {
-            border-top: 2px solid #764ba2;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Adjustments */
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 768px;
-                border: 1px solid #ddd;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                height: 95vh;
-                margin: 20px auto;
-                overflow: hidden;
-            }
-
-            .main-content {
-                overflow-y: auto;
-            }
-        }
-
-        /* Animation for new items */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        /* Print Styles */
-        @media print {
-            .header, .bottom-nav, .fab, .search-container {
-                display: none !important;
-            }
-            .main-content {
-                padding: 0;
-                background: white;
-            }
-            body, body.dark-mode {
-                background: white !important;
-                color: black !important;
-            }
-            .section {
-                box-shadow: none;
-                border: 1px solid #ddd;
-                page-break-inside: avoid;
-            }
-            .profile-card {
-                border: 1px solid #ddd;
-            }
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 32px 16px;
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        body.dark-mode .empty-state {
-            color: #aaa;
-        }
-
-        .empty-icon {
-            font-size: 3rem;
-            color: #ddd;
-            margin-bottom: 12px;
-        }
-
-        body.dark-mode .empty-icon {
-            color: #333;
-        }
-
-        /* Hidden Class */
-        .hidden {
-            display: none !important;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>MKPS Student Hub – Professional</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --primary:#667eea;
+      --secondary:#764ba2;
+      --bg:#f5f7fa;
+      --card:#ffffff;
+      --text:#333333;
+      --muted:#777777;
+      --success:#2e7d32;
+      --warning:#ef6c00;
+      --danger:#c62828;
+      --shadow:0 4px 20px rgba(0,0,0,.08);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{background:var(--bg);color:var(--text);min-height:100vh;scroll-behavior:smooth}
+    /* Header */
+    .header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000}
+    .header h2{font-size:22px;font-weight:600}
+    .logout{background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:20px;padding:8px 12px;font-size:12px}
+    /* Welcome */
+    .welcome{background:var(--card);margin:12px 16px;border-radius:22px;padding:20px;text-align:center;box-shadow:var(--shadow)}
+    .welcome h3{font-size:18px;font-weight:600}
+    /* Stats Grid */
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 16px}
+    .stat-card{background:var(--card);border-radius:18px;padding:15px;text-align:center;box-shadow:var(--shadow)}
+    .stat-card b{font-size:20px;color:var(--primary)}
+    /* Section */
+    .section{margin:25px 0}
+    .section-title{display:flex;justify-content:space-between;align-items:center;padding:0 20px 12px;font-size:16px;font-weight:600}
+    .section-title a{color:var(--primary);font-size:11px;text-decoration:none}
+    .scroll{display:flex;gap:12px;padding:0 20px;overflow-x:auto;scroll-snap-type:x mandatory}
+    .card{flex:0 0 85%;background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);scroll-snap-align:start}
+    .card h4{font-size:15px;font-weight:600;margin-bottom:6px}
+    .card p{font-size:13px;color:var(--muted)}
+    .small{font-size:11px;color:var(--muted)}
+    /* Status Pills */
+    .pill{display:inline-block;padding:4px 10px;border-radius:12px;font-size:11px;margin-top:6px}
+    .pending{background:#fff3cd;color:#856404}
+    .completed{background:#d1e7dd;color:#0f5132}
+    .overdue{background:#f8d7da;color:#721c24}
+    /* Tables */
+    .table-wrap{margin:0 20px;background:var(--card);border-radius:18px;overflow:hidden}
+    table{width:100%;font-size:13px;border-collapse:collapse}
+    th,td{padding:12px 5px;text-align:center;border-bottom:1px solid #eee}
+    /* Bottom Navigation */
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;border-top:1px solid #eee;height:60px}
+    .nav-item{flex:1;text-align:center;padding-top:8px;font-size:11px;color:var(--muted);cursor:pointer;transition:.2s}
+    .nav-item.active{color:var(--primary);font-weight:600}
+    .nav-item i{font-size:20px;margin-bottom:2px}
+    /* FAB */
+    .fab{position:fixed;bottom:80px;right:20px;background:var(--primary);color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 15px rgba(0,0,0,.25);z-index:1000}
+    /* Modal */
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center}
+    .modal.show{display:flex}
+    .modal-content{background:var(--card);border-radius:20px;padding:20px;width:90%;max-height:80%;overflow-y:auto}
+    .close{float:right;font-size:24px;cursor:pointer;color:var(--muted)}
+    /* Empty / Loading */
+    .empty{text-align:center;padding:40px;color:var(--muted)}
+    .loading{text-align:center;padding:30px;color:var(--primary)}
+    /* Chart Container */
+    .chart-container{position:relative;height:160px;margin:0 20px}
+  </style>
 </head>
 <body>
-    <!-- App Container -->
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <img src="https://placehold.co/40/667eea/ffffff?text=MK" alt="Logo" class="logo" />
-            <div class="welcome-text">Welcome, <span id="studentName">Student</span></div>
-            <div class="header-actions">
-                <button id="themeToggle" class="header-btn" aria-label="Toggle Dark Mode">
-                    <i class="material-icons">dark_mode</i>
-                </button>
-                <button id="langToggle" class="header-btn" aria-label="Toggle Language">
-                    <i class="material-icons">language</i>
-                </button>
-            </div>
-        </header>
 
-        <!-- Search Bar -->
-        <div class="search-container">
-            <div class="search-box">
-                <i class="material-icons">search</i>
-                <input type="text" placeholder="Search homework, notes, messages..." id="searchInput" />
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <main class="main-content" id="mainContent">
-            <!-- Profile Card -->
-            <div class="profile-card">
-                <img src="https://placehold.co/60/667eea/ffffff?text=U" alt="Profile" class="profile-avatar" id="profileAvatar" />
-                <div class="profile-info">
-                    <div class="profile-name" id="profileName">Loading...</div>
-                    <div class="profile-meta" id="profileMeta">Class: Loading... | Parent: Loading...</div>
-                </div>
-            </div>
-
-            <!-- Homework Section -->
-            <section class="section" id="homeworkSection">
-                <div class="section-header">
-                    <h2 class="section-title">Homework</h2>
-                    <button class="section-action" id="viewAllHomework">View All</button>
-                </div>
-                <div id="homeworkList">
-                    <!-- Homework items will be inserted here -->
-                </div>
-            </section>
-
-            <!-- Notes Section -->
-            <section class="section" id="notesSection">
-                <div class="section-header">
-                    <h2 class="section-title">Class Notes</h2>
-                    <button class="section-action" id="viewAllNotes">View All</button>
-                </div>
-                <div id="notesList">
-                    <!-- Notes will be inserted here -->
-                </div>
-            </section>
-
-            <!-- Timetable Section -->
-            <section class="section" id="timetableSection">
-                <div class="section-header">
-                    <h2 class="section-title">Timetable</h2>
-                    <button class="section-action" id="downloadTimetable">Download PDF</button>
-                </div>
-                <div class="timetable" id="timetableGrid">
-                    <div class="timetable-header">Time</div>
-                    <div class="timetable-header">Mon</div>
-                    <div class="timetable-header">Tue</div>
-                    <div class="timetable-header">Wed</div>
-                    <div class="timetable-header">Thu</div>
-                    <div class="timetable-header">Fri</div>
-                    <!-- Timetable content will be inserted here -->
-                </div>
-            </section>
-
-            <!-- Messages Section -->
-            <section class="section" id="messagesSection">
-                <div class="section-header">
-                    <h2 class="section-title">Messages</h2>
-                    <button class="section-action" id="viewAllMessages">View All</button>
-                </div>
-                <div id="messagesList">
-                    <!-- Messages will be inserted here -->
-                </div>
-            </section>
-
-            <!-- Notifications Section -->
-            <section class="section" id="notificationsSection">
-                <div class="section-header">
-                    <h2 class="section-title">Notifications</h2>
-                    <button class="section-action" id="clearNotifications">Clear All</button>
-                </div>
-                <div id="notificationsList">
-                    <!-- Notifications will be inserted here -->
-                </div>
-            </section>
-        </main>
-
-        <!-- Floating Action Button -->
-        <button class="fab" id="aiFab" aria-label="Open AI Assistant">
-            <i class="material-icons">smart_toy</i>
-        </button>
-
-        <!-- AI Assistant Modal -->
-        <div class="ai-modal" id="aiModal">
-            <div class="ai-header">
-                <h3 class="ai-title">AI Assistant</h3>
-                <button class="ai-close" id="aiClose">
-                    <i class="material-icons">close</i>
-                </button>
-            </div>
-            <div class="ai-messages" id="aiMessages">
-                <div class="message ai-message">
-                    Hello! I'm your AI Assistant. How can I help you with your studies today?
-                </div>
-            </div>
-            <div class="ai-input-container">
-                <input type="text" class="ai-input" id="aiInput" placeholder="Ask me anything about your homework..." />
-                <button class="ai-send" id="aiSend">
-                    <i class="material-icons">send</i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <div class="nav-item active" data-page="home">
-                <i class="material-icons">home</i>
-                <span>Home</span>
-            </div>
-            <div class="nav-item" data-page="ai">
-                <i class="material-icons">smart_toy</i>
-                <span>AI</span>
-            </div>
-            <div class="nav-item" data-page="notifications">
-                <i class="material-icons">notifications</i>
-                <span>Alerts</span>
-                <div class="badge hidden" id="notificationBadge">0</div>
-            </div>
-            <div class="nav-item" data-page="profile">
-                <i class="material-icons">person</i>
-                <span>Profile</span>
-            </div>
-        </nav>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">Operation completed successfully!</div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-
-    <!-- PDF.js for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
-            authDomain: "mkps-balrampur.firebaseapp.com",
-            projectId: "mkps-balrampur",
-            storageBucket: "mkps-balrampur.firebasestorage.app",
-            messagingSenderId: "469227187804",
-            appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
-            measurementId: "G-TYKBNS9SX2"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        } else {
-            firebase.app();
-        }
-
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const storage = firebase.storage();
-
-        // DOM Elements
-        const studentNameEl = document.getElementById('studentName');
-        const profileNameEl = document.getElementById('profileName');
-        const profileMetaEl = document.getElementById('profileMeta');
-        const profileAvatarEl = document.getElementById('profileAvatar');
-        const homeworkListEl = document.getElementById('homeworkList');
-        const notesListEl = document.getElementById('notesList');
-        const messagesListEl = document.getElementById('messagesList');
-        const notificationsListEl = document.getElementById('notificationsList');
-        const timetableGridEl = document.getElementById('timetableGrid');
-        const searchInputEl = document.getElementById('searchInput');
-        const aiModalEl = document.getElementById('aiModal');
-        const aiMessagesEl = document.getElementById('aiMessages');
-        const aiInputEl = document.getElementById('aiInput');
-        const aiSendBtn = document.getElementById('aiSend');
-        const aiFab = document.getElementById('aiFab');
-        const aiCloseBtn = document.getElementById('aiClose');
-        const themeToggle = document.getElementById('themeToggle');
-        const toastEl = document.getElementById('toast');
-        const notificationBadgeEl = document.getElementById('notificationBadge');
-        const bottomNavItems = document.querySelectorAll('.nav-item');
-        const viewAllHomeworkBtn = document.getElementById('viewAllHomework');
-        const viewAllNotesBtn = document.getElementById('viewAllNotes');
-        const viewAllMessagesBtn = document.getElementById('viewAllMessages');
-        const clearNotificationsBtn = document.getElementById('clearNotifications');
-        const downloadTimetableBtn = document.getElementById('downloadTimetable');
-
-        // Global State
-        let currentUser = null;
-        let currentClass = '';
-        let homeworkList = [];
-        let notesList = [];
-        let messagesList = [];
-        let notificationsList = [];
-        let timetableData = {};
-        let isTyping = false;
-
-        // ———————————————————————————————————————
-        // ✅ STORAGE UTILITY (mkps_ namespace)
-        // ———————————————————————————————————————
-        const StorageUtil = {
-            set(key, value) {
-                try {
-                    localStorage.setItem(`mkps_${key}`, JSON.stringify(value));
-                } catch (e) {
-                    console.warn('LocalStorage full or unavailable', e);
-                }
-            },
-            get(key) {
-                try {
-                    const item = localStorage.getItem(`mkps_${key}`);
-                    return item ? JSON.parse(item) : null;
-                } catch (e) {
-                    console.warn('Error reading from localStorage', e);
-                    return null;
-                }
-            },
-            remove(key) {
-                localStorage.removeItem(`mkps_${key}`);
-            },
-            clearAll() {
-                Object.keys(localStorage)
-                      .filter(k => k.startsWith('mkps_'))
-                      .forEach(k => localStorage.removeItem(k));
-            }
-        };
-
-        // ———————————————————————————————————————
-        // ✅ TOAST NOTIFICATION SYSTEM
-        // ———————————————————————————————————————
-        function showToast(message, duration = 3000, isError = false) {
-            toastEl.textContent = message;
-            if (isError) toastEl.classList.add('error');
-            else toastEl.classList.remove('error');
-            toastEl.classList.add('show');
-
-            setTimeout(() => {
-                toastEl.classList.remove('show');
-            }, duration);
-        }
-
-        // ———————————————————————————————————————
-        // ✅ THEME TOGGLE FUNCTIONALITY
-        // ———————————————————————————————————————
-        function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            StorageUtil.set('theme', isDark ? 'dark' : 'light');
-            updateThemeIcon(isDark);
-        }
-
-        function updateThemeIcon(isDark) {
-            const icon = themeToggle.querySelector('.material-icons');
-            icon.textContent = isDark ? 'light_mode' : 'dark_mode';
-        }
-
-        // Load saved theme
-        function loadSavedTheme() {
-            const savedTheme = StorageUtil.get('theme') || 'light';
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                updateThemeIcon(true);
-            }
-        }
-
-        themeToggle.addEventListener('click', toggleTheme);
-
-        // ———————————————————————————————————————
-        // ✅ LANGUAGE TOGGLE
-        // ———————————————————————————————————————
-        const langToggle = document.getElementById('langToggle');
-        let currentLang = 'en';
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'hi' : 'en';
-            showToast(currentLang === 'en' ? 'Language changed to English' : 'भाषा हिंदी में बदल गई', 2000);
-        }
-
-        langToggle.addEventListener('click', toggleLanguage);
-
-        // ———————————————————————————————————————
-        // ✅ AUTH GUARD & USER INITIALIZATION
-        // ———————————————————————————————————————
-        function requireAuth() {
-            const savedUser = StorageUtil.get('user');
-            if (!savedUser) {
-                window.location.href = 'index.html';
-                return false;
-            }
-            currentUser = savedUser;
-            currentClass = savedUser.class;
-            return true;
-        }
-
-        // Initialize app
-        async function initApp() {
-            if (!requireAuth()) return;
-
-            // Set user info in UI
-            studentNameEl.textContent = currentUser.name.split(' ')[0];
-            profileNameEl.textContent = currentUser.name;
-            profileMetaEl.textContent = `Class: ${currentUser.class} | Parent: ${currentUser.parentName}`;
-
-            if (currentUser.photoURL) {
-                profileAvatarEl.src = currentUser.photoURL;
-            }
-
-            // Load all data
-            await Promise.all([
-                loadHomework(),
-                loadNotes(),
-                loadMessages(),
-                loadNotifications(),
-                loadTimetable()
-            ]);
-
-            // Setup real-time listeners
-            setupRealtimeListeners();
-
-            // Setup event listeners
-            setupEventListeners();
-
-            // Check for unread notifications
-            updateNotificationBadge();
-        }
-
-        // ———————————————————————————————————————
-        // ✅ FIRESTORE DATA LOADING
-        // ———————————————————————————————————————
-        async function loadHomework() {
-            try {
-                const snapshot = await db.collection('homework')
-                    .where('class', '==', currentClass)
-                    .orderBy('dueDate', 'desc')
-                    .limit(3)
-                    .get();
-
-                homeworkList = [];
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    homeworkList.push({
-                        id: doc.id,
-                        ...data,
-                        createdAt: data.createdAt?.toDate().toLocaleDateString(),
-                        dueDate: data.dueDate?.toDate().toLocaleDateString()
-                    });
-                });
-
-                renderHomework();
-            } catch (error) {
-                console.error('Error loading homework:', error);
-                showToast('Failed to load homework', 3000, true);
-            }
-        }
-
-        async function loadNotes() {
-            try {
-                const snapshot = await db.collection('notes')
-                    .where('class', '==', currentClass)
-                    .orderBy('createdAt', 'desc')
-                    .limit(3)
-                    .get();
-
-                notesList = [];
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    notesList.push({
-                        id: doc.id,
-                        ...data,
-                        createdAt: data.createdAt?.toDate().toLocaleDateString()
-                    });
-                });
-
-                renderNotes();
-            } catch (error) {
-                console.error('Error loading notes:', error);
-                showToast('Failed to load notes', 3000, true);
-            }
-        }
-
-        async function loadMessages() {
-            try {
-                const snapshot = await db.collection('messages')
-                    .where('recipientId', '==', currentUser.uid)
-                    .orderBy('timestamp', 'desc')
-                    .limit(3)
-                    .get();
-
-                messagesList = [];
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    messagesList.push({
-                        id: doc.id,
-                        ...data,
-                        timestamp: data.timestamp?.toDate().toLocaleString()
-                    });
-                });
-
-                renderMessages();
-            } catch (error) {
-                console.error('Error loading messages:', error);
-                showToast('Failed to load messages', 3000, true);
-            }
-        }
-
-        async function loadNotifications() {
-            try {
-                // Global notifications
-                const globalSnapshot = await db.collection('notifications')
-                    .where('target', '==', 'all')
-                    .orderBy('timestamp', 'desc')
-                    .limit(5)
-                    .get();
-
-                // Class-specific notifications
-                const classSnapshot = await db.collection('notifications')
-                    .where('target', '==', currentClass)
-                    .orderBy('timestamp', 'desc')
-                    .limit(5)
-                    .get();
-
-                notificationsList = [];
-
-                // Add global notifications
-                globalSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    notificationsList.push({
-                        id: doc.id,
-                        ...data,
-                        timestamp: data.timestamp?.toDate().toLocaleString(),
-                        type: 'global'
-                    });
-                });
-
-                // Add class notifications
-                classSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    notificationsList.push({
-                        id: doc.id,
-                        ...data,
-                        timestamp: data.timestamp?.toDate().toLocaleString(),
-                        type: 'class'
-                    });
-                });
-
-                // Sort by timestamp (newest first)
-                notificationsList.sort((a, b) => 
-                    new Date(b.timestamp) - new Date(a.timestamp)
-                );
-
-                // Keep only the 5 newest
-                notificationsList = notificationsList.slice(0, 5);
-
-                renderNotifications();
-            } catch (error) {
-                console.error('Error loading notifications:', error);
-                showToast('Failed to load notifications', 3000, true);
-            }
-        }
-
-        async function loadTimetable() {
-            try {
-                const docRef = db.collection('timetables').doc(currentClass);
-                const doc = await docRef.get();
-
-                if (doc.exists) {
-                    timetableData = doc.data();
-                    renderTimetable();
-                } else {
-                    // Create default timetable if none exists
-                    const defaultTimetable = {
-                        periods: [
-                            { time: "9:00-10:00", mon: "Math", tue: "Science", wed: "English", thu: "Hindi", fri: "SST" },
-                            { time: "10:00-11:00", mon: "Science", tue: "Math", wed: "Hindi", thu: "English", fri: "Science" },
-                            { time: "11:00-12:00", mon: "English", tue: "Hindi", wed: "Math", thu: "Science", fri: "English" },
-                            { time: "12:00-1:00", mon: "Lunch", tue: "Lunch", wed: "Lunch", thu: "Lunch", fri: "Lunch" },
-                            { time: "1:00-2:00", mon: "SST", tue: "English", wed: "Science", thu: "Math", fri: "Hindi" },
-                            { time: "2:00-3:00", mon: "Games", tue: "Art", wed: "Music", thu: "Games", fri: "Art" }
-                        ]
-                    };
-                    await docRef.set(defaultTimetable);
-                    timetableData = defaultTimetable;
-                    renderTimetable();
-                }
-            } catch (error) {
-                console.error('Error loading timetable:', error);
-                showToast('Failed to load timetable', 3000, true);
-            }
-        }
-
-        // ———————————————————————————————————————
-        // ✅ REAL-TIME LISTENERS
-        // ———————————————————————————————————————
-        function setupRealtimeListeners() {
-            // Listen for new homework
-            db.collection('homework')
-                .where('class', '==', currentClass)
-                .orderBy('createdAt', 'desc')
-                .onSnapshot(snapshot => {
-                    let hasNew = false;
-                    snapshot.docChanges().forEach(change => {
-                        if (change.type === 'added') {
-                            hasNew = true;
-                        }
-                    });
-                    if (hasNew) {
-                        loadHomework();
-                        showToast('New homework assigned!');
-                    }
-                });
-
-            // Listen for new notes
-            db.collection('notes')
-                .where('class', '==', currentClass)
-                .orderBy('createdAt', 'desc')
-                .onSnapshot(snapshot => {
-                    let hasNew = true;
-                    snapshot.docChanges().forEach(change => {
-                        if (change.type === 'added') {
-                            hasNew = true;
-                        }
-                    });
-                    if (hasNew) {
-                        loadNotes();
-                        showToast('New class notes available!');
-                    }
-                });
-
-            // Listen for new messages
-            db.collection('messages')
-                .where('recipientId', '==', currentUser.uid)
-                .where('read', '==', false)
-                .onSnapshot(snapshot => {
-                    if (snapshot.size > 0) {
-                        loadMessages();
-                        showToast(`You have ${snapshot.size} new message(s)!`);
-                        updateNotificationBadge();
-                    }
-                });
-
-            // Listen for new notifications
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            db.collection('notifications')
-                .where('target', 'in', ['all', currentClass])
-                .where('timestamp', '>=', today)
-                .onSnapshot(snapshot => {
-                    if (snapshot.size > 0) {
-                        loadNotifications();
-                        showToast('New notification received!');
-                        updateNotificationBadge();
-                    }
-                });
-        }
-
-        // ———————————————————————————————————————
-        // ✅ RENDER FUNCTIONS
-        // ———————————————————————————————————————
-        function renderHomework() {
-            if (homeworkList.length === 0) {
-                homeworkListEl.innerHTML = `
-                    <div class="empty-state">
-                        <i class="material-icons empty-icon">assignment</i>
-                        <p>No homework assigned yet</p>
-                    </div>
-                `;
-                return;
-            }
-
-            homeworkListEl.innerHTML = homeworkList.slice(0, 3).map(hw => `
-                <div class="homework-item fade-in">
-                    <div class="item-title">${hw.title}</div>
-                    <div class="item-subtitle">${hw.subject}</div>
-                    <div class="item-meta">
-                        <span>Due: ${hw.dueDate}</span>
-                        <span class="item-status status-pending">Pending</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderNotes() {
-            if (notesList.length === 0) {
-                notesListEl.innerHTML = `
-                    <div class="empty-state">
-                        <i class="material-icons empty-icon">book</i>
-                        <p>No class notes available</p>
-                    </div>
-                `;
-                return;
-            }
-
-            notesListEl.innerHTML = notesList.slice(0, 3).map(note => `
-                <div class="note-item fade-in">
-                    <div class="item-title">${note.title}</div>
-                    <div class="item-subtitle">${note.subject}</div>
-                    <div class="item-meta">
-                        <span>${note.createdAt}</span>
-                        <button class="pdf-btn" onclick="downloadNote('${note.id}', '${note.title}')">
-                            <i class="material-icons" style="font-size: 16px;">picture_as_pdf</i> PDF
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderMessages() {
-            if (messagesList.length === 0) {
-                messagesListEl.innerHTML = `
-                    <div class="empty-state">
-                        <i class="material-icons empty-icon">mail</i>
-                        <p>No messages yet</p>
-                    </div>
-                `;
-                return;
-            }
-
-            messagesListEl.innerHTML = messagesList.slice(0, 3).map(msg => `
-                <div class="message-item fade-in">
-                    <div class="item-title">${msg.senderName}</div>
-                    <div class="item-subtitle">${msg.subject}</div>
-                    <div class="item-meta">
-                        <span>${msg.timestamp}</span>
-                        ${!msg.read ? '<span class="item-status status-pending">New</span>' : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderNotifications() {
-            if (notificationsList.length === 0) {
-                notificationsListEl.innerHTML = `
-                    <div class="empty-state">
-                        <i class="material-icons empty-icon">notifications</i>
-                        <p>No notifications</p>
-                    </div>
-                `;
-                return;
-            }
-
-            notificationsListEl.innerHTML = notificationsList.slice(0, 5).map(notif => `
-                <div class="message-item fade-in">
-                    <div class="item-title">${notif.title}</div>
-                    <div class="item-subtitle">${notif.message}</div>
-                    <div class="item-meta">
-                        <span>${notif.timestamp}</span>
-                        <span class="item-status" style="background: #d1ecf1; color: #0c5460;">
-                            ${notif.type === 'global' ? 'General' : 'Class'}
-                        </span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderTimetable() {
-            if (!timetableData.periods) return;
-
-            // Clear existing timetable cells (except headers)
-            while (timetableGridEl.children.length > 6) {
-                timetableGridEl.removeChild(timetableGridEl.lastChild);
-            }
-
-            // Add timetable periods
-            timetableData.periods.forEach(period => {
-                // Time column
-                const timeCell = document.createElement('div');
-                timeCell.className = 'timetable-cell';
-                timeCell.innerHTML = `<div class="subject">${period.time}</div>`;
-                timetableGridEl.appendChild(timeCell);
-
-                // Day columns
-                ['mon', 'tue', 'wed', 'thu', 'fri'].forEach(day => {
-                    const cell = document.createElement('div');
-                    cell.className = 'timetable-cell';
-                    const subject = period[day];
-                    if (subject && subject !== 'Lunch') {
-                        cell.innerHTML = `
-                            <div class="subject">${subject}</div>
-                            <div class="time">${period.time}</div>
-                        `;
-                    } else if (subject === 'Lunch') {
-                        cell.innerHTML = '<div class="subject" style="color: #888;">Lunch</div>';
-                        cell.style.background = '#fff3cd';
-                    }
-                    timetableGridEl.appendChild(cell);
-                });
-            });
-        }
-
-        // ———————————————————————————————————————
-        // ✅ EVENT LISTENERS
-        // ———————————————————————————————————————
-        function setupEventListeners() {
-            // AI Assistant
-            aiFab.addEventListener('click', () => {
-                aiModalEl.classList.add('open');
-            });
-
-            aiCloseBtn.addEventListener('click', () => {
-                aiModalEl.classList.remove('open');
-            });
-
-            aiSendBtn.addEventListener('click', handleAiSend);
-            aiInputEl.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleAiSend();
-                }
-            });
-
-            // Bottom Navigation
-            bottomNavItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    bottomNavItems.forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
-
-                    const page = item.getAttribute('data-page');
-                    if (page === 'ai') {
-                        aiModalEl.classList.add('open');
-                    } else if (page === 'notifications') {
-                        // Scroll to notifications
-                        document.getElementById('notificationsSection').scrollIntoView({ behavior: 'smooth' });
-                    } else if (page === 'profile') {
-                        // Show profile info
-                        showToast('Profile view coming soon!');
-                    }
-                });
-            });
-
-            // View All buttons
-            viewAllHomeworkBtn.addEventListener('click', () => {
-                window.location.href = 'homework.html';
-            });
-
-            viewAllNotesBtn.addEventListener('click', () => {
-                window.location.href = 'notes.html';
-            });
-
-            viewAllMessagesBtn.addEventListener('click', () => {
-                window.location.href = 'messages.html';
-            });
-
-            clearNotificationsBtn.addEventListener('click', async () => {
-                // Mark all messages as read
-                try {
-                    const unreadMessages = await db.collection('messages')
-                        .where('recipientId', '==', currentUser.uid)
-                        .where('read', '==', false)
-                        .get();
-
-                    const batch = db.batch();
-                    unreadMessages.forEach(doc => {
-                        batch.update(doc.ref, { read: true });
-                    });
-                    await batch.commit();
-
-                    // Update local state
-                    messagesList.forEach(msg => msg.read = true);
-                    renderMessages();
-                    updateNotificationBadge();
-                    showToast('All notifications cleared');
-                } catch (error) {
-                    console.error('Error clearing notifications:', error);
-                    showToast('Failed to clear notifications', 3000, true);
-                }
-            });
-
-            // Download Timetable
-            downloadTimetableBtn.addEventListener('click', downloadTimetable);
-
-            // Search functionality
-            searchInputEl.addEventListener('input', handleSearch);
-        }
-
-        // ———————————————————————————————————————
-        // ✅ AI ASSISTANT FUNCTIONALITY
-        // ———————————————————————————————————————
-        async function handleAiSend() {
-            const prompt = aiInputEl.value.trim();
-            if (!prompt) return;
-
-            // Add user message
-            addMessage(prompt, 'user');
-            aiInputEl.value = '';
-
-            // Show typing indicator
-            showTypingIndicator();
-
-            try {
-                // Simulate AI response (in production, call Gemini API)
-                setTimeout(() => {
-                    const responses = [
-                        "I can help you understand that concept. Let me explain it in a simple way...",
-                        "That's a great question! Here's what I know about this topic...",
-                        "Based on your curriculum, here's how you can approach this problem...",
-                        "I recommend reviewing your class notes on this subject. Would you like me to summarize them?",
-                        "Let's break this down step by step to make it easier to understand."
-                    ];
-                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    removeTypingIndicator();
-                    addMessage(randomResponse, 'ai');
-                }, 1500);
-
-            } catch (error) {
-                removeTypingIndicator();
-                addMessage("Sorry, I'm having trouble connecting right now. Please try again later.", 'ai');
-                console.error('AI error:', error);
-            }
-        }
-
-        function addMessage(text, sender) {
-            const messageEl = document.createElement('div');
-            messageEl.className = `message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
-            messageEl.textContent = text;
-            aiMessagesEl.appendChild(messageEl);
-            aiMessagesEl.scrollTop = aiMessagesEl.scrollHeight;
-        }
-
-        function showTypingIndicator() {
-            const indicator = document.createElement('div');
-            indicator.className = 'typing-indicator';
-            indicator.id = 'typingIndicator';
-            indicator.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            aiMessagesEl.appendChild(indicator);
-            aiMessagesEl.scrollTop = aiMessagesEl.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) {
-                indicator.remove();
-            }
-        }
-
-        // ———————————————————————————————————————
-        // ✅ SEARCH FUNCTIONALITY
-        // ———————————————————————————————————————
-        function handleSearch() {
-            const query = searchInputEl.value.toLowerCase().trim();
-            if (!query) {
-                // Reset all sections
-                renderHomework();
-                renderNotes();
-                renderMessages();
-                return;
-            }
-
-            // Filter and display results
-            const filteredHomework = homeworkList.filter(hw => 
-                hw.title.toLowerCase().includes(query) || 
-                hw.subject.toLowerCase().includes(query)
-            );
-
-            const filteredNotes = notesList.filter(note => 
-                note.title.toLowerCase().includes(query) || 
-                note.subject.toLowerCase().includes(query)
-            );
-
-            const filteredMessages = messagesList.filter(msg => 
-                msg.subject.toLowerCase().includes(query) || 
-                msg.senderName.toLowerCase().includes(query)
-            );
-
-            // Update UI with filtered results
-            homeworkListEl.innerHTML = filteredHomework.length > 0 ? 
-                filteredHomework.map(hw => `
-                    <div class="homework-item fade-in">
-                        <div class="item-title">${hw.title}</div>
-                        <div class="item-subtitle">${hw.subject}</div>
-                        <div class="item-meta">
-                            <span>Due: ${hw.dueDate}</span>
-                            <span class="item-status status-pending">Pending</span>
-                        </div>
-                    </div>
-                `).join('') : 
-                '<div class="empty-state"><p>No matching homework</p></div>';
-
-            notesListEl.innerHTML = filteredNotes.length > 0 ? 
-                filteredNotes.map(note => `
-                    <div class="note-item fade-in">
-                        <div class="item-title">${note.title}</div>
-                        <div class="item-subtitle">${note.subject}</div>
-                        <div class="item-meta">
-                            <span>${note.createdAt}</span>
-                            <button class="pdf-btn" onclick="downloadNote('${note.id}', '${note.title}')">
-                                <i class="material-icons" style="font-size: 16px;">picture_as_pdf</i> PDF
-                            </button>
-                        </div>
-                    </div>
-                `).join('') : 
-                '<div class="empty-state"><p>No matching notes</p></div>';
-
-            messagesListEl.innerHTML = filteredMessages.length > 0 ? 
-                filteredMessages.map(msg => `
-                    <div class="message-item fade-in">
-                        <div class="item-title">${msg.senderName}</div>
-                        <div class="item-subtitle">${msg.subject}</div>
-                        <div class="item-meta">
-                            <span>${msg.timestamp}</span>
-                            ${!msg.read ? '<span class="item-status status-pending">New</span>' : ''}
-                        </div>
-                    </div>
-                `).join('') : 
-                '<div class="empty-state"><p>No matching messages</p></div>';
-        }
-
-        // ———————————————————————————————————————
-        // ✅ NOTIFICATION BADGE
-        // ———————————————————————————————————————
-        function updateNotificationBadge() {
-            const unreadCount = messagesList.filter(m => !m.read).length + 
-                              notificationsList.length;
-            
-            if (unreadCount > 0) {
-                notificationBadgeEl.textContent = unreadCount;
-                notificationBadgeEl.classList.remove('hidden');
-            } else {
-                notificationBadgeEl.classList.add('hidden');
-            }
-        }
-
-        // ———————————————————————————————————————
-        // ✅ PDF GENERATION FUNCTIONS
-        // ———————————————————————————————————————
-        async function downloadTimetable() {
-            try {
-                // Use html2canvas and jsPDF to generate PDF
-                const { jsPDF } = window.jspdf;
-                const element = document.getElementById('timetableSection');
-                
-                const canvas = await html2canvas(element, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false
-                });
-                
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 190;
-                const pageHeight = pdf.internal.pageSize.height;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 10;
-                
-                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight - position;
-                
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight + 10;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                
-                pdf.save(`timetable-${currentClass}.pdf`);
-                showToast('Timetable downloaded as PDF!');
-            } catch (error) {
-                console.error('PDF generation error:', error);
-                showToast('Failed to generate PDF', 3000, true);
-            }
-        }
-
-        window.downloadNote = async function(noteId, title) {
-            try {
-                const note = notesList.find(n => n.id === noteId);
-                if (!note) return;
-                
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF();
-                
-                pdf.setFontSize(20);
-                pdf.text(title, 20, 20);
-                
-                pdf.setFontSize(12);
-                pdf.text(`Subject: ${note.subject}`, 20, 30);
-                pdf.text(`Date: ${note.createdAt}`, 20, 35);
-                pdf.text(`Class: ${note.class}`, 20, 40);
-                
-                pdf.setFontSize(14);
-                pdf.text('Content:', 20, 50);
-                pdf.setFontSize(12);
-                
-                const contentLines = pdf.splitTextToSize(note.content || 'No content available.', 170);
-                pdf.text(contentLines, 20, 55);
-                
-                pdf.save(`${title}.pdf`);
-                showToast('Note downloaded as PDF!');
-            } catch (error) {
-                console.error('PDF generation error:', error);
-                showToast('Failed to generate PDF', 3000, true);
-            }
-        };
-
-        // ———————————————————————————————————————
-        // ✅ OFFLINE DATA CACHING (IndexedDB)
-        // ———————————————————————————————————————
-        const DB_NAME = 'MKPS_Offline';
-        const DB_VERSION = 1;
-        let dbInstance = null;
-
-        async function openDatabase() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-                request.onerror = () => reject(request.error);
-                request.onsuccess = () => {
-                    dbInstance = request.result;
-                    resolve(dbInstance);
-                };
-
-                request.onupgradeneeded = (event) => {
-                    const db = event.target.result;
-                    
-                    if (!db.objectStoreNames.contains('homework')) {
-                        const homeworkStore = db.createObjectStore('homework', { keyPath: 'id' });
-                        homeworkStore.createIndex('class', 'class', { unique: false });
-                    }
-                    
-                    if (!db.objectStoreNames.contains('notes')) {
-                        const notesStore = db.createObjectStore('notes', { keyPath: 'id' });
-                        notesStore.createIndex('class', 'class', { unique: false });
-                    }
-                };
-            });
-        }
-
-        async function saveToCache(storeName, data) {
-            if (!dbInstance) await openDatabase();
-            const transaction = dbInstance.transaction([storeName], 'readwrite');
-            const store = transaction.objectStore(storeName);
-            
-            data.forEach(item => store.put(item));
-        }
-
-        async function loadFromCache(storeName, className) {
-            if (!dbInstance) await openDatabase();
-            return new Promise((resolve) => {
-                const transaction = dbInstance.transaction([storeName], 'readonly');
-                const store = transaction.objectStore(storeName);
-                const index = store.index('class');
-                const request = index.getAll(className);
-                
-                request.onsuccess = () => resolve(request.result);
-            });
-        }
-
-        // Cache data when online
-        window.addEventListener('online', () => {
-            if (homeworkList.length > 0) {
-                saveToCache('homework', homeworkList);
-            }
-            if (notesList.length > 0) {
-                saveToCache('notes', notesList);
-            }
-        });
-
-        // Load from cache when offline
-        window.addEventListener('offline', async () => {
-            if (navigator.onLine) return;
-            
-            try {
-                const cachedHomework = await loadFromCache('homework', currentClass);
-                if (cachedHomework.length > 0) {
-                    homeworkList = cachedHomework;
-                    renderHomework();
-                    showToast('Loaded homework from offline cache');
-                }
-                
-                const cachedNotes = await loadFromCache('notes', currentClass);
-                if (cachedNotes.length > 0) {
-                    notesList = cachedNotes;
-                    renderNotes();
-                    showToast('Loaded notes from offline cache');
-                }
-            } catch (error) {
-                console.error('Cache load error:', error);
-            }
-        });
-
-        // ———————————————————————————————————————
-        // ✅ PWA: Service Worker Registration
-        // ———————————————————————————————————————
-        if ('serviceWorker' in navigator) {
-            // Comment: Register service worker for offline support
-            // navigator.serviceWorker.register('/sw.js')
-            //   .then(reg => console.log('SW registered:', reg))
-            //   .catch(err => console.error('SW registration failed:', err));
-        }
-
-        // ———————————————————————————————————————
-        // ✅ EVENT BUS FOR CROSS-COMPONENT COMMUNICATION
-        // ———————————————————————————————————————
-        class EventBus {
-            constructor() {
-                this.events = {};
-            }
-            on(event, callback) {
-                if (!this.events[event]) this.events[event] = [];
-                this.events[event].push(callback);
-            }
-            emit(event, data) {
-                if (this.events[event]) {
-                    this.events[event].forEach(callback => callback(data));
-                }
-            }
-            off(event, callback) {
-                if (this.events[event]) {
-                    this.events[event] = this.events[event].filter(cb => cb !== callback);
-                }
-            }
-        }
-
-        window.EventBus = new EventBus();
-
-        // Example: Listen for new homework from teacher
-        EventBus.on('newHomework', (homework) => {
-            if (homework.class === currentClass) {
-                homeworkList.unshift({
-                    id: homework.id,
-                    ...homework,
-                    createdAt: new Date().toLocaleDateString(),
-                    dueDate: homework.dueDate?.toDate().toLocaleDateString() || 'Not set'
-                });
-                renderHomework();
-                showToast('New homework assigned!');
-            }
-        });
-
-        // ———————————————————————————————————————
-        // ✅ GEMINI AI API INTEGRATION (SECURITY COMMENT)
-        // ———————————————————————————————————————
-        // SECURITY NOTE: In production, NEVER expose API keys in client-side code.
-        // Use a server-side proxy endpoint (e.g., /api/gemini) to forward requests.
-        // const GEMINI_API_KEY = "AIzaSyCdzFBQ1KVgBfmmjSgHJJwcuLbqne9VjUs";
-
-        // Example secure call:
-        /*
-        async function callGemini(prompt) {
-            const response = await fetch('/api/gemini', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt, studentClass: currentClass })
-            });
-            const data = await response.json();
-            return data.reply;
-        }
-        */
-
-        // ———————————————————————————————————————
-        // ✅ LOGOUT FUNCTIONALITY
-        // ———————————————————————————————————————
-        function setupLogout() {
-            // Add logout button to profile section or create a menu
-            const logoutBtn = document.createElement('button');
-            logoutBtn.textContent = 'Logout';
-            logoutBtn.style.cssText = `
-                margin: 16px auto;
-                display: block;
-                padding: 12px 24px;
-                background: #dc3545;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-            `;
-            
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await auth.signOut();
-                    StorageUtil.clearAll();
-                    window.location.href = 'index.html';
-                } catch (error) {
-                    showToast('Logout failed', 3000, true);
-                }
-            });
-            
-            // Append to main content or create a settings page
-            document.querySelector('.app-container').appendChild(logoutBtn);
-        }
-
-        // ———————————————————————————————————————
-        // ✅ ON LOAD INITIALIZATION
-        // ———————————————————————————————————————
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSavedTheme();
-            
-            // Initialize the app
-            initApp().catch(error => {
-                console.error('App initialization failed:', error);
-                showToast('Failed to load dashboard. Please try again.', 5000, true);
-            });
-            
-            // Setup logout
-            setupLogout();
-        });
-
-        // Expose functions to global scope
-        window.downloadTimetable = downloadTimetable;
-
-        console.log('MKPS Student Dashboard Loaded Successfully with Firebase Integration and Offline Support.');
-    </script>
+<!-- Header -->
+<header>
+  <h2><i class="fas fa-user-graduate"></i> Welcome, <span id="stuName">Student</span></h2>
+  <button class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+</header>
+
+<!-- Personalized Welcome -->
+<div class="welcome">
+  <h3>Hi, <span id="stuFull">--</span> 👋</h3>
+  <p>Class: <b id="stuClass">--</b> | Roll: <b id="stuRoll">--</b></p>
+</div>
+
+<!-- Quick Stats Grid -->
+<div class="stats">
+  <div class="stat-card"><b id="attPer">--</b><br>Attendance</div>
+  <div class="stat-card"><b id="hwPen">--</b><br>Pending HW</div>
+  <div class="stat-card"><b id="notesCnt">--</b><br>Notes</div>
+  <div class="stat-card"><b id="events">--</b><br>Events</div>
+</div>
+
+<!-- Homework -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-book"></i> Today's Homework</span><a href="#" onclick="openModal('hw')">View All</a></div>
+  <div class="scroll" id="homework-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Notes -->
+<section class="section">
+  <div class="section-title">
+    <span><i class="fas fa-sticky-note"></i> Notes</span>
+    <label style="color:var(--primary);cursor:pointer"><i class="fas fa-upload"></i> Upload<input type="file" accept="image/*,.pdf" style="display:none" onchange="uploadNote(this)"></label>
+  </div>
+  <div class="scroll" id="notes-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Timetable -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-calendar-alt"></i> Timetable</span><a href="#" onclick="downloadPDF()">PDF</a></div>
+  <div class="table-wrap">
+    <table id="timetable">
+      <thead><tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Attendance -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-calendar-check"></i> Attendance</span></div>
+  <div class="scroll" id="attendance-log"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Events -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-calendar-day"></i> Upcoming Events</span></div>
+  <div class="scroll" id="events-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Achievements -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-trophy"></i> Achievements</span></div>
+  <div class="scroll" id="achievements-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Library Books -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-book-open"></i> Library Books</span></div>
+  <div class="scroll" id="library-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Sports Schedule -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-running"></i> Sports Schedule</span></div>
+  <div class="scroll" id="sports-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Exam Timetable -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-clipboard-list"></i> Exam Timetable</span></div>
+  <div class="table-wrap">
+    <table id="exam-table">
+      <thead><tr><th>Date</th><th>Subject</th><th>Time</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Holidays -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-sun"></i> Holidays</span></div>
+  <div class="scroll" id="holidays-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Birthdays -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-birthday-cake"></i> Birthdays</span></div>
+  <div class="scroll" id="birthday-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- Compliments -->
+<section class="section">
+  <div class="section-title"><span><i class="fas fa-heart"></i> Compliments</span></div>
+  <div class="scroll" id="compliments-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+</section>
+
+<!-- AI FAB -->
+<button class="fab" onclick="openAI()" title="AI Assistant"><i class="fas fa-magic"></i></button>
+
+<script>
+  /* ===== Firebase ===== */
+  firebase.initializeApp({
+    apiKey:"AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
+    authDomain:"mkps-balrampur.firebaseapp.com",
+    projectId:"mkps-balrampur",
+    storageBucket:"mkps-balrampur.firebasestorage.app"
+  });
+  const db=firebase.firestore(),storage=firebase.storage();
+
+  /* ===== Auth & Profile ===== -->
+  const sid=localStorage.getItem('studentId');
+  const sname=localStorage.getItem('studentName');
+  const sclass=localStorage.getItem('studentClass');
+  const roll=localStorage.getItem('studentClassRoll');
+  if(!sid)location.href='index.html';
+  document.getElementById('stuName').textContent=sname;
+  document.getElementById('stuFull').textContent=sname;
+  document.getElementById('stuClass').textContent=sclass;
+  document.getElementById('stuRoll').textContent=roll;
+
+  /* ===== Teacher-Manageable Data ===== -->
+  const staticData={
+    Nursery:{
+      homework:[{subject:'Art',desc:'Draw 3 fruits',date:new Date(),status:'pending'}],
+      notes:[{title:'Alphabet A',content:'Write A 5 times'}],
+      timetable:[{time:'09-09:30',Mon:'Rhymes',Tue:'Art',Wed:'Story',Thu:'Play',Fri:'Music'}],
+      attendance:[{date:new Date(),present:true}],
+      events:[{title:'Colouring Competition',date:'2025-09-01'}],
+      achievements:[{title:'Best Handwriting',date:'2025-08-20'}],
+      library:[{title:'My First Book',author:'ABC',due:'2025-09-01'}],
+      sports:[{sport:'Yoga',day:'Mon',time:'09:45-10:15'}],
+      exams:[{date:'2025-09-05',subject:'Rhymes',time:'10:00-10:30'}],
+      holidays:[{date:'2025-08-26',name:'Raksha Bandhan'}],
+      birthdays:[{name:'Aarav',date:'2025-08-26'}],
+      compliments:[{text:'Great participation!',teacher:'Ms. Rita'}]
+    },
+    LKG:{
+      homework:[{subject:'English',desc:'A-C 5 times',status:'pending'}],
+      timetable:[{time:'08:30-09:15',Mon:'English',Tue:'Math',Wed:'Art',Thu:'Music',Fri:'Play'}],
+      events:[{title:'Tell-a-Tale',date:'2025-09-02'}],
+      library:[{title:'ABC Book',author:'XYZ',due:'2025-09-10'}],
+      sports:[{sport:'Dance',day:'Wed',time:'09:45-10:15'}],
+      exams:[{date:'2025-09-10',subject:'English',time:'09:00-09:45'}],
+      holidays:[{date:'2025-09-02',name:'Teacher’s Day'}],
+      birthdays:[{name:'Anaya',date:'2025-09-05'}],
+      compliments:[{text:'Very polite!',teacher:'Ms. Neha'}]
+    },
+    '1':{
+      homework:[{subject:'Hindi',desc:'वर्णमाला',status:'pending'}],
+      timetable:[{time:'08:30-09:15',Mon:'Hindi',Tue:'Math',Wed:'English',Thu:'Art',Fri:'EVS'}],
+      events:[{title:'Story Day',date:'2025-09-01'}],
+      library:[{title:'Primer Hindi',author:'NCERT',due:'2025-09-15'}],
+      sports:[{sport:'Karate',day:'Fri',time:'08:00-08:30'}],
+      exams:[{date:'2025-09-15',subject:'Math',time:'09:00-09:45'}],
+      holidays:[{date:'2025-09-12',name:'Gandhi Jayanti'}],
+      birthdays:[{name:'Rohan',date:'2025-09-18'}],
+      compliments:[{text:'Quick learner!',teacher:'Mr. Ajay'}]
+    },
+    '2':{homework:[{subject:'English',desc:'My School 5 lines',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'English',Tue:'Math',Wed:'Hindi',Thu:'EVS',Fri:'Art'}]},
+    '3':{homework:[{subject:'English',desc:'Paragraph 8 lines',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'English',Tue:'Math',Wed:'EVS',Thu:'Hindi',Fri:'Science'}]},
+    '4':{homework:[{subject:'Science',desc:'Plant diagram',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'Science',Tue:'Math',Wed:'English',Thu:'Hindi',Fri:'SST'}]},
+    '5':{homework:[{subject:'SST',desc:'India map',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'SST',Tue:'Math',Wed:'Science',Thu:'English',Fri:'Hindi'}]},
+    '6':{homework:[{subject:'Hindi',desc:'संज्ञा अभ्यास',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'Hindi',Tue:'Math',Wed:'Science',Thu:'SST',Fri:'English'}]},
+    '7':{homework:[{subject:'Science',desc:'Digestive system',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'Science',Tue:'Math',Wed:'English',Thu:'Hindi',Fri:'SST'}]},
+    '8':{homework:[{subject:'SST',desc:'Constitution essay',status:'pending'}],timetable:[{time:'08:30-09:15',Mon:'SST',Tue:'Math',Wed:'Science',Thu:'English',Fri:'Hindi'}]}
+  };
+
+  /* ===== Push Static Data (Teacher-manageable) ===== -->
+  async function pushStaticData(){
+    const cols=['homework','notes','timetable','attendance','events','achievements','library','sports','exams','holidays','birthdays','compliments'];
+    for (const col of cols){
+      const snap=await db.collection(col).where('class','==',sclass).get();
+      if(snap.empty){
+        const batch=db.batch();
+        staticData[sclass][col].forEach(item=>batch.set(db.collection(col).doc(),{...item,class:sclass}));
+        await batch.commit();
+      }
+    }
+  }
+
+  /* ===== Load All Data ===== -->
+  async function loadAll(){
+    await pushStaticData();
+    // homework
+    const hwSnap=await db.collection('homework').where('class','==',sclass).orderBy('date','desc').limit(6).get();
+    const hwDiv=document.getElementById('homework-list');
+    hwDiv.innerHTML='';
+    hwSnap.forEach(d=>{
+      const h=d.data();
+      hwDiv.innerHTML+=`<div class="card">
+        <h4>${h.subject}</h4><p>${h.desc}</p><small>${h.date.toDate().toLocaleDateString('en-IN')}</small>
+        <span class="pill ${h.status}">${h.status}</span>
+      </div>`;
+    });
+    // notes
+    const noteSnap=await db.collection('notes').where('class','==',sclass).orderBy('createdAt','desc').limit(6).get();
+    const noteDiv=document.getElementById('notes-list');
+    noteDiv.innerHTML='';
+    noteSnap.forEach(d=>{
+      const n=d.data();
+      noteDiv.innerHTML+=`<div class="card"><h4>${n.title}</h4><p>${n.content}</p>${n.imageUrl?'<img src="'+n.imageUrl+'" style="width:100%;border-radius:8px;margin-top:6px">':''}</div>`;
+    });
+    // timetable
+    const ttSnap=await db.collection('timetable').where('class','==',sclass).get();
+    const tbody=document.querySelector('#timetable tbody');
+    tbody.innerHTML='';
+    ttSnap.forEach(d=>{
+      const t=d.data();
+      tbody.innerHTML+=`<tr><td>${t.time}</td><td>${t.Mon||'-'}</td><td>${t.Tue||'-'}</td><td>${t.Wed||'-'}</td><td>${t.Thu||'-'}</td><td>${t.Fri||'-'}</td></tr>`;
+    });
+    // attendance
+    const attSnap=await db.collection('attendance').where('class','==',sclass).orderBy('date','desc').limit(5).get();
+    const attDiv=document.getElementById('attendance-log');
+    attDiv.innerHTML='';
+    attSnap.forEach(d=>{
+      const a=d.data();
+      attDiv.innerHTML+=`<div class="card"><p>${a.date.toDate().toLocaleDateString()}: <b>${a.present?'Present':'Absent'}</b></p></div>`;
+    });
+    // events
+    const evSnap=await db.collection('events').where('class','==',sclass).orderBy('date','asc').limit(5).get();
+    const evDiv=document.getElementById('events-list');
+    evDiv.innerHTML='';
+    evSnap.forEach(d=>{
+      const e=d.data();
+      evDiv.innerHTML+=`<div class="card"><h4>${e.title}</h4><small>${e.date}</small></div>`;
+    });
+    // achievements
+    const achSnap=await db.collection('achievements').where('class','==',sclass).orderBy('date','desc').limit(5).get();
+    const achDiv=document.getElementById('achievements-list');
+    achDiv.innerHTML='';
+    achSnap.forEach(d=>{
+      const a=d.data();
+      achDiv.innerHTML+=`<div class="card"><h4>${a.title}</h4><small>${a.date}</small></div>`;
+    });
+    // library
+    const libSnap=await db.collection('library').where('class','==',sclass).limit(5).get();
+    const libDiv=document.getElementById('library-list');
+    libDiv.innerHTML='';
+    libSnap.forEach(d=>{
+      const l=d.data();
+      libDiv.innerHTML+=`<div class="card"><h4>${l.title}</h4><small>Due: ${l.due}</small></div>`;
+    });
+    // sports
+    const sprSnap=await db.collection('sports').where('class','==',sclass).limit(5).get();
+    const sprDiv=document.getElementById('sports-list');
+    sprDiv.innerHTML='';
+    sprSnap.forEach(d=>{
+      const s=d.data();
+      sprDiv.innerHTML+=`<div class="card"><h4>${s.sport}</h4><small>${s.day} ${s.time}</small></div>`;
+    });
+    // exams
+    const exSnap=await db.collection('exams').where('class','==',sclass).limit(5).get();
+    const exDiv=document.querySelector('#exam-table tbody');
+    exDiv.innerHTML='';
+    exSnap.forEach(d=>{
+      const e=d.data();
+      exDiv.innerHTML+=`<tr><td>${e.date}</td><td>${e.subject}</td><td>${e.time}</td></tr>`;
+    });
+    // holidays
+    const holSnap=await db.collection('holidays').limit(5).get();
+    const holDiv=document.getElementById('holidays-list');
+    holDiv.innerHTML='';
+    holSnap.forEach(d=>{
+      const h=d.data();
+      holDiv.innerHTML+=`<div class="card"><h4>${h.name}</h4><small>${h.date}</small></div>`;
+    });
+    // birthdays
+    const bdaySnap=await db.collection('birthdays').where('class','==',sclass).limit(5).get();
+    const bdayDiv=document.getElementById('birthday-list');
+    bdayDiv.innerHTML='';
+    bdaySnap.forEach(d=>{
+      const b=d.data();
+      bdayDiv.innerHTML+=`<div class="card"><h4>${b.name}</h4><small>${b.date}</small></div>`;
+    });
+    // compliments
+    const compSnap=await db.collection('compliments').where('class','==',sclass).limit(5).get();
+    const compDiv=document.getElementById('compliments-list');
+    compDiv.innerHTML='';
+    compSnap.forEach(d=>{
+      const c=d.data();
+      compDiv.innerHTML+=`<div class="card"><p><b>“${c.text}”</b><br><small>- ${c.teacher}</small></p></div>`;
+    });
+
+    // counters
+    const hwPenCnt=await db.collection('homework').where('class','==',sclass).where('status','==','pending').count().get();
+    document.getElementById('hwPen').textContent=hwPenCnt.data().count||0;
+    document.getElementById('notesCnt').textContent=noteSnap.size;
+    document.getElementById('events').textContent=evSnap.size;
+  }
+
+  /* ===== Upload Note ===== -->
+  async function uploadNote(input){
+    const file=input.files[0];if(!file)return;
+    const path=`notes/${sid}/${Date.now()}_${file.name}`;
+    const snap=await storage.ref(path).put(file);
+    const url=await snap.ref.getDownloadURL();
+    await db.collection('notes').add({class:sclass,title:'My Upload',content:'Student uploaded',imageUrl:url,createdAt:new Date()});
+    loadAll();
+  }
+
+  /* ===== Utilities ===== -->
+  function openModal(type){document.getElementById('modal').classList.add('show');document.getElementById('modalBody').innerHTML=`Full ${type} list coming soon...`;}
+  function closeModal(){document.getElementById('modal').classList.remove('show');}
+  function downloadPDF(){alert('PDF generator coming soon!');}
+  function openAI(){location.href='ai.html';}
+  function logout(){localStorage.clear();location.href='index.html';}
+
+  /* ===== On Load ===== -->
+  loadAll();
+</script>
 </body>
 </html>
