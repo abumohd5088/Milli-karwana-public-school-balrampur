@@ -1,899 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mili Karwaan Public School - Login</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #1e3c72;
-            --primary-light: #2575fc;
-            --primary-dark: #1a3a6a;
-            --secondary: #6a11cb;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
-            --border: #dee2e6;
-            --shadow: 0 10px 30px rgba(0,0,0,0.15);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Animated background elements */
-        body::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .container {
-            background: white;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            width: 100%;
-            max-width: 450px;
-            position: relative;
-            z-index: 1;
-            backdrop-filter: blur(10px);
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 40px 30px 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-            opacity: 0.3;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-        }
-        
-        .header p {
-            opacity: 0.9;
-            font-size: 15px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .school-icon {
-            font-size: 36px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .role-selector {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            background: #f8f9ff;
-        }
-        
-        .role-btn {
-            flex: 1;
-            padding: 20px 15px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--gray);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .role-btn.active {
-            background: var(--primary-light);
-            color: white;
-        }
-        
-        .role-btn i {
-            margin-right: 8px;
-            font-size: 18px;
-        }
-        
-        .role-btn:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
-        }
-        
-        .form-container {
-            padding: 40px 30px;
-            position: relative;
-        }
-        
-        .form-title {
-            text-align: center;
-            color: var(--primary-dark);
-            margin-bottom: 30px;
-            font-size: 20px;
-            font-weight: 600;
-            position: relative;
-        }
-        
-        .form-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: var(--primary-light);
-            border-radius: 3px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color: var(--primary-dark);
-            font-size: 15px;
-        }
-        
-        .form-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-light);
-            z-index: 2;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: var(--transition);
-            background: #f8f9ff;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
-            background: white;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
-        }
-        
-        .submit-btn i {
-            margin-right: 8px;
-        }
-        
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            text-align: center;
-            border: 1px solid #f5c6cb;
-            display: none;
-            font-size: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .error-message::before {
-            content: '⚠️';
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            text-align: center;
-            border: 1px solid #c3e6cb;
-            display: none;
-            font-size: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .success-message::before {
-            content: '✅';
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .google-signin {
-            margin-top: 30px;
-            text-align: center;
-        }
-        
-        .google-btn {
-            display: inline-flex;
-            align-items: center;
-            background: white;
-            border: 1px solid #ddd;
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            font-weight: 500;
-        }
-        
-        .google-btn:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
-        }
-        
-        .google-btn i {
-            color: #ea4335;
-            font-size: 20px;
-            margin-right: 10px;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 30px;
-            color: var(--primary);
-            font-size: 16px;
-            font-weight: 500;
-        }
-        
-        .loading i {
-            margin-right: 10px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .contact-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 15px;
-            font-weight: 500;
-            transition: var(--transition);
-            display: block;
-            text-align: center;
-        }
-        
-        .contact-btn:hover {
-            color: var(--primary-dark);
-            text-decoration: none;
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            color: var(--gray);
-            font-size: 14px;
-        }
-        
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .divider span {
-            padding: 0 10px;
-            background: white;
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 480px) {
-            .container {
-                margin: 15px;
-                border-radius: 20px;
-            }
-            
-            .header {
-                padding: 35px 25px 25px;
-            }
-            
-            .header h1 {
-                font-size: 24px;
-            }
-            
-            .form-container {
-                padding: 35px 25px;
-            }
-            
-            .role-btn {
-                padding: 18px 10px;
-                font-size: 15px;
-            }
-            
-            .school-icon {
-                font-size: 32px;
-            }
-        }
-        
-        /* Animation for form switching */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .role-form {
-            animation: slideIn 0.4s ease;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mili Karwaan Public School</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --success: #06d6a0;
+      --warning: #ffd166;
+      --danger: #ef476f;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --gray: #adb5bd;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+    }
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #3a56d4;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    .role-selector {
+      padding: 20px;
+      text-align: center;
+    }
+    .role-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: #f1f3f5;
+      color: var(--dark);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .role-btn:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+    .role-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    .form-container {
+      padding: 20px;
+      display: none;
+    }
+    .form-container.active {
+      display: block;
+    }
+    .form-title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+    .input-group select,
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    .input-group select:focus,
+    .input-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #3a56d4;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover {
+      background: #f0f4ff;
+    }
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-size: 0.95rem;
+      border: 1px solid #ef9a9a;
+      display: none;
+    }
+    .error.show {
+      display: block;
+    }
+    .back-btn {
+      margin-top: 10px;
+      background: #6c757d;
+    }
+    .back-btn:hover {
+      background: #5a6268;
+    }
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: white;
+      color: #444;
+      border: 1px solid #ddd;
+      margin-top: 15px;
+    }
+    .google-btn:hover {
+      background: #f8f8f8;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      color: #666;
+      font-size: 0.85rem;
+      border-top: 1px solid #eee;
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+      .container {
+        border-radius: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="school-icon">
-                <i class="fas fa-school"></i>
-            </div>
-            <h1>Mili Karwaan Public School</h1>
-            <p>Boluha Police Chowki, Balrampur | 9758919151</p>
-        </div>
-        
-        <div class="role-selector">
-            <button class="role-btn active" data-role="student">
-                <i class="fas fa-user-graduate"></i> Student
-            </button>
-            <button class="role-btn" data-role="parent">
-                <i class="fas fa-users"></i> Parent
-            </button>
-            <button class="role-btn" data-role="teacher">
-                <i class="fas fa-chalkboard-teacher"></i> Teacher
-            </button>
-        </div>
-        
-        <div class="form-container">
-            <div id="error-message" class="error-message"></div>
-            <div id="success-message" class="success-message"></div>
-            
-            <!-- Student Form -->
-            <form id="student-form" class="role-form">
-                <h2 class="form-title">Student Access</h2>
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> Student Name</label>
-                    <input type="text" id="student-name" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-user-tie"></i> Parent Name</label>
-                    <input type="text" id="parent-name" placeholder="Enter parent's name" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-chalkboard"></i> Class</label>
-                    <select id="student-class" required>
-                        <option value="">Select Class</option>
-                        <option value="Nursery">Nursery</option>
-                        <option value="LKG">LKG</option>
-                        <option value="UKG">UKG</option>
-                        <option value="1">Class 1</option>
-                        <option value="2">Class 2</option>
-                        <option value="3">Class 3</option>
-                        <option value="4">Class 4</option>
-                        <option value="5">Class 5</option>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-hashtag"></i> Roll Number</label>
-                    <input type="text" id="roll-number" placeholder="Enter your roll number" required>
-                </div>
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-sign-in-alt"></i> Enter Dashboard
-                </button>
-                
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-                
-                <div class="google-signin">
-                    <div class="google-btn" onclick="signInWithGoogle()">
-                        <i class="fab fa-google"></i>
-                        Sign in with Google
-                    </div>
-                </div>
-            </form>
-            
-            <!-- Parent Form -->
-            <form id="parent-form" class="role-form hidden">
-                <h2 class="form-title">Parent Verification</h2>
-                <div class="form-group">
-                    <label><i class="fas fa-user-tie"></i> Parent Name</label>
-                    <input type="text" id="parent-name-verify" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> Child Name</label>
-                    <input type="text" id="child-name" placeholder="Enter child's name" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-chalkboard"></i> Child Class</label>
-                    <select id="child-class" required>
-                        <option value="">Select Class</option>
-                        <option value="Nursery">Nursery</option>
-                        <option value="LKG">LKG</option>
-                        <option value="UKG">UKG</option>
-                        <option value="1">Class 1</option>
-                        <option value="2">Class 2</option>
-                        <option value="3">Class 3</option>
-                        <option value="4">Class 4</option>
-                        <option value="5">Class 5</option>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-sign-in-alt"></i> Access Parent Portal
-                </button>
-                
-                <button type="button" class="contact-btn" onclick="contactSchool()">
-                    <i class="fas fa-envelope"></i> Contact School Administration
-                </button>
-            </form>
-            
-            <!-- Teacher Form -->
-            <form id="teacher-form" class="role-form hidden">
-                <h2 class="form-title">Teacher Login</h2>
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> Teacher Name</label>
-                    <input type="text" id="teacher-name" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="teacher-password" placeholder="Enter password" required>
-                </div>
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login as Teacher
-                </button>
-                
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-                
-                <div class="google-signin">
-                    <div class="google-btn" onclick="signInWithGoogle()">
-                        <i class="fab fa-google"></i>
-                        Sign in with Google
-                    </div>
-                </div>
-            </form>
-            
-            <div id="loading" class="loading hidden">
-                <i class="fas fa-spinner"></i> Please wait, verifying your credentials...
-            </div>
-        </div>
+  <div class="container">
+    <header>
+      <h1>Mili Karwaan Public School</h1>
+      <p>Boluha Police Chowki, Balrampur | 📞 9758919151</p>
+    </header>
+
+    <div class="role-selector">
+      <button class="role-btn" data-role="student">Student Access</button>
+      <button class="role-btn" data-role="parent">Parent Login</button>
+      <button class="role-btn" data-role="teacher">Teacher Login</button>
     </div>
 
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
-            authDomain: "mkps-balrampur.firebaseapp.com",
-            projectId: "mkps-balrampur",
-            storageBucket: "mkps-balrampur.firebasestorage.app",
-            messagingSenderId: "469227187804",
-            appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
-            measurementId: "G-TYKBNS9SX2"
-        };
+    <!-- Student Form -->
+    <div id="student-form" class="form-container">
+      <h2 class="form-title">Student Verification</h2>
+      <div class="input-group">
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" required />
+      </div>
+      <div class="input-group">
+        <label for="parentName">Parent Name</label>
+        <input type="text" id="parentName" required />
+      </div>
+      <div class="input-group">
+        <label for="studentClass">Class</label>
+        <select id="studentClass" required>
+          <option value="">Select Class</option>
+          <option value="Nursery">Nursery</option>
+          <option value="LKG">LKG</option>
+          <option value="UKG">UKG</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8">Class 8</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="rollNumber">Roll Number</label>
+        <input type="number" id="rollNumber" required />
+      </div>
+      <button class="btn" onclick="submitStudent()">Submit & Enter Dashboard</button>
+      <button class="btn btn-outline back-btn" onclick="showSection(null)">← Back</button>
+      
+      <button class="btn google-btn" id="googleSignIn">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+    </div>
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
+    <!-- Parent Form -->
+    <div id="parent-form" class="form-container">
+      <h2 class="form-title">Parent Verification</h2>
+      <div class="input-group">
+        <label for="parentNameInput">Parent Name</label>
+        <input type="text" id="parentNameInput" required />
+      </div>
+      <div class="input-group">
+        <label for="childName">Child Name</label>
+        <input type="text" id="childName" required />
+      </div>
+      <div class="input-group">
+        <label for="childClass">Child Class</label>
+        <select id="childClass">
+          <option value="">Select Class</option>
+          <option value="Nursery">Nursery</option>
+          <option value="LKG">LKG</option>
+          <option value="UKG">UKG</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8">Class 8</option>
+        </select>
+      </div>
+      <button class="btn" onclick="submitParent()">Verify & Access</button>
+      <button class="btn btn-outline back-btn" onclick="showSection(null)">← Back</button>
+      
+      <div id="parent-error" class="error">
+        Your child is not registered in the school database. Please contact school administration.
+      </div>
+    </div>
 
-        // Role switching
-        const roleBtns = document.querySelectorAll('.role-btn');
-        const forms = document.querySelectorAll('.role-form');
-        
-        roleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const role = btn.dataset.role;
-                
-                // Update active button
-                roleBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Show correct form
-                forms.forEach(form => form.classList.add('hidden'));
-                document.getElementById(`${role}-form`).classList.remove('hidden');
-                
-                // Reset form
-                document.getElementById(`${role}-form`).reset();
-                
-                // Clear messages
-                hideMessages();
-            });
+    <!-- Teacher Login -->
+    <div id="teacher-form" class="form-container">
+      <h2 class="form-title">Teacher Login</h2>
+      <div class="input-group">
+        <label for="teacherName">Name</label>
+        <input type="text" id="teacherName" placeholder="Abutalha" required />
+      </div>
+      <div class="input-group">
+        <label for="teacherPassword">Password</label>
+        <input type="password" id="teacherPassword" placeholder="Secret123" required />
+      </div>
+      <button class="btn" onclick="submitTeacher()">Login to Panel</button>
+      <button class="btn btn-outline back-btn" onclick="showSection(null)">← Back</button>
+    </div>
+
+    <footer>
+      <p>Email: <a href="mailto:madamsir066@gmail.com">madamsir066@gmail.com</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0fHtqeoerlckQ2RXx_VC86cZz_BJaIIU",
+      authDomain: "mkps-balrampur.firebaseapp.com",
+      projectId: "mkps-balrampur",
+      storageBucket: "mkps-balrampur.firebasestorage.app",
+      messagingSenderId: "469227187804",
+      appId: "1:469227187804:web:8abdb9b75ed05b7eadc099",
+      measurementId: "G-TYKBNS9SX2"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // Role Selection
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const role = btn.getAttribute('data-role');
+        showSection(role);
+      });
+    });
+
+    function showSection(role) {
+      document.querySelectorAll('.form-container').forEach(form => {
+        form.classList.remove('active');
+      });
+      document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      if (role) {
+        document.getElementById(`${role}-form`).classList.add('active');
+        document.querySelector(`.role-btn[data-role="${role}"]`).classList.add('active');
+      }
+    }
+
+    // Student Submission
+    async function submitStudent() {
+      const name = document.getElementById('studentName').value.trim();
+      const parentName = document.getElementById('parentName').value.trim();
+      const classVal = document.getElementById('studentClass').value;
+      const rollNo = document.getElementById('rollNumber').value.trim();
+
+      if (!name || !parentName || !classVal || !rollNo) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      // Save to Firestore
+      try {
+        await db.collection('students').add({
+          name,
+          parentName,
+          class: classVal,
+          rollNo,
+          createdAt: new Date()
         });
 
-        // Hide messages
-        function hideMessages() {
-            document.getElementById('error-message').style.display = 'none';
-            document.getElementById('success-message').style.display = 'none';
-        }
+        // Save to localStorage
+        localStorage.setItem('studentData', JSON.stringify({ name, parentName, class: classVal, rollNo }));
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        console.error("Error saving student: ", error);
+        alert('Failed to save data. Please try again.');
+      }
+    }
 
-        // Show loading
-        function showLoading() {
-            document.getElementById('loading').classList.remove('hidden');
-            document.querySelectorAll('.submit-btn').forEach(btn => btn.disabled = true);
-            document.querySelectorAll('.google-btn').forEach(btn => btn.style.opacity = '0.7');
-        }
+    // Parent Verification
+    async function submitParent() {
+      const parentName = document.getElementById('parentNameInput').value.trim();
+      const childName = document.getElementById('childName').value.trim();
+      const childClass = document.getElementById('childClass').value;
 
-        // Hide loading
-        function hideLoading() {
-            document.getElementById('loading').classList.add('hidden');
-            document.querySelectorAll('.submit-btn').forEach(btn => btn.disabled = false);
-            document.querySelectorAll('.google-btn').forEach(btn => btn.style.opacity = '1');
-        }
+      if (!parentName || !childName || !childClass) {
+        alert('Please fill all fields');
+        return;
+      }
 
-        // Show error
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
-        }
+      try {
+        const querySnapshot = await db.collection('students')
+          .where('name', '==', childName)
+          .where('class', '==', childClass)
+          .get();
 
-        // Show success
-        function showSuccess(message) {
-            const successDiv = document.getElementById('success-message');
-            successDiv.textContent = message;
-            successDiv.style.display = 'block';
-        }
+        let matchCount = 0;
+        let matchedStudent = null;
 
-        // Save session data
-        function saveSession(role, data) {
-            const session = { 
-                role, 
-                data, 
-                timestamp: new Date().getTime(),
-                isLoggedIn: true
-            };
-            localStorage.setItem('mkps_session', JSON.stringify(session));
-        }
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          if (data.parentName === parentName) matchCount++;
+          if (data.name === childName) matchCount++;
+          if (data.class === childClass) matchCount++;
 
-        // Student form submission
-        document.getElementById('student-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            showLoading();
-            
-            const studentData = {
-                name: document.getElementById('student-name').value.trim(),
-                parentName: document.getElementById('parent-name').value.trim(),
-                class: document.getElementById('student-class').value,
-                rollNo: document.getElementById('roll-number').value.trim(),
-                createdAt: new Date()
-            };
-            
-            if (!studentData.name || !studentData.parentName || !studentData.class || !studentData.rollNo) {
-                showError('Please fill all fields');
-                hideLoading();
-                return;
-            }
-            
-            try {
-                // Check if student already exists
-                const existingStudent = await db.collection('students')
-                    .where('name', '==', studentData.name)
-                    .where('class', '==', studentData.class)
-                    .where('rollNo', '==', studentData.rollNo)
-                    .get();
-                
-                let studentId;
-                
-                if (existingStudent.empty) {
-                    // Add new student
-                    const docRef = await db.collection('students').add(studentData);
-                    studentId = docRef.id;
-                } else {
-                    // Use existing student
-                    studentId = existingStudent.docs[0].id;
-                }
-                
-                // Save to session
-                saveSession('student', { 
-                    id: studentId,
-                    name: studentData.name,
-                    parentName: studentData.parentName,
-                    class: studentData.class,
-                    rollNo: studentData.rollNo
-                });
-                
-                showSuccess('Welcome! Redirecting to dashboard...');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-                
-            } catch (error) {
-                showError('Error saving student data. Please try again.');
-                console.error('Error:', error);
-            } finally {
-                hideLoading();
-            }
+          if (matchCount >= 2) {
+            matchedStudent = { id: doc.id, ...data };
+          }
         });
 
-        // Parent form submission
-        document.getElementById('parent-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            showLoading();
-            
-            const parentName = document.getElementById('parent-name-verify').value.trim();
-            const childName = document.getElementById('child-name').value.trim();
-            const childClass = document.getElementById('child-class').value;
-            
-            if (!parentName || !childName || !childClass) {
-                showError('Please fill all fields');
-                hideLoading();
-                return;
-            }
-            
-            try {
-                // Query students collection
-                const studentsRef = db.collection('students');
-                const querySnapshot = await studentsRef
-                    .where('class', '==', childClass)
-                    .get();
-                
-                let matchingStudent = null;
-                let matchCount = 0;
-                
-                querySnapshot.forEach(doc => {
-                    const student = doc.data();
-                    matchCount = 0;
-                    
-                    if (student.name.toLowerCase() === childName.toLowerCase()) matchCount++;
-                    if (student.parentName.toLowerCase() === parentName.toLowerCase()) matchCount++;
-                    if (student.class === childClass) matchCount++;
-                    
-                    if (matchCount >= 2) {
-                        matchingStudent = { id: doc.id, ...student };
-                    }
-                });
-                
-                if (matchingStudent) {
-                    // Save to session
-                    saveSession('parent', { 
-                        studentId: matchingStudent.id,
-                        childName: matchingStudent.name,
-                        class: matchingStudent.class,
-                        parentName: parentName
-                    });
-                    
-                    showSuccess('Access granted! Redirecting...');
-                    setTimeout(() => {
-                        window.location.href = 'parent.html';
-                    }, 1500);
-                } else {
-                    showError('Your child is not registered in the school database. Please contact school administration.');
-                }
-                
-            } catch (error) {
-                showError('Error validating parent access. Please try again.');
-                console.error('Error:', error);
-            } finally {
-                hideLoading();
-            }
-        });
-
-        // Teacher form submission
-        document.getElementById('teacher-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const teacherName = document.getElementById('teacher-name').value.trim();
-            const teacherPassword = document.getElementById('teacher-password').value;
-            
-            if (teacherName.toLowerCase() === 'abutalha' && teacherPassword === 'Secret123') {
-                // Save to session
-                saveSession('teacher', { 
-                    name: 'Abutalha',
-                    role: 'teacher'
-                });
-                
-                showSuccess('Welcome Teacher! Redirecting...');
-                setTimeout(() => {
-                    window.location.href = 'teacher.html';
-                }, 1500);
-            } else {
-                showError('Invalid teacher credentials. Please try again.');
-            }
-        });
-
-        // Google Sign-In
-        function signInWithGoogle() {
-            showLoading();
-            const provider = new firebase.auth.GoogleAuthProvider();
-            
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    const user = result.user;
-                    const role = document.querySelector('.role-btn.active').dataset.role;
-                    
-                    // Save user info
-                    saveSession(role, { 
-                        name: user.displayName,
-                        email: user.email,
-                        photo: user.photoURL,
-                        uid: user.uid,
-                        provider: 'google'
-                    });
-                    
-                    showSuccess(`Welcome ${user.displayName}! Redirecting...`);
-                    setTimeout(() => {
-                        if (role === 'student') {
-                            window.location.href = 'dashboard.html';
-                        } else if (role === 'parent') {
-                            window.location.href = 'parent.html';
-                        } else if (role === 'teacher') {
-                            window.location.href = 'teacher.html';
-                        }
-                    }, 1500);
-                })
-                .catch((error) => {
-                    hideLoading();
-                    showError('Google sign-in failed. Please try again.');
-                    console.error('Google sign-in error:', error);
-                });
+        if (matchedStudent) {
+          localStorage.setItem('parentData', JSON.stringify(matchedStudent));
+          window.location.href = 'parent.html';
+        } else {
+          document.getElementById('parent-error').classList.add('show');
         }
+      } catch (error) {
+        console.error("Error verifying parent: ", error);
+        alert('Error checking database. Please try again.');
+      }
+    }
 
-        // Contact school
-        function contactSchool() {
-            window.location.href = 'mailto:madamsir066@gmail.com?subject=School Registration Query&body=Dear School Administration,';
-        }
+    // Teacher Login
+    function submitTeacher() {
+      const name = document.getElementById('teacherName').value.trim();
+      const password = document.getElementById('teacherPassword').value;
 
-        // Check if already logged in
-        window.addEventListener('load', () => {
-            const session = localStorage.getItem('mkps_session');
-            if (session) {
-                try {
-                    const parsedSession = JSON.parse(session);
-                    if (parsedSession.isLoggedIn) {
-                        if (parsedSession.role === 'student') {
-                            window.location.href = 'dashboard.html';
-                        } else if (parsedSession.role === 'parent') {
-                            window.location.href = 'parent.html';
-                        } else if (parsedSession.role === 'teacher') {
-                            window.location.href = 'teacher.html';
-                        }
-                    }
-                } catch (e) {
-                    console.log('Invalid session data');
-                }
-            }
+      if (name === 'Abutalha' && password === 'Secret123') {
+        localStorage.setItem('teacherLoggedIn', 'true');
+        window.location.href = 'teacher.html';
+      } else {
+        alert('Invalid credentials');
+      }
+    }
+
+    // Google Sign-In
+    document.getElementById('googleSignIn').addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(async (result) => {
+          const user = result.user;
+          // Optionally save Google user to Firestore
+          localStorage.setItem('studentData', JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            class: 'Nursery', // default
+            rollNo: 'G-' + user.uid.slice(0, 5)
+          }));
+          window.location.href = 'dashboard.html';
+        })
+        .catch((error) => {
+          console.error("Google Sign-In Error: ", error);
+          alert('Google Sign-In failed: ' + error.message);
         });
-
-        // Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const activeForm = document.querySelector('.role-form:not(.hidden)');
-                if (activeForm) {
-                    const submitBtn = activeForm.querySelector('.submit-btn');
-                    submitBtn.click();
-                }
-            }
-            
-            // Role switching with number keys
-            if (e.key >= '1' && e.key <= '3') {
-                const index = parseInt(e.key) - 1;
-                const buttons = document.querySelectorAll('.role-btn');
-                if (buttons[index]) {
-                    buttons[index].click();
-                }
-            }
-        });
-    </script>
+    });
+  </script>
 </body>
 </html>
